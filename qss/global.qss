@@ -1,0 +1,120 @@
+QWidget{
+	font-family:"Microsoft YaHei";
+	font-size:12px;
+	color:rgb(68,68,68);
+}
+
+/*分隔器*/
+QLabel#divider{
+	background-color:rgb(68,68,68);
+}
+
+/*所有菜单样式*/
+
+QMenuBar {
+	background-color:rgb(45,45,48);
+	color: white;
+}
+ 
+QMenuBar::item {
+    spacing: 50px;
+    padding: 2px 10px;   
+	border-width:1px 1px 0px 1px;
+	border-color:transparent;
+	border-style:solid;
+    background: rgb(45,45,48);
+ }
+
+ QMenuBar::item:selected {
+     background: rgb(62,62,64);
+ }
+
+ QMenuBar::item:pressed {
+    background: rgb(27,27,28);
+	border-width:1px 1px 0px 1px;
+	border-color:rgb(51,51,55);
+	border-style:solid;
+ }
+
+QMenuBar>QMenu{
+	background-color:rgb(27,27,28);
+    border: 1px solid rgb(51,51,55);
+}
+
+QMenuBar>QMenu::item {       
+        color: rgb(225,225,225);
+        background-color:rgb(27,27,28);
+}
+		
+QMenuBar>QMenu::item:selected {
+        background-color:rgb(51,51,52);
+}	
+/*菜单项*/
+/*QToolButton:pressed{
+	background-color:rgb(0,122,204);
+}	
+
+QToolButton:hover{
+	background-color:rgb(62,62,64);
+}*/
+
+QToolButton {
+    border: 0px solid #333333;
+    margin: 1px;
+}
+
+QToolButton:hover {
+    background-color: rgb(62,62,64);
+}
+
+QToolButton::menu-button {
+    background: transparent;
+    width: 16px;
+}
+
+QToolButton::menu-button:hover {
+    background: transparent;
+    width: 16px;
+}
+
+QToolButton:checked, QToolButton:pressed {
+    background-color: rgb(0,122,204);
+}
+
+/*顶部界面*/
+QPushButton#btn_changeSkin{
+	border-image:url(":/images/images/icon_skin.png");
+}
+
+/*中间界面样式*/
+
+CUiCenter{
+	border-color:rgb(63,63,70);border-width:1px;border-style:solid;
+}
+
+CUiCenter>QTableView{
+	background-color:rgb(30,30,30);
+	border-width:1px;border-color:rgb(63,63,70);border-style:solid;
+}
+
+BRSystem{
+	background-color:rgb(45,45,48);
+}
+
+/*查询控件样式*/
+CSearchLineEdit{
+	color:gray;
+	selection-background-color:rgb(58,99,144);
+	background-color:rgb(51,51,55);
+	padding-right:25px;padding-left:5px;
+	border-style:solid;border-color:rgb(63,63,70);border-width:1px;
+}
+
+CSearchLineEdit:hover{
+	color:white;
+	border-color:rgb(0,122,204);
+}
+
+CSearchLineEdit>QPushButton{
+	border-image:url(:/images/images/search.png);
+}

@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/BRSystem"/>
+    <qresource prefix="/images">
+        <file>images/search_black.png</file>
+        <file>images/search_white.png</file>
+        <file>images/healson_logo.png</file>
+        <file>images/new.png</file>
+        <file>images/open.png</file>
+        <file>images/save.png</file>
+        <file>images/search.png</file>
+        <file>images/app.ico</file>
+        <file>images/icon_skin.png</file>
+    </qresource>
+    <qresource prefix="/qss">
+        <file>qss/global.qss</file>
+        <file>qss/global_01.qss</file>
+    </qresource>
+</RCC>

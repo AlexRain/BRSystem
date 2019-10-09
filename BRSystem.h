@@ -1,0 +1,26 @@
+#pragma once
+
+#include <QMainWindow>
+
+class CUiTop;
+class CUiCenter;
+class QMenuBar;
+class QToolBar;
+
+class BRSystem : public QWidget
+{
+	Q_OBJECT
+
+public:
+	BRSystem(QWidget *parent = nullptr);
+	~BRSystem();
+
+private:
+	void init();
+
+private:
+	CUiTop *mTopWidget;
+	CUiCenter *mCenterWidget;
+	QMenuBar *mMenuBar;
+	QToolBar *mToolbar;
+};
