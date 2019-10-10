@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QMainWindow>
+#include <QWidget>
 
 class CUiTop;
 class CUiCenter;

@@ -4,6 +4,7 @@
 
 class CSearchLineEdit;
 class QTableView;
+class QStandardItemModel;
 
 class CUiCenter : public QWidget
 {
@@ -14,6 +15,10 @@ public:
 	~CUiCenter();
 
 private:
+	void initData();
+
+private:
 	CSearchLineEdit *mLineEdit;
 	QTableView *mTableView;
+	QStandardItemModel *mModel;
 };

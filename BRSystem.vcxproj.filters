@@ -28,21 +28,64 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\delegate">
+      <UniqueIdentifier>{82eef738-d44b-4f74-8a5e-632ea3d1bbf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Ui">
+      <UniqueIdentifier>{a58b7d5b-1e64-47c0-958b-3881c471ce7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{2203108b-04a2-41cc-8842-3c3f2ef1c230}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{fc20006e-f1c4-4b6f-97ca-a8b19c7aa6ef}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BRSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CUiTop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CUiCenter.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Ui</Filter>
     </ClCompile>
     <ClCompile Include="CSearchLineEdit.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CUiCenter.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CUiTop.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ComboBoxDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ComboBoxDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ComboBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_StyledDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_StyledDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="StyledDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyDelegate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyDelegate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadOnlyDelegate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -74,11 +117,25 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BRSystem.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="ComboBoxDelegate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="StyledDelegate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="ReadOnlyDelegate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

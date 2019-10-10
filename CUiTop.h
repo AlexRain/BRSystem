@@ -11,7 +11,7 @@ public:
 	CUiTop(QWidget *parent = Q_NULLPTR);
 	~CUiTop();
 private slots:
-void on_btn_changeSkin_clicked();
+	void on_btn_changeSkin_clicked();
 private:
 	Ui::CUiTop ui;
 };
