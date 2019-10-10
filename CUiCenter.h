@@ -17,6 +17,9 @@ public:
 private:
 	void initData();
 
+private slots:
+	void slotContextMenu(const QPoint &);
+
 private:
 	CSearchLineEdit *mLineEdit;
 	QTableView *mTableView;

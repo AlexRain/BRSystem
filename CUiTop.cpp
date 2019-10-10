@@ -1,4 +1,7 @@
 #include "CUiTop.h"
+#include <QApplication>
+#include <QStyle>
+#include "define.h"
 
 CUiTop::CUiTop(QWidget *parent)
 	: QWidget(parent)
@@ -13,5 +16,6 @@ CUiTop::~CUiTop()
 
 void CUiTop::on_btn_changeSkin_clicked()
 {
-	
+	StyleHelper::initAppStyle();
+	StyleHelper::setAppStyle("qss/global.qss");
 }

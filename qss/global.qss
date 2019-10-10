@@ -1,18 +1,21 @@
 QWidget{
 	font-family:"Microsoft YaHei";
-	font-size:12px;
-	color:rgb(68,68,68);
+	font-size:13px;
+	color:white;
+}
+
+QDialog, QFileDialog {
+    background-color: #16181c;
 }
 
 /*分隔器*/
 QLabel#divider{
-	background-color:rgb(68,68,68);
+	background-color:#23262c;
 }
 
 /*所有菜单样式*/
-
 QMenuBar {
-	background-color:rgb(45,45,48);
+	background-color:#16181c;
 	color: white;
 }
  
@@ -22,7 +25,7 @@ QMenuBar::item {
 	border-width:1px 1px 0px 1px;
 	border-color:transparent;
 	border-style:solid;
-    background: rgb(45,45,48);
+    background: #16181c;
  }
 
  QMenuBar::item:selected {
@@ -36,28 +39,21 @@ QMenuBar::item {
 	border-style:solid;
  }
 
-QMenuBar>QMenu{
+QMenu{
 	background-color:rgb(27,27,28);
     border: 1px solid rgb(51,51,55);
 }
 
-QMenuBar>QMenu::item {       
+QMenu::item {       
         color: rgb(225,225,225);
         background-color:rgb(27,27,28);
 }
 		
-QMenuBar>QMenu::item:selected {
+QMenu::item:selected {
         background-color:rgb(51,51,52);
 }	
+
 /*菜单项*/
-/*QToolButton:pressed{
-	background-color:rgb(0,122,204);
-}	
-
-QToolButton:hover{
-	background-color:rgb(62,62,64);
-}*/
-
 QToolButton {
     border: 0px solid #333333;
     margin: 1px;
@@ -81,47 +77,55 @@ QToolButton:checked, QToolButton:pressed {
     background-color: rgb(0,122,204);
 }
 
-/*顶部界面*/
-QPushButton#btn_changeSkin{
-	border-image:url(":/images/images/icon_skin.png");
-}
-
 /*中间界面样式*/
-
 CUiCenter{
-	border-color:rgb(63,63,70);border-width:1px;border-style:solid;
+	border-color:#23262c;border-width:1px;border-style:solid;
 }
 
-CUiCenter>QTableView{
-	background-color:rgb(255,255,255);
-    alternate-background-color: rgb(232, 232, 255);
-	
-	border-width:1px;border-color:rgb(63,63,70);border-style:solid;
-	/*color:rgb(68,68,68);*/
+QTableView{
+	background-color:rgb(22,24,28);
+    alternate-background-color: rgb(26, 28, 32);
+	border-width:1px;
+	border-color:#23262c;
+	border-style:solid;
 }
 
-CUiCenter>QTableView::item:selected{
-        /*color:white;*/
-        background:rgb(192, 192, 192);    
+QTableView::item{
+    background:rgb(22,24,28);    
+}
+
+QTableView::item:selected{
+    background:#2c2e32;    
+}
+
+QTableView::item:section{
+    background:#232529;    
 }
 
 QHeaderView::section {
-    color: black;padding-left:4px;
-	font-weight:normal;
-	border:0px;
+    background: #16181c;
+	border:0;
+    border-bottom: 1px solid #23262c;
+    color: rgb(130,131,133);
+    padding: 3px 0 3px 4px;
+}
+
+QHeaderView::section:hover{
+	background: #232529;
 }
 
 BRSystem{
-	background-color:rgb(45,45,48);
+	background-color:#16181c;
+	
 }
 
 /*查询控件样式*/
 CSearchLineEdit{
 	color:gray;
 	selection-background-color:rgb(58,99,144);
-	background-color:rgb(51,51,55);
+	background-color:#202226;
 	padding-right:25px;padding-left:5px;
-	border-style:solid;border-color:rgb(63,63,70);border-width:1px;
+	border-style:solid;border-color:#23262c;border-width:1px;
 }
 
 CSearchLineEdit:hover{
@@ -129,6 +133,81 @@ CSearchLineEdit:hover{
 	border-color:rgb(0,122,204);
 }
 
-CSearchLineEdit>QPushButton{
+/*按钮样式*/
+QPushButton {
+    border: 1px solid #333333;
+    padding: 4px;
+    min-width: 65px;
+    min-height: 12px;
+}
+
+QPushButton:hover {
+    background-color: #333333;
+    border-color: #444444;
+}
+
+QPushButton:pressed {
+    background-color: #111111;
+    border-color: #333333;
+    color: yellow;
+}
+
+QPushButton:disabled {
+    color: #333333;
+}
+
+/*查询控件*/
+QPushButton#btn_search{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
 	border-image:url(:/images/images/search.png);
 }
+
+/*顶部界面*/
+QPushButton#btn_changeSkin{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/images/images/icon_skin.png");
+}
+
+QPushButton#btn_min{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/images/images/min.png");
+}
+
+QPushButton#btn_close{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/images/images/close.png");
+}
+
+QPushButton#btn_max{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/images/images/max.png");
+}
+
+/*多选按钮*/
+QCheckBox{
+    spacing: 5px;
+}
+ 
+QCheckBox::indicator{
+    width: 10px;
+    height: 10px;
+}
+ 
+QCheckBox::indicator:unchecked{
+    image:url(:/BRSystem/images/checkbox_normal.png);
+}
+ 
+QCheckBox::indicator:checked{
+    image:url(:/BRSystem/images/checkbox_selected.png);
+}
+

@@ -86,7 +86,10 @@
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="ReadOnlyDelegate.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +103,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="CSearchLineEdit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CheckBoxDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

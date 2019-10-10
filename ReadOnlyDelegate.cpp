@@ -21,21 +21,28 @@ QWidget * ReadOnlyDelegate::createEditor(QWidget * parent, const QStyleOptionVie
 
 void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	if (TableHeader::Status != index.column())
+	QItemDelegate::paint(painter, option, index);
+
+	QString text = index.model()->data(index, Qt::DisplayRole).toString();
+
+	painter->save();
+	if (TableHeader::Status == index.column())
 	{
-		QString text = index.model()->data(index, Qt::DisplayRole).toString();
-
-		QStyleOptionViewItem  view_option(option);
-		view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
-		if (view_option.state & QStyle::State_Selected) {
-			view_option.state = view_option.state ^ QStyle::State_Selected;
-			painter->fillRect(view_option.rect, QColor(192, 192, 192));
-		}
-
-		//drawDisplay(painter, view_option, view_option.rect, text);
-		QTextOption textOption;
-		textOption.setAlignment(Qt::AlignCenter);
-		painter->drawText(view_option.rect, text, textOption);
-		painter->restore();
+		if (TOCH("ÒÑ»¹") == text)
+			painter->setPen(Qt::green);
+		else 
+			painter->setPen(Qt::red);
 	}
+
+	QStyleOptionViewItem  view_option(option);
+	view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
+	if (view_option.state & QStyle::State_Selected) {
+		view_option.state = view_option.state ^ QStyle::State_Selected;
+		painter->fillRect(view_option.rect, QColor(44,46,50));
+	}
+
+	QTextOption textOption;
+	textOption.setAlignment(Qt::AlignCenter);
+	painter->drawText(view_option.rect, text, textOption);
+	painter->restore();
 }

@@ -1,5 +1,16 @@
 <RCC>
-    <qresource prefix="/BRSystem"/>
+    <qresource prefix="/BRSystem">
+        <file>images/checkbox.png</file>
+        <file>images/checkbox_checked.png</file>
+        <file>images/checkbox_checked_hover.png</file>
+        <file>images/checkbox_checked_inactive.png</file>
+        <file>images/checkbox_checked_pressed.png</file>
+        <file>images/checkbox_hover.png</file>
+        <file>images/checkbox_inactive.png</file>
+        <file>images/checkbox_pressed.png</file>
+        <file>images/checkbox_normal.png</file>
+        <file>images/checkbox_selected.png</file>
+    </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>
         <file>images/search_white.png</file>
@@ -10,9 +21,13 @@
         <file>images/search.png</file>
         <file>images/app.ico</file>
         <file>images/icon_skin.png</file>
+        <file>images/close.png</file>
+        <file>images/max.png</file>
+        <file>images/min.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>qss/global.qss</file>
         <file>qss/global_01.qss</file>
+        <file>images/normal.png</file>
     </qresource>
 </RCC>
