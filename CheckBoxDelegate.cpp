@@ -26,19 +26,23 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
 	if (index.column() == TableHeader::Order)
 	{
-		bool data = index.model()->data(index, Qt::UserRole).toBool();
-		QString text = index.model()->data(index, Qt::DisplayRole).toString();
+		bool data = index.model()->data(index, Qt::CheckStateRole).toBool();
+		bool showCheckBox = index.model()->data(index, Qt::UserRole).toBool();
+		QString text = QString::number(index.row() + 1);
 
-		QStyleOptionButton checkBoxStyle;
-		checkBoxStyle.state = data ? QStyle::State_On : QStyle::State_Off;
-		checkBoxStyle.state |= QStyle::State_Enabled;
-		checkBoxStyle.iconSize = QSize(20, 20);
-		QRect rectBox = QRect(option.rect.x(), option.rect.y() + option.rect.height() / 2 - 10, 
-			option.rect.width() / 2, 20);
-		checkBoxStyle.rect = rectBox;
+		if (showCheckBox)
+		{
+			QStyleOptionButton checkBoxStyle;
+			checkBoxStyle.state = data ? QStyle::State_On : QStyle::State_Off;
+			checkBoxStyle.state |= QStyle::State_Enabled;
+			checkBoxStyle.iconSize = QSize(20, 20);
+			QRect rectBox = QRect(option.rect.x(), option.rect.y() + option.rect.height() / 2 - 10,
+				option.rect.width() / 2, 20);
+			checkBoxStyle.rect = rectBox;
 
-		QCheckBox checkBox;
-		QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &checkBoxStyle, painter, &checkBox);
+			QCheckBox checkBox;
+			QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &checkBoxStyle, painter, &checkBox);
+		}
 
 		QTextOption textOption;
 		QRect rectText = QRect(option.rect.x() + option.rect.width() / 2, option.rect.y(),
@@ -56,10 +60,11 @@ bool CheckBoxDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, con
 	if (event->type() == QEvent::MouseButtonPress && decorationRect.contains(mouseEvent->pos())
 		&&Qt::LeftButton == mouseEvent->button())
 	{
-		if (index.column() == TableHeader::Order)
+		bool showCheckBox = index.model()->data(index, Qt::UserRole).toBool();
+		if (index.column() == TableHeader::Order && showCheckBox)
 		{
-			bool data = model->data(index, Qt::UserRole).toBool();
-			model->setData(index, !data, Qt::UserRole);
+			bool data = model->data(index, Qt::CheckStateRole).toBool();
+			model->setData(index, !data, Qt::CheckStateRole);
 		}
 	}
 

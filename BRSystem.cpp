@@ -21,18 +21,18 @@ void BRSystem::init()
 	mTopWidget = new CUiTop(this);
 	mCenterWidget = new CUiCenter(this);
 	mMenuBar = new QMenuBar(this);
-	mToolbar = new QToolBar(this);
+	//mToolbar = new QToolBar(this);
 	mMenuBar->setFixedHeight(25);
 	{
 		QMenu* file = mMenuBar->addMenu(QString::fromLocal8Bit("文件(&F)"));
 		file->setMinimumWidth(120);
-		file->addAction(QIcon(QPixmap(":images/images/new.png")), QString::fromLocal8Bit("新建文件"));
+		file->addAction(QIcon(QPixmap(":images/images/new.png")), QString::fromLocal8Bit("新建借条"));
 		file->addAction(QIcon(QPixmap(":images/images/open.png")), QString::fromLocal8Bit("打开"));
 		file->addAction(QIcon(QPixmap(":images/images/open.png")), QString::fromLocal8Bit("关闭"));
-		
-		mToolbar->addAction(QIcon(QPixmap(":images/images/new.png")), QString::fromLocal8Bit("新建文件"));
+
+		/*mToolbar->addAction(QIcon(QPixmap(":images/images/new.png")), QString::fromLocal8Bit("新建借条"));
 		mToolbar->addAction(QIcon(QPixmap(":images/images/open.png")), QString::fromLocal8Bit("打开"));
-		mToolbar->addAction(QIcon(QPixmap(":images/images/open.png")), QString::fromLocal8Bit("关闭"));
+		mToolbar->addAction(QIcon(QPixmap(":images/images/open.png")), QString::fromLocal8Bit("关闭"));*/
 	}
 
 	{
@@ -40,21 +40,17 @@ void BRSystem::init()
 		edit->setMinimumWidth(120);
 		edit->addAction(QIcon(QPixmap(":images/images/new.png")), "New File");
 		edit->addAction(QIcon(QPixmap(":images/images/open.png")), "OPen");
-		edit->addAction(QIcon(QPixmap(":images/images/open.png")),"Close");
+		edit->addAction(QIcon(QPixmap(":images/images/open.png")), "Close");
 	}
-
-	QLabel *pSp = new QLabel(this);
-	pSp->setObjectName("divider");
-	pSp->setFixedHeight(1);
 
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(6);
 	layout->addWidget(mTopWidget,0);
 	layout->addWidget(mMenuBar,  1);
-	layout->addWidget(mToolbar, 2);
-	layout->addWidget(pSp,       3);
-	layout->addWidget(mCenterWidget, 4);
+	//layout->addWidget(mToolbar, 1);
+	layout->addWidget(UiHelper::createSplitter(this), 2);
+	layout->addWidget(mCenterWidget, 3);
 
 	this->resize(958, 596);
 }

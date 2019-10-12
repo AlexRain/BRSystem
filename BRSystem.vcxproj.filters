@@ -44,6 +44,9 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\CustomModel">
+      <UniqueIdentifier>{e9d86fbd-1395-4140-9ee1-85c0228c8ebb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -91,6 +94,15 @@
     <ClCompile Include="CheckBoxDelegate.cpp">
       <Filter>Source Files\delegate</Filter>
     </ClCompile>
+    <ClCompile Include="FilterBtnDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="SortFilterProxyModel.cpp">
+      <Filter>Source Files\CustomModel</Filter>
+    </ClCompile>
+    <ClCompile Include="CEditInfoDialog.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="BRSystem.h">
@@ -108,9 +120,21 @@
     <QtMoc Include="CheckBoxDelegate.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="FilterBtnDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SortFilterProxyModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CEditInfoDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CUiTop.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="CEditInfoDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -10,6 +10,9 @@
         <file>images/checkbox_pressed.png</file>
         <file>images/checkbox_normal.png</file>
         <file>images/checkbox_selected.png</file>
+        <file>images/radiobox_checked.png</file>
+        <file>images/radioBox_unchecked.png</file>
+        <file>images/add.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>

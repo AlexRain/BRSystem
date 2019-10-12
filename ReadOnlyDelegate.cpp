@@ -28,10 +28,26 @@ void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	painter->save();
 	if (TableHeader::Status == index.column())
 	{
-		if (TOCH("已还") == text)
+		BorrowStatus status = (BorrowStatus)index.model()->data(index, Qt::UserRole).toInt();
+		if (BorrowStatus::Returned == status) {
 			painter->setPen(Qt::green);
-		else 
+			text = TOCH("已还");
+		}
+		else if (BorrowStatus::NotReturned == status) {
+			painter->setPen(Qt::gray);
+			QFont font = painter->font();
+			font.setItalic(true);
+			painter->setFont(font);
+			text = TOCH("未还");
+		}
+		else {
 			painter->setPen(Qt::red);
+			text = TOCH("丢失");
+		}
+	}else if (TableHeader::BorrowDate == index.column()
+		|| TableHeader::UpdateDate == index.column()){
+		QDateTime date = index.model()->data(index, Qt::UserRole).toDateTime();
+		text = date.toString("yyyy-MM-dd hh:mm");
 	}
 
 	QStyleOptionViewItem  view_option(option);
@@ -43,6 +59,10 @@ void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
 	QTextOption textOption;
 	textOption.setAlignment(Qt::AlignCenter);
+	if (painter->fontMetrics().width(text) > view_option.rect.width() - 8)
+	{
+		text = painter->fontMetrics().elidedText(text, Qt::ElideRight, view_option.rect.width() - 8);
+	}
 	painter->drawText(view_option.rect, text, textOption);
 	painter->restore();
 }

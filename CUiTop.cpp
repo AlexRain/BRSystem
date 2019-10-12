@@ -17,5 +17,5 @@ CUiTop::~CUiTop()
 void CUiTop::on_btn_changeSkin_clicked()
 {
 	StyleHelper::initAppStyle();
-	StyleHelper::setAppStyle("qss/global.qss");
+	StyleHelper::setAppStyle("qss/global_white.qss");
 }
