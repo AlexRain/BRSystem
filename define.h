@@ -10,6 +10,7 @@
 #include <QPushButton>
 
 #define TOCH(str) QString::fromLocal8Bit(str)
+#define CONFIG_FILE "app.ini"
 
 enum TableHeader
 {
@@ -32,6 +33,21 @@ enum BorrowStatus
 };
 typedef std::function<void()> Func_Void;
 
+enum StyleType
+{
+	Dark = 0,
+	White,
+	Yellow
+};
+
+typedef struct _SkinStyle
+{
+	StyleType type;
+	QString styleName;
+	QString cssFile;
+	QColor itemColor;
+}StyleStruct;
+
 /*借条信息结构体*/
 typedef struct _BorrowInfo
 {
@@ -48,7 +64,7 @@ typedef struct _BorrowInfo
 }BorrowInfo;
 
 namespace StyleHelper {
-	static void setAppStyle(const QString &qssFile) {
+	static void loadAppStyle(const QString &qssFile) {
 		QFile file(qssFile);
 		// 只读方式打开该文件
 		if (file.open(QFile::ReadOnly)) {
@@ -72,8 +88,9 @@ namespace UiHelper {
 	}
 
 	/*构建一个按钮，并绑定点击事件调用的匿名函数*/
-	static QPushButton *creatPushButton(QWidget *parent,const Func_Void &func,const QSize &size = QSize(0,0), const QString &objectName = QString()) {
+	static QPushButton *creatPushButton(QWidget *parent,const Func_Void &func, QSize &size = QSize(0,0), const QString &text = QString(), const QString &objectName = QString()) {
 		QPushButton *btn = new QPushButton(parent);
+		btn->setText(text);
 		QObject::connect(btn, &QPushButton::clicked, func);
 		btn->setCursor(Qt::PointingHandCursor);
 		btn->setObjectName(objectName);
@@ -83,8 +100,9 @@ namespace UiHelper {
 	}
 
 	/*构建一个按钮，并绑定点击事件调用的匿名函数*/
-	static QPushButton *creatPushButton(QWidget *parent, const Func_Void & func,int width = 0,int height = 0, const QString &objectName = QString()) {
+	static QPushButton *creatPushButton(QWidget *parent, const Func_Void & func,int width = 0,int height = 0, const QString &text = QString(),const QString &objectName = QString()) {
 		QPushButton *btn = new QPushButton(parent);
+		btn->setText(text);
 		QObject::connect(btn, &QPushButton::clicked, func);
 		btn->setCursor(Qt::PointingHandCursor);
 		btn->setObjectName(objectName);

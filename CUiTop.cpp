@@ -2,6 +2,7 @@
 #include <QApplication>
 #include <QStyle>
 #include "define.h"
+#include "UiChangeSkin.h"
 
 CUiTop::CUiTop(QWidget *parent)
 	: QWidget(parent)
@@ -16,6 +17,7 @@ CUiTop::~CUiTop()
 
 void CUiTop::on_btn_changeSkin_clicked()
 {
-	StyleHelper::initAppStyle();
-	StyleHelper::setAppStyle("qss/global_white.qss");
+	emit showChangeSkinDlg();
+	//StyleHelper::initAppStyle();
+	//StyleHelper::setAppStyle("qss/global_white.qss");
 }

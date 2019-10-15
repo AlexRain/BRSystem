@@ -5,6 +5,9 @@ CEditInfoDialog::CEditInfoDialog(QWidget *parent,bool isEditUi)
 	: QDialog(parent), mIsDelete(false), mIsEditUi(isEditUi)
 {
 	ui.setupUi(this);
+	this->setWindowIcon(QIcon("images/app.ico"));
+	this->setWindowTitle(TOCH("物品借还系统"));
+	this->setWindowFlags(this->windowFlags() &~Qt::WindowContextHelpButtonHint);
 	this->init();
 }
 

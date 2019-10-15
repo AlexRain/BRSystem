@@ -50,7 +50,7 @@ void CUiCenter::initUi()
 			this->appendRow(info);
 		}, Qt::DirectConnection);
 		infoDialog->exec();
-	}, 25, 25, "btn_add");
+	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("ĞÂ½¨½èÌõ"));
 
 	main_layout->addWidget(btn_add, 0, 11, 1, 1);

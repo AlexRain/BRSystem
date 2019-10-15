@@ -5,6 +5,7 @@
 #include <QTextOption>
 #include <QPainter>
 #include "define.h"
+#include "CStyleManager.h"
 
 CheckBoxDelegate::CheckBoxDelegate(QObject *parent)
 	: QStyledItemDelegate(parent)
@@ -21,7 +22,15 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
 	if (view_option.state & QStyle::State_Selected) {
 		view_option.state = view_option.state ^ QStyle::State_Selected;
-		painter->fillRect(view_option.rect, QColor(44, 46, 50));
+		QColor colorItemCheck(0, 0, 0, 80);
+		switch (CStyleManager::getInstance().getCurrentStyleType())
+		{
+		case Dark:colorItemCheck.setRgb(44, 46, 50); break;
+		case White:colorItemCheck.setRgb(223, 202, 136); break;
+		default:
+			break;
+		}
+		painter->fillRect(view_option.rect, colorItemCheck);
 	}
 
 	if (index.column() == TableHeader::Order)

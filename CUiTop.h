@@ -12,6 +12,8 @@ public:
 	~CUiTop();
 private slots:
 	void on_btn_changeSkin_clicked();
+signals:
+	void showChangeSkinDlg();
 private:
 	Ui::CUiTop ui;
 };

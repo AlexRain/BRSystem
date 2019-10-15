@@ -1,16 +1,20 @@
 QWidget{
-	/*font-family:"Microsoft YaHei";*/
+	font-family:"Microsoft YaHei";
 	font-size:13px;
-	color:rgb(130,131,133);
+	color:rgb(51,51,51);
 }
 
 QDialog, QFileDialog {
-    background-color: #eeeef3;
+    background-color: rgb(238,232,213);
 }
 
 /*分隔器*/
 QLabel#divider{
 	background-color:rgb(197,194,182);
+}
+
+QLabel#checkIcon{
+	border-image:url(:/BRSystem/images/radiobox_checked.png);
 }
 
 /*所有菜单样式*/
@@ -60,7 +64,7 @@ CUiCenter{
 
 QTableView{
 	background-color:rgb(238,232,213);
-    alternate-background-color: rgb(230, 231, 232);
+    alternate-background-color: rgb(234, 224, 192);
 	border-width:1px;
 	border-color:rgb(197,194,182);
 	border-style:solid;
@@ -93,7 +97,8 @@ BRSystem{
 
 /*按钮样式*/
 QPushButton {
-    border: 1px solid #333333;
+    border: 1px solid rgb(197,194,182);
+	background:rgb(216,212,196);
 	border-radius: 3px;
     padding: 4px;
     min-width: 65px;
@@ -101,13 +106,13 @@ QPushButton {
 }
 
 QPushButton:hover {
-    background-color: #333333;
-    border-color: #444444;
+    background-color: rgb(214,208,191);
+    border-color: rgb(197,194,182);
 }
 
 QPushButton:pressed {
-    background-color: #111111;
-    border-color: #333333;
+    background-color: rgb(209,203,184);
+    border-color: rgb(197,194,182);
 }
 
 QPushButton:disabled {
@@ -178,30 +183,37 @@ QRadioButton::indicator::checked {
 /**********分组框**********/
 QGroupBox {
 		font-size: 13px;
-		border: 1px solid #23262c;
+		border: 1px solid rgb(197,194,182);;
 		border-radius: 4px;
 		margin-top: 10px;
 }
 QGroupBox::title {
-		color: rgb(175, 175, 175);
+		color: rgb(51,51,51);
 		top: -12px;
 		left: 10px;
 }
 
 /**********输入框**********/
 QLineEdit {
+	color:rgb(88,110,117);
     border-radius: 3px;
     min-height: 25px;
-    border: 1px solid #23262c;
-    background: #202226;
-	selection-background-color:rgb(58,99,144);
+    border: 1px solid rgb(211,175,134);
+    background: rgb(221,214,193);
+	selection-background-color:rgb(190,180,151);
 }
 QLineEdit:enabled {
-    color: rgb(175, 175, 175);
+    color: rgb(88,110,117);
 }
 QLineEdit:enabled:hover, QLineEdit:enabled:focus {
-    color: rgb(230, 230, 230);
+    color: rgb(88,110,117);
 }
+
+QLineEdit:enabled:focus {
+    color: rgb(88,110,117);
+	border-color:rgb(0,122,204);
+}
+
 QLineEdit:!enabled {
     color: rgb(155, 155, 155);
 }
@@ -214,18 +226,24 @@ QTextEdit {
 }
 
 QPlainTextEdit {
-	selection-background-color:rgb(58,99,144);
+	selection-background-color:rgb(190,180,151);
     border-radius: 3px;
     min-height: 25px;
-    border: 1px solid #23262c;
-    background: #202226;
+    border: 1px solid rgb(211,175,134);
+    background: rgb(221,214,193);
 }
 QPlainTextEdit:enabled {
-    color: rgb(175, 175, 175);
+    color:rgb(88,110,117);;
 }
 QPlainTextEdit:enabled:hover, QLineEdit:enabled:focus {
-    color: rgb(230, 230, 230);
+    color: rgb(88, 110, 117);
 }
+
+QPlainTextEdit:enabled:focus {
+    color: rgb(88, 110, 117);
+	border-color:rgb(0,122,204);
+}
+
 QPlainTextEdit:!enabled {
     color: rgb(155, 155, 155);
 }
@@ -240,6 +258,10 @@ CSearchLineEdit{
 }
 
 CSearchLineEdit:hover{
+	color:rgb(88,110,117);
+}
+
+CSearchLineEdit:focus{
 	color:rgb(88,110,117);
 	border-color:rgb(0,122,204);
 }
@@ -264,6 +286,16 @@ QPushButton#btn_add{
 	border-radius:0px;
 	background-color:transparent;
 	border-image:url(:/BRSystem/images/add.png);
+}
+
+/*皮肤选择项选中按钮*/
+QPushButton#checkIcon{
+	min-width: 0px;
+    min-height: 0px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(:/BRSystem/images/radiobox_checked.png);
 }
 
 /**********滚动条-水平**********/

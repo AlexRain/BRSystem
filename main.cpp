@@ -3,11 +3,21 @@
 #include <QFile>
 #include <QStyleFactory>
 #include "define.h"
+#include "UiLogin.h"
+#include "CStyleManager.h"
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
-	StyleHelper::setAppStyle("qss/global_white.qss");
+
+	StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
+	StyleHelper::loadAppStyle(style.cssFile);
+
+	/*登录界面*/
+	UiLogin login;
+	if (QDialog::Accepted != login.exec()) return 0;
+
+	/*主界面*/
 	BRSystem w;
 	w.show();
 	return a.exec();

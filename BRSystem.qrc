@@ -13,6 +13,7 @@
         <file>images/radiobox_checked.png</file>
         <file>images/radioBox_unchecked.png</file>
         <file>images/add.png</file>
+        <file>images/select.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>
@@ -27,10 +28,6 @@
         <file>images/close.png</file>
         <file>images/max.png</file>
         <file>images/min.png</file>
-    </qresource>
-    <qresource prefix="/qss">
-        <file>qss/global.qss</file>
-        <file>qss/global_01.qss</file>
         <file>images/normal.png</file>
     </qresource>
 </RCC>

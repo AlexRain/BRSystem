@@ -103,6 +103,18 @@
     <ClCompile Include="CEditInfoDialog.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
+    <ClCompile Include="UiLogin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="UiChangeSkin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CSkinItem.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="CStyleManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="BRSystem.h">
@@ -129,12 +141,24 @@
     <QtMoc Include="CEditInfoDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="UiLogin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="UiChangeSkin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CSkinItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CUiTop.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="CEditInfoDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="UiLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -149,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CStyleManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
