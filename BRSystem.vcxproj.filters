@@ -112,8 +112,17 @@
     <ClCompile Include="CSkinItem.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
+    <ClCompile Include="CShadowUiContainer.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
     <ClCompile Include="CStyleManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupDialogContainer.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseWidget.cpp">
+      <Filter>Source Files\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -150,15 +159,21 @@
     <QtMoc Include="CSkinItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="CShadowUiContainer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="PopupDialogContainer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BaseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="CUiTop.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="CEditInfoDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="UiLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

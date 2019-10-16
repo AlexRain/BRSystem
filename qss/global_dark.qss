@@ -372,5 +372,12 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
         background: transparent;
 }
 
+/*登录界面*/
+#contentWidget{
+	border: 1px solid #23262c;
+	border-radius:3px;
+	background:#16181c;
+}
+
 
 

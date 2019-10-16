@@ -2,11 +2,12 @@
 #include "CUiTop.h"
 #include "CUiCenter.h"
 #include "UiChangeSkin.h"
+#include "PopupDialogContainer.h"
 #include <QMenuBar>
 #include <QToolBar>
 
 BRSystem::BRSystem(QWidget *parent)
-	: QWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
+	: BaseWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
 	mToolbar(nullptr)
 {
 	init();
@@ -22,8 +23,9 @@ void BRSystem::init()
 {
 	mTopWidget = new CUiTop(this);
 	connect(mTopWidget, &CUiTop::showChangeSkinDlg, [=]() {
+
 		UiChangeSkin *dialog = new UiChangeSkin(this);
-		dialog->exec();
+		PopupDialogContainer::showPopupDialog(dialog, this);
 	});
 	mCenterWidget = new CUiCenter(this);
 	QVBoxLayout *layout = new QVBoxLayout(this);

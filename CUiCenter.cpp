@@ -16,6 +16,7 @@
 #include "FilterBtnDelegate.h"
 #include "SortFilterProxyModel.h"
 #include "CEditInfoDialog.h"
+#include "PopupDialogContainer.h"
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
@@ -49,70 +50,13 @@ void CUiCenter::initUi()
 		connect(infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo &info) {
 			this->appendRow(info);
 		}, Qt::DirectConnection);
-		infoDialog->exec();
+		PopupDialogContainer::showPopupDialog(infoDialog,this);
 	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("新建借条"));
 
 	main_layout->addWidget(btn_add, 0, 11, 1, 1);
 	main_layout->addWidget(mTableView, 1, 0, 10, 12);
 }
-//
-//void CUiCenter::initData()
-//{
-//	{
-//		BorrowInfo info;
-//		info.productionId = "HS1001";
-//		info.productionName = TOCH("C30线阵探头");
-//		info.borrowerName = TOCH("李1");
-//		info.borrowDate = QDate::fromString("2018-05-18", "yyyy-MM-dd");
-//		info.borrowStatus = BorrowStatus::Returned;
-//		info.remarks = TOCH("rqwrqwrwrqwrqwr沙发上发呆时沙发上地方阿斯蒂芬sfasf");
-//		info.borrowReason = TOCH("是否是对方的身份的说法第三方");
-//		mListData.append(info);
-//	}
-//
-//	{
-//		BorrowInfo info;
-//		info.productionId = "HS1101";
-//		info.productionName = TOCH("C30线阵探头");
-//		info.borrowerName = TOCH("吴军");
-//		info.borrowDate = QDate::fromString("2019-08-18", "yyyy-MM-dd");
-//		info.borrowStatus = BorrowStatus::NotReturned;
-//		info.remarks = TOCH("rqwrqwrwrqwrqwr沙发上发呆时沙发上地方阿斯蒂芬sfasf");
-//		info.borrowReason = TOCH("是否是对方的身份的说法第三方");
-//		mListData.append(info);
-//	}
-//
-//	{
-//		BorrowInfo info;
-//		info.productionId = "HS1002";
-//		info.productionName = TOCH("C30线阵探头");
-//		info.borrowerName = TOCH("肖琴");
-//		info.borrowDate = QDate::fromString("2017-04-20", "yyyy-MM-dd");
-//		info.borrowStatus = BorrowStatus::Returned;
-//		info.remarks = TOCH("rqwrqwrwrqwrqwr沙发上发呆时沙发上地方阿斯蒂芬sfasf");
-//		info.borrowReason = TOCH("是否是对方的身份的说法第三方");
-//		mListData.append(info);
-//	}
-//
-//	{
-//		BorrowInfo info;
-//		info.productionId = "HS1011";
-//		info.productionName = TOCH("C30线阵探头");
-//		info.borrowerName = TOCH("何琳");
-//		info.borrowDate = QDate::fromString("2019-05-18", "yyyy-MM-dd");
-//		info.borrowStatus = BorrowStatus::Lost;
-//		info.remarks = TOCH("rqwrqwrwrqwrqwr沙发上发呆时沙发上地方阿斯蒂芬sfasf");
-//		info.borrowReason = TOCH("是否是对方的身份的说法第三方");
-//		mListData.append(info);
-//	}
-//
-//	/*添加数据*/
-//	for each (const BorrowInfo &info in mListData)
-//	{
-//		this->appendRow(info);
-//	}
-//}
 
 void CUiCenter::initTableView()
 {
@@ -319,5 +263,6 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
-	infoDialog->exec();
+	//infoDialog->exec();
+	PopupDialogContainer::showPopupDialog(infoDialog, this);
 }

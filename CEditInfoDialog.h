@@ -11,13 +11,14 @@
 
 #pragma once
 
-#include <QDialog>
+#include <QWidget>
 #include "ui_CEditInfoDialog.h"
 #include "define.h"
+#include "BaseWidget.h"
 
 
 
-class CEditInfoDialog : public QDialog
+class CEditInfoDialog : public BaseWidget
 {
 	Q_OBJECT
 

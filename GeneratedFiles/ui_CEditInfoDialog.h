@@ -57,15 +57,16 @@ public:
     QPushButton *btn_save;
     QPushButton *btn_cancel;
 
-    void setupUi(QDialog *CEditInfoDialog)
+    void setupUi(QWidget *CEditInfoDialog)
     {
         if (CEditInfoDialog->objectName().isEmpty())
             CEditInfoDialog->setObjectName(QStringLiteral("CEditInfoDialog"));
-        CEditInfoDialog->resize(695, 423);
+        CEditInfoDialog->resize(698, 435);
         gridLayout_2 = new QGridLayout(CEditInfoDialog);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(-1, 25, -1, -1);
         groupBox_main = new QGroupBox(CEditInfoDialog);
         groupBox_main->setObjectName(QStringLiteral("groupBox_main"));
         horizontalLayout = new QHBoxLayout(groupBox_main);
@@ -225,7 +226,7 @@ public:
         QMetaObject::connectSlotsByName(CEditInfoDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *CEditInfoDialog)
+    void retranslateUi(QWidget *CEditInfoDialog)
     {
         CEditInfoDialog->setWindowTitle(QApplication::translate("CEditInfoDialog", "CEditInfoDialog", nullptr));
         groupBox_main->setTitle(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\344\277\241\346\201\257", nullptr));

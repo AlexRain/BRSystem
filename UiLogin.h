@@ -1,7 +1,8 @@
 #pragma once
 
 #include <QDialog>
-#include "ui_UiLogin.h"
+#include <QMouseEvent>
+#include <QLineEdit>
 
 class UiLogin : public QDialog
 {
@@ -14,8 +15,15 @@ public:
 public:
 	void verify();
 
+protected:
+	void mouseMoveEvent(QMouseEvent *event);
+	void mousePressEvent(QMouseEvent *event);
+	void mouseReleaseEvent(QMouseEvent *event);
+
 private:
-	Ui::UiLogin ui;
 	QLineEdit *_pEditName;
 	QLineEdit *_pEditPwd;
+	QPoint m_dragPoint;
+	bool m_bCanMove;
+	
 };

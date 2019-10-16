@@ -6,11 +6,8 @@
 #include "CSkinItem.h"
 
 UiChangeSkin::UiChangeSkin(QWidget *parent)
-	: QDialog(parent)
+	: BaseWidget(parent)
 {
-	this->setWindowIcon(QIcon("images/app.ico"));
-	this->setWindowTitle(TOCH("ÉèÖÃÆ¤·ô"));
-	this->setWindowFlags(this->windowFlags() &~Qt::WindowContextHelpButtonHint);
 	this->resize(396, 224);
 	QGridLayout *layout = new QGridLayout(this);
 
@@ -39,6 +36,8 @@ void UiChangeSkin::itemChecked(bool checked)
 	CSkinItem *item = qobject_cast<CSkinItem*>(sender());
 	Q_ASSERT(item);
 	StyleHelper::loadAppStyle(item->getData().cssFile);
+	qApp->processEvents();
+	this->update();
 	if (checked) {
 		for each (CSkinItem *p in mapItems) {
 			p->setChecked(false);

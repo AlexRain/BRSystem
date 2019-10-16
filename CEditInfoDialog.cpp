@@ -2,12 +2,9 @@
 #include <QMessageBox>
 
 CEditInfoDialog::CEditInfoDialog(QWidget *parent,bool isEditUi)
-	: QDialog(parent), mIsDelete(false), mIsEditUi(isEditUi)
+	: BaseWidget(parent), mIsDelete(false), mIsEditUi(isEditUi)
 {
 	ui.setupUi(this);
-	this->setWindowIcon(QIcon("images/app.ico"));
-	this->setWindowTitle(TOCH("物品借还系统"));
-	this->setWindowFlags(this->windowFlags() &~Qt::WindowContextHelpButtonHint);
 	this->init();
 }
 
@@ -123,7 +120,7 @@ void CEditInfoDialog::getInputData()
 
 void CEditInfoDialog::on_btn_cancel_clicked()
 {
-	this->accept();
+	this->close();
 }
 
 void CEditInfoDialog::on_btn_save_clicked()
@@ -138,7 +135,7 @@ void CEditInfoDialog::on_btn_save_clicked()
 		emit updateData(this->mBorrowInfo);
 	else
 		emit saveData(this->mBorrowInfo);
-	this->accept();
+	this->close();
 }
 
 void CEditInfoDialog::on_btn_history_clicked()
@@ -150,5 +147,5 @@ void CEditInfoDialog::on_btn_delete_clicked()
 {
 	emit deleteItem(mBorrowInfo);
 	if (mIsDelete)
-		this->accept();
+		this->close();
 }

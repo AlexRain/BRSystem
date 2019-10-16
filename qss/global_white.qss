@@ -4,6 +4,7 @@ QWidget{
 	color:rgb(51,51,51);
 }
 
+
 QDialog, QFileDialog {
     background-color: rgb(238,232,213);
 }
@@ -183,7 +184,7 @@ QRadioButton::indicator::checked {
 /**********分组框**********/
 QGroupBox {
 		font-size: 13px;
-		border: 1px solid rgb(197,194,182);;
+		border: 1px solid rgb(197,194,182);
 		border-radius: 4px;
 		margin-top: 10px;
 }
@@ -374,6 +375,12 @@ QScrollBar::add-line:vertical:hover {
 }
 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
         background: transparent;
+}
+
+#contentWidget{
+	border: 1px solid rgb(197,194,182);
+	border-radius:3px;
+	background-color: rgb(238,232,213);
 }
 
 

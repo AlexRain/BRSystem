@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QDialog>
+#include "BaseWidget.h"
 #include "define.h"
 
 class CSkinItem;
 
-class UiChangeSkin : public QDialog
+class UiChangeSkin : public BaseWidget
 {
 	Q_OBJECT
 

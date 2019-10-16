@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>695</width>
-    <height>423</height>
+    <width>698</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>CEditInfoDialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="topMargin">
+    <number>25</number>
+   </property>
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_main">
      <property name="title">

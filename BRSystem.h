@@ -1,13 +1,14 @@
 #pragma once
 
 #include <QWidget>
+#include "BaseWidget.h"
 
 class CUiTop;
 class CUiCenter;
 class QMenuBar;
 class QToolBar;
 
-class BRSystem : public QWidget
+class BRSystem : public BaseWidget
 {
 	Q_OBJECT
 
