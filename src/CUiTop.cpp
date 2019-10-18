@@ -18,6 +18,19 @@ CUiTop::~CUiTop()
 void CUiTop::on_btn_changeSkin_clicked()
 {
 	emit showChangeSkinDlg();
-	//StyleHelper::initAppStyle();
-	//StyleHelper::setAppStyle("qss/global_white.qss");
+}
+
+void CUiTop::on_btn_min_clicked()
+{
+	emit aboutToChangeWindowState(StateMin);
+}
+
+void CUiTop::on_btn_max_clicked()
+{
+	emit aboutToChangeWindowState(StateNormalOrMax);
+}
+
+void CUiTop::on_btn_close_clicked()
+{
+	exit(0);
 }

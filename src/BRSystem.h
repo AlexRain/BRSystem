@@ -19,9 +19,6 @@ public:
 private:
 	void init();
 
-signals:
-	void updateStyle();
-
 private:
 	CUiTop *mTopWidget;
 	CUiCenter *mCenterWidget;

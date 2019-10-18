@@ -34,15 +34,15 @@ public:
     {
         if (CUiTop->objectName().isEmpty())
             CUiTop->setObjectName(QStringLiteral("CUiTop"));
-        CUiTop->resize(729, 28);
-        CUiTop->setMinimumSize(QSize(0, 28));
-        CUiTop->setMaximumSize(QSize(16777215, 28));
+        CUiTop->resize(691, 38);
+        CUiTop->setMinimumSize(QSize(0, 38));
+        CUiTop->setMaximumSize(QSize(16777215, 38));
         CUiTop->setStyleSheet(QStringLiteral(""));
         horizontalLayout = new QHBoxLayout(CUiTop);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(5, 5, 5, 0);
+        horizontalLayout->setContentsMargins(15, 5, 5, 0);
         label_logo = new QLabel(CUiTop);
         label_logo->setObjectName(QStringLiteral("label_logo"));
         label_logo->setMinimumSize(QSize(115, 0));

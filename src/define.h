@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QSize>
 #include <QPushButton>
+#include <QPainter>
 
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
@@ -109,6 +110,63 @@ namespace UiHelper {
 		if (width > 0 && height > 0)
 			btn->setFixedSize(width,height);
 		return btn;
+	}
+
+	static void PaintPixmapFrame8(QPixmap &pixMap, QList<QPixmap> &listPixmap, int nL = 4, int nT = 4, int nR = 4, int nB = 4) {
+		if (listPixmap.size() == 8)
+		{
+			int nBY1 = nT; // 边框高度1
+			int nBY2 = nB; // 边框高度2
+			int nBX1 = nL; // 边框宽度1
+			int nBX2 = nR; // 边框宽度2
+
+			int nW = pixMap.width();
+			int nH = pixMap.height();
+
+			QPainter painter(&pixMap);
+
+			painter.setBrush(QBrush(QColor(255, 255, 255, 0)));
+			int i = 0;
+			if (!listPixmap[i].isNull())
+			{//左上
+				painter.drawPixmap(QRect(0, 0, nBX1, nBY1), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//上中
+				painter.drawPixmap(QRect(nBX1, 0, nW - nBX1 - nBX2, nBY1), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//右上
+				painter.drawPixmap(QRect(nW - nBX2, 0, nBX2, nBY1), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//右中
+				painter.drawPixmap(QRect(nW - nBX2, nBY1, nBX2, nH - nBY1 - nBY2), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//右下
+				painter.drawPixmap(QRect(nW - nBX2, nH - nBY2, nBX2, nBY2), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//下中
+				painter.drawPixmap(QRect(nBX1, nH - nBY2, nW - nBX1 - nBX2, nBY2), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//左下
+				painter.drawPixmap(QRect(0, nH - nBY2, nBX1, nBY2), listPixmap[i]);
+			}
+			i++;
+			if (!listPixmap[i].isNull())
+			{//左中
+				painter.drawPixmap(QRect(0, nBY1, nBX1, nH - nBY1 - nBY2), listPixmap[i]);
+			}
+		}
 	}
 };
 

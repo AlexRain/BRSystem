@@ -11,6 +11,9 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 
+	a.setWindowIcon(QIcon("images/app.ico"));
+	a.setApplicationName(TOCH("汇声科技生产专用借还系统"));
+
 	StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
 	StyleHelper::loadAppStyle(style.cssFile);
 
@@ -20,7 +23,7 @@ int main(int argc, char *argv[])
 
 	/*主界面*/
 	BRSystem w;
-	w.show();
-	//PopupDialogContainer::showPopupDialog(&w, nullptr, false);
+	//w.show();
+	PopupDialogContainer::showPopupDialog(&w, nullptr, false,false);
 	return a.exec();
 }

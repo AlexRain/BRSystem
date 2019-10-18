@@ -7,7 +7,6 @@
 BaseWidget::BaseWidget(QWidget *parent)
 	: QWidget(parent)
 {
-	this->setAttribute(Qt::WA_Mapped);
 }
 
 BaseWidget::~BaseWidget()

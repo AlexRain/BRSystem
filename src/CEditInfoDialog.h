@@ -11,7 +11,7 @@
 
 #pragma once
 
-#include <QWidget>
+
 #include "ui_CEditInfoDialog.h"
 #include "define.h"
 #include "BaseWidget.h"

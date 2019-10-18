@@ -49,135 +49,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BRSystem.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CSearchLineEdit.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CUiCenter.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CUiTop.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ComboBoxDelegate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ComboBoxDelegate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="ComboBoxDelegate.cpp">
-      <Filter>Source Files\delegate</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_StyledDelegate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_StyledDelegate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="StyledDelegate.cpp">
-      <Filter>Source Files\delegate</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyDelegate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyDelegate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadOnlyDelegate.cpp">
-      <Filter>Source Files\delegate</Filter>
-    </ClCompile>
-    <ClCompile Include="CheckBoxDelegate.cpp">
-      <Filter>Source Files\delegate</Filter>
-    </ClCompile>
-    <ClCompile Include="FilterBtnDelegate.cpp">
-      <Filter>Source Files\delegate</Filter>
-    </ClCompile>
-    <ClCompile Include="SortFilterProxyModel.cpp">
-      <Filter>Source Files\CustomModel</Filter>
-    </ClCompile>
-    <ClCompile Include="CEditInfoDialog.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="UiLogin.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="UiChangeSkin.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CSkinItem.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CShadowUiContainer.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="CStyleManager.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="PopupDialogContainer.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseWidget.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="BRSystem.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CUiTop.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CUiCenter.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CSearchLineEdit.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CheckBoxDelegate.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="FilterBtnDelegate.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="SortFilterProxyModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CEditInfoDialog.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="UiLogin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="UiChangeSkin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CSkinItem.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="CShadowUiContainer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="PopupDialogContainer.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="BaseWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="CUiTop.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="CEditInfoDialog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-  </ItemGroup>
-  <ItemGroup>
     <QtRcc Include="BRSystem.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
@@ -186,28 +57,140 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="define.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="src\CStyleManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CStyleManager.h">
+    <ClInclude Include="src\define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="BRSystem.rc" />
+    <ResourceCompile Include="src\BRSystem.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="ComboBoxDelegate.h">
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SortFilterProxyModel.cpp">
+      <Filter>Source Files\CustomModel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StyledDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReadOnlyDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FilterBtnDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComboBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CheckBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseWidget.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRSystem.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEditInfoDialog.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSearchLineEdit.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CShadowUiContainer.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSkinItem.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStyleManager.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CUiCenter.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CUiTop.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PopupDialogContainer.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiChangeSkin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiLogin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\BaseWidget.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="StyledDelegate.h">
+    </QtMoc>
+    <QtMoc Include="src\BRSystem.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ReadOnlyDelegate.h">
+    </QtMoc>
+    <QtMoc Include="src\CEditInfoDialog.h">
       <Filter>Header Files</Filter>
-    </CustomBuild>
+    </QtMoc>
+    <QtMoc Include="src\CheckBoxDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ComboBoxDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CSearchLineEdit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CShadowUiContainer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CSkinItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CUiCenter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CUiTop.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\FilterBtnDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\PopupDialogContainer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ReadOnlyDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\SortFilterProxyModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\StyledDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiChangeSkin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiLogin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\CEditInfoDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\CUiTop.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

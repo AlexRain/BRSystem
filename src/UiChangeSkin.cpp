@@ -44,5 +44,6 @@ void UiChangeSkin::itemChecked(bool checked)
 		}
 		item->setChecked(true);
 		CStyleManager::getInstance().setCurrentStyle(item->getData().type);
+		emit styleChanged();
 	}
 }

@@ -13,8 +13,12 @@ public:
 	UiChangeSkin(QWidget *parent = Q_NULLPTR);
 	~UiChangeSkin();
 
+signals:
+	void styleChanged();
+
 private slots:
 	void itemChecked(bool checked);
+
 private:
 	QMap<StyleType, CSkinItem*> mapItems;
 

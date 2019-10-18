@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CEditInfoDialog</class>
- <widget class="QDialog" name="CEditInfoDialog">
+ <widget class="QWidget" name="CEditInfoDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,14 +10,98 @@
     <height>435</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
-   <string>CEditInfoDialog</string>
+   <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="topMargin">
     <number>25</number>
    </property>
-   <item row="0" column="0">
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="groupBox_status">
+     <property name="title">
+      <string>物品状态</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="radioBtn_notReturned">
+        <property name="text">
+         <string>未归还</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioBtn_returned">
+        <property name="text">
+         <string>已归还</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioBtn_lost">
+        <property name="text">
+         <string>丢失</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QPushButton" name="btn_delete">
+       <property name="text">
+        <string>删除</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_history">
+       <property name="text">
+        <string>借用记录</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_save">
+       <property name="text">
+        <string>保存</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_cancel">
+       <property name="text">
+        <string>取消</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_main">
      <property name="title">
       <string>借用信息</string>
@@ -122,108 +206,15 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_status">
-     <property name="title">
-      <string>物品状态</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QRadioButton" name="radioBtn_notReturned">
-        <property name="text">
-         <string>未归还</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioBtn_returned">
-        <property name="text">
-         <string>已归还</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="radioBtn_lost">
-        <property name="text">
-         <string>丢失</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="2" column="1">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QPushButton" name="btn_delete">
-       <property name="text">
-        <string>删除</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_history">
-       <property name="text">
-        <string>借用记录</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_save">
-       <property name="text">
-        <string>保存</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btn_cancel">
-       <property name="text">
-        <string>取消</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
- <tabstops>
-  <tabstop>lineEdit_productId</tabstop>
-  <tabstop>lineEdit_productName</tabstop>
-  <tabstop>lineEdit_browerName</tabstop>
-  <tabstop>lineEdit_reason</tabstop>
-  <tabstop>textEdit_mark</tabstop>
-  <tabstop>radioBtn_notReturned</tabstop>
-  <tabstop>radioBtn_returned</tabstop>
-  <tabstop>radioBtn_lost</tabstop>
-  <tabstop>btn_delete</tabstop>
-  <tabstop>btn_history</tabstop>
-  <tabstop>btn_save</tabstop>
-  <tabstop>btn_cancel</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

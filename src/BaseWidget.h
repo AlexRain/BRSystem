@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QDialog>
+#include <QWidget>
 #include <QCloseEvent>
 
 class BaseWidget : public QWidget

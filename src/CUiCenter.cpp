@@ -244,12 +244,17 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 {
+	QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
+	if (pProxyModel->data(indexFirst, Qt::UserRole).toBool()) return;
+
 	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
 	connect(infoDialog, &CEditInfoDialog::deleteItem,this, [=](const BorrowInfo &info) {
 		QMessageBox::StandardButton ok = QMessageBox::question(this, TOCH("提示"),
 			TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
 		if (ok == QMessageBox::Ok) {
 			pProxyModel->removeRow(index.row());
+			qApp->processEvents();
+			this->update();
 			infoDialog->setDeleteFlag(true);
 		}
 		else {
@@ -259,10 +264,11 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 
 	connect(infoDialog, &CEditInfoDialog::updateData, this, [=](const BorrowInfo &info) {
 		this->setBorrowData(info,index.row());
+		qApp->processEvents();
+		this->update();
 	},Qt::DirectConnection);
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
-	//infoDialog->exec();
 	PopupDialogContainer::showPopupDialog(infoDialog, this);
 }

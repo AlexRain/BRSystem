@@ -37,6 +37,7 @@ void CEditInfoDialog::init()
 
 void CEditInfoDialog::initEdit()
 {
+	ui.lineEdit_productId->setFocus();
 	ui.lineEdit_productId->setMaxLength(20);
 	ui.lineEdit_productName->setMaxLength(30);
 	ui.lineEdit_browerName->setMaxLength(20);

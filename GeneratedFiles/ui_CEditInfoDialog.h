@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -22,6 +21,7 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -29,6 +29,17 @@ class Ui_CEditInfoDialog
 {
 public:
     QGridLayout *gridLayout_2;
+    QGroupBox *groupBox_status;
+    QHBoxLayout *horizontalLayout_2;
+    QRadioButton *radioBtn_notReturned;
+    QRadioButton *radioBtn_returned;
+    QRadioButton *radioBtn_lost;
+    QHBoxLayout *horizontalLayout_3;
+    QPushButton *btn_delete;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *btn_history;
+    QPushButton *btn_save;
+    QPushButton *btn_cancel;
     QGroupBox *groupBox_main;
     QHBoxLayout *horizontalLayout;
     QGroupBox *groupBox_info;
@@ -44,41 +55,81 @@ public:
     QGroupBox *groupBox_mark;
     QVBoxLayout *verticalLayout;
     QPlainTextEdit *textEdit_mark;
-    QGroupBox *groupBox_status;
-    QHBoxLayout *horizontalLayout_2;
-    QRadioButton *radioBtn_notReturned;
-    QRadioButton *radioBtn_returned;
-    QRadioButton *radioBtn_lost;
     QLabel *label_4;
-    QHBoxLayout *horizontalLayout_3;
-    QPushButton *btn_delete;
-    QSpacerItem *horizontalSpacer;
-    QPushButton *btn_history;
-    QPushButton *btn_save;
-    QPushButton *btn_cancel;
 
     void setupUi(QWidget *CEditInfoDialog)
     {
         if (CEditInfoDialog->objectName().isEmpty())
             CEditInfoDialog->setObjectName(QStringLiteral("CEditInfoDialog"));
         CEditInfoDialog->resize(698, 435);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(CEditInfoDialog->sizePolicy().hasHeightForWidth());
+        CEditInfoDialog->setSizePolicy(sizePolicy);
         gridLayout_2 = new QGridLayout(CEditInfoDialog);
-        gridLayout_2->setSpacing(6);
-        gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setContentsMargins(-1, 25, -1, -1);
+        groupBox_status = new QGroupBox(CEditInfoDialog);
+        groupBox_status->setObjectName(QStringLiteral("groupBox_status"));
+        groupBox_status->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+        horizontalLayout_2 = new QHBoxLayout(groupBox_status);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        radioBtn_notReturned = new QRadioButton(groupBox_status);
+        radioBtn_notReturned->setObjectName(QStringLiteral("radioBtn_notReturned"));
+
+        horizontalLayout_2->addWidget(radioBtn_notReturned);
+
+        radioBtn_returned = new QRadioButton(groupBox_status);
+        radioBtn_returned->setObjectName(QStringLiteral("radioBtn_returned"));
+
+        horizontalLayout_2->addWidget(radioBtn_returned);
+
+        radioBtn_lost = new QRadioButton(groupBox_status);
+        radioBtn_lost->setObjectName(QStringLiteral("radioBtn_lost"));
+
+        horizontalLayout_2->addWidget(radioBtn_lost);
+
+
+        gridLayout_2->addWidget(groupBox_status, 1, 0, 1, 2);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        btn_delete = new QPushButton(CEditInfoDialog);
+        btn_delete->setObjectName(QStringLiteral("btn_delete"));
+
+        horizontalLayout_3->addWidget(btn_delete);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer);
+
+        btn_history = new QPushButton(CEditInfoDialog);
+        btn_history->setObjectName(QStringLiteral("btn_history"));
+
+        horizontalLayout_3->addWidget(btn_history);
+
+        btn_save = new QPushButton(CEditInfoDialog);
+        btn_save->setObjectName(QStringLiteral("btn_save"));
+
+        horizontalLayout_3->addWidget(btn_save);
+
+        btn_cancel = new QPushButton(CEditInfoDialog);
+        btn_cancel->setObjectName(QStringLiteral("btn_cancel"));
+
+        horizontalLayout_3->addWidget(btn_cancel);
+
+
+        gridLayout_2->addLayout(horizontalLayout_3, 3, 1, 1, 1);
+
         groupBox_main = new QGroupBox(CEditInfoDialog);
         groupBox_main->setObjectName(QStringLiteral("groupBox_main"));
         horizontalLayout = new QHBoxLayout(groupBox_main);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         groupBox_info = new QGroupBox(groupBox_main);
         groupBox_info->setObjectName(QStringLiteral("groupBox_info"));
         groupBox_info->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         gridLayout = new QGridLayout(groupBox_info);
-        gridLayout->setSpacing(6);
-        gridLayout->setContentsMargins(11, 11, 11, 11);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         lineEdit_reason = new QLineEdit(groupBox_info);
         lineEdit_reason->setObjectName(QStringLiteral("lineEdit_reason"));
@@ -134,8 +185,6 @@ public:
         groupBox_mark = new QGroupBox(groupBox_main);
         groupBox_mark->setObjectName(QStringLiteral("groupBox_mark"));
         verticalLayout = new QVBoxLayout(groupBox_mark);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         textEdit_mark = new QPlainTextEdit(groupBox_mark);
         textEdit_mark->setObjectName(QStringLiteral("textEdit_mark"));
@@ -147,79 +196,13 @@ public:
         horizontalLayout->addWidget(groupBox_mark);
 
 
-        gridLayout_2->addWidget(groupBox_main, 0, 0, 1, 1);
-
-        groupBox_status = new QGroupBox(CEditInfoDialog);
-        groupBox_status->setObjectName(QStringLiteral("groupBox_status"));
-        groupBox_status->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-        horizontalLayout_2 = new QHBoxLayout(groupBox_status);
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        radioBtn_notReturned = new QRadioButton(groupBox_status);
-        radioBtn_notReturned->setObjectName(QStringLiteral("radioBtn_notReturned"));
-
-        horizontalLayout_2->addWidget(radioBtn_notReturned);
-
-        radioBtn_returned = new QRadioButton(groupBox_status);
-        radioBtn_returned->setObjectName(QStringLiteral("radioBtn_returned"));
-
-        horizontalLayout_2->addWidget(radioBtn_returned);
-
-        radioBtn_lost = new QRadioButton(groupBox_status);
-        radioBtn_lost->setObjectName(QStringLiteral("radioBtn_lost"));
-
-        horizontalLayout_2->addWidget(radioBtn_lost);
-
-
-        gridLayout_2->addWidget(groupBox_status, 1, 0, 1, 1);
+        gridLayout_2->addWidget(groupBox_main, 0, 0, 1, 2);
 
         label_4 = new QLabel(CEditInfoDialog);
         label_4->setObjectName(QStringLiteral("label_4"));
 
-        gridLayout_2->addWidget(label_4, 2, 0, 1, 1);
+        gridLayout_2->addWidget(label_4, 2, 1, 1, 1);
 
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setSpacing(6);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        btn_delete = new QPushButton(CEditInfoDialog);
-        btn_delete->setObjectName(QStringLiteral("btn_delete"));
-
-        horizontalLayout_3->addWidget(btn_delete);
-
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout_3->addItem(horizontalSpacer);
-
-        btn_history = new QPushButton(CEditInfoDialog);
-        btn_history->setObjectName(QStringLiteral("btn_history"));
-
-        horizontalLayout_3->addWidget(btn_history);
-
-        btn_save = new QPushButton(CEditInfoDialog);
-        btn_save->setObjectName(QStringLiteral("btn_save"));
-
-        horizontalLayout_3->addWidget(btn_save);
-
-        btn_cancel = new QPushButton(CEditInfoDialog);
-        btn_cancel->setObjectName(QStringLiteral("btn_cancel"));
-
-        horizontalLayout_3->addWidget(btn_cancel);
-
-
-        gridLayout_2->addLayout(horizontalLayout_3, 3, 0, 1, 1);
-
-        QWidget::setTabOrder(lineEdit_productId, lineEdit_productName);
-        QWidget::setTabOrder(lineEdit_productName, lineEdit_browerName);
-        QWidget::setTabOrder(lineEdit_browerName, lineEdit_reason);
-        QWidget::setTabOrder(lineEdit_reason, textEdit_mark);
-        QWidget::setTabOrder(textEdit_mark, radioBtn_notReturned);
-        QWidget::setTabOrder(radioBtn_notReturned, radioBtn_returned);
-        QWidget::setTabOrder(radioBtn_returned, radioBtn_lost);
-        QWidget::setTabOrder(radioBtn_lost, btn_delete);
-        QWidget::setTabOrder(btn_delete, btn_history);
-        QWidget::setTabOrder(btn_history, btn_save);
-        QWidget::setTabOrder(btn_save, btn_cancel);
 
         retranslateUi(CEditInfoDialog);
 
@@ -228,7 +211,15 @@ public:
 
     void retranslateUi(QWidget *CEditInfoDialog)
     {
-        CEditInfoDialog->setWindowTitle(QApplication::translate("CEditInfoDialog", "CEditInfoDialog", nullptr));
+        CEditInfoDialog->setWindowTitle(QApplication::translate("CEditInfoDialog", "Form", nullptr));
+        groupBox_status->setTitle(QApplication::translate("CEditInfoDialog", "\347\211\251\345\223\201\347\212\266\346\200\201", nullptr));
+        radioBtn_notReturned->setText(QApplication::translate("CEditInfoDialog", "\346\234\252\345\275\222\350\277\230", nullptr));
+        radioBtn_returned->setText(QApplication::translate("CEditInfoDialog", "\345\267\262\345\275\222\350\277\230", nullptr));
+        radioBtn_lost->setText(QApplication::translate("CEditInfoDialog", "\344\270\242\345\244\261", nullptr));
+        btn_delete->setText(QApplication::translate("CEditInfoDialog", "\345\210\240\351\231\244", nullptr));
+        btn_history->setText(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\350\256\260\345\275\225", nullptr));
+        btn_save->setText(QApplication::translate("CEditInfoDialog", "\344\277\235\345\255\230", nullptr));
+        btn_cancel->setText(QApplication::translate("CEditInfoDialog", "\345\217\226\346\266\210", nullptr));
         groupBox_main->setTitle(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\344\277\241\346\201\257", nullptr));
         groupBox_info->setTitle(QString());
         label_5->setText(QApplication::translate("CEditInfoDialog", "<html><head/><body><p>\345\200\237\347\224\250\345\216\237\347\224\261\357\274\232<span style='color:red'>*</span></p></body></html>", nullptr));
@@ -236,15 +227,7 @@ public:
         label_2->setText(QApplication::translate("CEditInfoDialog", "<html><head/><body><p>\347\211\251\345\223\201\345\220\215\347\247\260\357\274\232<span style='color:red'>*</span></p></body></html>", nullptr));
         label_3->setText(QApplication::translate("CEditInfoDialog", "<html><head/><body><p>\345\200\237\347\224\250\344\272\272\357\274\232<span style='color:red'>*</span></p></body></html>", nullptr));
         groupBox_mark->setTitle(QApplication::translate("CEditInfoDialog", "\345\244\207\346\263\250", nullptr));
-        groupBox_status->setTitle(QApplication::translate("CEditInfoDialog", "\347\211\251\345\223\201\347\212\266\346\200\201", nullptr));
-        radioBtn_notReturned->setText(QApplication::translate("CEditInfoDialog", "\346\234\252\345\275\222\350\277\230", nullptr));
-        radioBtn_returned->setText(QApplication::translate("CEditInfoDialog", "\345\267\262\345\275\222\350\277\230", nullptr));
-        radioBtn_lost->setText(QApplication::translate("CEditInfoDialog", "\344\270\242\345\244\261", nullptr));
         label_4->setText(QString());
-        btn_delete->setText(QApplication::translate("CEditInfoDialog", "\345\210\240\351\231\244", nullptr));
-        btn_history->setText(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\350\256\260\345\275\225", nullptr));
-        btn_save->setText(QApplication::translate("CEditInfoDialog", "\344\277\235\345\255\230", nullptr));
-        btn_cancel->setText(QApplication::translate("CEditInfoDialog", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi
 
 };
