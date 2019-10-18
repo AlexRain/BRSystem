@@ -24,7 +24,7 @@ bool SortFilterProxyModel::lessThan(const QModelIndex &source_left, const QModel
 			return leftData.toDate() < rightData.toDate();
 		}
 	}
-	else if ((source_left.column() == TableHeader::Status) && (source_left.column() == TableHeader::Status)) {
+	else if ((source_left.column() == TableHeader::Status) && (source_right.column() == TableHeader::Status)) {
 		QVariant leftData = sourceModel()->data(source_left, Qt::UserRole);
 		QVariant rightData = sourceModel()->data(source_right, Qt::UserRole);
 

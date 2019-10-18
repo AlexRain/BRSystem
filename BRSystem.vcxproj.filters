@@ -98,9 +98,6 @@
     <ClCompile Include="src\BaseWidget.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="src\BRSystem.cpp">
-      <Filter>Source Files\Ui</Filter>
-    </ClCompile>
     <ClCompile Include="src\CEditInfoDialog.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
@@ -129,6 +126,15 @@
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
     <ClCompile Include="src\UiLogin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DialogMsg.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiFrostedLayer.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
   </ItemGroup>
@@ -184,12 +190,21 @@
     <QtMoc Include="src\UiLogin.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\DialogMsg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiFrostedLayer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\CUiTop.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\DialogMsg.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -18,6 +18,8 @@ public:
 public:
 	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, bool isModal = true,bool showCloseBtn = true);
 	void addWidget(BaseWidget *widget);
+	void showMaxorNormal();
+	void showMin();
 
 protected:
 	void mouseMoveEvent(QMouseEvent *event);

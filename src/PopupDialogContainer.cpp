@@ -24,6 +24,7 @@ PopupDialogContainer::PopupDialogContainer(QWidget *parent,bool isModal,bool sho
 	this->setWindowState(Qt::WindowNoState);
 	mLastState = Qt::WindowNoState;
 
+	/*是否需要显示为模态窗口*/
 	if (mIsModal) { 
 		this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 		this->setWindowModality(Qt::WindowModal); 
@@ -45,19 +46,39 @@ void PopupDialogContainer::addWidget(BaseWidget *widget)
 {
 	Q_ASSERT(widget);
 	_pCenterWidget = widget;
-
 	widget->setObjectName("contentWidget");
 	mLayout->addWidget(widget);
+	widget->setParent(this);
+
+	/*使用graphicsDropShadowEffect添加阴影效果*/
 	QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(widget);
 	shadow->setOffset(0, 0);
 	shadow->setColor(Qt::black);
 	shadow->setBlurRadius(10);
 	widget->setGraphicsEffect(shadow);
 
-	widget->setParent(this);
 	connect(widget, &BaseWidget::closed, this, &PopupDialogContainer::close);
 	int marginSpace = mLayout->margin() * 2;
 	this->resize(widget->width() + marginSpace,widget->height() + marginSpace);
+}
+
+void PopupDialogContainer::showMaxorNormal()
+{
+	if (this->windowState() == Qt::WindowMaximized)
+	{
+		mLayout->setContentsMargins(borderWidth, borderWidth, borderWidth, borderWidth);
+		this->setWindowState(Qt::WindowNoState);
+	}
+	else {
+		mLayout->setContentsMargins(0, 0, 0, 0);
+		this->showMaximized();
+	}
+}
+
+void PopupDialogContainer::showMin()
+{
+	mLastState = Qt::WindowMinimized;
+	this->showMinimized();
 }
 
 void PopupDialogContainer::showPopupDialog(BaseWidget *widget,QWidget *parent, bool isModal,bool showCloseBtn)
@@ -105,13 +126,13 @@ void PopupDialogContainer::changeEvent(QEvent *event)
 	/*监听窗口状态变化*/
 	if (event->type() == QEvent::WindowStateChange)
 	{
-		if (this->windowState() == Qt::WindowMaximized){
+		if (this->windowState() == Qt::WindowMaximized) {
 			mLayout->setContentsMargins(0, 0, 0, 0);
 		}
-		else{
+		else {
 			mLayout->setContentsMargins(borderWidth, borderWidth, borderWidth, borderWidth);
-			this->setWindowState(Qt::WindowNoState);
 		}
+		_pCenterWidget->windowStateChanged(this->windowState());
 	}
 
 	QWidget::changeEvent(event);

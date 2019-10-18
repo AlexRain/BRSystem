@@ -5,6 +5,7 @@
 #include "define.h"
 #include "UiLogin.h"
 #include "CStyleManager.h"
+#include "UiFrostedLayer.h"
 #include "PopupDialogContainer.h"
 
 int main(int argc, char *argv[])
@@ -22,8 +23,9 @@ int main(int argc, char *argv[])
 	//if (QDialog::Accepted != login.exec()) return 0;
 
 	/*Ö÷½çÃæ*/
-	BRSystem w;
-	//w.show();
-	PopupDialogContainer::showPopupDialog(&w, nullptr, false,false);
+	/*BRSystem w;
+	PopupDialogContainer::showPopupDialog(&w, nullptr, false,false);*/
+	UiFrostedLayer w;
+	w.show();
 	return a.exec();
 }

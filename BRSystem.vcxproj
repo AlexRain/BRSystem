@@ -118,6 +118,8 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\CStyleManager.h" />
     <ClInclude Include="src\define.h" />
+    <QtMoc Include="src\UiFrostedLayer.h" />
+    <QtMoc Include="src\DialogMsg.h" />
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -155,6 +157,7 @@
     <ClCompile Include="src\CStyleManager.cpp" />
     <ClCompile Include="src\CUiCenter.cpp" />
     <ClCompile Include="src\CUiTop.cpp" />
+    <ClCompile Include="src\DialogMsg.cpp" />
     <ClCompile Include="src\FilterBtnDelegate.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\PopupDialogContainer.cpp" />
@@ -162,11 +165,13 @@
     <ClCompile Include="src\SortFilterProxyModel.cpp" />
     <ClCompile Include="src\StyledDelegate.cpp" />
     <ClCompile Include="src\UiChangeSkin.cpp" />
+    <ClCompile Include="src\UiFrostedLayer.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiTop.ui" />
+    <QtUic Include="src\DialogMsg.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

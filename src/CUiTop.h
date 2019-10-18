@@ -17,6 +17,10 @@ public:
 public:
 	CUiTop(QWidget *parent = Q_NULLPTR);
 	~CUiTop();
+
+public:
+	void windowStateChanged(Qt::WindowStates states);
+
 private slots:
 	void on_btn_changeSkin_clicked();
 	void on_btn_min_clicked();
@@ -26,7 +30,9 @@ private slots:
 signals:
 	void showChangeSkinDlg();
 	void aboutToChangeWindowState(CUiTop::WindowState state);
+	void appAboutToExit();
 
 private:
 	Ui::CUiTop ui;
+	Qt::WindowStates mStates;
 };

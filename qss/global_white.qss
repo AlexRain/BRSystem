@@ -142,11 +142,18 @@ QPushButton#btn_close{
 	border-image:url(":/images/images/close.png");
 }
 
-QPushButton#btn_max{
+QPushButton#btn_max[maximized=false]{
 	min-width: 0px;
     min-height: 0px;
 	background-color:transparent;
-	border-image:url(":/images/images/max.png");
+	border-image:url(:/images/images/max.png);
+}
+
+QPushButton#btn_max[maximized=true]{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(:/images/images/normal.png);
 }
 
 /*多选按钮*/

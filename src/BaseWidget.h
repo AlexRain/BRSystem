@@ -11,11 +11,13 @@ public:
 	BaseWidget(QWidget *parent = nullptr);
 	~BaseWidget();
 
+public:
+	virtual void windowStateChanged(Qt::WindowStates states) {};
+
+protected:
 	void paintEvent(QPaintEvent *event);
+	void closeEvent(QCloseEvent *e);
 
 signals:
 	void closed();
-
-protected:
-	void closeEvent(QCloseEvent *e);
 };
