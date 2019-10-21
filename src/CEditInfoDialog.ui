@@ -21,7 +21,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="topMargin">
-    <number>25</number>
+    <number>44</number>
    </property>
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox_status">
@@ -215,6 +215,20 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_productId</tabstop>
+  <tabstop>lineEdit_productName</tabstop>
+  <tabstop>lineEdit_browerName</tabstop>
+  <tabstop>lineEdit_reason</tabstop>
+  <tabstop>textEdit_mark</tabstop>
+  <tabstop>radioBtn_notReturned</tabstop>
+  <tabstop>radioBtn_returned</tabstop>
+  <tabstop>radioBtn_lost</tabstop>
+  <tabstop>btn_delete</tabstop>
+  <tabstop>btn_history</tabstop>
+  <tabstop>btn_save</tabstop>
+  <tabstop>btn_cancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

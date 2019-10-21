@@ -7,6 +7,7 @@
 BaseWidget::BaseWidget(QWidget *parent)
 	: QWidget(parent)
 {
+	this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 BaseWidget::~BaseWidget()

@@ -5,10 +5,8 @@
 UiFrostedLayer::UiFrostedLayer(QWidget *parent)
 	: QWidget(parent)
 {
-	//this->setAttribute(Qt::WA_TranslucentBackground);
+	this->setAttribute(Qt::WA_TranslucentBackground);
 	this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
-
-	mPixmap.load("pic.jpg");
 }
 
 UiFrostedLayer::~UiFrostedLayer()
@@ -17,8 +15,10 @@ UiFrostedLayer::~UiFrostedLayer()
 
 void UiFrostedLayer::paintEvent(QPaintEvent *event)
 {
-	QPainter dc(this);
-	dc.drawPixmap(this->rect(),mPixmap);
+	QPainter painter(this);
+	painter.setPen(Qt::transparent);
+	painter.setBrush(QColor(1, 1, 1, 175));
+	painter.drawRoundedRect(rect(), 3, 3);
 	QWidget::paintEvent(event);
 }
 

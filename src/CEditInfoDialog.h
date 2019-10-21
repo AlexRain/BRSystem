@@ -28,7 +28,6 @@ public:
 
 public:
 	void setData(const BorrowInfo &info);
-	void setDeleteFlag(bool del);
 
 private:
 	/*初始化*/
@@ -58,6 +57,5 @@ private slots:
 private:
 	Ui::CEditInfoDialog ui;
 	BorrowInfo mBorrowInfo; /*借条信息结构体*/
-	bool mIsDelete;  /*是否已被删除，外部修改此值*/
 	bool mIsEditUi; /*是否是编辑界面*/
 };

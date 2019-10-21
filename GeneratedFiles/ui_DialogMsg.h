@@ -14,7 +14,6 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -26,9 +25,6 @@ public:
     QVBoxLayout *verticalLayout;
     QWidget *contentWidget;
     QVBoxLayout *verticalLayout_2;
-    QHBoxLayout *layout_title;
-    QLabel *label_title;
-    QPushButton *btn_close;
     QLabel *label_content;
     QHBoxLayout *layout_btn;
 
@@ -48,27 +44,7 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(5, 5, 5, 5);
-        layout_title = new QHBoxLayout();
-        layout_title->setSpacing(6);
-        layout_title->setObjectName(QStringLiteral("layout_title"));
-        layout_title->setContentsMargins(-1, -1, -1, 0);
-        label_title = new QLabel(contentWidget);
-        label_title->setObjectName(QStringLiteral("label_title"));
-        label_title->setAlignment(Qt::AlignCenter);
-
-        layout_title->addWidget(label_title);
-
-        btn_close = new QPushButton(contentWidget);
-        btn_close->setObjectName(QStringLiteral("btn_close"));
-        btn_close->setMinimumSize(QSize(20, 20));
-        btn_close->setMaximumSize(QSize(20, 20));
-
-        layout_title->addWidget(btn_close);
-
-
-        verticalLayout_2->addLayout(layout_title);
-
+        verticalLayout_2->setContentsMargins(5, 33, 5, 5);
         label_content = new QLabel(contentWidget);
         label_content->setObjectName(QStringLiteral("label_content"));
         label_content->setAlignment(Qt::AlignCenter);
@@ -82,8 +58,8 @@ public:
 
         verticalLayout_2->addLayout(layout_btn);
 
-        verticalLayout_2->setStretch(1, 3);
-        verticalLayout_2->setStretch(2, 2);
+        verticalLayout_2->setStretch(0, 3);
+        verticalLayout_2->setStretch(1, 2);
 
         verticalLayout->addWidget(contentWidget);
 
@@ -96,8 +72,6 @@ public:
     void retranslateUi(QDialog *DialogMsg)
     {
         DialogMsg->setWindowTitle(QApplication::translate("DialogMsg", "DialogMsg", nullptr));
-        label_title->setText(QApplication::translate("DialogMsg", "title", nullptr));
-        btn_close->setText(QString());
         label_content->setText(QApplication::translate("DialogMsg", "content", nullptr));
     } // retranslateUi
 

@@ -1,21 +1,36 @@
 #include "DialogMsg.h"
 #include "PopupDialogContainer.h"
 #include "define.h"
+#include "UiFrostedLayer.h"
 #include <QStyleOption>
 #include <QGraphicsDropShadowEffect>
 
+const int borderWidth = 8;
+const int titleHeight = 34;
+
 DialogMsg::DialogMsg(QWidget *parent, const QString &title, const QString &text,QMessageBox::StandardButtons buttons, const QStringList &buttonsText)
-	: QDialog(parent), mTitle(title), mContent(text),mButtons(buttons), mButtonClicked(QMessageBox::Cancel)
+	: QDialog(parent), mParentWidget(parent), mTitle(title), _pTitle(nullptr), _pBtnClose(nullptr),
+	mContent(text),mButtons(buttons), mButtonClicked(QMessageBox::Cancel)
 {
 	ui.setupUi(this);
+	ui.verticalLayout->setContentsMargins(borderWidth, borderWidth, borderWidth, borderWidth);
 	this->setFixedSize(360, 216);
 	this->setAttribute(Qt::WA_TranslucentBackground);
 	this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 
-	ui.label_title->setText(title);
+	_pTitle = new QLabel(this);
+	_pTitle->setObjectName("label_title");
+	_pTitle->setText(title);
+	_pTitle->setAlignment(Qt::AlignCenter);
+
 	ui.label_content->setWordWrap(true);
 	ui.label_content->setText(text);
-	ui.btn_close->setCursor(Qt::PointingHandCursor);
+
+	_pBtnClose = new QPushButton(this);
+	connect(_pBtnClose, &QPushButton::clicked, this, &DialogMsg::slotClose);
+	_pBtnClose->setFixedSize(20, 20);
+	_pBtnClose->setObjectName("btn_close");
+	_pBtnClose->setCursor(Qt::PointingHandCursor);
 
 	QList<int> listId;
 	if (buttons&QMessageBox::Ok
@@ -69,10 +84,15 @@ DialogMsg::DialogMsg(QWidget *parent, const QString &title, const QString &text,
 	shadow->setColor(Qt::black);
 	shadow->setBlurRadius(10);
 	ui.contentWidget->setGraphicsEffect(shadow);
+
+	mPLayer = new UiFrostedLayer(parent);
+	mPLayer->hide();
 }
 
 DialogMsg::~DialogMsg()
 {
+	if (mPLayer)
+		delete mPLayer;
 }
 
 QMessageBox::StandardButton DialogMsg::question(QWidget *parent, const QString &title, const QString &text,
@@ -80,14 +100,32 @@ QMessageBox::StandardButton DialogMsg::question(QWidget *parent, const QString &
 {
 	QMessageBox::StandardButton ok = QMessageBox::Cancel;
 	DialogMsg dlgMsg(parent,title,text,buttons, buttonsText);
+	dlgMsg.showLayer();
 	int result = dlgMsg.exec();
 	if (result == QDialog::Accepted)
 		ok = QMessageBox::Ok;
 	return ok;
 }
 
+void DialogMsg::showLayer()
+{
+	if (mPLayer && mParentWidget)
+	{
+		mPLayer->show();
+	}
+}
+
+void DialogMsg::hideLayer()
+{
+	if (mPLayer && mParentWidget)
+	{
+		mPLayer->hide();
+	}
+}
+
 void DialogMsg::slotButtonClicked()
 {
+	mPLayer->deleteLater();
 	QPushButton *btn = qobject_cast<QPushButton*>(sender());
 	if (btn) {
 		switch (btn->property("buttonId").toInt())
@@ -101,8 +139,9 @@ void DialogMsg::slotButtonClicked()
 	}
 }
 
-void DialogMsg::on_btn_close_clicked()
+void DialogMsg::slotClose()
 {
+	mPLayer->deleteLater();
 	this->reject();
 }
 
@@ -113,4 +152,19 @@ void DialogMsg::paintEvent(QPaintEvent *event)
 	QPainter p(this);
 	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 	QDialog::paintEvent(event);
+}
+
+void DialogMsg::resizeEvent(QResizeEvent *event)
+{
+	if (mPLayer && mParentWidget)
+	{
+		mPLayer->resize(mParentWidget->size());
+		mPLayer->move(0, 0);
+	}
+	_pTitle->resize(this->width() - borderWidth * 2 - 2, titleHeight);
+	_pTitle->move(borderWidth + 1, borderWidth + 1);
+	_pBtnClose->move(this->width() - _pBtnClose->width() - borderWidth - 5, borderWidth + 5);
+	_pTitle->raise();
+	_pBtnClose->raise();
+	QDialog::resizeEvent(event);
 }

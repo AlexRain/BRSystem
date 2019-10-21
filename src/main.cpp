@@ -7,10 +7,11 @@
 #include "CStyleManager.h"
 #include "UiFrostedLayer.h"
 #include "PopupDialogContainer.h"
+#include "CApplication.h"
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+	CApplication a(argc, argv);
 
 	a.setWindowIcon(QIcon("images/app.ico"));
 	a.setApplicationName(TOCH("汇声科技生产专用借还系统"));
@@ -23,9 +24,8 @@ int main(int argc, char *argv[])
 	//if (QDialog::Accepted != login.exec()) return 0;
 
 	/*主界面*/
-	/*BRSystem w;
-	PopupDialogContainer::showPopupDialog(&w, nullptr, false,false);*/
-	UiFrostedLayer w;
-	w.show();
+	BRSystem w;
+	a.setMainWidget(&w);
+	PopupDialogContainer::showPopupDialog(&w, nullptr, "",false,false);
 	return a.exec();
 }

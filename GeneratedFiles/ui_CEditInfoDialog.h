@@ -69,7 +69,7 @@ public:
         CEditInfoDialog->setSizePolicy(sizePolicy);
         gridLayout_2 = new QGridLayout(CEditInfoDialog);
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-        gridLayout_2->setContentsMargins(-1, 25, -1, -1);
+        gridLayout_2->setContentsMargins(-1, 44, -1, -1);
         groupBox_status = new QGroupBox(CEditInfoDialog);
         groupBox_status->setObjectName(QStringLiteral("groupBox_status"));
         groupBox_status->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
@@ -203,6 +203,17 @@ public:
 
         gridLayout_2->addWidget(label_4, 2, 1, 1, 1);
 
+        QWidget::setTabOrder(lineEdit_productId, lineEdit_productName);
+        QWidget::setTabOrder(lineEdit_productName, lineEdit_browerName);
+        QWidget::setTabOrder(lineEdit_browerName, lineEdit_reason);
+        QWidget::setTabOrder(lineEdit_reason, textEdit_mark);
+        QWidget::setTabOrder(textEdit_mark, radioBtn_notReturned);
+        QWidget::setTabOrder(radioBtn_notReturned, radioBtn_returned);
+        QWidget::setTabOrder(radioBtn_returned, radioBtn_lost);
+        QWidget::setTabOrder(radioBtn_lost, btn_delete);
+        QWidget::setTabOrder(btn_delete, btn_history);
+        QWidget::setTabOrder(btn_history, btn_save);
+        QWidget::setTabOrder(btn_save, btn_cancel);
 
         retranslateUi(CEditInfoDialog);
 

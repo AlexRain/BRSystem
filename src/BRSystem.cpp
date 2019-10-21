@@ -7,6 +7,7 @@
 #include "UiFrostedLayer.h"
 #include <QMenuBar>
 #include <QToolBar>
+#include <QDebug>
 
 BRSystem::BRSystem(QWidget *parent)
 	: BaseWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
@@ -14,11 +15,14 @@ BRSystem::BRSystem(QWidget *parent)
 {
 	init();
 	this->setWindowTitle(TOCH("汇声科技生产专用借还系统"));
+	this->setAttribute(Qt::WA_DeleteOnClose);
 	pLayer = new UiFrostedLayer(this);
+	pLayer->hide();
 }
 
 BRSystem::~BRSystem()
 {
+	qDebug() << "BRSystem";
 }
 
 void BRSystem::init()

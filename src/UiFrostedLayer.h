@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QPixmap>
 
+
 class UiFrostedLayer : public QWidget
 {
 	Q_OBJECT

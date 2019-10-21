@@ -17,6 +17,8 @@
 #include "SortFilterProxyModel.h"
 #include "CEditInfoDialog.h"
 #include "PopupDialogContainer.h"
+#include "CApplication.h"
+#include "DialogMsg.h"
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
@@ -50,7 +52,7 @@ void CUiCenter::initUi()
 		connect(infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo &info) {
 			this->appendRow(info);
 		}, Qt::DirectConnection);
-		PopupDialogContainer::showPopupDialog(infoDialog,this);
+		PopupDialogContainer::showPopupDialog(infoDialog, CApp->getMainWidget(),TOCH("新建借条"));
 	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("新建借条"));
 
@@ -198,7 +200,7 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 		}
 
 		menu->addAction(TOCH("删除"), [=] {
-			QMessageBox::StandardButton ok = QMessageBox::question(this, TOCH("提示"),
+			QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("提示"),
 				TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
 			if (ok == QMessageBox::Ok)
 				pProxyModel->removeRow(index.row());
@@ -249,17 +251,9 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 
 	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
 	connect(infoDialog, &CEditInfoDialog::deleteItem,this, [=](const BorrowInfo &info) {
-		QMessageBox::StandardButton ok = QMessageBox::question(this, TOCH("提示"),
-			TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
-		if (ok == QMessageBox::Ok) {
-			pProxyModel->removeRow(index.row());
-			qApp->processEvents();
-			this->update();
-			infoDialog->setDeleteFlag(true);
-		}
-		else {
-			infoDialog->setDeleteFlag(false);
-		}
+		pProxyModel->removeRow(index.row());
+		qApp->processEvents();
+		this->update();
 	},Qt::DirectConnection);
 
 	connect(infoDialog, &CEditInfoDialog::updateData, this, [=](const BorrowInfo &info) {
@@ -270,5 +264,5 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
-	PopupDialogContainer::showPopupDialog(infoDialog, this);
+	PopupDialogContainer::showPopupDialog(infoDialog, CApp->getMainWidget(),TOCH("编辑借条"));
 }

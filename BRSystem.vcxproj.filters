@@ -137,6 +137,9 @@
     <ClCompile Include="src\UiFrostedLayer.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
+    <ClCompile Include="CApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BaseWidget.h">
@@ -194,6 +197,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\UiFrostedLayer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CApplication.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

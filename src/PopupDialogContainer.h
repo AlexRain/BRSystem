@@ -2,24 +2,36 @@
 
 #include <QDialog>
 #include <QPushButton>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QPointer>
+#include <QLabel>
 #include "BaseWidget.h"
+
+class UiFrostedLayer;
 
 class PopupDialogContainer : public QWidget
 {
 	Q_OBJECT
 
+private:
+	enum ItemIndex
+	{
+		IndexTitle = 0,
+		IndexContent = 1
+	};
+
 public:
-	PopupDialogContainer(QWidget *parent = Q_NULLPTR,bool isModal = true,bool showClose = true);
+	explicit PopupDialogContainer(QWidget *parent = Q_NULLPTR,const QString &title = QString(),bool isModal = true, bool showClose = true);
 	~PopupDialogContainer();
 
 public:
-	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, bool isModal = true,bool showCloseBtn = true);
+	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true,bool showCloseBtn = true);
 	void addWidget(BaseWidget *widget);
 	void showMaxorNormal();
 	void showMin();
+	void showLayer();
+	void hideLayer();
 
 protected:
 	void mouseMoveEvent(QMouseEvent *event);
@@ -27,11 +39,18 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 	void resizeEvent(QResizeEvent *event);
 	void changeEvent(QEvent *event);
+	void closeEvent(QCloseEvent *event);
 
 private:
 	QPointer<BaseWidget> _pCenterWidget;
+	QPointer<QWidget> mParentWidget;
+	UiFrostedLayer *mPLayer;
 	QPushButton *mCloseBtn;
-	QHBoxLayout *mLayout;
+	QVBoxLayout *mLayout;
+	QLabel *mLabelTitle;
+	bool closeFlag;
+
+	QString mTitleText;
 	QPoint m_dragPoint;
 	bool m_bCanMove;
 	bool mIsModal;

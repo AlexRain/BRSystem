@@ -1,8 +1,9 @@
 #include "CEditInfoDialog.h"
+#include "DialogMsg.h"
 #include <QMessageBox>
 
 CEditInfoDialog::CEditInfoDialog(QWidget *parent,bool isEditUi)
-	: BaseWidget(parent), mIsDelete(false), mIsEditUi(isEditUi)
+	: BaseWidget(parent), mIsEditUi(isEditUi)
 {
 	ui.setupUi(this);
 	this->init();
@@ -16,11 +17,6 @@ void CEditInfoDialog::setData(const BorrowInfo &info)
 {
 	this->mBorrowInfo = info;
 	this->initData();
-}
-
-void CEditInfoDialog::setDeleteFlag(bool del)
-{
-	this->mIsDelete = del;
 }
 
 void CEditInfoDialog::init()
@@ -127,7 +123,8 @@ void CEditInfoDialog::on_btn_cancel_clicked()
 void CEditInfoDialog::on_btn_save_clicked()
 {
 	if (!verifyInput()) {
-		QMessageBox::warning(this, TOCH("警告"), TOCH("请填写完整信息！"), QMessageBox::Ok);
+		DialogMsg::question(this, TOCH("警告"), TOCH("请填写完整信息！"), QMessageBox::Ok);
+
 		return;
 	}
 	
@@ -146,7 +143,11 @@ void CEditInfoDialog::on_btn_history_clicked()
 
 void CEditInfoDialog::on_btn_delete_clicked()
 {
-	emit deleteItem(mBorrowInfo);
-	if (mIsDelete)
+	QMessageBox::StandardButton ok = DialogMsg::question(this, TOCH("提示"),
+		TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
+	if (QMessageBox::Ok == ok)
+	{
+		emit deleteItem(mBorrowInfo);
 		this->close();
+	}
 }
