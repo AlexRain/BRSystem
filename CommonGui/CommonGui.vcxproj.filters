@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files\CustomModel">
+      <UniqueIdentifier>{43fc9cea-2ebc-4cc1-9bc0-0464b44987ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\delegate">
+      <UniqueIdentifier>{4c74bec9-b88f-42da-a949-10868eebb0fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LineEdit">
+      <UniqueIdentifier>{b7beddf9-c6b9-4279-807b-d574e7db1422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialog">
+      <UniqueIdentifier>{5958ac10-97f9-4179-9287-9f031351ae79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BaseWidget">
+      <UniqueIdentifier>{6ff80bba-0ee4-4ed3-ab0d-342157aed097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CommonUse">
+      <UniqueIdentifier>{78835ad7-f10b-493d-b995-d08a3c388324}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\commongui_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CommonGui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CStyleManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CommonGui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SortFilterProxyModel.cpp">
+      <Filter>Source Files\CustomModel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CheckBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComboBoxDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FilterBtnDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReadOnlyDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StyledDelegate.cpp">
+      <Filter>Source Files\delegate</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSearchLineEdit.cpp">
+      <Filter>Source Files\LineEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DialogMsg.cpp">
+      <Filter>Source Files\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseWidget.cpp">
+      <Filter>Source Files\BaseWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CirclePixmap.cpp">
+      <Filter>Source Files\BaseWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PopupDialogContainer.cpp">
+      <Filter>Source Files\BaseWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CStyleManager.cpp">
+      <Filter>Source Files\CommonUse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiFrostedLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\BaseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CheckBoxDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CirclePixmap.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ComboBoxDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CSearchLineEdit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\DialogMsg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\FilterBtnDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\PopupDialogContainer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ReadOnlyDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\SortFilterProxyModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\StyledDelegate.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiFrostedLayer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\DialogMsg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Source Files\Ui">
+      <UniqueIdentifier>{a58b7d5b-1e64-47c0-958b-3881c471ce7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{2203108b-04a2-41cc-8842-3c3f2ef1c230}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{fc20006e-f1c4-4b6f-97ca-a8b19c7aa6ef}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\app.ico" />
+    <Image Include="images\checkbox.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_checked.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_checked_hover.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_checked_inactive.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_checked_pressed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_hover.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_inactive.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_pressed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\checkbox_selected.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\radiobox_checked.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\radioBox_unchecked.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\add.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\select.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\search_black.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\search_white.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\healson_logo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\new.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\open.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\save.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\search.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\icon_skin.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\close.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\max.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\min.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CEditInfoDialog.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSkinItem.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CUiCenter.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CUiTop.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiChangeSkin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiLogin.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiUsageRecord.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BRSystem.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="src\BRSystem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CEditInfoDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CSkinItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CUiCenter.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CUiTop.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiChangeSkin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiLogin.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CApplication.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiUsageRecord.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="src\CEditInfoDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\CUiTop.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\UiUsageRecord.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MainApp.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="MainApp.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+</Project>
