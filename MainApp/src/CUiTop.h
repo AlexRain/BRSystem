@@ -33,6 +33,7 @@ signals:
 	void showChangeSkinDlg();
 	void aboutToChangeWindowState(CUiTop::WindowState state);
 	void appAboutToExit();
+	void clickProfile();
 
 private:
 	Ui::CUiTop ui;

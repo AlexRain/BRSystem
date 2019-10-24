@@ -15,6 +15,7 @@ CUiTop::CUiTop(QWidget *parent)
 	headPixmap->setFixedSize(30, 30);
 	headPixmap->setPixmap(QPixmap("images/testhead01.jpg"));
 	headPixmap->setCursor(Qt::PointingHandCursor);
+	connect(headPixmap, &CirclePixmap::clicked, this, &CUiTop::clickProfile);
 	ui.horizontalLayout->replaceWidget(ui.label_head, headPixmap);
 	ui.label_head->hide();
 }

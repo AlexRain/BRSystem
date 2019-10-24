@@ -6,14 +6,16 @@
 #include <QPainter>
 #include <QDebug>
 #include <qmath.h>
+#include <QPropertyAnimation>
 
 const int borderWidth = 8;
 const int titleHeight = 34;
 
 PopupDialogContainer::PopupDialogContainer(QWidget *parent,const QString &title,bool isModal, bool showClose)
 	: QWidget(parent), _pCenterWidget(nullptr), mLabelTitle(nullptr),mTitleText(title), closeFlag(false),
-	mLayout(nullptr), m_bCanMove(false),mIsModal(isModal), mParentWidget(parent), mPLayer(nullptr)
+	mLayout(nullptr), m_bCanMove(false),mIsModal(isModal), mParentWidget(parent), mPLayer(nullptr),mUseFadeIn(false)
 {
+	this->setWindowOpacity(0.0);
 	mLayout = new QVBoxLayout(this);
 	mLayout->setSpacing(0);
 	mLayout->setContentsMargins(borderWidth, borderWidth, borderWidth, borderWidth);
@@ -74,7 +76,7 @@ void PopupDialogContainer::addWidget(BaseWidget *widget)
 	/*使用graphicsDropShadowEffect添加阴影效果*/
 	QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(widget);
 	shadow->setOffset(0, 0);
-	shadow->setColor(Qt::black);
+	shadow->setColor(QColor(0, 0, 0, 80));
 	shadow->setBlurRadius(10);
 	widget->setGraphicsEffect(shadow);
 
@@ -123,12 +125,49 @@ void PopupDialogContainer::hideLayer()
 	}
 }
 
+void PopupDialogContainer::fadeIn()
+{
+	this->mUseFadeIn = true;
+	this->show();
+	QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity", this);
+	animation->setDuration(150);
+	animation->setStartValue(0.0);
+	animation->setEndValue(1.0);
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void PopupDialogContainer::fadeOut()
+{
+	QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity", this);
+	connect(animation, &QPropertyAnimation::finished, [this]() {
+		this->close();
+	});
+	animation->setDuration(150);
+	animation->setStartValue(1.0);
+	animation->setEndValue(0.0);
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void PopupDialogContainer::show()
+{
+	this->setWindowOpacity(1.0);
+	QWidget::show();
+}
+
 void PopupDialogContainer::showPopupDialog(BaseWidget *widget,QWidget *parent,const QString &title, bool isModal, bool showCloseBtn)
 {
 	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal,showCloseBtn);
 	container->showLayer();
 	container->addWidget(widget);
 	container->show();
+}
+
+void PopupDialogContainer::showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent /*= nullptr*/, const QString &title /*= QString()*/, bool isModal /*= true*/, bool showCloseBtn /*= true*/)
+{
+	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal, showCloseBtn);
+	container->showLayer();
+	container->addWidget(widget);
+	container->fadeIn();
 }
 
 void PopupDialogContainer::mouseMoveEvent(QMouseEvent *event)

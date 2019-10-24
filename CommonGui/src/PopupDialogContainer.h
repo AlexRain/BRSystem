@@ -27,12 +27,16 @@ public:
 	~PopupDialogContainer();
 
 public:
-	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true,bool showCloseBtn = true);
+	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true);
+	static void showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true);
 	void addWidget(BaseWidget *widget);
 	void showMaxorNormal();
 	void showMin();
 	void showLayer();
 	void hideLayer();
+	void fadeIn();
+	void fadeOut();
+	void show();
 
 protected:
 	void mouseMoveEvent(QMouseEvent *event);
@@ -55,5 +59,6 @@ private:
 	QPoint m_dragPoint;
 	bool m_bCanMove;
 	bool mIsModal;
+	bool mUseFadeIn;
 	Qt::WindowStates mLastState;
 };

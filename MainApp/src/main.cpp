@@ -21,11 +21,11 @@ int main(int argc, char *argv[])
 
 	/*登录界面*/
 	//UiLogin login;
-	//if (QDialog::Accepted != login.exec()) return 0;
+	//if (QDialog::Accepted != login.fadeIn()) return 0;
 
 	/*主界面*/
 	BRSystem w;
 	a.setMainWidget(&w);
-	PopupDialogContainer::showPopupDialog(&w, nullptr, "",false,false);
+	PopupDialogContainer::showPopupDialogFadeIn(&w, nullptr, "",false,false);
 	return a.exec();
 }

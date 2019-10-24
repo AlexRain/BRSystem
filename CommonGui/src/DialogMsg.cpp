@@ -81,7 +81,7 @@ DialogMsg::DialogMsg(QWidget *parent, const QString &title, const QString &text,
 
 	QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(ui.contentWidget);
 	shadow->setOffset(0, 0);
-	shadow->setColor(Qt::black);
+	shadow->setColor(QColor(0, 0, 0, 80));
 	shadow->setBlurRadius(10);
 	ui.contentWidget->setGraphicsEffect(shadow);
 

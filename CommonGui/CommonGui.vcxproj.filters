@@ -100,6 +100,15 @@
     <ClCompile Include="src\UiFrostedLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BubbleTipWidget.cpp">
+      <Filter>Source Files\BaseWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomShadowEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlowEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BaseWidget.h">
@@ -138,9 +147,21 @@
     <QtMoc Include="src\UiFrostedLayer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\BubbleTipWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="CustomShadowEffect.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="GlowEffect.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\DialogMsg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\BubbleTipWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

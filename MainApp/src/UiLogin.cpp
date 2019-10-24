@@ -4,10 +4,13 @@
 #include <QGraphicsDropShadowEffect>
 #include "define.h"
 #include "UiLogin.h"
+#include <QPropertyAnimation>
+#include <QEventLoop>
 
 UiLogin::UiLogin(QWidget *parent)
 	: QDialog(parent), _pEditName(nullptr), _pEditPwd(nullptr), m_bCanMove(false)
 {
+	this->setWindowOpacity(0.0);
 	this->setWindowIcon(QIcon("images/app.ico"));
 	this->setWindowTitle(TOCH("物品借还系统"));
 	this->setWindowFlags(Qt::FramelessWindowHint);
@@ -27,10 +30,12 @@ UiLogin::UiLogin(QWidget *parent)
 
 	QLabel *pName = new QLabel(TOCH("用户名(&U)："), this);
 	_pEditName = new QLineEdit(this);
+	_pEditName->setMinimumHeight(35);
 	pName->setBuddy(_pEditName);
 
 	QLabel *pPwd = new QLabel(TOCH("密码(&P)："), this);
 	_pEditPwd = new QLineEdit(this);
+	_pEditPwd->setMinimumHeight(35);
 	_pEditPwd->setEchoMode(QLineEdit::Password);
 	pPwd->setBuddy(_pEditPwd);
 
@@ -92,6 +97,23 @@ void UiLogin::verify()
 	if ("admin" != _pEditName->text() || _pEditName->text().isEmpty()) ok = false;
 	if (ok) this->accept();
 		
+}
+
+int UiLogin::fadeIn()
+{
+	this->show();
+
+	/*开启时间循环，同步等待动画完成再启动*/
+	QEventLoop eventLoop;
+	QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity", this);
+	connect(animation, &QPropertyAnimation::finished, &eventLoop,&QEventLoop::quit);
+	animation->setDuration(200);
+	animation->setStartValue(0.0);
+	animation->setEndValue(1.0);
+	animation->start(QAbstractAnimation::DeleteWhenStopped);
+	eventLoop.exec();
+
+	return this->exec();
 }
 
 void UiLogin::mouseMoveEvent(QMouseEvent *event)

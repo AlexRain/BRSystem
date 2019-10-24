@@ -5,15 +5,18 @@
 #include "PopupDialogContainer.h"
 #include "DialogMsg.h"
 #include "UiFrostedLayer.h"
+#include "BubbleTipWidget.h"
 #include <QMenuBar>
 #include <QToolBar>
 #include <QDebug>
+#include <QBitmap>
 
 BRSystem::BRSystem(QWidget *parent)
 	: BaseWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
 	mToolbar(nullptr)
 {
 	init();
+	this->setWindowOpacity(0.0);
 	this->setWindowTitle(TOCH("汇声科技生产专用借还系统"));
 	this->setAttribute(Qt::WA_DeleteOnClose);
 	pLayer = new UiFrostedLayer(this);
@@ -30,7 +33,7 @@ void BRSystem::init()
 	mTopWidget = new CUiTop(this);
 	connect(mTopWidget, &CUiTop::showChangeSkinDlg,this, [=]() {
 		UiChangeSkin *dialog = new UiChangeSkin(this);
-		PopupDialogContainer::showPopupDialog(dialog, this,TOCH("更换皮肤"));
+		PopupDialogContainer::showPopupDialogFadeIn(dialog, this,TOCH("更换皮肤"));
 	});
 
 	connect(mTopWidget, &CUiTop::aboutToChangeWindowState, this, [=](CUiTop::WindowState stateAboutToChanged) {
@@ -54,6 +57,13 @@ void BRSystem::init()
 	connect(mTopWidget, &CUiTop::appAboutToExit, this, [=]() {
 		int result = DialogMsg::question(this, TOCH("提示"),TOCH("确定要关闭？"),QMessageBox::Ok | QMessageBox::Cancel);
 		if (result == QMessageBox::Ok) exit(0);
+	});
+
+	connect(mTopWidget, &CUiTop::clickProfile, [this]() {
+		BubbleTipWidget *tips = new BubbleTipWidget(this);
+		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
+		tips->move(QCursor::pos().x() - tips->width() / 2, pos.y() - 22 + 5);
+		tips->fadeIn();
 	});
 
 	mCenterWidget = new CUiCenter(this);

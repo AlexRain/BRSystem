@@ -14,6 +14,7 @@ public:
 
 public:
 	void verify();
+	int fadeIn();
 
 protected:
 	void mouseMoveEvent(QMouseEvent *event);

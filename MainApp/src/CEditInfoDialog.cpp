@@ -141,7 +141,7 @@ void CEditInfoDialog::on_btn_save_clicked()
 void CEditInfoDialog::on_btn_history_clicked()
 {
 	UiUsageRecord *record = new UiUsageRecord(this);
-	PopupDialogContainer::showPopupDialog(record, this, TOCH("借用记录"));
+	PopupDialogContainer::showPopupDialogFadeIn(record, this, TOCH("借用记录"));
 }
 
 void CEditInfoDialog::on_btn_delete_clicked()

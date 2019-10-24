@@ -52,7 +52,7 @@ void CUiCenter::initUi()
 		connect(infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo &info) {
 			this->appendRow(info);
 		}, Qt::DirectConnection);
-		PopupDialogContainer::showPopupDialog(infoDialog, CApp->getMainWidget(),TOCH("新建借条"));
+		PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(),TOCH("新建借条"));
 	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("新建借条"));
 
@@ -264,5 +264,5 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
-	PopupDialogContainer::showPopupDialog(infoDialog, CApp->getMainWidget(),TOCH("编辑借条"));
+	PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(),TOCH("编辑借条"));
 }
