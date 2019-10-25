@@ -9,9 +9,9 @@
 UiChangeSkin::UiChangeSkin(QWidget *parent)
 	: BaseWidget(parent)
 {
-	this->resize(396, 224);
+	this->resize(380, 192);
 	QGridLayout *layout = new QGridLayout(this);
-	layout->setContentsMargins(9, 34, 9, 9);
+	layout->setContentsMargins(9, 9, 9, 9);
 
 	for (int i = 0; i < CStyleManager::getInstance().mStyles.size(); i++)
 	{

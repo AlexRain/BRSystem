@@ -410,7 +410,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 BubbleContentWidget{
 	qproperty-borderColor:rgb(197,194,182);
 	qproperty-backgroundColor:rgb(238,232,213);
-	qproperty-shadowColor:red;
+	qproperty-shadowColor:rgba(0,0,0,80);
 }
 
 StyledWidget{

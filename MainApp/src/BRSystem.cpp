@@ -32,7 +32,11 @@ void BRSystem::init()
 	mTopWidget = new CUiTop(this);
 	connect(mTopWidget, &CUiTop::showChangeSkinDlg,this, [=]() {
 		UiChangeSkin *dialog = new UiChangeSkin(this);
-		PopupDialogContainer::showPopupDialogFadeIn(dialog, this,TOCH("¸ü»»Æ¤·ô"));
+		dialog->resize(350, 192);
+		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
+		BubbleTipWidget::showBubbleWidget(dialog, QPoint(QCursor::pos().x(), pos.y() - 22 + 10),
+			BubbleTipWidget::Bottom, this);
+
 	});
 
 	connect(mTopWidget, &CUiTop::aboutToChangeWindowState, this, [=](CUiTop::WindowState stateAboutToChanged) {
@@ -60,10 +64,10 @@ void BRSystem::init()
 
 	connect(mTopWidget, &CUiTop::clickProfile, [this]() {
 		QWidget *p = new QWidget();
-		BubbleTipWidget *tips = new BubbleTipWidget(p,this);
+		p->resize(275, 308);
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-		tips->move(QCursor::pos().x() - tips->width() / 2, pos.y() - 22 + 5);
-		tips->fadeIn();
+		BubbleTipWidget::showBubbleWidget(p,QPoint(QCursor::pos().x(), pos.y() - 22 + 10),
+			BubbleTipWidget::Bottom,this);
 	});
 
 	mCenterWidget = new CUiCenter(this);
