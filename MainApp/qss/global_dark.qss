@@ -396,4 +396,20 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 	background:#16181c;
 }
 
+#contentWidgetNoRadius{
+	border-top: 1px solid #23262c;
+	border-bottom: 1px solid #23262c;
+	border-radius:0px;
+	background:#16181c;
+}
+
+BubbleContentWidget{
+	qproperty-borderColor:#23262c;
+	qproperty-backgroundColor:#16181c;
+	qproperty-shadowColor:black;
+}
+
+StyledWidget{
+	qproperty-backgroundColor:rgb(44, 46, 50);
+}
 

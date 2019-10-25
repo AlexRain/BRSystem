@@ -24,3 +24,8 @@ CApplication* CApplication::GetApplication()
 	CApplication* cApp = static_cast<CApplication*>(qApp);
 	return cApp;
 }
+
+const StyledWidget & CApplication::getStyledWidget() const
+{
+	return this->_styedWidget;
+}

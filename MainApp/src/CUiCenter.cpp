@@ -2,7 +2,6 @@
 #include <QGridLayout>
 #include "CSearchLineEdit.h"
 #include <QTableView>
-#include <QStandardItemModel>
 #include <QStandardItem>
 #include <QMenu>
 #include <QCursor>
@@ -62,7 +61,7 @@ void CUiCenter::initUi()
 
 void CUiCenter::initTableView()
 {
-	mModel = new QStandardItemModel;
+	mModel = new CustomTableModel;
 	mModel->setHorizontalHeaderItem(TableHeader::Order, new QStandardItem(TOCH("序号")));
 	mModel->setHorizontalHeaderItem(TableHeader::ProductionId, new QStandardItem(TOCH("物品编号")));
 	mModel->setHorizontalHeaderItem(TableHeader::ProductionName, new QStandardItem(TOCH("物品名称")));
@@ -252,14 +251,10 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
 	connect(infoDialog, &CEditInfoDialog::deleteItem,this, [=](const BorrowInfo &info) {
 		pProxyModel->removeRow(index.row());
-		qApp->processEvents();
-		this->update();
 	},Qt::DirectConnection);
 
 	connect(infoDialog, &CEditInfoDialog::updateData, this, [=](const BorrowInfo &info) {
 		this->setBorrowData(info,index.row());
-		qApp->processEvents();
-		this->update();
 	},Qt::DirectConnection);
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());

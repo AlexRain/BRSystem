@@ -153,9 +153,6 @@
     <ClCompile Include="src\UiLogin.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="src\CApplication.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\UiUsageRecord.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\UiLogin.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\CApplication.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\UiUsageRecord.h">

@@ -92,6 +92,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <PreprocessorDefinitions>COMMONGUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,10 +101,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <QtMoc Include="src\StyledWidget.h" />
+    <QtMoc Include="src\GlowEffect.h" />
     <QtMoc Include="src\BubbleTipWidget.h" />
-    <QtMoc Include="CustomShadowEffect.h" />
-    <QtMoc Include="GlowEffect.h" />
+    <QtMoc Include="src\CApplication.h" />
     <ClInclude Include="src\CStyleManager.h" />
+    <QtMoc Include="src\CustomShadowEffect.h" />
     <ClInclude Include="src\define.h" />
     <QtMoc Include="src\UiFrostedLayer.h" />
     <QtMoc Include="src\StyledDelegate.h" />
@@ -121,26 +124,27 @@
     <ClInclude Include="src\commongui_global.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CustomShadowEffect.cpp" />
-    <ClCompile Include="GlowEffect.cpp" />
     <ClCompile Include="src\BaseWidget.cpp" />
     <ClCompile Include="src\BubbleTipWidget.cpp" />
+    <ClCompile Include="src\CApplication.cpp" />
     <ClCompile Include="src\CheckBoxDelegate.cpp" />
     <ClCompile Include="src\CirclePixmap.cpp" />
     <ClCompile Include="src\ComboBoxDelegate.cpp" />
     <ClCompile Include="src\CommonGui.cpp" />
     <ClCompile Include="src\CSearchLineEdit.cpp" />
     <ClCompile Include="src\CStyleManager.cpp" />
+    <ClCompile Include="src\CustomShadowEffect.cpp" />
     <ClCompile Include="src\DialogMsg.cpp" />
     <ClCompile Include="src\FilterBtnDelegate.cpp" />
+    <ClCompile Include="src\GlowEffect.cpp" />
     <ClCompile Include="src\PopupDialogContainer.cpp" />
     <ClCompile Include="src\ReadOnlyDelegate.cpp" />
     <ClCompile Include="src\SortFilterProxyModel.cpp" />
     <ClCompile Include="src\StyledDelegate.cpp" />
+    <ClCompile Include="src\StyledWidget.cpp" />
     <ClCompile Include="src\UiFrostedLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="src\BubbleTipWidget.ui" />
     <QtUic Include="src\DialogMsg.ui" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

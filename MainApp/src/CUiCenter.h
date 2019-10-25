@@ -1,12 +1,37 @@
 #pragma once
 
 #include <QWidget>
+#include <QModelIndex>
+#include <QStandardItemModel>
 #include "define.h"
+#include "CApplication.h"
 
 class CSearchLineEdit;
 class QTableView;
-class QStandardItemModel;
 class SortFilterProxyModel;
+
+class CustomTableModel :public QStandardItemModel {
+	Q_OBJECT
+
+public:
+	explicit CustomTableModel(QObject *parent = nullptr) {}
+	~CustomTableModel() {};
+
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const {
+		if (!index.isValid())
+			return QVariant();
+
+		switch (role)
+		{
+		case Qt::BackgroundRole:
+		{
+			if (index.column() == TableHeader::Order)
+				return CApp->getStyledWidget().backgroundColor();
+		}
+		}
+		return QStandardItemModel::data(index,role);
+	}
+};
 
 class CUiCenter : public QWidget
 {
@@ -32,7 +57,7 @@ private slots:
 private:
 	CSearchLineEdit *mLineEdit;
 	QTableView *mTableView;
-	QStandardItemModel *mModel;
+	CustomTableModel *mModel;
 	SortFilterProxyModel *pProxyModel;
 	QList<BorrowInfo> mListData;
 };

@@ -4,6 +4,7 @@
 #include <QIcon>
 #include "CStyleManager.h"
 #include "CSkinItem.h"
+#include "CApplication.h"
 
 UiChangeSkin::UiChangeSkin(QWidget *parent)
 	: BaseWidget(parent)
@@ -37,6 +38,7 @@ void UiChangeSkin::itemChecked(bool checked)
 	CSkinItem *item = qobject_cast<CSkinItem*>(sender());
 	Q_ASSERT(item);
 	StyleHelper::loadAppStyle(item->getData().cssFile);
+	CApp->setProperty("styleType", (int)item->getData().type);
 	qApp->processEvents();
 	this->update();
 	if (checked) {

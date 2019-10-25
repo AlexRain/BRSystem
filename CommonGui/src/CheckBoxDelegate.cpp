@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <QTextOption>
+#include <QStandardItem>
 #include <QPainter>
 #include "define.h"
 #include "CStyleManager.h"
@@ -22,19 +23,11 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
 	if (view_option.state & QStyle::State_Selected) {
 		view_option.state = view_option.state ^ QStyle::State_Selected;
-		QColor colorItemCheck(0, 0, 0, 80);
-		switch (CStyleManager::getInstance().getCurrentStyleType())
-		{
-		case Dark:colorItemCheck.setRgb(44, 46, 50); break;
-		case White:colorItemCheck.setRgb(223, 202, 136); break;
-		default:
-			break;
-		}
-		painter->fillRect(view_option.rect, colorItemCheck);
+		QColor color = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
+		painter->fillRect(view_option.rect, color);
 	}
 
-	if (index.column() == TableHeader::Order)
-	{
+	if (index.column() == TableHeader::Order){
 		bool data = index.model()->data(index, Qt::CheckStateRole).toBool();
 		bool showCheckBox = index.model()->data(index, Qt::UserRole).toBool();
 		QString text = QString::number(index.row() + 1);
@@ -58,6 +51,9 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 			option.rect.width() / 2, option.rect.height());
 		textOption.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 		painter->drawText(rectText, text, textOption);
+	}
+	else {
+		QStyledItemDelegate::paint(painter, option, index);
 	}
 }
 

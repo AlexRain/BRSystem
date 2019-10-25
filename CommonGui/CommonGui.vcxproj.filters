@@ -103,10 +103,16 @@
     <ClCompile Include="src\BubbleTipWidget.cpp">
       <Filter>Source Files\BaseWidget</Filter>
     </ClCompile>
-    <ClCompile Include="CustomShadowEffect.cpp">
+    <ClCompile Include="src\CustomShadowEffect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlowEffect.cpp">
+    <ClCompile Include="src\GlowEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StyledWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,18 +156,21 @@
     <QtMoc Include="src\BubbleTipWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="CustomShadowEffect.h">
+    <QtMoc Include="src\CustomShadowEffect.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="GlowEffect.h">
+    <QtMoc Include="src\GlowEffect.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CApplication.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\StyledWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\DialogMsg.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="src\BubbleTipWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -15,8 +15,7 @@ BRSystem::BRSystem(QWidget *parent)
 	: BaseWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
 	mToolbar(nullptr)
 {
-	init();
-	this->setWindowOpacity(0.0);
+	this->init();
 	this->setWindowTitle(TOCH("汇声科技生产专用借还系统"));
 	this->setAttribute(Qt::WA_DeleteOnClose);
 	pLayer = new UiFrostedLayer(this);
@@ -60,7 +59,8 @@ void BRSystem::init()
 	});
 
 	connect(mTopWidget, &CUiTop::clickProfile, [this]() {
-		BubbleTipWidget *tips = new BubbleTipWidget(this);
+		QWidget *p = new QWidget();
+		BubbleTipWidget *tips = new BubbleTipWidget(p,this);
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
 		tips->move(QCursor::pos().x() - tips->width() / 2, pos.y() - 22 + 5);
 		tips->fadeIn();
