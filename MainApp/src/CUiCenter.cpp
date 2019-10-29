@@ -18,12 +18,14 @@
 #include "PopupDialogContainer.h"
 #include "CApplication.h"
 #include "DialogMsg.h"
+#include "CDbHelper.h"
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
 {
 	qRegisterMetaType<BorrowInfo>("BorrowInfo");
-	initUi();
+	this->initUi();
+	this->initData();
 }
 
 CUiCenter::~CUiCenter()
@@ -50,6 +52,26 @@ void CUiCenter::initUi()
 		CEditInfoDialog *infoDialog = new CEditInfoDialog(this, false);
 		connect(infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo &info) {
 			this->appendRow(info);
+
+			CDbHelper dbHelper;
+			dbHelper.open();
+			if (dbHelper.isTableExist(DIC_BORROW_RETURN))
+			{
+				ModelData model;
+				model["productionId"] = info.productionId;
+				model["productionName"] = info.productionName;
+				model["borrowerName"] = info.borrowerName;
+				model["borrowReason"] = info.borrowReason;
+				model["borrowStatus"] = info.borrowStatus;
+				model["remarks"] = info.remarks;
+				int rows = dbHelper.Insert(DIC_BORROW_RETURN,model);
+				if (rows > 0){
+					this->query(&dbHelper);
+				}
+			}
+			else {
+				dbHelper.exec(creatTableStr);
+			}
 		}, Qt::DirectConnection);
 		PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(),TOCH("ÐÂ½¨½èÌõ"));
 	}, 25, 25, "","btn_add");
@@ -57,6 +79,12 @@ void CUiCenter::initUi()
 
 	main_layout->addWidget(btn_add, 0, 11, 1, 1);
 	main_layout->addWidget(mTableView, 1, 0, 10, 12);
+}
+
+void CUiCenter::initData()
+{
+	CDbHelper::opendatabase("db.s3db");
+	this->query();
 }
 
 void CUiCenter::initTableView()
@@ -112,6 +140,60 @@ void CUiCenter::initTableView()
 		this, SLOT(slotContextMenu(const QPoint &)));
 	connect(mTableView, SIGNAL(doubleClicked(const QModelIndex &)),
 		this, SLOT(slotTableViewDoubleClicked(const QModelIndex &)));
+}
+
+void CUiCenter::query()
+{
+	CDbHelper dbHelper;
+	dbHelper.open();
+	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
+	{
+		QList<ModelData> vModel;
+		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate DESC LIMIT 0,1");
+		mModel->clear();
+		pProxyModel->clear();
+		for (int i = 0,nLen = vModel.size();i < nLen;++i)
+		{
+			const ModelData &model = vModel[i];
+			BorrowInfo info;
+			info.order = model["id"].toInt();
+			info.productionId = model["productionId"];
+			info.productionName = model["productionName"];
+			info.borrowerName = model["borrowerName"];
+			info.borrowDate = QDateTime::fromString(model["borrowDate"].left(16),"yyyy-MM-dd hh:mm");
+			info.updateDate = QDateTime::fromString(model["updateDate"].left(16), "yyyy-MM-dd hh:mm");
+			info.borrowStatus = (BorrowStatus)model["borrowStatus"].toInt();
+			info.borrowReason = model["borrowReason"];
+			info.remarks = model["remarks"];
+			this->appendRow(info);
+		}
+	}
+	else {
+		dbHelper.exec(creatTableStr);
+	}
+}
+
+void CUiCenter::query(CDbHelper *dbHelper)
+{
+	QList<ModelData> vModel;
+	int rows = dbHelper->Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate DESC LIMIT 0,1");
+	mModel->clear();
+	pProxyModel->clear();
+	for (int i = 0, nLen = vModel.size(); i < nLen; ++i)
+	{
+		const ModelData &model = vModel[i];
+		BorrowInfo info;
+		info.order = model["id"].toInt();
+		info.productionId = model["productionId"];
+		info.productionName = model["productionName"];
+		info.borrowerName = model["borrowerName"];
+		info.borrowDate = QDateTime::fromString(model["borrowDate"].left(16), "yyyy-MM-dd hh:mm");
+		info.updateDate = QDateTime::fromString(model["updateDate"].left(16), "yyyy-MM-dd hh:mm");
+		info.borrowStatus = (BorrowStatus)model["borrowStatus"].toInt();
+		info.borrowReason = model["borrowReason"];
+		info.remarks = model["remarks"];
+		this->appendRow(info);
+	}
 }
 
 void CUiCenter::appendRow(const BorrowInfo &info)

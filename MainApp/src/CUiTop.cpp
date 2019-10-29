@@ -9,7 +9,6 @@ CUiTop::CUiTop(QWidget *parent)
 	: QWidget(parent), mStates(Qt::WindowNoState), headPixmap(nullptr)
 {
 	ui.setupUi(this);
-	ui.label_logo->setPixmap(QPixmap("images/healson_logo.png").scaled(ui.label_logo->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
 	this->windowStateChanged(Qt::WindowNoState);
 	headPixmap = new CirclePixmap(this);
 	headPixmap->setFixedSize(30, 30);
@@ -22,6 +21,17 @@ CUiTop::CUiTop(QWidget *parent)
 
 CUiTop::~CUiTop()
 {
+}
+
+void CUiTop::setLogo(const QPixmap &logo)
+{
+	this->m_pixmapLogo = logo;
+	ui.label_logo->setPixmap(m_pixmapLogo.scaled(ui.label_logo->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+const QPixmap & CUiTop::logo() const
+{
+	return this->m_pixmapLogo;
 }
 
 void CUiTop::windowStateChanged(Qt::WindowStates states)

@@ -6,6 +6,7 @@
 #include "define.h"
 #include "CApplication.h"
 
+class CDbHelper;
 class CSearchLineEdit;
 class QTableView;
 class SortFilterProxyModel;
@@ -43,8 +44,10 @@ public:
 
 private:
 	void initUi();
-	//void initData();
+	void initData();
 	void initTableView();
+	void query(CDbHelper *dbHelper);
+	void query();
 
 	void appendRow(const BorrowInfo &info);
 	void getBorrowData(BorrowInfo &info, int row);

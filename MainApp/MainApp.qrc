@@ -14,11 +14,12 @@
         <file>images/radioBox_unchecked.png</file>
         <file>images/add.png</file>
         <file>images/select.png</file>
+        <file>images/logo.png</file>
+        <file>images/logo_black.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>
         <file>images/search_white.png</file>
-        <file>images/healson_logo.png</file>
         <file>images/new.png</file>
         <file>images/open.png</file>
         <file>images/save.png</file>

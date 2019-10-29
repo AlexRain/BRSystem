@@ -36,7 +36,6 @@ void BRSystem::init()
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
 		BubbleTipWidget::showBubbleWidget(dialog, QPoint(QCursor::pos().x(), pos.y() - 22 + 10),
 			BubbleTipWidget::Bottom, this);
-
 	});
 
 	connect(mTopWidget, &CUiTop::aboutToChangeWindowState, this, [=](CUiTop::WindowState stateAboutToChanged) {

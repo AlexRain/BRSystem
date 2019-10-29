@@ -9,6 +9,8 @@ class CUiTop : public QWidget
 {
 	Q_OBJECT
 
+		Q_PROPERTY(QPixmap logo READ logo WRITE setLogo)
+
 public:
 	enum WindowState
 	{
@@ -19,6 +21,9 @@ public:
 public:
 	CUiTop(QWidget *parent = Q_NULLPTR);
 	~CUiTop();
+
+	void setLogo(const QPixmap &logo);
+	const QPixmap &logo() const;
 
 public:
 	void windowStateChanged(Qt::WindowStates states);
@@ -39,4 +44,5 @@ private:
 	Ui::CUiTop ui;
 	Qt::WindowStates mStates;
 	CirclePixmap *headPixmap;
+	QPixmap m_pixmapLogo;
 };

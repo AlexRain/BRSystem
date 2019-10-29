@@ -413,3 +413,7 @@ StyledWidget{
 	qproperty-backgroundColor:rgb(44, 46, 50);
 }
 
+UiTop{
+	qproperty-logo:url(:/BRSystem/images/logo.png);
+}
+

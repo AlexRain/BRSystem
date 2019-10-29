@@ -100,9 +100,6 @@
     <Image Include="images\search_white.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="images\healson_logo.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="images\new.png">
       <Filter>Resource Files</Filter>
     </Image>
