@@ -46,6 +46,11 @@ void CEditInfoDialog::initEdit()
 	ui.lineEdit_productName->setClearButtonEnabled(true);
 	ui.lineEdit_browerName->setClearButtonEnabled(true);
 	ui.lineEdit_reason->setClearButtonEnabled(true);
+
+	ui.label->setBuddy(ui.lineEdit_productId);
+	ui.label_2->setBuddy(ui.lineEdit_productName);
+	ui.label_3->setBuddy(ui.lineEdit_browerName);
+	ui.label_5->setBuddy(ui.lineEdit_reason);
 }
 
 void CEditInfoDialog::initData()

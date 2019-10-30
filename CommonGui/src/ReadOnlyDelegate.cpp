@@ -22,8 +22,6 @@ QWidget * ReadOnlyDelegate::createEditor(QWidget * parent, const QStyleOptionVie
 
 void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-	QItemDelegate::paint(painter, option, index);
-
 	QString text = index.model()->data(index, Qt::DisplayRole).toString();
 
 	painter->save();
@@ -45,8 +43,11 @@ void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 			painter->setPen(Qt::red);
 			text = TOCH("¶ªÊ§");
 		}
-	}else if (TableHeader::BorrowDate == index.column()
-		|| TableHeader::UpdateDate == index.column()){
+	}else if (TableHeader::BorrowDate == index.column()){
+		QDateTime date = index.model()->data(index, Qt::UserRole).toDateTime();
+		text = date.toString("yyyy-MM-dd");
+	}
+	else if (TableHeader::UpdateDate == index.column()) {
 		QDateTime date = index.model()->data(index, Qt::UserRole).toDateTime();
 		text = date.toString("yyyy-MM-dd hh:mm");
 	}
@@ -55,15 +56,8 @@ void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
 	if (view_option.state & QStyle::State_Selected) {
 		view_option.state = view_option.state ^ QStyle::State_Selected;
-		QColor colorItemCheck(0, 0, 0, 80);
-		switch (CStyleManager::getInstance().getCurrentStyleType())
-		{
-		case Dark:colorItemCheck.setRgb(44, 46, 50); break;
-		case White:colorItemCheck.setRgb(223, 202, 136); break;
-		default:
-			break;
-		}
-		painter->fillRect(view_option.rect, colorItemCheck);
+		QColor color = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
+		painter->fillRect(view_option.rect, color);
 	}
 
 	QTextOption textOption;

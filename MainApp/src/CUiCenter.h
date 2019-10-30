@@ -5,8 +5,8 @@
 #include <QStandardItemModel>
 #include "define.h"
 #include "CApplication.h"
+#include "CDbHelper.h"
 
-class CDbHelper;
 class CSearchLineEdit;
 class QTableView;
 class SortFilterProxyModel;
@@ -26,8 +26,7 @@ public:
 		{
 		case Qt::BackgroundRole:
 		{
-			if (index.column() == TableHeader::Order)
-				return CApp->getStyledWidget().backgroundColor();
+			return CApp->getStyledWidget().backgroundColor();	
 		}
 		}
 		return QStandardItemModel::data(index,role);
@@ -44,10 +43,15 @@ public:
 
 private:
 	void initUi();
+	void initHeader();
+	void initColumn();
 	void initData();
 	void initTableView();
-	void query(CDbHelper *dbHelper);
-	void query();
+	void sqlQuery(const QString &sql);
+	void sqlUpdate(const ModelData &model,const QString &id);
+	void sqlDelete(const BorrowInfo &info);
+	void FuzzyQuery(const QString &info = QString());
+	void setData(const QList<ModelData> &model);
 
 	void appendRow(const BorrowInfo &info);
 	void getBorrowData(BorrowInfo &info, int row);
@@ -63,4 +67,6 @@ private:
 	CustomTableModel *mModel;
 	SortFilterProxyModel *pProxyModel;
 	QList<BorrowInfo> mListData;
+	QLabel *m_pTip;
+	QLabel *m_pDataCount;
 };

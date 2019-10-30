@@ -18,7 +18,7 @@ CSearchLineEdit::CSearchLineEdit(QWidget *parent)
 	});
 	btn_search->setObjectName("btn_search");
 	//ÉèÖÃ¿ì½Ý¼ü
-	btn_search->setShortcut(Qt::Key_Enter);
+	btn_search->setShortcut(Qt::Key_Return);
 	btn_search->setCursor(Qt::PointingHandCursor);
 	btn_search->setFixedSize(17, 17);
 	layout->addWidget(btn_search);

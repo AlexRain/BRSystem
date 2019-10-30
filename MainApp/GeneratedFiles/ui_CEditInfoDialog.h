@@ -227,10 +227,10 @@ public:
         radioBtn_notReturned->setText(QApplication::translate("CEditInfoDialog", "\346\234\252\345\275\222\350\277\230", nullptr));
         radioBtn_returned->setText(QApplication::translate("CEditInfoDialog", "\345\267\262\345\275\222\350\277\230", nullptr));
         radioBtn_lost->setText(QApplication::translate("CEditInfoDialog", "\344\270\242\345\244\261", nullptr));
-        btn_delete->setText(QApplication::translate("CEditInfoDialog", "\345\210\240\351\231\244", nullptr));
-        btn_history->setText(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\350\256\260\345\275\225", nullptr));
-        btn_save->setText(QApplication::translate("CEditInfoDialog", "\344\277\235\345\255\230", nullptr));
-        btn_cancel->setText(QApplication::translate("CEditInfoDialog", "\345\217\226\346\266\210", nullptr));
+        btn_delete->setText(QApplication::translate("CEditInfoDialog", "\345\210\240\351\231\244(&D)", nullptr));
+        btn_history->setText(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\350\256\260\345\275\225(&H)", nullptr));
+        btn_save->setText(QApplication::translate("CEditInfoDialog", "\344\277\235\345\255\230(&S)", nullptr));
+        btn_cancel->setText(QApplication::translate("CEditInfoDialog", "\345\217\226\346\266\210(&C)", nullptr));
         groupBox_main->setTitle(QApplication::translate("CEditInfoDialog", "\345\200\237\347\224\250\344\277\241\346\201\257", nullptr));
         groupBox_info->setTitle(QString());
         label_5->setText(QApplication::translate("CEditInfoDialog", "<html><head/><body><p>\345\200\237\347\224\250\345\216\237\347\224\261\357\274\232<span style='color:red'>*</span></p></body></html>", nullptr));

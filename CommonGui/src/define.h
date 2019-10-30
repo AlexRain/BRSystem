@@ -15,7 +15,8 @@
 
 enum TableHeader
 {
-	Order = 0,
+	UniqueId = 0,
+	Order,
 	ProductionId,
 	ProductionName,
 	BorrowerName,
@@ -53,6 +54,7 @@ typedef struct _SkinStyle
 typedef struct _BorrowInfo
 {
 	int	order;
+	QString id;
 	QString productionId;
 	QString productionName;
 	QString borrowerName;

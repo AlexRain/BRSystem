@@ -19,7 +19,7 @@
 
 #define DIC_BORROW_RETURN      "DIC_BORROW_RETURN" /// 物品借还表
 
-const QString &creatTableStr = "CREATE TABLE DIC_BORROW_RETURN \
+#define CREATE_TABLE_SQL "CREATE TABLE DIC_BORROW_RETURN \
                 (                                       \
                   id      smallint,     \
                   productionId      varchar(10)  NOT NULL ,     \
@@ -30,7 +30,7 @@ const QString &creatTableStr = "CREATE TABLE DIC_BORROW_RETURN \
                   borrowStatus     smallint ,         \
                   borrowReason varchar(150)  NULL ,         \
                   remarks varchar(150)  NULL         \
-                );";
+                );"
 
 typedef QMap<QString, QString> ModelData;
 
