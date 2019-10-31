@@ -10,7 +10,7 @@ class COMMONGUI_EXPORT BaseWidget : public QWidget
 
 public:
 	BaseWidget(QWidget *parent = nullptr);
-	~BaseWidget();
+	virtual ~BaseWidget();
 
 public:
 	virtual void windowStateChanged(Qt::WindowStates states) {};

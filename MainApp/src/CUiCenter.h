@@ -52,6 +52,7 @@ private:
 	void sqlDelete(const BorrowInfo &info);
 	void FuzzyQuery(const QString &info = QString());
 	void setData(const QList<ModelData> &model);
+	void showDetailUi(const QModelIndex & index);
 
 	void appendRow(const BorrowInfo &info);
 	void getBorrowData(BorrowInfo &info, int row);

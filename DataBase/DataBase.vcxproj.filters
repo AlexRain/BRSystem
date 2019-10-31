@@ -33,6 +33,9 @@
     <ClInclude Include="src\Condition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\UserSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SqlDataBase.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Condition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UserSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -57,7 +57,7 @@ void ReadOnlyDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 	if (view_option.state & QStyle::State_Selected) {
 		view_option.state = view_option.state ^ QStyle::State_Selected;
 		QColor color = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
-		painter->fillRect(view_option.rect, color);
+		painter->fillRect(view_option.rect, QBrush(color));
 	}
 
 	QTextOption textOption;

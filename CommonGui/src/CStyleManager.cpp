@@ -20,8 +20,8 @@ CStyleManager::CStyleManager()
 	StyleStruct styleYellow = {
 		Yellow,
 		TOCH("ÐÄ¶¯³È"),
-		QString("qss/global_dark.qss"),
-		Qt::yellow
+		QString("qss/global_orange.qss"),
+		QColor("#ffaa00")
 	};
 
 	mCurrentStyle = (StyleType)mSetting.value("CONFIG/skinType", (int)StyleType::Dark).toInt();

@@ -3,6 +3,7 @@
 #include <QDialog>
 #include <QMouseEvent>
 #include <QLineEdit>
+#include <QComboBox>
 
 class UiLogin : public QDialog
 {
@@ -13,6 +14,7 @@ public:
 	~UiLogin();
 
 public:
+	void initUser();
 	void verify();
 	int fadeIn();
 
@@ -22,8 +24,8 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 
 private:
-	QLineEdit *_pEditName;
-	QLineEdit *_pEditPwd;
+	QComboBox *m_pEditName;
+	QLineEdit *m_pEditPwd;
 	QPoint m_dragPoint;
 	bool m_bCanMove;
 	

@@ -67,6 +67,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <PreprocessorDefinitions>DATABASE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,6 +82,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <PreprocessorDefinitions>DATABASE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,12 +94,14 @@
     <ClCompile Include="src\CDbHelper.cpp" />
     <ClCompile Include="src\Condition.cpp" />
     <ClCompile Include="src\SqlDataBase.cpp" />
+    <ClCompile Include="src\UserSession.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CDbHelper.h" />
     <ClInclude Include="src\Condition.h" />
     <ClInclude Include="src\SqlDataBase.h" />
     <ClInclude Include="src\database_global.h" />
+    <ClInclude Include="src\UserSession.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

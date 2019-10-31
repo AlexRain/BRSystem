@@ -17,7 +17,10 @@
 #include "Condition.h"
 #include "database_global.h"
 
-#define DIC_BORROW_RETURN      "DIC_BORROW_RETURN" /// 物品借还表
+#define DIC_BORROW_RETURN      "DIC_BORROW_RETURN"   /// 物品借还表
+#define DIC_DEPARTMENT         "DIC_DEPARTMENT"      /// 部门表
+#define DIC_OPERATION_LOG      "DIC_OPERATION_LOG"   /// 操作日志表
+#define DIC_USER               "DIC_USER"            /// 用户表
 
 #define CREATE_TABLE_SQL "CREATE TABLE DIC_BORROW_RETURN \
                 (                                       \

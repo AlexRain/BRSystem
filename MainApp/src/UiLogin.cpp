@@ -3,12 +3,16 @@
 #include <QLineEdit>
 #include <QGraphicsDropShadowEffect>
 #include "define.h"
+#include "UserSession.h"
 #include "UiLogin.h"
+#include "CDbHelper.h"
+#include "DialogMsg.h"
+#include "BubbleTipWidget.h"
 #include <QPropertyAnimation>
 #include <QEventLoop>
 
 UiLogin::UiLogin(QWidget *parent)
-	: QDialog(parent), _pEditName(nullptr), _pEditPwd(nullptr), m_bCanMove(false)
+	: QDialog(parent), m_pEditName(nullptr), m_pEditPwd(nullptr), m_bCanMove(false)
 {
 	this->setWindowOpacity(0.0);
 	this->setWindowIcon(QIcon("images/app.ico"));
@@ -29,21 +33,22 @@ UiLogin::UiLogin(QWidget *parent)
 	layout_main->addWidget(widgetContent);
 
 	QLabel *pName = new QLabel(TOCH("用户名(&U)："), this);
-	_pEditName = new QLineEdit(this);
-	_pEditName->setMinimumHeight(35);
-	pName->setBuddy(_pEditName);
+	m_pEditName = new QComboBox(this);
+	m_pEditName->setEditable(false);
+	m_pEditName->setMinimumHeight(35);
+	pName->setBuddy(m_pEditName);
 
 	QLabel *pPwd = new QLabel(TOCH("密码(&P)："), this);
-	_pEditPwd = new QLineEdit(this);
-	_pEditPwd->setMinimumHeight(35);
-	_pEditPwd->setEchoMode(QLineEdit::Password);
-	pPwd->setBuddy(_pEditPwd);
+	m_pEditPwd = new QLineEdit(this);
+	m_pEditPwd->setMinimumHeight(35);
+	m_pEditPwd->setEchoMode(QLineEdit::Password);
+	pPwd->setBuddy(m_pEditPwd);
 
 	QGridLayout *layout_input = new QGridLayout;
 	layout_input->addWidget(pName, 0, 0, 1, 1);
-	layout_input->addWidget(_pEditName, 0, 1, 1, 1);
+	layout_input->addWidget(m_pEditName, 0, 1, 1, 1);
 	layout_input->addWidget(pPwd, 1, 0, 1, 1);
-	layout_input->addWidget(_pEditPwd, 1, 1, 1, 1);
+	layout_input->addWidget(m_pEditPwd, 1, 1, 1, 1);
 	layout_input->setVerticalSpacing(25);
 	layout_input->setContentsMargins(15, 15, 15, 15);
 
@@ -74,7 +79,7 @@ UiLogin::UiLogin(QWidget *parent)
 
 	auto verify = std::bind(&UiLogin::verify, this);
 	QPushButton *btn_ok = UiHelper::creatPushButton(this, verify, 0, 0,TOCH("登录"));
-	btn_ok->setShortcut(QKeySequence(Qt::Key_Enter));
+	btn_ok->setShortcut(QKeySequence(Qt::Key_Return));
 
 	QHBoxLayout *layout_ok = new QHBoxLayout;
 	layout_ok->addStretch();
@@ -84,26 +89,72 @@ UiLogin::UiLogin(QWidget *parent)
 	layout->addLayout(layout_ok,     7,0,3,1);
 	this->resize(430,330);
 
+	CDbHelper::opendatabase("db.s3db");
+	this->initUser();
 }
 
 UiLogin::~UiLogin()
 {
 }
 
+void UiLogin::initUser()
+{
+	CDbHelper dbHelper;
+	dbHelper.open();
+	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
+	{
+		QList<ModelData> vModel;
+		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime desc");
+		for (int i = 0,nLen = vModel.size(); i < nLen; ++i)
+		{
+			const ModelData model = vModel[i];
+			UserData userData;
+			userData.userId = model["userId"];
+			userData.userName = model["userName"];
+			userData.isAdmin = 1 == model["isAdmin"].toInt();
+			userData.departmentId = model["departmentId"];
+			userData.departmentName = model["departmentName"];
+			userData.password = model["password"];
+			m_pEditName->addItem(model["userName"], QVariant::fromValue(userData));
+			UserSession::getInstance().setUserData(userData);
+		}
+
+		m_pEditName->setCurrentIndex(0);
+	}
+	else {
+		DialogMsg::question(this,TOCH("发生错误"),TOCH("数据错误，请联系管理员。"),QMessageBox::Ok);
+		exit(0);
+	}
+}
+
 void UiLogin::verify()
 {
 	bool ok = true;
-	if ("123456" != _pEditPwd->text() || _pEditPwd->text().isEmpty()) ok = false;
-	if ("admin" != _pEditName->text() || _pEditName->text().isEmpty()) ok = false;
+	if (m_pEditName->currentText().isEmpty()) {
+		QLabel *p = new QLabel(TOCH("请选择用户"));
+		p->setAlignment(Qt::AlignCenter);
+		p->resize(120, 50);
+		QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
+		BubbleTipWidget::showBubbleWidget(p, pos, BubbleTipWidget::Top, this);
+		ok = false;
+	}
+	QString password = m_pEditName->currentData().value<UserData>().password;
+	if (password != m_pEditPwd->text() || m_pEditPwd->text().isEmpty()) { 
+		QLabel *p = new QLabel(TOCH("密码错误"));
+		p->setAlignment(Qt::AlignCenter);
+		p->resize(120, 50);
+		QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
+		BubbleTipWidget::showBubbleWidget(p, pos, BubbleTipWidget::Top, this);
+		ok = false;
+	}
 	if (ok) this->accept();
-		
 }
 
 int UiLogin::fadeIn()
 {
 	this->show();
 
-	/*开启时间循环，同步等待动画完成再启动*/
+	/*开启事件循环，同步等待动画完成再启动*/
 	QEventLoop eventLoop;
 	QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity", this);
 	connect(animation, &QPropertyAnimation::finished, &eventLoop,&QEventLoop::quit);

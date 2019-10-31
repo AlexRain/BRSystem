@@ -20,8 +20,8 @@ int main(int argc, char *argv[])
 	StyleHelper::loadAppStyle(style.cssFile);
 
 	/*登录界面*/
-	//UiLogin login;
-	//if (QDialog::Accepted != login.fadeIn()) return 0;
+	UiLogin login;
+	if (QDialog::Accepted != login.fadeIn()) return 0;
 
 	/*主界面*/
 	BRSystem w;

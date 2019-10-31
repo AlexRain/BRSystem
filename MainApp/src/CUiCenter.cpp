@@ -18,6 +18,7 @@
 #include "PopupDialogContainer.h"
 #include "CApplication.h"
 #include "DialogMsg.h"
+#include "UserSession.h"
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
@@ -71,6 +72,7 @@ void CUiCenter::initUi()
 				model["borrowReason"]   = info.borrowReason;
 				model["borrowStatus"]   = QString::number((int)info.borrowStatus);
 				model["remarks"]        = info.remarks;
+				model["createUserId"]   = UserSession::getInstance().userData().userId;
 				int rows = dbHelper.Insert(DIC_BORROW_RETURN,model);
 				if (rows > 0){
 					m_pTip->setText(TOCH("正在加载..."));
@@ -135,8 +137,6 @@ void CUiCenter::initColumn()
 
 void CUiCenter::initData()
 {
-	CDbHelper::opendatabase("db.s3db");
-
 	m_pTip->setText(TOCH("正在加载..."));
 	m_pTip->show();
 	CDbHelper dbHelper;
@@ -273,6 +273,34 @@ void CUiCenter::setData(const QList<ModelData> &vModel)
 	}
 }
 
+void CUiCenter::showDetailUi(const QModelIndex & index)
+{
+	QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
+	if (pProxyModel->data(indexFirst, Qt::UserRole).toBool()) return;
+
+	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
+	connect(infoDialog, &CEditInfoDialog::deleteItem, this, [=](const BorrowInfo &info) {
+		this->sqlDelete(info);
+		this->FuzzyQuery();
+	}, Qt::DirectConnection);
+
+	connect(infoDialog, &CEditInfoDialog::updateData, this, [=](const BorrowInfo &info) {
+		ModelData model;
+		model["productionId"] = info.productionId;
+		model["productionName"] = info.productionName;
+		model["borrowerName"] = info.borrowerName;
+		model["borrowStatus"] = QString::number((int)info.borrowStatus);
+		model["borrowReason"] = info.borrowReason;
+		model["remarks"] = info.remarks;
+		this->sqlUpdate(model, info.id);
+		this->FuzzyQuery();
+	}, Qt::DirectConnection);
+	BorrowInfo info;
+	this->getBorrowData(info, index.row());
+	infoDialog->setData(info);
+	PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(), TOCH("编辑借条"));
+}
+
 void CUiCenter::appendRow(const BorrowInfo &info)
 {
 	QList<QStandardItem*> item;
@@ -341,6 +369,10 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 		QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
 		if (!pProxyModel->data(indexFirst,Qt::UserRole).toBool())
 		{
+			menu->addAction(TOCH("查看详情"), [=] {
+				this->showDetailUi(index);
+			});
+
 			menu->addAction(TOCH("多选"), [=] {
 				for (int row = 0; row < pProxyModel->rowCount(); ++row)
 				{
@@ -430,28 +462,5 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex &index)
 {
-	QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
-	if (pProxyModel->data(indexFirst, Qt::UserRole).toBool()) return;
-
-	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
-	connect(infoDialog, &CEditInfoDialog::deleteItem,this, [=](const BorrowInfo &info) {
-		this->sqlDelete(info);
-		this->FuzzyQuery();
-	},Qt::DirectConnection);
-
-	connect(infoDialog, &CEditInfoDialog::updateData,this, [=](const BorrowInfo &info) {
-		ModelData model;
-		model["productionId"] = info.productionId;
-		model["productionName"] = info.productionName;
-		model["borrowerName"] = info.borrowerName;
-		model["borrowStatus"] = QString::number((int)info.borrowStatus);
-		model["borrowReason"] = info.borrowReason;
-		model["remarks"] = info.remarks;
-		this->sqlUpdate(model,info.id);
-		this->FuzzyQuery();
-	},Qt::DirectConnection);
-	BorrowInfo info;
-	this->getBorrowData(info, index.row());
-	infoDialog->setData(info);
-	PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(),TOCH("编辑借条"));
+	this->showDetailUi(index);
 }

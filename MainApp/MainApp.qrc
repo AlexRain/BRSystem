@@ -16,6 +16,9 @@
         <file>images/select.png</file>
         <file>images/logo.png</file>
         <file>images/logo_black.png</file>
+        <file>images/orange/checkbox.png</file>
+        <file>images/orange/down_arrow.png</file>
+        <file>images/orange/handle.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>
