@@ -19,6 +19,7 @@
 #include "CApplication.h"
 #include "DialogMsg.h"
 #include "UserSession.h"
+#include "OperationLog.h"
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
@@ -90,6 +91,14 @@ void CUiCenter::initUi()
 	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("新建借条"));
 
+	/*打开操作日志*/
+	QPushButton *btn_log = UiHelper::creatPushButton(this, [=]() {
+		OperationLog *content = new OperationLog(this);
+		PopupDialogContainer::showPopupDialogFadeIn(content, CApp->getMainWidget(), TOCH("操作日志"));
+	}, 25, 25, "", "btn_log");
+	btn_log->setToolTip(TOCH("操作日志"));
+
+	main_layout->addWidget(btn_log, 0, 10, 1, 1);
 	main_layout->addWidget(btn_add, 0, 11, 1, 1);
 	main_layout->addWidget(mTableView, 1, 0, 10, 12);
 
@@ -141,15 +150,15 @@ void CUiCenter::initData()
 	m_pTip->show();
 	CDbHelper dbHelper;
 	dbHelper.open();
+	QList<ModelData> vModel;
 	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
 	{
-		QList<ModelData> vModel;
 		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate desc");
-		this->setData(vModel);
 	}
 	else {
 		dbHelper.exec(CREATE_TABLE_SQL);
 	}
+	this->setData(vModel);
 }
 
 void CUiCenter::initTableView()
@@ -180,7 +189,7 @@ void CUiCenter::initTableView()
 
 	mTableView->setShowGrid(true);
 	mTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	mTableView->setItemDelegate(new ReadOnlyDelegate(this));
+	mTableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
 	mTableView->setItemDelegateForColumn(TableHeader::Order, new CheckBoxDelegate(this));
 
 	mTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -248,8 +257,7 @@ void CUiCenter::setData(const QList<ModelData> &vModel)
 	this->initColumn();
 	uint nLen = vModel.size();
 	m_pDataCount->setText(TOCH("共<span style='color:rgb(0,122,204)'>%1</span>条数据").arg(nLen));
-	if (nLen <= 0)
-	{
+	if (nLen <= 0){
 		m_pTip->setText(TOCH("暂无数据"));
 		m_pTip->show();
 		return;

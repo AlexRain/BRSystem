@@ -9,14 +9,14 @@ class COMMONGUI_EXPORT ReadOnlyDelegate : public QItemDelegate
 
 public:
 	ReadOnlyDelegate(QObject *parent);
-	~ReadOnlyDelegate();
+	virtual ~ReadOnlyDelegate();
 
 protected:
-	QWidget *createEditor(QWidget *parent,
+	virtual QWidget *createEditor(QWidget *parent,
 		const QStyleOptionViewItem &option,
 		const QModelIndex &index) const override;
 
-	void paint(QPainter *painter,
+	virtual void paint(QPainter *painter,
 		const QStyleOptionViewItem &option,
 		const QModelIndex &index) const override;
 };

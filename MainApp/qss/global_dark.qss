@@ -5,6 +5,15 @@ QWidget{
 	color:rgb(173,175,178);
 }
 
+QToolTip
+{
+     background-color: #202226;
+     padding: 3px;
+     border-radius: 3px;
+	 color:rgb(173,175,178);
+	 border: 1px solid #23262c;
+}
+
 QLabel{
 	background-color:#16181c;
 }
@@ -232,20 +241,25 @@ QGroupBox::title {
 
 /**********输入框**********/
 QLineEdit {
+	background: #202226;
     border-radius: 3px;
     min-height: 25px;
     border: 1px solid #23262c;
-    background: #202226;
 	selection-background-color:rgb(58,99,144);
 }
 QLineEdit:enabled {
     color: rgb(175, 175, 175);
 }
-QLineEdit:enabled:hover, QLineEdit:enabled:focus {
+QLineEdit:enabled:hover{
     color: rgb(230, 230, 230);
 }
 QLineEdit:!enabled {
     color: rgb(155, 155, 155);
+}
+
+QLineEdit:enabled:focus {
+    color: rgb(230, 230, 230);
+	border-color:rgb(0,122,204);
 }
 
 /**********文本编辑框**********/
@@ -262,14 +276,70 @@ QPlainTextEdit {
     border: 1px solid #23262c;
     background: #202226;
 }
+
 QPlainTextEdit:enabled {
     color: rgb(175, 175, 175);
 }
-QPlainTextEdit:enabled:hover, QLineEdit:enabled:focus {
+
+QPlainTextEdit:enabled:hover{
     color: rgb(230, 230, 230);
 }
+
 QPlainTextEdit:!enabled {
     color: rgb(155, 155, 155);
+}
+
+QPlainTextEdit:enabled:focus {
+    color: rgb(88, 110, 117);
+	border-color:rgb(0,122,204);
+}
+
+/**********下拉列表**********/
+QComboBox {
+        min-height: 25px;
+        border-radius: 3px;
+        border: 1px solid rgb(35, 38, 44);
+        background: rgb(32, 34, 38);
+}
+QComboBox:enabled {
+        color: rgb(175, 175, 175);
+}
+QComboBox:!enabled {
+        color: rgb(155, 155, 155);
+}
+
+QComboBox::drop-down {
+        width: 20px;
+        border: none;
+        background: transparent;
+}
+QComboBox::drop-down:hover {
+        background: rgba(255, 255, 255, 30);
+}
+QComboBox::down-arrow {
+        image: url(:/BRSystem/images/orange/down_arrow.png);
+}
+
+QComboBox:on
+{
+    background-color: #333333;
+    selection-background-color: #ffaa00;
+}
+
+QComboBox QAbstractItemView {
+        background: #333333;
+        outline: none;
+		selection-background-color:#16181c;
+		border: 1px solid #23262c;
+}
+QComboBox QAbstractItemView::item {
+        min-height: 25px;
+        color: rgb(175, 175, 175);
+		background-color:#333333;
+}
+QComboBox QAbstractItemView::item:selected {
+        background: #333334;
+        color: rgb(230, 230, 230);
 }
 
 /*查询控件样式*/
@@ -306,6 +376,30 @@ QPushButton#btn_add{
 	border-radius:0px;
 	background-color:transparent;
 	border-image:url(:/BRSystem/images/add.png);
+}
+
+/*添加日志按钮*/
+QPushButton#btn_log{
+	min-width: 0px;
+    min-height: 0px;
+	width:17px;
+	height:17px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(:/BRSystem/images/log.png);
+}
+
+/*刷新*/
+QPushButton#btn_refresh{
+	min-width: 0px;
+    min-height: 0px;
+	padding:0px;
+	width:25px;
+	height:25px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(":/BRSystem/images/refresh_gray.png");
 }
 
 /**********滚动条-水平**********/

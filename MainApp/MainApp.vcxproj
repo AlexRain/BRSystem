@@ -119,6 +119,12 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
     </QtMoc>
+    <QtMoc Include="src\OperationLog.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src;.\..\CommonGui\src;.\..\CommonGui\GeneratedFiles;.\..\DataBase\src;.\..\DataBase\GeneratedFiles;.\..\Network\src;.\..\Network\GenerateFiles</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;_UNICODE;WIN32;WIN64;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -238,6 +244,7 @@
     <ClCompile Include="src\CUiCenter.cpp" />
     <ClCompile Include="src\CUiTop.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\OperationLog.cpp" />
     <ClCompile Include="src\UiChangeSkin.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
     <ClCompile Include="src\UiUsageRecord.cpp" />
@@ -245,6 +252,7 @@
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiTop.ui" />
+    <QtUic Include="src\OperationLog.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
   </ItemGroup>
   <ItemGroup>

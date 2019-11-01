@@ -164,6 +164,7 @@ void PopupDialogContainer::showPopupDialog(BaseWidget *widget,QWidget *parent,co
 
 void PopupDialogContainer::showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent /*= nullptr*/, const QString &title /*= QString()*/, bool isModal /*= true*/, bool showCloseBtn /*= true*/)
 {
+	if (nullptr == widget) return;
 	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal, showCloseBtn);
 	container->showLayer();
 	container->addWidget(widget);

@@ -104,7 +104,7 @@ void UiLogin::initUser()
 	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
 	{
 		QList<ModelData> vModel;
-		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime desc");
+		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY userName asc");
 		for (int i = 0,nLen = vModel.size(); i < nLen; ++i)
 		{
 			const ModelData model = vModel[i];

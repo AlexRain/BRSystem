@@ -156,6 +156,9 @@
     <ClCompile Include="src\BRSystem.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\OperationLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -182,6 +185,9 @@
     <QtMoc Include="src\UiUsageRecord.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\OperationLog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -191,6 +197,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\UiUsageRecord.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\OperationLog.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

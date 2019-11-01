@@ -5,6 +5,15 @@ QWidget{
 	color:rgb(51,51,51);
 }
 
+QToolTip
+{
+     background-color: #ddd6c1;
+     padding: 3px;
+     border-radius: 3px;
+	 color:rgb(51,51,51);
+	 border: 1px solid #c5c2b6;
+}
+
 QLabel{
 	background-color:rgb(238,232,213);
 }
@@ -262,6 +271,53 @@ QPlainTextEdit:!enabled {
     color: rgb(155, 155, 155);
 }
 
+/**********下拉列表**********/
+QComboBox {
+        min-height: 25px;
+        border-radius: 3px;
+        border: 1px solid #d3af86;
+        background: #ddd6c1;
+}
+QComboBox:enabled {
+        color: #333333;
+}
+QComboBox:!enabled {
+        color: rgb(155, 155, 155);
+}
+
+QComboBox::drop-down {
+        width: 20px;
+        border: none;
+        background: transparent;
+}
+QComboBox::drop-down:hover {
+        background: rgba(255, 255, 255, 30);
+}
+QComboBox::down-arrow {
+        image: url(:/BRSystem/images/orange/down_arrow.png);
+}
+
+QComboBox:on
+{
+    background-color: #eee8d5;
+    selection-background-color: #ffaa00;
+}
+
+QComboBox QAbstractItemView {
+        background: #eee8d5;
+        outline: none;
+		selection-background-color:#dfca88;
+		border: 1px solid #cbc8bf;
+}
+QComboBox QAbstractItemView::item {
+        min-height: 25px;
+        color: #333333;
+		background-color:#eee8d5;
+}
+QComboBox QAbstractItemView::item:selected {
+        background: #dfca88;
+}
+
 /*查询控件样式*/
 CSearchLineEdit{
 	color:rgb(88,110,117);
@@ -302,6 +358,18 @@ QPushButton#btn_add{
 	border-image:url(:/BRSystem/images/add.png);
 }
 
+/*添加日志按钮*/
+QPushButton#btn_log{
+	min-width: 0px;
+    min-height: 0px;
+	width:17px;
+	height:17px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(:/BRSystem/images/log.png);
+}
+
 /*皮肤选择项选中按钮*/
 QPushButton#checkIcon{
 	min-width: 0px;
@@ -310,6 +378,18 @@ QPushButton#checkIcon{
 	border-radius:0px;
 	background-color:transparent;
 	border-image:url(:/BRSystem/images/radiobox_checked.png);
+}
+
+/*刷新*/
+QPushButton#btn_refresh{
+	min-width: 0px;
+    min-height: 0px;
+	width:25px;
+	height:25px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(":/BRSystem/images/refresh_dark.png");
 }
 
 /**********滚动条-水平**********/

@@ -1,17 +1,17 @@
-QToolTip
-{
-     border: 1px solid black;
-     background-color: #ffa02f;
-     padding: 1px;
-     border-radius: 3px;
-     opacity: 100;
-}
-
 QWidget{
 	outline:none;
 	font-family:"Microsoft YaHei";
 	font-size:13px;
 	color:#eeeeee;
+}
+
+QToolTip
+{
+     background-color: #ffa02f;
+     padding: 3px;
+     border-radius: 3px;
+	 color:#eeeeee;
+	 border: 1px solid #888888;
 }
 
 QLabel#label_title{
@@ -90,17 +90,19 @@ QAbstractItemView
 }
 
 /******输入框******/
-
 QLineEdit
 {
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d);
     border-radius: 3;
+	min-height: 25px;
+	border: 1px solid #23262c;
 	selection-background-color:rgb(58,99,144);
 }
 
-QLineEdit:focus
+QLineEdit:enabled:focus
 {
     border: 1px solid #ffaa00;
+	color: rgb(230, 230, 230);
 }
 
 /**********文本编辑框**********/
@@ -122,11 +124,16 @@ QPlainTextEdit:enabled {
     color: #eeeeee;
 }
 
-QPlainTextEdit:enabled:hover, QLineEdit:enabled:focus {
+QPlainTextEdit:enabled:hover{
     color: rgb(230, 230, 230);
 }
 QPlainTextEdit:!enabled {
     color: rgb(155, 155, 155);
+}
+
+QPlainTextEdit:enabled:focus {
+    color: rgb(230, 230, 230);
+	border:1px solid #ffaa00;
 }
 
 QPushButton
@@ -300,11 +307,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
       background: none;
 }
 
-QCheckBox:disabled
-{
-	color: #414141;
-}
-
 QDockWidget::title
 {
     text-align: center;
@@ -451,32 +453,32 @@ QRadioButton::indicator:checked
     );
 }
 
-QCheckBox::indicator{
-    color: #b1b1b1;
-    background-color: #323232;
-    border: 1px solid #b1b1b1;
-    width: 9px;
-    height: 9px;
-}
-
 QRadioButton::indicator
 {
     border-radius: 6px;
 }
 
-QRadioButton::indicator:hover, QCheckBox::indicator:hover
+QRadioButton::indicator:hover
 {
     border: 1px solid #ffaa00;
 }
 
-QCheckBox::indicator:checked
-{
-    image:url(:/BRSystem/images/orange/checkbox.png);
+/*多选按钮*/
+QCheckBox{
+    spacing: 5px;
 }
-
-QCheckBox::indicator:disabled, QRadioButton::indicator:disabled
-{
-    border: 1px solid #444;
+ 
+QCheckBox::indicator{
+    width: 15px;
+    height: 15px;
+}
+ 
+QCheckBox::indicator:unchecked{
+    image:url(:/BRSystem/images/checkbox_normal.png);
+}
+ 
+QCheckBox::indicator:checked{
+    image:url(:/BRSystem/images/checkbox_selected.png);
 }
 
 QTableView{
@@ -582,6 +584,30 @@ QPushButton#btn_add{
 	border-radius:0px;
 	background-color:transparent;
 	border-image:url(:/BRSystem/images/add.png);
+}
+
+/*添加日志按钮*/
+QPushButton#btn_log{
+	min-width: 0px;
+    min-height: 0px;
+	width:17px;
+	height:17px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(:/BRSystem/images/log.png);
+}
+
+/*刷新*/
+QPushButton#btn_refresh{
+	min-width: 0px;
+    min-height: 0px;
+	padding:0px;
+	width:25px;
+	height:25px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(":/BRSystem/images/refresh_orange.png");
 }
 
 /*中间界面样式*/

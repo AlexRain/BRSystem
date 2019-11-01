@@ -19,6 +19,10 @@
         <file>images/orange/checkbox.png</file>
         <file>images/orange/down_arrow.png</file>
         <file>images/orange/handle.png</file>
+        <file>images/log.png</file>
+        <file>images/refresh_dark.png</file>
+        <file>images/refresh_gray.png</file>
+        <file>images/refresh_orange.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>

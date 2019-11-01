@@ -329,25 +329,19 @@ int CDbHelper::exec( const QString &qsSql )
 {
     int nRv = -1;
 
-    if (m_pQuery == NULL)
-    {
+    if (m_pQuery == NULL){
         m_pQuery = new QSqlQuery(*m_pDb);
-
     }
-    else
-    {
+    else{
         m_pQuery->clear();
     }
 
-    if (m_pQuery != NULL)
-    {
-        if (!m_pQuery->exec(qsSql))
-        {
+    if (m_pQuery != NULL){
+        if (!m_pQuery->exec(qsSql)){
             qWarning()<<"exec SQL: "<<qsSql;
             qWarning()<<m_pQuery->lastError();
         }
-        else
-        {
+        else{
             nRv = m_pQuery->numRowsAffected();
             qDebug()<<"exec SQL: "<<qsSql;
             qDebug()<<"exec SQL numRowsAffected: "<<nRv;
@@ -370,8 +364,7 @@ bool CDbHelper::transaction()
 bool CDbHelper::commit()
 {
     bool bRe = false;
-    if (m_pDb != NULL)
-    {
+    if (m_pDb != NULL){
         bRe = m_pDb->commit();
         if (!bRe)
         {
