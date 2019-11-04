@@ -20,6 +20,7 @@
 #include "DialogMsg.h"
 #include "UserSession.h"
 #include "OperationLog.h"
+#include <QFileDialog>
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
@@ -58,7 +59,6 @@ void CUiCenter::initUi()
 	main_layout->addWidget(m_pDataCount, 0, 2, 1, 1);
 
 	//新建借条按钮
-	//auto func = std::bind(&CUiCenter::test,this);
 	QPushButton *btn_add = UiHelper::creatPushButton(this, [=]() {
 		CEditInfoDialog *infoDialog = new CEditInfoDialog(this, false);
 		connect(infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo &info) {
@@ -76,8 +76,6 @@ void CUiCenter::initUi()
 				model["createUserId"]   = UserSession::getInstance().userData().userId;
 				int rows = dbHelper.Insert(DIC_BORROW_RETURN,model);
 				if (rows > 0){
-					m_pTip->setText(TOCH("正在加载..."));
-					m_pTip->show();
 					QList<ModelData> vModel;
 					int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate desc");
 					this->setData(vModel);
@@ -98,56 +96,64 @@ void CUiCenter::initUi()
 	}, 25, 25, "", "btn_log");
 	btn_log->setToolTip(TOCH("操作日志"));
 
+	/*导出*/
+	QPushButton *btn_export = UiHelper::creatPushButton(this, [=]() {
+		QFileDialog dialog;
+		dialog.setFileMode(QFileDialog::ExistingFile);
+		dialog.setAcceptMode(QFileDialog::AcceptSave);
+		QStringList list;
+		list << TOCH("Excel工作簿 (*.xlsx)") << TOCH("Excel97-2003工作薄(*.xls)");
+		dialog.setNameFilters(list);
+		dialog.selectFile(TOCH("汇声科技%1借还信息.xlsx").arg(TOCH("")));
+		dialog.exec();
+	}, 25, 25, "", "btn_export");
+	btn_export->setToolTip(TOCH("导出数据"));
+
+	main_layout->addWidget(btn_export, 0, 9, 1, 1);
 	main_layout->addWidget(btn_log, 0, 10, 1, 1);
 	main_layout->addWidget(btn_add, 0, 11, 1, 1);
 	main_layout->addWidget(mTableView, 1, 0, 10, 12);
-
-	/*提示*/
-	m_pTip = new QLabel(this);
-	QSizePolicy sp_retain = m_pTip->sizePolicy();
-	sp_retain.setRetainSizeWhenHidden(true);
-	m_pTip->setSizePolicy(sp_retain);
-	m_pTip->setAlignment(Qt::AlignCenter);
-	m_pTip->setText(TOCH("暂无数据"));
-
-	main_layout->addWidget(m_pTip, 1, 0, 10, 12);
-	main_layout->setAlignment(m_pTip,Qt::AlignCenter);
 }
 
 void CUiCenter::initHeader()
 {
-	Q_ASSERT(mModel);
-	mModel->setHorizontalHeaderItem(TableHeader::Order, new QStandardItem(TOCH("序号")));
-	mModel->setHorizontalHeaderItem(TableHeader::ProductionId, new QStandardItem(TOCH("物品编号")));
-	mModel->setHorizontalHeaderItem(TableHeader::ProductionName, new QStandardItem(TOCH("物品名称")));
-	mModel->setHorizontalHeaderItem(TableHeader::BorrowerName, new QStandardItem(TOCH("借用人")));
-	mModel->setHorizontalHeaderItem(TableHeader::BorrowDate, new QStandardItem(TOCH("借用日期")));
-	mModel->setHorizontalHeaderItem(TableHeader::Status, new QStandardItem(TOCH("状态")));
-	mModel->setHorizontalHeaderItem(TableHeader::BorrowReason, new QStandardItem(TOCH("借用原由")));
-	mModel->setHorizontalHeaderItem(TableHeader::Remark, new QStandardItem(TOCH("备注")));
-	mModel->setHorizontalHeaderItem(TableHeader::UpdateDate, new QStandardItem(TOCH("更新时间")));
-	mModel->setHorizontalHeaderItem(TableHeader::UniqueId, new QStandardItem(TOCH("唯一ID")));
-}
+	Q_ASSERT(mTableView);
+	QList<HeadStruct> listHead;
+	HeadStruct headNode = { TOCH("序号"),70,false };
+	listHead << headNode;
 
-void CUiCenter::initColumn()
-{
-	mTableView->horizontalHeader()->setSectionResizeMode(TableHeader::ProductionName, QHeaderView::Stretch);
-	mTableView->horizontalHeader()->setHighlightSections(false);
-	/*隐藏列*/
-	mTableView->setColumnHidden(TableHeader::BorrowReason, true);
-	mTableView->setColumnHidden(TableHeader::Remark, true);
-	mTableView->setColumnHidden(TableHeader::UniqueId, true);
+	headNode = { TOCH("物品编号"),-1,false };
+	listHead << headNode;
 
-	mTableView->setColumnWidth(TableHeader::Status, 80);
-	mTableView->setColumnWidth(TableHeader::Order, 70);
-	mTableView->setColumnWidth(TableHeader::BorrowDate, 150);
-	mTableView->setColumnWidth(TableHeader::UpdateDate, 150);
+	headNode = { TOCH("物品名称"),150,false };
+	listHead << headNode;
+
+	headNode = { TOCH("借用人"),150 ,false };
+	listHead << headNode;
+
+	headNode = { TOCH("借用日期"),150 ,false };
+	listHead << headNode;
+
+	headNode = { TOCH("状态"),80 ,false };
+	listHead << headNode;
+
+	headNode = { TOCH("借用原由"),-1,true };
+	listHead << headNode;
+
+	headNode = { TOCH("备注"),-1,true };
+	listHead << headNode;
+
+	headNode = { TOCH("更新时间"),150,false };
+	listHead << headNode;
+
+	headNode = { TOCH("唯一ID"),-1,true };
+	listHead << headNode;
+
+	mTableView->setHeader(listHead);
 }
 
 void CUiCenter::initData()
 {
-	m_pTip->setText(TOCH("正在加载..."));
-	m_pTip->show();
 	CDbHelper dbHelper;
 	dbHelper.open();
 	QList<ModelData> vModel;
@@ -164,14 +170,16 @@ void CUiCenter::initData()
 void CUiCenter::initTableView()
 {
 	mModel = new CustomTableModel;
-	this->initHeader();
 	pProxyModel = new SortFilterProxyModel(this);
 	pProxyModel->setSourceModel(mModel);
 
-	mTableView = new QTableView(this);
+	mTableView = new CTableview(this);
 	mTableView->setModel(pProxyModel);
+	this->initHeader();
+	mTableView->setCreatRowCallbackListener(this);
+
 	// 设置可排序
-	mTableView->setSortingEnabled(true);
+	//mTableView->setSortingEnabled(true);
 
 	//设置右键菜单
 	mTableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -185,26 +193,12 @@ void CUiCenter::initTableView()
 	mTableView->sortByColumn(TableHeader::BorrowDate, Qt::AscendingOrder);
 	mTableView->sortByColumn(TableHeader::UpdateDate, Qt::AscendingOrder);
 
-	mTableView->verticalHeader()->setVisible(false);
-
-	mTableView->setShowGrid(true);
-	mTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	mTableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
 	mTableView->setItemDelegateForColumn(TableHeader::Order, new CheckBoxDelegate(this));
-
-	mTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-	mTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-	mTableView->setAlternatingRowColors(true);
-	mTableView->setFrameShape(QFrame::NoFrame);
-
-	this->initColumn();
 }
 
 void CUiCenter::sqlQuery(const QString &sql)
 {
-	m_pTip->setText(TOCH("正在加载..."));
-	m_pTip->show();
-
 	CDbHelper dbHelper;
 	dbHelper.open();
 	QList<ModelData> vModel;
@@ -251,34 +245,9 @@ void CUiCenter::FuzzyQuery(const QString &key)
 
 void CUiCenter::setData(const QList<ModelData> &vModel)
 {
-	mModel->clear();
-	pProxyModel->clear();
-	this->initHeader();
-	this->initColumn();
 	uint nLen = vModel.size();
 	m_pDataCount->setText(TOCH("共<span style='color:rgb(0,122,204)'>%1</span>条数据").arg(nLen));
-	if (nLen <= 0){
-		m_pTip->setText(TOCH("暂无数据"));
-		m_pTip->show();
-		return;
-	}
-	m_pTip->hide();
-	for (int i = 0; i < nLen; ++i)
-	{
-		const ModelData &model = vModel[i];
-		BorrowInfo info;
-		info.order = i;
-		info.id = model["id"];
-		info.productionId = model["productionId"];
-		info.productionName = model["productionName"];
-		info.borrowerName = model["borrowerName"];
-		info.borrowDate = QDateTime::fromString(model["borrowDate"].left(16), "yyyy-MM-dd hh:mm");
-		info.updateDate = QDateTime::fromString(model["updateDate"].left(16), "yyyy-MM-dd hh:mm");
-		info.borrowStatus = (BorrowStatus)model["borrowStatus"].toInt();
-		info.borrowReason = model["borrowReason"];
-		info.remarks = model["remarks"];
-		this->appendRow(info);
-	}
+	mTableView->setData(vModel);
 }
 
 void CUiCenter::showDetailUi(const QModelIndex & index)
@@ -309,38 +278,6 @@ void CUiCenter::showDetailUi(const QModelIndex & index)
 	PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(), TOCH("编辑借条"));
 }
 
-void CUiCenter::appendRow(const BorrowInfo &info)
-{
-	QList<QStandardItem*> item;
-	item.append(new QStandardItem(info.id));
-	item.append(new QStandardItem(QString::number(info.order)));
-	item.append(new QStandardItem(info.productionId));
-	item.append(new QStandardItem(info.productionName));
-	item.append(new QStandardItem(info.borrowerName));
-	QStandardItem *itemDate = new QStandardItem;
-	itemDate->setData(info.borrowDate, Qt::UserRole);
-	item.append(itemDate);
-	QStandardItem *itemStatus = new QStandardItem;
-	itemStatus->setData((int)info.borrowStatus, Qt::UserRole);
-	item.append(itemStatus);
-
-	item.append(new QStandardItem(info.borrowReason));
-	item.append(new QStandardItem(info.remarks));
-
-	QStandardItem *itemUpdateDate = new QStandardItem;
-	itemUpdateDate->setData(info.updateDate, Qt::UserRole);
-	item.append(itemUpdateDate);
-
-	//设置列数的对齐方式
-	item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-	mModel->appendRow(item);
-}
-
 void CUiCenter::getBorrowData(BorrowInfo &info,int row)
 {
 	info.id = pProxyModel->data(pProxyModel->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
@@ -364,6 +301,41 @@ void CUiCenter::setBorrowData(const BorrowInfo &info, int row)
 	pProxyModel->setData(pProxyModel->index(row, TableHeader::Status), (int)info.borrowStatus, Qt::UserRole);
 	pProxyModel->setData(pProxyModel->index(row, TableHeader::BorrowReason), info.borrowReason, Qt::DisplayRole);
 	pProxyModel->setData(pProxyModel->index(row, TableHeader::Remark), info.remarks, Qt::DisplayRole);
+}
+
+QList<QStandardItem*> CUiCenter::creatRow(const ModelData &model, int index)
+{
+	QList<QStandardItem*> item;
+	item.append(new QStandardItem(model["id"]));
+	item.append(new QStandardItem(QString::number(index)));
+	item.append(new QStandardItem(model["productionId"]));
+	item.append(new QStandardItem(model["productionName"]));
+	item.append(new QStandardItem(model["borrowerName"]));
+
+	QStandardItem *itemDate = new QStandardItem;
+	itemDate->setData(QDateTime::fromString(model["borrowDate"].left(16), "yyyy-MM-dd hh:mm"), Qt::UserRole);
+	item.append(itemDate);
+
+	QStandardItem *itemStatus = new QStandardItem;
+	itemStatus->setData((BorrowStatus)model["borrowStatus"].toInt(), Qt::UserRole);
+	item.append(itemStatus);
+
+	item.append(new QStandardItem(model["borrowReason"]));
+	item.append(new QStandardItem(model["remarks"]));
+
+	QStandardItem *itemUpdateDate = new QStandardItem;
+	itemUpdateDate->setData(QDateTime::fromString(model["updateDate"].left(16), "yyyy-MM-dd hh:mm"), Qt::UserRole);
+	item.append(itemUpdateDate);
+
+	//设置列数的对齐方式
+	item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+	item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+	return item;
 }
 
 /*显示右键菜单*/

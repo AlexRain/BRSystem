@@ -13,6 +13,8 @@
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
 
+typedef QMap<QString, QString> ModelData;
+
 enum TableHeader
 {
 	UniqueId = 0,

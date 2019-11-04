@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1D4516D1-DDBE-4C97-8C89-28CE53077917}</ProjectGuid>
+    <ProjectGuid>{51A0CAFB-8F50-4134-BE7C-30E6C60D39EB}</ProjectGuid>
     <Keyword>QtVS_v301</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>CommonUse</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -51,11 +51,11 @@
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QtInstall>msvc2015</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <QtInstall>msvc2015</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core</QtModules>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
     <Import Project="$(QtMsBuild)\qt.props" />
@@ -67,23 +67,13 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <PreprocessorDefinitions>COMMONGUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src;..\CommonUse\src;..\CommonUse\GenerateFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>COMMMONUSE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;CommonUse.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(outdir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <QtUic>
-      <QtUicFileName>ui_%(Filename).h</QtUicFileName>
-      <QtUicDir>.\GeneratedFiles</QtUicDir>
-    </QtUic>
-    <QtMoc>
-      <QtMocDir>.\GeneratedFiles\$(ConfigurationName)</QtMocDir>
-    </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -91,8 +81,7 @@
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <PreprocessorDefinitions>COMMONGUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\src;.\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>COMMMONUSE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,54 +89,6 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <QtMoc Include="src\CTableview.h" />
-    <QtMoc Include="src\StyledWidget.h" />
-    <QtMoc Include="src\GlowEffect.h" />
-    <QtMoc Include="src\BubbleTipWidget.h" />
-    <QtMoc Include="src\CApplication.h" />
-    <ClInclude Include="src\CStyleManager.h" />
-    <QtMoc Include="src\CustomShadowEffect.h" />
-    <QtMoc Include="src\UiFrostedLayer.h" />
-    <QtMoc Include="src\StyledDelegate.h" />
-    <QtMoc Include="src\SortFilterProxyModel.h" />
-    <QtMoc Include="src\ReadOnlyDelegate.h" />
-    <QtMoc Include="src\PopupDialogContainer.h" />
-    <QtMoc Include="src\FilterBtnDelegate.h" />
-    <QtMoc Include="src\DialogMsg.h" />
-    <QtMoc Include="src\CSearchLineEdit.h" />
-    <QtMoc Include="src\ComboBoxDelegate.h" />
-    <QtMoc Include="src\CirclePixmap.h" />
-    <QtMoc Include="src\CheckBoxDelegate.h" />
-    <QtMoc Include="src\BaseWidget.h" />
-    <ClInclude Include="src\CommonGui.h" />
-    <ClInclude Include="src\commongui_global.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\BaseWidget.cpp" />
-    <ClCompile Include="src\BubbleTipWidget.cpp" />
-    <ClCompile Include="src\CApplication.cpp" />
-    <ClCompile Include="src\CheckBoxDelegate.cpp" />
-    <ClCompile Include="src\CirclePixmap.cpp" />
-    <ClCompile Include="src\ComboBoxDelegate.cpp" />
-    <ClCompile Include="src\CommonGui.cpp" />
-    <ClCompile Include="src\CSearchLineEdit.cpp" />
-    <ClCompile Include="src\CStyleManager.cpp" />
-    <ClCompile Include="src\CTableview.cpp" />
-    <ClCompile Include="src\CustomShadowEffect.cpp" />
-    <ClCompile Include="src\DialogMsg.cpp" />
-    <ClCompile Include="src\FilterBtnDelegate.cpp" />
-    <ClCompile Include="src\GlowEffect.cpp" />
-    <ClCompile Include="src\PopupDialogContainer.cpp" />
-    <ClCompile Include="src\ReadOnlyDelegate.cpp" />
-    <ClCompile Include="src\SortFilterProxyModel.cpp" />
-    <ClCompile Include="src\StyledDelegate.cpp" />
-    <ClCompile Include="src\StyledWidget.cpp" />
-    <ClCompile Include="src\UiFrostedLayer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="src\DialogMsg.ui" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

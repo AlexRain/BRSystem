@@ -8,6 +8,7 @@
 #include "CApplication.h"
 #include "CDbHelper.h"
 #include "ReadOnlyDelegate.h"
+#include "CTableview.h"
 
 class CSearchLineEdit;
 class QTableView;
@@ -96,7 +97,7 @@ public:
 	}
 };
 
-class CUiCenter : public QWidget
+class CUiCenter : public QWidget, CTableview::SetDataCallback
 {
 	Q_OBJECT
 
@@ -107,7 +108,6 @@ public:
 private:
 	void initUi();
 	void initHeader();
-	void initColumn();
 	void initData();
 	void initTableView();
 	void sqlQuery(const QString &sql);
@@ -117,9 +117,11 @@ private:
 	void setData(const QList<ModelData> &model);
 	void showDetailUi(const QModelIndex & index);
 
-	void appendRow(const BorrowInfo &info);
 	void getBorrowData(BorrowInfo &info, int row);
 	void setBorrowData(const BorrowInfo &info,int row);
+
+protected:
+	virtual QList<QStandardItem*> creatRow(const ModelData &model, int index);
 
 private slots:
 	void slotContextMenu(const QPoint &);
@@ -127,7 +129,7 @@ private slots:
 
 private:
 	CSearchLineEdit *mLineEdit;
-	QTableView *mTableView;
+	CTableview *mTableView;
 	CustomTableModel *mModel;
 	SortFilterProxyModel *pProxyModel;
 	QList<BorrowInfo> mListData;

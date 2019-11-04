@@ -53,9 +53,6 @@
     <ClInclude Include="src\CStyleManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\define.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CommonGui.cpp">
@@ -115,6 +112,9 @@
     <ClCompile Include="src\StyledWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CTableview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BaseWidget.h">
@@ -166,6 +166,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\StyledWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CTableview.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

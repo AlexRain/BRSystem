@@ -16,6 +16,7 @@
 #include <QMap>
 #include "Condition.h"
 #include "database_global.h"
+#include "define.h"
 
 #define DIC_BORROW_RETURN      "DIC_BORROW_RETURN"   /// 物品借还表
 #define DIC_DEPARTMENT         "DIC_DEPARTMENT"      /// 部门表
@@ -34,8 +35,6 @@
                   borrowReason varchar(150)  NULL ,         \
                   remarks varchar(150)  NULL         \
                 );"
-
-typedef QMap<QString, QString> ModelData;
 
 class QSqlDatabase;
 class QSqlQuery;

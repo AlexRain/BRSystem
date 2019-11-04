@@ -199,9 +199,6 @@
     <QtUic Include="src\UiUsageRecord.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\OperationLog.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />

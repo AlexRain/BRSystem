@@ -598,6 +598,18 @@ QPushButton#btn_log{
 	border-image:url(:/BRSystem/images/log.png);
 }
 
+/*导出数据*/
+QPushButton#btn_export{
+	min-width: 0px;
+    min-height: 0px;
+	width:17px;
+	height:17px;
+	padding:0px;
+	border-radius:0px;
+	background-color:transparent;
+	border-image:url(:/BRSystem/images/export.png);
+}
+
 /*刷新*/
 QPushButton#btn_refresh{
 	min-width: 0px;

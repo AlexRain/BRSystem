@@ -1,15 +1,16 @@
 #pragma once
 
 #include "BaseWidget.h"
-#include "ui_OperationLog.h"
 #include "CDbHelper.h"
+#include "CTableview.h"
 #include <QPainter>
 
 class QStandardItemModel;
 class QPushButton;
 class QLabel;
+class CTableview;
 
-class OperationLog : public BaseWidget
+class OperationLog : public BaseWidget,CTableview::SetDataCallback
 {
 	Q_OBJECT
 
@@ -32,19 +33,17 @@ public:
 	void refreshData();
 
 private:
-	void initData();
-	void initTableview();
 	void initHeader();
+	void initData();
 	void initColumn();
-	void appendRow(const ModelData &info,int index);
 	void setData(const QList<ModelData> &datas);
 
 protected:
 	void resizeEvent(QResizeEvent *event);
+	QList<QStandardItem*> creatRow(const ModelData &model,int index) override;
 
 private:
-	Ui::OperationLog ui;
-	QStandardItemModel *m_pModel;
-	QPushButton *m_pBtnRefresh;
-	QLabel *m_pTip;
+	CTableview *m_pTableView;
+	QPushButton *m_pBtnRefresh;	
+	QLabel *m_pLabelCount;
 };

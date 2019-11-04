@@ -183,7 +183,7 @@ void PopupDialogContainer::mouseMoveEvent(QMouseEvent *event)
 void PopupDialogContainer::mousePressEvent(QMouseEvent *event)
 {
 	QWidget::mousePressEvent(event);
-	if (QRect(0, 0, this->width(), 40).contains(event->pos())){
+	if (QRect(0, borderWidth, this->width(), 44).contains(event->pos())){
 		m_bCanMove = true;
 		m_dragPoint = event->globalPos() - frameGeometry().topLeft();
 	}
