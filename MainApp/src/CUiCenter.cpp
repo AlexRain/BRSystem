@@ -21,9 +21,10 @@
 #include "UserSession.h"
 #include "OperationLog.h"
 #include <QFileDialog>
+#include <QSizeGrip>
 
 CUiCenter::CUiCenter(QWidget *parent)
-	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr), mModel(nullptr)
+	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr)
 {
 	qRegisterMetaType<BorrowInfo>("BorrowInfo");
 	this->initUi();
@@ -76,9 +77,7 @@ void CUiCenter::initUi()
 				model["createUserId"]   = UserSession::getInstance().userData().userId;
 				int rows = dbHelper.Insert(DIC_BORROW_RETURN,model);
 				if (rows > 0){
-					QList<ModelData> vModel;
-					int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate desc");
-					this->setData(vModel);
+					this->FuzzyQuery();
 				}
 			}
 			else {
@@ -119,13 +118,17 @@ void CUiCenter::initHeader()
 {
 	Q_ASSERT(mTableView);
 	QList<HeadStruct> listHead;
-	HeadStruct headNode = { TOCH("序号"),70,false };
+
+	HeadStruct headNode = { TOCH("唯一ID"),-1,true };
 	listHead << headNode;
 
-	headNode = { TOCH("物品编号"),-1,false };
+	headNode = { TOCH("序号"),70,false };
 	listHead << headNode;
 
-	headNode = { TOCH("物品名称"),150,false };
+	headNode = { TOCH("物品编号"),150,false };
+	listHead << headNode;
+
+	headNode = { TOCH("物品名称"),-1,false };
 	listHead << headNode;
 
 	headNode = { TOCH("借用人"),150 ,false };
@@ -146,9 +149,6 @@ void CUiCenter::initHeader()
 	headNode = { TOCH("更新时间"),150,false };
 	listHead << headNode;
 
-	headNode = { TOCH("唯一ID"),-1,true };
-	listHead << headNode;
-
 	mTableView->setHeader(listHead);
 }
 
@@ -157,9 +157,8 @@ void CUiCenter::initData()
 	CDbHelper dbHelper;
 	dbHelper.open();
 	QList<ModelData> vModel;
-	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
-	{
-		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN ORDER BY updateDate desc");
+	if (dbHelper.isTableExist(DIC_BORROW_RETURN)){
+		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN  WHERE deleteFlag = '0' ORDER BY updateDate desc");
 	}
 	else {
 		dbHelper.exec(CREATE_TABLE_SQL);
@@ -169,17 +168,10 @@ void CUiCenter::initData()
 
 void CUiCenter::initTableView()
 {
-	mModel = new CustomTableModel;
-	pProxyModel = new SortFilterProxyModel(this);
-	pProxyModel->setSourceModel(mModel);
-
 	mTableView = new CTableview(this);
-	mTableView->setModel(pProxyModel);
 	this->initHeader();
 	mTableView->setCreatRowCallbackListener(this);
-
-	// 设置可排序
-	//mTableView->setSortingEnabled(true);
+	mTableView->setHeaderCheckBoxEnable(TableHeader::Order, true);
 
 	//设置右键菜单
 	mTableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -210,14 +202,38 @@ void CUiCenter::sqlUpdate(const ModelData &model,const QString &id)
 {
 	CDbHelper dbHelper;
 	dbHelper.open();
-	int rows = dbHelper.Update(DIC_BORROW_RETURN, model,QString("WHERE ID = %1").arg(id));
+	ModelData modelTemp = const_cast<ModelData&>(model);
+	modelTemp["updateUserId"] = UserSession::getInstance().userData().userId;
+	int rows = dbHelper.Update(DIC_BORROW_RETURN, modelTemp,QString(" WHERE ID = %1").arg(id));
 }
 
 void CUiCenter::sqlDelete(const BorrowInfo &info)
 {
+	ModelData model;
+	model["deleteFlag"] = "1";
+	model["updateUserId"] = UserSession::getInstance().userData().userId;
 	CDbHelper dbHelper;
 	dbHelper.open();
-	int rows = dbHelper.Delete(DIC_BORROW_RETURN, QString("ID = %1").arg(info.id));
+	int rows = dbHelper.Update(DIC_BORROW_RETURN, model,QString(" WHERE ID = %1").arg(info.id));
+}
+
+void CUiCenter::sqlDelete(const QList<BorrowInfo> &infos)
+{
+	CDbHelper dbHelper;
+	dbHelper.open();
+	QString ids = "";
+	for(BorrowInfo info:infos)
+	{
+		if (ids.isEmpty()) {
+			ids = "ID = " + info.id;
+		}
+		else
+			ids += QString(" OR ") + "ID = " + info.id;
+	}
+	ModelData model;
+	model["deleteFlag"] = "1";
+	model["updateUserId"] = UserSession::getInstance().userData().userId;
+	int rows = dbHelper.Update(DIC_BORROW_RETURN, model, QString(" WHERE %1").arg(ids));
 }
 
 void CUiCenter::FuzzyQuery(const QString &key)
@@ -226,7 +242,7 @@ void CUiCenter::FuzzyQuery(const QString &key)
 	if (key.isEmpty()) {
 		sql = QString("SELECT * \
 		FROM \
-		DIC_BORROW_RETURN ORDER BY updateDate desc");
+		DIC_BORROW_RETURN WHERE deleteFlag = '0' ORDER BY updateDate desc");
 	}
 	else {
 		sql = QString("SELECT * \
@@ -237,7 +253,7 @@ void CUiCenter::FuzzyQuery(const QString &key)
 		OR productionName LIKE '%%1%' \
 		OR borrowerName LIKE '%%1%' \
 		OR borrowReason LIKE '%%1%' \
-		OR remarks LIKE '%%1%' ORDER BY updateDate desc;").arg(key);
+		OR remarks LIKE '%%1%' AND deleteFlag = '0' ORDER BY updateDate desc;").arg(key);
 	}
 
 	this->sqlQuery(sql);
@@ -248,16 +264,26 @@ void CUiCenter::setData(const QList<ModelData> &vModel)
 	uint nLen = vModel.size();
 	m_pDataCount->setText(TOCH("共<span style='color:rgb(0,122,204)'>%1</span>条数据").arg(nLen));
 	mTableView->setData(vModel);
+	mTableView->setHeaderCheckBoxEnable(TableHeader::Order, true);
 }
 
 void CUiCenter::showDetailUi(const QModelIndex & index)
 {
-	QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
-	if (pProxyModel->data(indexFirst, Qt::UserRole).toBool()) return;
+	QModelIndex indexFirst = mTableView->model()->index(0, (int)TableHeader::Order);
+	if (mTableView->model()->data(indexFirst, Qt::UserRole).toBool()) return;
 
 	CEditInfoDialog *infoDialog = new CEditInfoDialog(this);
 	connect(infoDialog, &CEditInfoDialog::deleteItem, this, [=](const BorrowInfo &info) {
-		this->sqlDelete(info);
+		/*数据库采用标记删除，而非物理删除*/
+		ModelData model;
+		model["productionId"] = info.productionId;
+		model["productionName"] = info.productionName;
+		model["borrowerName"] = info.borrowerName;
+		model["borrowStatus"] = QString::number((int)info.borrowStatus);
+		model["borrowReason"] = info.borrowReason;
+		model["remarks"] = info.remarks;
+		model["deleteFlag"] = "1";
+		this->sqlUpdate(model,info.id);
 		this->FuzzyQuery();
 	}, Qt::DirectConnection);
 
@@ -280,27 +306,29 @@ void CUiCenter::showDetailUi(const QModelIndex & index)
 
 void CUiCenter::getBorrowData(BorrowInfo &info,int row)
 {
-	info.id = pProxyModel->data(pProxyModel->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
-	info.productionId = pProxyModel->data(pProxyModel->index(row, TableHeader::ProductionId), Qt::DisplayRole).toString();
-	info.productionName = pProxyModel->data(pProxyModel->index(row, TableHeader::ProductionName), Qt::DisplayRole).toString();
-	info.borrowerName = pProxyModel->data(pProxyModel->index(row, TableHeader::BorrowerName), Qt::DisplayRole).toString();
-	info.borrowDate = pProxyModel->data(pProxyModel->index(row, TableHeader::BorrowDate), Qt::UserRole).toDateTime();
-	info.borrowStatus = (BorrowStatus)pProxyModel->data(pProxyModel->index(row, TableHeader::Status), Qt::UserRole).toInt();
-	info.borrowReason = pProxyModel->data(pProxyModel->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
-	info.remarks = pProxyModel->data(pProxyModel->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
-	info.updateDate = pProxyModel->data(pProxyModel->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime();
+	QAbstractItemModel *model = mTableView->model();
+	info.id = model->data(model->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
+	info.productionId = model->data(model->index(row, TableHeader::ProductionId), Qt::DisplayRole).toString();
+	info.productionName = model->data(model->index(row, TableHeader::ProductionName), Qt::DisplayRole).toString();
+	info.borrowerName = model->data(model->index(row, TableHeader::BorrowerName), Qt::DisplayRole).toString();
+	info.borrowDate = model->data(model->index(row, TableHeader::BorrowDate), Qt::UserRole).toDateTime();
+	info.borrowStatus = (BorrowStatus)model->data(model->index(row, TableHeader::Status), Qt::UserRole).toInt();
+	info.borrowReason = model->data(model->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
+	info.remarks = model->data(model->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
+	info.updateDate = model->data(model->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime();
 }
 
 void CUiCenter::setBorrowData(const BorrowInfo &info, int row)
 {
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::UniqueId), info.id, Qt::DisplayRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::ProductionId), info.productionId, Qt::DisplayRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::ProductionName), info.productionName, Qt::DisplayRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::BorrowerName), info.borrowerName, Qt::DisplayRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::BorrowDate), info.borrowDate, Qt::UserRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::Status), (int)info.borrowStatus, Qt::UserRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::BorrowReason), info.borrowReason, Qt::DisplayRole);
-	pProxyModel->setData(pProxyModel->index(row, TableHeader::Remark), info.remarks, Qt::DisplayRole);
+	QAbstractItemModel *model = mTableView->model();
+	model->setData(model->index(row, TableHeader::UniqueId), info.id, Qt::DisplayRole);
+	model->setData(model->index(row, TableHeader::ProductionId), info.productionId, Qt::DisplayRole);
+	model->setData(model->index(row, TableHeader::ProductionName), info.productionName, Qt::DisplayRole);
+	model->setData(model->index(row, TableHeader::BorrowerName), info.borrowerName, Qt::DisplayRole);
+	model->setData(model->index(row, TableHeader::BorrowDate), info.borrowDate, Qt::UserRole);
+	model->setData(model->index(row, TableHeader::Status), (int)info.borrowStatus, Qt::UserRole);
+	model->setData(model->index(row, TableHeader::BorrowReason), info.borrowReason, Qt::DisplayRole);
+	model->setData(model->index(row, TableHeader::Remark), info.remarks, Qt::DisplayRole);
 }
 
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData &model, int index)
@@ -346,95 +374,99 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 	{
 		QMenu *menu = new QMenu(mTableView);
 
-		QModelIndex indexFirst = pProxyModel->index(0, (int)TableHeader::Order);
-		if (!pProxyModel->data(indexFirst,Qt::UserRole).toBool())
-		{
+		QAbstractItemModel *model = mTableView->model();
+		int nCount = mTableView->selectionModel()->selectedRows().count();
+		if (nCount > 1) {
+			menu->addAction(TOCH("导出数据"), [=] {
+				
+			});
+
+			menu->addAction(TOCH("删除"), [=] {
+				QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("提示"),
+					TOCH("确定要删除这<span style='color:rgb(0,122,204)'>%1</span>记录吗？").arg(nCount), QMessageBox::Ok | QMessageBox::Cancel);
+				if (ok == QMessageBox::Ok) {
+					QList<BorrowInfo> listInfo;
+					QModelIndexList list = mTableView->selectionModel()->selectedRows();
+					for (QModelIndex index : list) {
+						BorrowInfo info;
+						this->getBorrowData(info, index.row());
+						listInfo << info;
+					}
+					this->sqlDelete(listInfo);
+					this->FuzzyQuery();
+				}
+			});
+		}
+		else {
+			QModelIndex indexFirst = mTableView->model()->index(0, (int)TableHeader::Order);
 			menu->addAction(TOCH("查看详情"), [=] {
 				this->showDetailUi(index);
 			});
 
-			menu->addAction(TOCH("多选"), [=] {
-				for (int row = 0; row < pProxyModel->rowCount(); ++row)
-				{
-					QModelIndex checkBox = pProxyModel->index(row, (int)TableHeader::Order);
-					pProxyModel->setData(checkBox, true, Qt::UserRole);
+			menu->addAction(TOCH("删除"), [=] {
+				QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("提示"),
+					TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
+				if (ok == QMessageBox::Ok) {
+					BorrowInfo info;
+					this->getBorrowData(info, index.row());
+					this->sqlDelete(info);
+					this->FuzzyQuery();
 				}
 			});
-		}
-		else{
-			menu->addAction(TOCH("取消多选"), [=] {
-				for (int row = 0; row < pProxyModel->rowCount(); ++row)
-				{
-					QModelIndex checkBox = pProxyModel->index(row, (int)TableHeader::Order);
-					pProxyModel->setData(checkBox, false, Qt::UserRole);
-					pProxyModel->setData(checkBox, false, Qt::CheckStateRole);
-				}
-			});
-		}
 
-		menu->addAction(TOCH("删除"), [=] {
-			QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("提示"),
-				TOCH("确定要删除这条记录吗？"), QMessageBox::Ok | QMessageBox::Cancel);
-			if (ok == QMessageBox::Ok) {
-				BorrowInfo info;
-				this->getBorrowData(info, index.row());
-				this->sqlDelete(info);
-				this->FuzzyQuery();
+			QModelIndex indexLast = model->index(index.row(), (int)TableHeader::Status);
+			BorrowStatus status = (BorrowStatus)model->data(indexLast, Qt::UserRole).toInt();
+			QString id = model->data(model->index(index.row(), (int)TableHeader::UniqueId)).toString();
+			switch (status)
+			{
+			case Returned:
+				menu->addAction(TOCH("标记为未还"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::NotReturned, Qt::UserRole);
+				});
+
+				menu->addAction(TOCH("标记为丢失"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::Lost, Qt::UserRole);
+				});
+				break;
+			case NotReturned:
+				menu->addAction(TOCH("标记为已还"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
+				});
+
+				menu->addAction(TOCH("标记为丢失"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::Lost, Qt::UserRole);
+				});
+				break;
+			case Lost:
+				menu->addAction(TOCH("标记为已还"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
+				});
+
+				menu->addAction(TOCH("标记为未还"), [=] {
+					ModelData data;
+					data["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
+					this->sqlUpdate(data, id);
+					model->setData(indexLast, BorrowStatus::NotReturned, Qt::UserRole);
+				});
+				break;
+			default:
+				break;
 			}
-		});
-
-		QModelIndex indexLast = pProxyModel->index(index.row(), (int)TableHeader::Status);
-		BorrowStatus status = (BorrowStatus)pProxyModel->data(indexLast, Qt::UserRole).toInt();
-		QString id = pProxyModel->data(pProxyModel->index(index.row(), (int)TableHeader::UniqueId)).toString();
-		switch (status)
-		{
-		case Returned:
-			menu->addAction(TOCH("标记为未还"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::NotReturned, Qt::UserRole);
-			});
-
-			menu->addAction(TOCH("标记为丢失"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::Lost, Qt::UserRole);
-			});
-			break;
-		case NotReturned:
-			menu->addAction(TOCH("标记为已还"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
-			});
-
-			menu->addAction(TOCH("标记为丢失"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::Lost, Qt::UserRole);
-			});
-			break;
-		case Lost:
-			menu->addAction(TOCH("标记为已还"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
-			});
-
-			menu->addAction(TOCH("标记为未还"), [=] {
-				ModelData model;
-				model["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
-				this->sqlUpdate(model, id);
-				pProxyModel->setData(indexLast, BorrowStatus::NotReturned, Qt::UserRole);
-			});
-			break;
-		default:
-			break;
 		}
 		menu->exec(QCursor::pos());
 	}

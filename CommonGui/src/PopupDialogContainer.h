@@ -2,7 +2,7 @@
 
 #include <QDialog>
 #include <QPushButton>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QMouseEvent>
 #include <QPointer>
 #include <QLabel>
@@ -23,12 +23,14 @@ private:
 	};
 
 public:
-	explicit PopupDialogContainer(QWidget *parent = Q_NULLPTR,const QString &title = QString(),bool isModal = true, bool showClose = true);
+	explicit PopupDialogContainer(QWidget *parent = Q_NULLPTR,const QString &title = QString(),bool isModal = true, bool showClose = true,bool resieGrip = false);
 	~PopupDialogContainer();
 
 public:
-	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true);
-	static void showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true);
+	static void showMainWidget(BaseWidget *widget);
+	static void showMainWidgetFadeIn(BaseWidget *widget);
+	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resizeGrip = false);
+	static void showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resieGrip = false);
 	void addWidget(BaseWidget *widget);
 	void showMaxorNormal();
 	void showMin();
@@ -42,6 +44,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent *event);
 	void mousePressEvent(QMouseEvent *event);
 	void mouseReleaseEvent(QMouseEvent *event);
+	void mouseDoubleClickEvent(QMouseEvent *event);
 	void resizeEvent(QResizeEvent *event);
 	void changeEvent(QEvent *event);
 	void closeEvent(QCloseEvent *event);
@@ -51,7 +54,7 @@ private:
 	QPointer<QWidget> mParentWidget;
 	UiFrostedLayer *mPLayer;
 	QPushButton *mCloseBtn;
-	QVBoxLayout *mLayout;
+	QGridLayout *mLayout;
 	QLabel *mLabelTitle;
 	bool closeFlag;
 
@@ -60,5 +63,6 @@ private:
 	bool m_bCanMove;
 	bool mIsModal;
 	bool mUseFadeIn;
+	bool mResizeGrip;
 	Qt::WindowStates mLastState;
 };

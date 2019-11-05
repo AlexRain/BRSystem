@@ -17,7 +17,9 @@ OperationLog::OperationLog(QWidget *parent)
 
 	m_pTableView = new CTableview(this);
 	this->initHeader();
+	m_pTableView->setItemDelegate(new ReadOnlyDelegate(this));
 	m_pTableView->setCreatRowCallbackListener(this);
+
 	m_pLabelCount = new QLabel(this);
 	m_pLabelCount->setAlignment(Qt::AlignRight);
 
@@ -84,25 +86,11 @@ FROM DIC_OPERATION_LOG AS log INNER JOIN DIC_USER AS user ON log.operateUserId =
 	this->setData(vModel);
 }
 
-void OperationLog::initColumn()
-{
-	m_pTableView->horizontalHeader()->setSectionResizeMode(ProductionName, QHeaderView::Stretch);
-	m_pTableView->horizontalHeader()->setHighlightSections(false);
-	/*隐藏列*/
-	m_pTableView->setColumnHidden(IouId, true);
-
-	m_pTableView->setColumnWidth(Order, 70);
-	m_pTableView->setColumnWidth(OperationDetail, 150);
-	m_pTableView->setColumnWidth(OperationDateTime, 150);
-	m_pTableView->setItemDelegate(new ReadOnlyDelegate(this));
-}
-
 void OperationLog::setData(const QList<ModelData> &datas)
 {
 	uint nLen = datas.size();
 	m_pLabelCount->setText(TOCH("共查询到<span style='color:rgb(0,122,204)'>%1</span>条记录").arg(nLen));
 	m_pTableView->setData(datas);
-	this->initColumn();
 }
 
 void OperationLog::resizeEvent(QResizeEvent *event)

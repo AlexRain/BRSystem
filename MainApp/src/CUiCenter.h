@@ -113,6 +113,7 @@ private:
 	void sqlQuery(const QString &sql);
 	void sqlUpdate(const ModelData &model,const QString &id);
 	void sqlDelete(const BorrowInfo &info);
+	void sqlDelete(const QList<BorrowInfo> &infos);
 	void FuzzyQuery(const QString &info = QString());
 	void setData(const QList<ModelData> &model);
 	void showDetailUi(const QModelIndex & index);
@@ -130,9 +131,5 @@ private slots:
 private:
 	CSearchLineEdit *mLineEdit;
 	CTableview *mTableView;
-	CustomTableModel *mModel;
-	SortFilterProxyModel *pProxyModel;
-	QList<BorrowInfo> mListData;
-	QLabel *m_pTip;
 	QLabel *m_pDataCount;
 };

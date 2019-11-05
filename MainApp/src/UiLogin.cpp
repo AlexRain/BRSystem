@@ -116,7 +116,6 @@ void UiLogin::initUser()
 			userData.departmentName = model["departmentName"];
 			userData.password = model["password"];
 			m_pEditName->addItem(model["userName"], QVariant::fromValue(userData));
-			UserSession::getInstance().setUserData(userData);
 		}
 
 		m_pEditName->setCurrentIndex(0);
@@ -147,6 +146,7 @@ void UiLogin::verify()
 		BubbleTipWidget::showBubbleWidget(p, pos, BubbleTipWidget::Top, this);
 		ok = false;
 	}
+	UserSession::getInstance().setUserData(qvariant_cast<UserData>(m_pEditName->currentData()));
 	if (ok) this->accept();
 }
 

@@ -35,7 +35,6 @@ public:
 private:
 	void initHeader();
 	void initData();
-	void initColumn();
 	void setData(const QList<ModelData> &datas);
 
 protected:

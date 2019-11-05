@@ -19,6 +19,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "Network\Network.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataBase", "DataBase\DataBase.vcxproj", "{48B4BE09-31FB-49A1-B153-8DC27767E95E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{51A0CAFB-8F50-4134-BE7C-30E6C60D39EB} = {51A0CAFB-8F50-4134-BE7C-30E6C60D39EB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommonUse", "CommonUse\CommonUse.vcxproj", "{51A0CAFB-8F50-4134-BE7C-30E6C60D39EB}"
 EndProject

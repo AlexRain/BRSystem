@@ -26,6 +26,6 @@ int main(int argc, char *argv[])
 	/*Ö÷½çÃæ*/
 	BRSystem w;
 	a.setMainWidget(&w);
-	PopupDialogContainer::showPopupDialogFadeIn(&w, nullptr, "",false,false);
+	PopupDialogContainer::showMainWidgetFadeIn(&w);
 	return a.exec();
 }

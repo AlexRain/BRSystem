@@ -2,7 +2,7 @@
 * @file CDbHelper.h 
 * @brief CDbHelper 数据库访问类
 *
-* detail 目前是争对sqlite
+* detail 目前是针对sqlite
 *
 * @version 1.0
 * @author sxl
