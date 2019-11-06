@@ -92,6 +92,19 @@ namespace UiHelper {
 		return pSp;
 	}
 
+	/*根据固定边大小，获取合适的图像*/
+	static QPixmap justPixmapByHeight(int height,const QPixmap &pixIn) {
+		double ratio_src = pixIn.width() / (double)pixIn.height();
+		int width_src = height * ratio_src;
+		return pixIn.scaled(width_src, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	}
+	
+	static QPixmap justPixmapByWidth(int width,const QPixmap &pixIn) {
+		double ratio_src = pixIn.width() / (double)pixIn.height();
+		int height_src = width * ratio_src;
+		return pixIn.scaled(width, height_src, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+	}
+
 	/*构建一个按钮，并绑定点击事件调用的匿名函数*/
 	static QPushButton *creatPushButton(QWidget *parent,const Func_Void &func, QSize &size = QSize(0,0), const QString &text = QString(), const QString &objectName = QString()) {
 		QPushButton *btn = new QPushButton(parent);

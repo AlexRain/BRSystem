@@ -24,8 +24,13 @@ public:
 		BubbleTipWidget::ArrowDirection arrowDirection = BubbleTipWidget::Top,
 		QWidget *parent = nullptr);
 
+	static void showBubbleWidgetWithShadowColor(QWidget *content, const QPoint &globalPos,
+		BubbleTipWidget::ArrowDirection arrowDirection = BubbleTipWidget::Top,const QColor &shadowColor = QColor(),
+		QWidget *parent = nullptr);
+
 public:
 	void fadeIn();
+	void setShadowColor(const QColor &color);
 
 protected:
 	void paintEvent(QPaintEvent *event);
@@ -36,6 +41,7 @@ private:
 	QHBoxLayout *mLayout;
 	BubbleContentWidget *_pBackground;
 	QGraphicsDropShadowEffect *_shadow;
+	QColor mShadowColor;
 };
 
 

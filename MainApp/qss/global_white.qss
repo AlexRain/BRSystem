@@ -507,6 +507,7 @@ BubbleContentWidget{
 
 StyledWidget{
 	qproperty-backgroundColor:rgb(223, 202, 136);
+	qproperty-shadowColor:rgba(0,0,0,80);
 }
 
 UiTop{

@@ -482,8 +482,8 @@ QCheckBox::indicator:checked{
 }
 
 QTableView{
-	background-color: #5d5d5d;
-    alternate-background-color: #505050;
+	background-color: #545454;
+    alternate-background-color: #5d5d5d;
 	border-width:1px;
 	border-color:#888888;
 	border-style:solid;
@@ -503,7 +503,7 @@ QTableView::item:section{
 
 QHeaderView::section
 {
-    background-color: #5d5d5d;
+    background-color: #545454;
     color: white;
 	border:0;
 	padding: 3px 0 3px 4px;
@@ -619,7 +619,7 @@ QPushButton#btn_refresh{
 	height:25px;
 	border-radius:0px;
 	background-color:transparent;
-	border-image:url(":/BRSystem/images/refresh_orange.png");
+	border-image:url(":/BRSystem/images/refresh_dark.png");
 }
 
 /*中间界面样式*/
@@ -640,6 +640,7 @@ BubbleContentWidget{
 }
 
 StyledWidget{
-	qproperty-backgroundColor:#d7801a
+	qproperty-backgroundColor:#d7801a;
+	qproperty-shadowColor:#1e1e1e;
 }
 

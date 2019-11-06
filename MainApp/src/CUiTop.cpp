@@ -17,6 +17,10 @@ CUiTop::CUiTop(QWidget *parent)
 	connect(headPixmap, &CirclePixmap::clicked, this, &CUiTop::clickProfile);
 	ui.horizontalLayout->replaceWidget(ui.label_head, headPixmap);
 	ui.label_head->hide();
+
+	ui.label_logo->setMinimumHeight(33);
+	QPixmap logo("images/logo.png");
+	ui.label_logo->setPixmap(UiHelper::justPixmapByHeight(33,logo));
 }
 
 CUiTop::~CUiTop()
@@ -26,7 +30,6 @@ CUiTop::~CUiTop()
 void CUiTop::setLogo(const QPixmap &logo)
 {
 	this->m_pixmapLogo = logo;
-	ui.label_logo->setPixmap(m_pixmapLogo.scaled(ui.label_logo->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 const QPixmap & CUiTop::logo() const

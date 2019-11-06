@@ -9,6 +9,7 @@ const int borderWidth = 8;
 const int arrowHeight = 10;
 const int arrowWidth = 20;
 const int contentMargins = 9;
+const qreal radius = 3.0;
 
 BubbleTipWidget::BubbleTipWidget(ArrowDirection arowDirection,QWidget *conent, QWidget *parent)
 	: QWidget(parent,Qt::Popup), _pContent(conent), mLayout(nullptr)
@@ -59,7 +60,6 @@ BubbleTipWidget::BubbleTipWidget(ArrowDirection arowDirection,QWidget *conent, Q
 	
 	_shadow = new QGraphicsDropShadowEffect(_pBackground);
 	_shadow->setOffset(0, 0);
-	_shadow->setColor(CApp->getStyledWidget().shadowColor());
 	_shadow->setBlurRadius(10);
 	_pBackground->setGraphicsEffect(_shadow);
 
@@ -100,6 +100,36 @@ void BubbleTipWidget::showBubbleWidget(QWidget *content, const QPoint &globalPos
 	tips->fadeIn();
 }
 
+void BubbleTipWidget::showBubbleWidgetWithShadowColor(QWidget *content, const QPoint &globalPos,
+	ArrowDirection arrowDirection /*= Top*/, const QColor &color /*= QColor()*/, QWidget *parent /*= nullptr*/)
+{
+	BubbleTipWidget *tips = new BubbleTipWidget(arrowDirection, content, parent);
+	QPoint pos(globalPos.x() - tips->width() / 2, globalPos.y());
+	switch (arrowDirection)
+	{
+	case BubbleTipWidget::None:
+		break;
+	case BubbleTipWidget::Left:
+		pos.setX(globalPos.x() - tips->width());
+		pos.setY(globalPos.y() - tips->height() / 2 - borderWidth);
+		break;
+	case BubbleTipWidget::Bottom:
+		break;
+	case BubbleTipWidget::Right:
+		pos.setX(globalPos.x());
+		pos.setY(globalPos.y() - tips->height() / 2 - borderWidth);
+		break;
+	case BubbleTipWidget::Top:
+		pos.setY(globalPos.y() - tips->height() - borderWidth);
+		break;
+	default:
+		break;
+	}
+	tips->move(pos);
+	tips->fadeIn();
+	tips->setShadowColor(color);
+}
+
 void BubbleTipWidget::fadeIn()
 {
 	this->show();
@@ -110,10 +140,15 @@ void BubbleTipWidget::fadeIn()
 	animation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
+void BubbleTipWidget::setShadowColor(const QColor &color)
+{
+	mShadowColor = color;
+}
+
 void BubbleTipWidget::paintEvent(QPaintEvent *event)
 {
 	if (_shadow && _pBackground) {
-		_shadow->setColor(_pBackground->shadowColor());
+		_shadow->setColor(mShadowColor.isValid()?mShadowColor:_pBackground->shadowColor());
 	}
 	QStyleOption opt;
 	opt.init(this);
@@ -197,14 +232,14 @@ void BubbleContentWidget::drawArrow(QPainter *painter)
 	switch (_arrowDirection)
 	{
 	case BubbleTipWidget::None:
-		painterPath.addRoundRect(0, 0,
+		painterPath.addRoundedRect(0, 0,
 			this->width(),
-			this->height(), 3.0, 3.0);
+			this->height(), radius, radius);
 		break;
 	case BubbleTipWidget::Right:
-		painterPath.addRoundRect(arrowHeight, 0,
+		painterPath.addRoundedRect(arrowHeight, 0,
 			this->width() - arrowHeight,
-			this->height(), 3.0, 3.0);
+			this->height(), radius, radius);
 
 		arrowPolygon << QPointF(arrowHeight,this->height() / 2.0 - arrowWidth / 2.0)
 			<< QPointF(0.0, this->height() / 2.0)
@@ -215,9 +250,9 @@ void BubbleContentWidget::drawArrow(QPainter *painter)
 		lineLayer << QLineF(lineLayer[0].p1() + QPointF(0.1, 0), lineLayer[0].p2() + QPointF(0.1, 0));
 		break;
 	case BubbleTipWidget::Bottom:
-		painterPath.addRoundRect(0, arrowHeight,
+		painterPath.addRoundedRect(0, arrowHeight,
 			this->width(),
-			this->height() - arrowHeight, 3.0, 3.0);
+			this->height() - arrowHeight, radius, radius);
 
 		arrowPolygon << QPointF(this->width() / 2.0 - arrowWidth / 2.0, arrowHeight + 0.2)
 			<< QPointF(this->width() / 2.0, 0.0)
@@ -229,9 +264,9 @@ void BubbleContentWidget::drawArrow(QPainter *painter)
 		needRevise = true;
 		break;
 	case BubbleTipWidget::Left:
-		painterPath.addRoundRect(0, 0,
+		painterPath.addRoundedRect(0, 0,
 			this->width() - arrowHeight,
-			this->height(), 3.0, 3.0);
+			this->height(), radius, radius);
 
 		arrowPolygon << QPointF(this->width() - arrowHeight, this->height() / 2.0 - arrowWidth / 2.0)
 			<< QPointF(this->width(), this->height() / 2.0)
@@ -243,9 +278,9 @@ void BubbleContentWidget::drawArrow(QPainter *painter)
 		break;
 	case BubbleTipWidget::Top:
 
-		painterPath.addRoundRect(0, 0,
+		painterPath.addRoundedRect(0, 0,
 			this->width(),
-			this->height() - arrowHeight, 3.0, 3.0);
+			this->height() - arrowHeight, radius, radius);
 		arrowPolygon << QPointF(this->width() / 2.0 - arrowWidth / 2.0, this->height() - arrowHeight - 0.2)
 			<< QPointF(this->width() / 2.0, this->height())
 			<< QPointF(this->width() / 2.0 + arrowWidth / 2.0, this->height() - arrowHeight - 0.2);

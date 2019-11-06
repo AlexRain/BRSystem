@@ -5,6 +5,7 @@
 #include <QHeaderView>
 #include <QPushButton>
 #include <QLabel>
+#include <QGraphicsDropShadowEffect>
 #include "define.h"
 #include "DialogMsg.h"
 
@@ -28,8 +29,13 @@ OperationLog::OperationLog(QWidget *parent)
 
 	auto fun = std::bind(&OperationLog::refreshData, this);
 	m_pBtnRefresh = UiHelper::creatPushButton(this, fun, 25, 25, "", "btn_refresh");
-	m_pBtnRefresh->setWindowOpacity(0.5);
 	m_pBtnRefresh->setToolTip(TOCH("Ë¢ÐÂ"));
+
+	QGraphicsDropShadowEffect *effct = new QGraphicsDropShadowEffect(m_pBtnRefresh);
+	effct->setBlurRadius(10);
+	effct->setOffset(0, 0);
+	effct->setColor(StyledWidget::getInstance().shadowColor());
+	m_pBtnRefresh->setGraphicsEffect(effct);
 
 	this->initData();
 }

@@ -56,7 +56,7 @@ UiLogin::UiLogin(QWidget *parent)
 
 	QPushButton *btn_close = UiHelper::creatPushButton(this, [=]() {
 		this->reject();
-	}, 32, 32, "", "btn_close");
+	}, 25, 25, "", "btn_close");
 
 	QHBoxLayout *layout_close = new QHBoxLayout;
 	layout_close->setAlignment(Qt::AlignTop);
@@ -66,8 +66,9 @@ UiLogin::UiLogin(QWidget *parent)
 	layout->addLayout(layout_close,  0, 0, 1, 1);
 
 	QLabel *logo = new QLabel(this);
-	logo->setPixmap(QPixmap("images/healson_logo.png").scaled(logo->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	logo->setFixedSize(115, 23);
+	QPixmap pixLogo("images/logo.png");
+	logo->setMinimumWidth(115);
+	logo->setPixmap(UiHelper::justPixmapByWidth(115,pixLogo));
 
 	QHBoxLayout *layout_logo = new QHBoxLayout;
 	layout_logo->addStretch();
@@ -134,7 +135,7 @@ void UiLogin::verify()
 		p->setAlignment(Qt::AlignCenter);
 		p->resize(120, 50);
 		QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
-		BubbleTipWidget::showBubbleWidget(p, pos, BubbleTipWidget::Top, this);
+		BubbleTipWidget::showBubbleWidgetWithShadowColor(p, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
 		ok = false;
 	}
 	QString password = m_pEditName->currentData().value<UserData>().password;
@@ -143,7 +144,7 @@ void UiLogin::verify()
 		p->setAlignment(Qt::AlignCenter);
 		p->resize(120, 50);
 		QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
-		BubbleTipWidget::showBubbleWidget(p, pos, BubbleTipWidget::Top, this);
+		BubbleTipWidget::showBubbleWidgetWithShadowColor(p, pos, BubbleTipWidget::Top, QColor(170,0,0), this);
 		ok = false;
 	}
 	UserSession::getInstance().setUserData(qvariant_cast<UserData>(m_pEditName->currentData()));
@@ -180,7 +181,7 @@ void UiLogin::mouseMoveEvent(QMouseEvent *event)
 void UiLogin::mousePressEvent(QMouseEvent *event)
 {
 	QDialog::mousePressEvent(event);
-	if (QRect(0, 0, this->width(), 40).contains(event->pos()))
+	if (QRect(0, 0, this->width(), 44).contains(event->pos()))
 	{
 		m_bCanMove = true;
 		m_dragPoint = event->globalPos() - frameGeometry().topLeft();

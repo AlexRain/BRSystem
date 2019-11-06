@@ -23,14 +23,18 @@ private:
 	};
 
 public:
-	explicit PopupDialogContainer(QWidget *parent = Q_NULLPTR,const QString &title = QString(),bool isModal = true, bool showClose = true,bool resieGrip = false);
+	explicit PopupDialogContainer(QWidget *parent = Q_NULLPTR,const QString &title = QString(),
+		bool isModal = true, bool showClose = true,
+		bool resieGrip = false, bool doubleClickResize = false);
 	~PopupDialogContainer();
 
 public:
 	static void showMainWidget(BaseWidget *widget);
 	static void showMainWidgetFadeIn(BaseWidget *widget);
-	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resizeGrip = false);
-	static void showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resieGrip = false);
+	static void showSecondPopup(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString());
+	static void showSecondPopupFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString());
+	static void showPopupDialog(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resizeGrip = false,bool doubleClickResize = false);
+	static void showPopupDialogFadeIn(BaseWidget *widget, QWidget *parent = nullptr, const QString &title = QString(), bool isModal = true, bool showCloseBtn = true,bool resieGrip = false, bool doubleClickResize = false);
 	void addWidget(BaseWidget *widget);
 	void showMaxorNormal();
 	void showMin();
@@ -64,5 +68,6 @@ private:
 	bool mIsModal;
 	bool mUseFadeIn;
 	bool mResizeGrip;
+	bool mDoubleClickResize;
 	Qt::WindowStates mLastState;
 };

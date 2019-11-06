@@ -411,7 +411,7 @@ QPushButton#btn_refresh{
 	height:25px;
 	border-radius:0px;
 	background-color:transparent;
-	border-image:url(":/BRSystem/images/refresh_gray.png");
+	border-image:url(":/BRSystem/images/refresh_dark.png");
 }
 
 /**********滚动条-水平**********/
@@ -517,6 +517,7 @@ BubbleContentWidget{
 
 StyledWidget{
 	qproperty-backgroundColor:rgb(44, 46, 50);
+	qproperty-shadowColor:black;
 }
 
 UiTop{

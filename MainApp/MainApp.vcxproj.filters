@@ -157,7 +157,7 @@
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
     <ClCompile Include="src\OperationLog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

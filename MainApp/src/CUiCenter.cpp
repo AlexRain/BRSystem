@@ -84,14 +84,14 @@ void CUiCenter::initUi()
 				dbHelper.exec(CREATE_TABLE_SQL);
 			}
 		}, Qt::DirectConnection);
-		PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(),TOCH("新建借条"));
+		PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(),TOCH("新建借条"));
 	}, 25, 25, "","btn_add");
 	btn_add->setToolTip(TOCH("新建借条"));
 
 	/*打开操作日志*/
 	QPushButton *btn_log = UiHelper::creatPushButton(this, [=]() {
 		OperationLog *content = new OperationLog(this);
-		PopupDialogContainer::showPopupDialogFadeIn(content, CApp->getMainWidget(), TOCH("操作日志"));
+		PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), TOCH("操作日志"));
 	}, 25, 25, "", "btn_log");
 	btn_log->setToolTip(TOCH("操作日志"));
 
@@ -301,7 +301,7 @@ void CUiCenter::showDetailUi(const QModelIndex & index)
 	BorrowInfo info;
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
-	PopupDialogContainer::showPopupDialogFadeIn(infoDialog, CApp->getMainWidget(), TOCH("编辑借条"));
+	PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), TOCH("编辑借条"));
 }
 
 void CUiCenter::getBorrowData(BorrowInfo &info,int row)
