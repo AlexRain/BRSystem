@@ -6,9 +6,9 @@
 #include <QPainter>
 #include "define.h"
 #include "CApplication.h"
-#include "CDbHelper.h"
 #include "ReadOnlyDelegate.h"
 #include "CTableview.h"
+#include "CDbHelper.h"
 
 class CSearchLineEdit;
 class QTableView;
@@ -117,6 +117,7 @@ private:
 	void FuzzyQuery(const QString &info = QString());
 	void setData(const QList<ModelData> &model);
 	void showDetailUi(const QModelIndex & index);
+	void sqlQueryExport();
 
 	void getBorrowData(BorrowInfo &info, int row);
 	void setBorrowData(const BorrowInfo &info,int row);

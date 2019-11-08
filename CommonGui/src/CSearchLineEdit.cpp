@@ -3,6 +3,7 @@
 #include "define.h"
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QDebug>
 
 CSearchLineEdit::CSearchLineEdit(QWidget *parent)
 	: QLineEdit(parent)
@@ -23,6 +24,14 @@ CSearchLineEdit::CSearchLineEdit(QWidget *parent)
 	btn_search->setFixedSize(17, 17);
 	layout->addWidget(btn_search);
 	layout->addStretch();
+	connect(this, &QLineEdit::editingFinished, [=]() {
+		qDebug() << "editingFinished";
+		emit query(text());
+	});
+	connect(this, &QLineEdit::textChanged, [=](const QString & text) {
+		qDebug() << "textChanged";
+		emit query(text);
+	});
 }
 
 CSearchLineEdit::~CSearchLineEdit()

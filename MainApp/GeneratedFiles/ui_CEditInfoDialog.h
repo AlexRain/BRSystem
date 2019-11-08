@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -44,14 +45,14 @@ public:
     QHBoxLayout *horizontalLayout;
     QGroupBox *groupBox_info;
     QGridLayout *gridLayout;
-    QLineEdit *lineEdit_reason;
     QLabel *label_5;
     QLabel *label;
     QLabel *label_2;
     QLineEdit *lineEdit_productId;
-    QLineEdit *lineEdit_browerName;
     QLineEdit *lineEdit_productName;
     QLabel *label_3;
+    QLineEdit *lineEdit_reason;
+    QComboBox *comBoBox_browerName;
     QGroupBox *groupBox_mark;
     QVBoxLayout *verticalLayout;
     QPlainTextEdit *textEdit_mark;
@@ -131,12 +132,6 @@ public:
         groupBox_info->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         gridLayout = new QGridLayout(groupBox_info);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        lineEdit_reason = new QLineEdit(groupBox_info);
-        lineEdit_reason->setObjectName(QStringLiteral("lineEdit_reason"));
-        lineEdit_reason->setContextMenuPolicy(Qt::NoContextMenu);
-
-        gridLayout->addWidget(lineEdit_reason, 3, 1, 1, 1);
-
         label_5 = new QLabel(groupBox_info);
         label_5->setObjectName(QStringLiteral("label_5"));
         label_5->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
@@ -161,12 +156,6 @@ public:
 
         gridLayout->addWidget(lineEdit_productId, 0, 1, 1, 1);
 
-        lineEdit_browerName = new QLineEdit(groupBox_info);
-        lineEdit_browerName->setObjectName(QStringLiteral("lineEdit_browerName"));
-        lineEdit_browerName->setContextMenuPolicy(Qt::NoContextMenu);
-
-        gridLayout->addWidget(lineEdit_browerName, 2, 1, 1, 1);
-
         lineEdit_productName = new QLineEdit(groupBox_info);
         lineEdit_productName->setObjectName(QStringLiteral("lineEdit_productName"));
         lineEdit_productName->setContextMenuPolicy(Qt::NoContextMenu);
@@ -178,6 +167,17 @@ public:
         label_3->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
 
         gridLayout->addWidget(label_3, 2, 0, 1, 1);
+
+        lineEdit_reason = new QLineEdit(groupBox_info);
+        lineEdit_reason->setObjectName(QStringLiteral("lineEdit_reason"));
+        lineEdit_reason->setContextMenuPolicy(Qt::NoContextMenu);
+
+        gridLayout->addWidget(lineEdit_reason, 3, 1, 1, 1);
+
+        comBoBox_browerName = new QComboBox(groupBox_info);
+        comBoBox_browerName->setObjectName(QStringLiteral("comBoBox_browerName"));
+
+        gridLayout->addWidget(comBoBox_browerName, 2, 1, 1, 1);
 
 
         horizontalLayout->addWidget(groupBox_info);
@@ -204,8 +204,7 @@ public:
         gridLayout_2->addWidget(label_4, 2, 1, 1, 1);
 
         QWidget::setTabOrder(lineEdit_productId, lineEdit_productName);
-        QWidget::setTabOrder(lineEdit_productName, lineEdit_browerName);
-        QWidget::setTabOrder(lineEdit_browerName, lineEdit_reason);
+        QWidget::setTabOrder(lineEdit_productName, lineEdit_reason);
         QWidget::setTabOrder(lineEdit_reason, textEdit_mark);
         QWidget::setTabOrder(textEdit_mark, radioBtn_notReturned);
         QWidget::setTabOrder(radioBtn_notReturned, radioBtn_returned);

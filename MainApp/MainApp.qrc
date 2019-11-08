@@ -23,6 +23,7 @@
         <file>images/export.png</file>
         <file>images/refresh.png</file>
         <file>images/refresh_dark.png</file>
+        <file>images/setting.png</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>

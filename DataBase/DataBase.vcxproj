@@ -50,7 +50,7 @@
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <QtInstall>msvc2015</QtInstall>
-    <QtModules>core;sql</QtModules>
+    <QtModules>core;sql;widgets</QtModules>
   </PropertyGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <QtInstall>msvc2015</QtInstall>
@@ -67,13 +67,13 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <PreprocessorDefinitions>DATABASE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\src;..\CommonUse;..\CommonUse\GenerateFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtSql;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\src;..\CommonUse\src;..\CommonUse\GenerateFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonUse.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5Sqld.lib;CommonUse.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(outdir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -95,12 +95,14 @@
   <ItemGroup>
     <ClCompile Include="src\CDbHelper.cpp" />
     <ClCompile Include="src\Condition.cpp" />
+    <ClCompile Include="src\Odbexcel.cpp" />
     <ClCompile Include="src\SqlDataBase.cpp" />
     <ClCompile Include="src\UserSession.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CDbHelper.h" />
     <ClInclude Include="src\Condition.h" />
+    <QtMoc Include="src\Odbexcel.h" />
     <ClInclude Include="src\SqlDataBase.h" />
     <ClInclude Include="src\database_global.h" />
     <ClInclude Include="src\UserSession.h" />

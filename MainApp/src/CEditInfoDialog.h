@@ -34,6 +34,8 @@ private:
 	void init();
 	/*初始化控件*/
 	void initEdit();
+	/*初始化用户*/
+	void initUsers();
 	/*初始化数据*/
 	void initData();
 	/*验证输入合法性*/

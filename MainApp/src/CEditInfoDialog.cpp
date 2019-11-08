@@ -2,7 +2,9 @@
 #include "DialogMsg.h"
 #include "UiUsageRecord.h"
 #include "PopupDialogContainer.h"
+#include "CDbHelper.h"
 #include <QMessageBox>
+#include "UserSession.h"
 
 CEditInfoDialog::CEditInfoDialog(QWidget *parent,bool isEditUi)
 	: BaseWidget(parent), mIsEditUi(isEditUi)
@@ -26,6 +28,7 @@ void CEditInfoDialog::init()
 	this->setWindowTitle(mIsEditUi ? TOCH("编辑借条"):TOCH("新建借条"));
 	ui.radioBtn_notReturned->setChecked(true);
 	this->initEdit();
+	this->initUsers();
 
 	if (!mIsEditUi){
 		ui.btn_delete->hide();
@@ -38,26 +41,46 @@ void CEditInfoDialog::initEdit()
 	ui.lineEdit_productId->setFocus();
 	ui.lineEdit_productId->setMaxLength(20);
 	ui.lineEdit_productName->setMaxLength(30);
-	ui.lineEdit_browerName->setMaxLength(20);
+	ui.comBoBox_browerName->setEditable(true);
+	ui.comBoBox_browerName->lineEdit()->setMaxLength(20);
 	ui.lineEdit_reason->setMaxLength(150); 
 	ui.textEdit_mark->setMaximumBlockCount(500);
 
 	ui.lineEdit_productId->setClearButtonEnabled(true);
 	ui.lineEdit_productName->setClearButtonEnabled(true);
-	ui.lineEdit_browerName->setClearButtonEnabled(true);
+	ui.comBoBox_browerName->lineEdit()->setClearButtonEnabled(true);
 	ui.lineEdit_reason->setClearButtonEnabled(true);
 
 	ui.label->setBuddy(ui.lineEdit_productId);
 	ui.label_2->setBuddy(ui.lineEdit_productName);
-	ui.label_3->setBuddy(ui.lineEdit_browerName);
+	ui.label_3->setBuddy(ui.comBoBox_browerName);
 	ui.label_5->setBuddy(ui.lineEdit_reason);
+}
+
+void CEditInfoDialog::initUsers()
+{
+	CDbHelper dbHelper;
+	dbHelper.open();
+	QList<ModelData> vModel;
+	int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY userName asc");
+	for (int i = 0, nLen = vModel.size(); i < nLen; ++i)
+	{
+		const ModelData model = vModel[i];
+		UserData userData;
+		userData.userId = model["userId"];
+		userData.userName = model["userName"];
+		userData.isAdmin = 1 == model["isAdmin"].toInt();
+		userData.departmentId = model["departmentId"];
+		userData.departmentName = model["departmentName"];
+		ui.comBoBox_browerName->addItem(model["userName"], QVariant::fromValue(userData));
+	}
 }
 
 void CEditInfoDialog::initData()
 {
 	ui.lineEdit_productId->setText(mBorrowInfo.productionId);
 	ui.lineEdit_productName->setText(mBorrowInfo.productionName);
-	ui.lineEdit_browerName->setText(mBorrowInfo.borrowerName);
+	ui.comBoBox_browerName->setCurrentText(mBorrowInfo.borrowerName);
 	ui.lineEdit_reason->setText(mBorrowInfo.borrowReason);
 	ui.textEdit_mark->appendPlainText(mBorrowInfo.remarks);
 
@@ -89,8 +112,8 @@ bool CEditInfoDialog::verifyInput()
 		return false;
 	}
 
-	if (ui.lineEdit_browerName->text().isEmpty()) {
-		ui.lineEdit_browerName->setFocus();
+	if (ui.comBoBox_browerName->currentText().isEmpty()) {
+		ui.comBoBox_browerName->setFocus();
 		return false;
 	}
 
@@ -106,7 +129,7 @@ void CEditInfoDialog::getInputData()
 {
 	this->mBorrowInfo.productionId   = ui.lineEdit_productId->text();
 	this->mBorrowInfo.productionName = ui.lineEdit_productName->text();
-	this->mBorrowInfo.borrowerName   = ui.lineEdit_browerName->text();
+	this->mBorrowInfo.borrowerName   = ui.comBoBox_browerName->currentText();
 	this->mBorrowInfo.borrowReason   = ui.lineEdit_reason->text();
 	this->mBorrowInfo.remarks        = ui.textEdit_mark->toPlainText();
 

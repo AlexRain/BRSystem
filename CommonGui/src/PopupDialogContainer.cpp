@@ -191,7 +191,7 @@ void PopupDialogContainer::showPopupDialog(BaseWidget *widget,QWidget *parent,
 	const QString &title, bool isModal, 
 	bool showCloseBtn,bool resizeGrip, bool doubleClickResize)
 {
-	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal,showCloseBtn,resizeGrip);
+	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal,showCloseBtn,resizeGrip,doubleClickResize);
 	container->showLayer();
 	container->addWidget(widget);
 	container->show();
@@ -202,7 +202,7 @@ void PopupDialogContainer::showPopupDialogFadeIn(BaseWidget *widget, QWidget *pa
 	bool showCloseBtn /*= true*/,bool resizeGrip, bool doubleClickResize)
 {
 	if (nullptr == widget) return;
-	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal, showCloseBtn,resizeGrip);
+	PopupDialogContainer *container = new PopupDialogContainer(parent, title, isModal, showCloseBtn,resizeGrip, doubleClickResize);
 	container->showLayer();
 	container->addWidget(widget);
 	container->fadeIn();

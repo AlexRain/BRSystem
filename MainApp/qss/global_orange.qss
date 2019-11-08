@@ -25,6 +25,11 @@ QLabel#divider{
 	background-color:#ffaa00;
 }
 
+QLabel#label_content{
+	padding-left: 15px;
+	padding-right:15px;
+}
+
 QWidget:item:hover
 {
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #ca0619);
@@ -520,6 +525,13 @@ QPushButton#btn_changeSkin{
     min-height: 0px;
 	background-color:transparent;
 	border-image:url(":/images/images/icon_skin.png");
+}
+
+QPushButton#btn_setting{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/BRSystem/images/setting.png");
 }
 
 QPushButton#btn_min{

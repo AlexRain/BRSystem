@@ -92,6 +92,10 @@ void CSkinItem::paintEvent(QPaintEvent *event)
 		dc.drawPixmap(this->width() - 20, this->height() - 20, 20, 20, QPixmap(":/BRSystem/images/select.png"));
 	}
 
+	rect = this->rect();
+	rect.adjust(15, 15, -15, -15);
+	dc.drawPixmap(rect, QPixmap(":/BRSystem/images/logo.png").scaled(rect.size(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+
 	QLabel::paintEvent(event);
 }
 

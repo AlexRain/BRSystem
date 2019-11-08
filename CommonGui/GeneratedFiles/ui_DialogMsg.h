@@ -72,7 +72,7 @@ public:
     void retranslateUi(QDialog *DialogMsg)
     {
         DialogMsg->setWindowTitle(QApplication::translate("DialogMsg", "DialogMsg", nullptr));
-        label_content->setText(QApplication::translate("DialogMsg", "content", nullptr));
+        label_content->setText(QString());
     } // retranslateUi
 
 };

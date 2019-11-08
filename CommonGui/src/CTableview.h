@@ -16,6 +16,7 @@ typedef struct _HeadStruct {
 	QString headText;
 	int columnWidth;
 	bool isHidden;
+	QString key;
 }HeadStruct;
 
 class TableModel :public QStandardItemModel {

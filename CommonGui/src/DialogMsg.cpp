@@ -8,7 +8,9 @@
 const int borderWidth = 8;
 const int titleHeight = 34;
 
-DialogMsg::DialogMsg(QWidget *parent, const QString &title, const QString &text,QMessageBox::StandardButtons buttons, const QStringList &buttonsText)
+DialogMsg::DialogMsg(QWidget *parent, const QString &title, 
+	const QString &text,QMessageBox::StandardButtons buttons, 
+	const QStringList &buttonsText)
 	: QDialog(parent), mParentWidget(parent), mTitle(title), _pTitle(nullptr), _pBtnClose(nullptr),
 	mContent(text),mButtons(buttons), mButtonClicked(QMessageBox::Cancel)
 {
@@ -70,7 +72,7 @@ DialogMsg::DialogMsg(QWidget *parent, const QString &title, const QString &text,
 		ui.layout_btn->addStretch();
 		for (int i = 0; i < buttonsText.size(); ++i)
 		{
-			QPushButton *btn = new QPushButton(mButtonsText.at(i), this);
+			QPushButton *btn = new QPushButton(buttonsText.at(i), this);
 			btn->setFixedSize(72, 30);
 			connect(btn, &QPushButton::clicked, this, &DialogMsg::slotButtonClicked);
 			btn->setProperty("buttonId", listId.at(i));

@@ -22,6 +22,10 @@
 #include "OperationLog.h"
 #include <QFileDialog>
 #include <QSizeGrip>
+#include <QDesktopServices> 
+#include "Odbexcel.h"
+
+QList<HeadStruct> listHead;
 
 CUiCenter::CUiCenter(QWidget *parent)
 	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr)
@@ -97,14 +101,8 @@ void CUiCenter::initUi()
 
 	/*导出*/
 	QPushButton *btn_export = UiHelper::creatPushButton(this, [=]() {
-		QFileDialog dialog;
-		dialog.setFileMode(QFileDialog::ExistingFile);
-		dialog.setAcceptMode(QFileDialog::AcceptSave);
-		QStringList list;
-		list << TOCH("Excel工作簿 (*.xlsx)") << TOCH("Excel97-2003工作薄(*.xls)");
-		dialog.setNameFilters(list);
-		dialog.selectFile(TOCH("汇声科技%1借还信息.xlsx").arg(TOCH("")));
-		dialog.exec();
+		this->sqlQueryExport();
+
 	}, 25, 25, "", "btn_export");
 	btn_export->setToolTip(TOCH("导出数据"));
 
@@ -117,7 +115,6 @@ void CUiCenter::initUi()
 void CUiCenter::initHeader()
 {
 	Q_ASSERT(mTableView);
-	QList<HeadStruct> listHead;
 
 	HeadStruct headNode = { TOCH("唯一ID"),-1,true };
 	listHead << headNode;
@@ -125,28 +122,28 @@ void CUiCenter::initHeader()
 	headNode = { TOCH("序号"),70,false };
 	listHead << headNode;
 
-	headNode = { TOCH("物品编号"),150,false };
+	headNode = { TOCH("物品编号"),150,false,"productionId" };
 	listHead << headNode;
 
-	headNode = { TOCH("物品名称"),-1,false };
+	headNode = { TOCH("物品名称"),-1,false ,"productionName"};
 	listHead << headNode;
 
-	headNode = { TOCH("借用人"),150 ,false };
+	headNode = { TOCH("借用人"),150 ,false ,"borrowerName"};
 	listHead << headNode;
 
-	headNode = { TOCH("借用日期"),150 ,false };
+	headNode = { TOCH("借用日期"),150 ,false, "borrowDate"};
 	listHead << headNode;
 
-	headNode = { TOCH("状态"),80 ,false };
+	headNode = { TOCH("状态"),80 ,false ,"borrowStatus"};
 	listHead << headNode;
 
-	headNode = { TOCH("借用原由"),-1,true };
+	headNode = { TOCH("借用原由"),-1,true,"borrowReason" };
 	listHead << headNode;
 
-	headNode = { TOCH("备注"),-1,true };
+	headNode = { TOCH("备注"),-1,true ,"remarks"};
 	listHead << headNode;
 
-	headNode = { TOCH("更新时间"),150,false };
+	headNode = { TOCH("更新时间"),150,false,"updateDate" };
 	listHead << headNode;
 
 	mTableView->setHeader(listHead);
@@ -249,11 +246,11 @@ void CUiCenter::FuzzyQuery(const QString &key)
 		FROM \
 		DIC_BORROW_RETURN \
 		WHERE \
-		productionId LIKE '%%1%' \
+		(productionId LIKE '%%1%' \
 		OR productionName LIKE '%%1%' \
 		OR borrowerName LIKE '%%1%' \
 		OR borrowReason LIKE '%%1%' \
-		OR remarks LIKE '%%1%' AND deleteFlag = '0' ORDER BY updateDate desc;").arg(key);
+		OR remarks LIKE '%%1%') AND deleteFlag = '0' ORDER BY updateDate desc;").arg(key);
 	}
 
 	this->sqlQuery(sql);
@@ -276,12 +273,6 @@ void CUiCenter::showDetailUi(const QModelIndex & index)
 	connect(infoDialog, &CEditInfoDialog::deleteItem, this, [=](const BorrowInfo &info) {
 		/*数据库采用标记删除，而非物理删除*/
 		ModelData model;
-		model["productionId"] = info.productionId;
-		model["productionName"] = info.productionName;
-		model["borrowerName"] = info.borrowerName;
-		model["borrowStatus"] = QString::number((int)info.borrowStatus);
-		model["borrowReason"] = info.borrowReason;
-		model["remarks"] = info.remarks;
 		model["deleteFlag"] = "1";
 		this->sqlUpdate(model,info.id);
 		this->FuzzyQuery();
@@ -302,6 +293,74 @@ void CUiCenter::showDetailUi(const QModelIndex & index)
 	this->getBorrowData(info, index.row());
 	infoDialog->setData(info);
 	PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), TOCH("编辑借条"));
+}
+
+void CUiCenter::sqlQueryExport()
+{
+	CDbHelper dbHelper;
+	dbHelper.open();
+	QList<ModelData> vModel;
+	int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN  WHERE deleteFlag = '0' ORDER BY updateDate desc");
+	if (rows <= 0) {
+		DialogMsg::question(this, TOCH("警告"), TOCH("导出数据为空！"), QMessageBox::Ok);
+		return;
+	}
+
+	QStringList header;
+	for (const HeadStruct &info:listHead)
+	{
+		if (!info.key.isEmpty())
+		{
+			header << info.headText;
+		}
+	}
+
+	QList<QStringList> datas;
+	for (ModelData &model:vModel)
+	{
+		int status = model["borrowStatus"].toInt();
+		if (BorrowStatus::Returned == status) {
+			model["borrowStatus"] = TOCH("已还");
+		}
+		else if (BorrowStatus::NotReturned == status) {
+			model["borrowStatus"] = TOCH("未还");
+		}
+		else {
+			model["borrowStatus"] = TOCH("丢失");
+		}
+		QStringList list;
+		for (const HeadStruct &info : listHead)
+		{
+			if (!info.key.isEmpty()) {
+				list << model[info.key];
+			}
+		}
+		datas << list;
+	}
+
+	QFileDialog dialog;
+	dialog.setFileMode(QFileDialog::ExistingFile);
+	dialog.setAcceptMode(QFileDialog::AcceptSave);
+	QStringList list;
+	list << TOCH("Excel97-2003工作薄(*.xls)");
+	dialog.setNameFilters(list);
+	dialog.selectFile(TOCH("汇声科技%1借还信息.xls").arg(TOCH("")));
+	if (QDialog::Accepted != dialog.exec())
+		return;
+
+	QString fileName = dialog.selectedFiles()[0];
+	if (Odbexcel::save(fileName, header, datas, "")) {
+		QStringList button;
+		button << TOCH("立即打开") << TOCH("取消");
+		int res = DialogMsg::question(this, TOCH("提示"), TOCH("保存成功！<br>已保存到：<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel,button);
+		if (res == QMessageBox::Ok) {
+			QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
+		}
+	}
+	else {
+		QString msgError = TOCH("保存失败，") + Odbexcel::getError();
+		DialogMsg::question(this, TOCH("警告"), msgError, QMessageBox::Ok);
+	}
 }
 
 void CUiCenter::getBorrowData(BorrowInfo &info,int row)

@@ -29,6 +29,9 @@
    <string notr="true"/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>23</number>
+   </property>
    <property name="leftMargin">
     <number>15</number>
    </property>
@@ -115,17 +118,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_min">
+    <widget class="QPushButton" name="btn_setting">
      <property name="minimumSize">
       <size>
-       <width>20</width>
-       <height>20</height>
+       <width>18</width>
+       <height>18</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>20</width>
-       <height>20</height>
+       <width>18</width>
+       <height>18</height>
       </size>
      </property>
      <property name="cursor">
@@ -137,21 +140,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_max">
+    <widget class="QLabel" name="divider">
      <property name="minimumSize">
       <size>
-       <width>20</width>
-       <height>20</height>
+       <width>1</width>
+       <height>23</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>20</width>
-       <height>20</height>
+       <width>1</width>
+       <height>23</height>
       </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="text">
       <string/>
@@ -159,26 +159,77 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_close">
-     <property name="minimumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="rightMargin">
+      <number>0</number>
      </property>
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
+     <item>
+      <widget class="QPushButton" name="btn_max">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_min">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_close">
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

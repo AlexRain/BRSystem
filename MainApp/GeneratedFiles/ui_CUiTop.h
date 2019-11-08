@@ -27,8 +27,11 @@ public:
     QSpacerItem *horizontalSpacer;
     QLabel *label_head;
     QPushButton *btn_changeSkin;
-    QPushButton *btn_min;
+    QPushButton *btn_setting;
+    QLabel *divider;
+    QHBoxLayout *horizontalLayout_2;
     QPushButton *btn_max;
+    QPushButton *btn_min;
     QPushButton *btn_close;
 
     void setupUi(QWidget *CUiTop)
@@ -40,7 +43,7 @@ public:
         CUiTop->setMaximumSize(QSize(16777215, 38));
         CUiTop->setStyleSheet(QStringLiteral(""));
         horizontalLayout = new QHBoxLayout(CUiTop);
-        horizontalLayout->setSpacing(6);
+        horizontalLayout->setSpacing(23);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(15, 5, 5, 0);
@@ -70,21 +73,40 @@ public:
 
         horizontalLayout->addWidget(btn_changeSkin);
 
-        btn_min = new QPushButton(CUiTop);
-        btn_min->setObjectName(QStringLiteral("btn_min"));
-        btn_min->setMinimumSize(QSize(20, 20));
-        btn_min->setMaximumSize(QSize(20, 20));
-        btn_min->setCursor(QCursor(Qt::PointingHandCursor));
+        btn_setting = new QPushButton(CUiTop);
+        btn_setting->setObjectName(QStringLiteral("btn_setting"));
+        btn_setting->setMinimumSize(QSize(18, 18));
+        btn_setting->setMaximumSize(QSize(18, 18));
+        btn_setting->setCursor(QCursor(Qt::PointingHandCursor));
 
-        horizontalLayout->addWidget(btn_min);
+        horizontalLayout->addWidget(btn_setting);
 
+        divider = new QLabel(CUiTop);
+        divider->setObjectName(QStringLiteral("divider"));
+        divider->setMinimumSize(QSize(1, 23));
+        divider->setMaximumSize(QSize(1, 23));
+
+        horizontalLayout->addWidget(divider);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setContentsMargins(-1, -1, 0, -1);
         btn_max = new QPushButton(CUiTop);
         btn_max->setObjectName(QStringLiteral("btn_max"));
         btn_max->setMinimumSize(QSize(20, 20));
         btn_max->setMaximumSize(QSize(20, 20));
         btn_max->setCursor(QCursor(Qt::PointingHandCursor));
 
-        horizontalLayout->addWidget(btn_max);
+        horizontalLayout_2->addWidget(btn_max);
+
+        btn_min = new QPushButton(CUiTop);
+        btn_min->setObjectName(QStringLiteral("btn_min"));
+        btn_min->setMinimumSize(QSize(20, 20));
+        btn_min->setMaximumSize(QSize(20, 20));
+        btn_min->setCursor(QCursor(Qt::PointingHandCursor));
+
+        horizontalLayout_2->addWidget(btn_min);
 
         btn_close = new QPushButton(CUiTop);
         btn_close->setObjectName(QStringLiteral("btn_close"));
@@ -92,7 +114,10 @@ public:
         btn_close->setMaximumSize(QSize(20, 20));
         btn_close->setCursor(QCursor(Qt::PointingHandCursor));
 
-        horizontalLayout->addWidget(btn_close);
+        horizontalLayout_2->addWidget(btn_close);
+
+
+        horizontalLayout->addLayout(horizontalLayout_2);
 
 
         retranslateUi(CUiTop);
@@ -106,8 +131,10 @@ public:
         label_logo->setText(QString());
         label_head->setText(QString());
         btn_changeSkin->setText(QString());
-        btn_min->setText(QString());
+        btn_setting->setText(QString());
+        divider->setText(QString());
         btn_max->setText(QString());
+        btn_min->setText(QString());
         btn_close->setText(QString());
     } // retranslateUi
 

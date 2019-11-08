@@ -24,6 +24,11 @@ QLabel#label_title{
 	border-bottom:1px solid rgb(197,194,182);
 }
 
+QLabel#label_content{
+	padding-left: 15px;
+	padding-right:15px;
+}
+
 /*分隔器*/
 QLabel#divider{
 	background-color:rgb(197,194,182);
@@ -141,6 +146,13 @@ QPushButton#btn_changeSkin{
     min-height: 0px;
 	background-color:transparent;
 	border-image:url(":/images/images/icon_skin.png");
+}
+
+QPushButton#btn_setting{
+	min-width: 0px;
+    min-height: 0px;
+	background-color:transparent;
+	border-image:url(":/BRSystem/images/setting.png");
 }
 
 QPushButton#btn_min{

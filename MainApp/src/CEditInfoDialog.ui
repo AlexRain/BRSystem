@@ -116,13 +116,6 @@
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
         </property>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_reason">
-           <property name="contextMenuPolicy">
-            <enum>Qt::NoContextMenu</enum>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="0">
           <widget class="QLabel" name="label_5">
            <property name="text">
@@ -160,13 +153,6 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QLineEdit" name="lineEdit_browerName">
-           <property name="contextMenuPolicy">
-            <enum>Qt::NoContextMenu</enum>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="lineEdit_productName">
            <property name="contextMenuPolicy">
@@ -183,6 +169,16 @@
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>
            </property>
           </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="lineEdit_reason">
+           <property name="contextMenuPolicy">
+            <enum>Qt::NoContextMenu</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="comBoBox_browerName"/>
          </item>
         </layout>
        </widget>
@@ -218,7 +214,6 @@
  <tabstops>
   <tabstop>lineEdit_productId</tabstop>
   <tabstop>lineEdit_productName</tabstop>
-  <tabstop>lineEdit_browerName</tabstop>
   <tabstop>lineEdit_reason</tabstop>
   <tabstop>textEdit_mark</tabstop>
   <tabstop>radioBtn_notReturned</tabstop>

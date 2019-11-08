@@ -115,7 +115,8 @@ void CTableview::init()
 	m_pTip->setSizePolicy(sp_retain);
 	m_pTip->setAlignment(Qt::AlignCenter);
 	m_pTip->setText(TOCH("暂无数据"));
-	layout->addWidget(m_pTip);
+	layout->addWidget(m_pTip,0,0);
+	layout->setAlignment(m_pTip,Qt::AlignCenter);
 
 	//设置右键菜单
 	this->setContextMenuPolicy(Qt::CustomContextMenu);
