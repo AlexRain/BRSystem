@@ -99,8 +99,8 @@ QToolButton:checked, QToolButton:pressed {
 }
 
 /*中间界面样式*/
-CUiCenter{
-	border-color:#23262c;border-width:1px;border-style:solid;
+#widget_Center{
+	/*border-color:#23262c;border-width:1px;border-style:solid;*/
 }
 
 QTableView{
@@ -312,6 +312,7 @@ QComboBox {
         border-radius: 3px;
         border: 1px solid rgb(35, 38, 44);
         background: rgb(32, 34, 38);
+		selection-background-color:#3a6390;
 }
 QComboBox:enabled {
         color: rgb(175, 175, 175);
@@ -335,7 +336,7 @@ QComboBox::down-arrow {
 QComboBox:on
 {
     background-color: #333333;
-    selection-background-color: #ffaa00;
+    selection-background-color: #3a6390;
 }
 
 QComboBox QAbstractItemView {

@@ -27,5 +27,5 @@ void BaseWidget::paintEvent(QPaintEvent *event)
 void BaseWidget::closeEvent(QCloseEvent *e)
 {
 	e->ignore();
-	emit closed();
+	emit closed(this);
 }

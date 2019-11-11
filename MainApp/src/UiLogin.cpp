@@ -34,12 +34,13 @@ UiLogin::UiLogin(QWidget *parent)
 
 	QLabel *pName = new QLabel(TOCH("用户名(&U)："), this);
 	m_pEditName = new QComboBox(this);
-	m_pEditName->setEditable(false);
+	m_pEditName->setEditable(true);
 	m_pEditName->setMinimumHeight(35);
 	pName->setBuddy(m_pEditName);
 
 	QLabel *pPwd = new QLabel(TOCH("密码(&P)："), this);
 	m_pEditPwd = new QLineEdit(this);
+	connect(m_pEditName, SIGNAL(currentIndexChanged(int)), m_pEditPwd, SLOT(setFocus()));
 	m_pEditPwd->setMinimumHeight(35);
 	m_pEditPwd->setEchoMode(QLineEdit::Password);
 	pPwd->setBuddy(m_pEditPwd);
@@ -105,10 +106,10 @@ void UiLogin::initUser()
 	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
 	{
 		QList<ModelData> vModel;
-		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY userName asc");
+		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime asc");
 		for (int i = 0,nLen = vModel.size(); i < nLen; ++i)
 		{
-			const ModelData model = vModel[i];
+			const ModelData &model = vModel[i];
 			UserData userData;
 			userData.userId = model["userId"];
 			userData.userName = model["userName"];
@@ -120,6 +121,7 @@ void UiLogin::initUser()
 		}
 
 		m_pEditName->setCurrentIndex(0);
+		m_pEditPwd->setFocus();
 	}
 	else {
 		DialogMsg::question(this,TOCH("发生错误"),TOCH("数据错误，请联系管理员。"),QMessageBox::Ok);
@@ -129,26 +131,41 @@ void UiLogin::initUser()
 
 void UiLogin::verify()
 {
-	bool ok = true;
-	if (m_pEditName->currentText().isEmpty()) {
-		QLabel *p = new QLabel(TOCH("请选择用户"));
-		p->setAlignment(Qt::AlignCenter);
-		p->resize(120, 50);
-		QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
-		BubbleTipWidget::showBubbleWidgetWithShadowColor(p, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
-		ok = false;
+	bool ok = false;
+	do 
+	{
+		QString strTip = "";
+		if (m_pEditName->currentText().isEmpty()) {
+			strTip = TOCH("请选择用户");
+			QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
+			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+			ok = false;
+			break;
+		}
+		QString id = m_pEditName->currentData().value<UserData>().userId;
+		if (id.isEmpty() || -1 == m_pEditName->findText(m_pEditName->currentText()))
+		{
+			strTip = TOCH("请在下拉菜单中选择用户");
+			QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
+			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+			ok = false;
+			break;
+		}
+		QString password = m_pEditName->currentData().value<UserData>().password;
+		if (password != m_pEditPwd->text() || m_pEditPwd->text().isEmpty()) {
+			strTip = TOCH("密码错误");
+			QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
+			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+			ok = false;
+			break;
+		}
+		ok = true;
+	} while (0);
+	
+	if (ok) {
+		UserSession::getInstance().setUserData(qvariant_cast<UserData>(m_pEditName->currentData()));
+		this->accept();
 	}
-	QString password = m_pEditName->currentData().value<UserData>().password;
-	if (password != m_pEditPwd->text() || m_pEditPwd->text().isEmpty()) { 
-		QLabel *p = new QLabel(TOCH("密码错误"));
-		p->setAlignment(Qt::AlignCenter);
-		p->resize(120, 50);
-		QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
-		BubbleTipWidget::showBubbleWidgetWithShadowColor(p, pos, BubbleTipWidget::Top, QColor(170,0,0), this);
-		ok = false;
-	}
-	UserSession::getInstance().setUserData(qvariant_cast<UserData>(m_pEditName->currentData()));
-	if (ok) this->accept();
 }
 
 int UiLogin::fadeIn()
@@ -171,8 +188,7 @@ int UiLogin::fadeIn()
 void UiLogin::mouseMoveEvent(QMouseEvent *event)
 {
 	QDialog::mouseMoveEvent(event);
-	if (event->buttons().testFlag(Qt::LeftButton) && m_bCanMove)
-	{
+	if (event->buttons().testFlag(Qt::LeftButton) && m_bCanMove){
 		QPoint posDes = event->globalPos() - m_dragPoint;
 		this->move(posDes);
 	}
@@ -181,19 +197,23 @@ void UiLogin::mouseMoveEvent(QMouseEvent *event)
 void UiLogin::mousePressEvent(QMouseEvent *event)
 {
 	QDialog::mousePressEvent(event);
-	if (QRect(0, 0, this->width(), 44).contains(event->pos()))
-	{
+	if (QRect(0, 0, this->width(), 44).contains(event->pos())){
 		m_bCanMove = true;
 		m_dragPoint = event->globalPos() - frameGeometry().topLeft();
 	}
 	else
-	{
 		m_bCanMove = false;
-	}
 }
 
 void UiLogin::mouseReleaseEvent(QMouseEvent *event)
 {
 	QDialog::mouseReleaseEvent(event);
 	m_bCanMove = false;
+}
+
+void UiLogin::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+		this->verify();
+	}
 }

@@ -20,5 +20,5 @@ protected:
 	void closeEvent(QCloseEvent *e);
 
 signals:
-	void closed();
+	void closed(BaseWidget *p = nullptr);
 };

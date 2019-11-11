@@ -106,6 +106,7 @@
     <QtMoc Include="src\GlowEffect.h" />
     <QtMoc Include="src\BubbleTipWidget.h" />
     <QtMoc Include="src\CApplication.h" />
+    <QtMoc Include="src\CLabel.h" />
     <ClInclude Include="src\CStyleManager.h" />
     <QtMoc Include="src\CustomShadowEffect.h" />
     <QtMoc Include="src\UiFrostedLayer.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="src\CApplication.cpp" />
     <ClCompile Include="src\CheckBoxDelegate.cpp" />
     <ClCompile Include="src\CirclePixmap.cpp" />
+    <ClCompile Include="src\CLabel.cpp" />
     <ClCompile Include="src\ComboBoxDelegate.cpp" />
     <ClCompile Include="src\CommonGui.cpp" />
     <ClCompile Include="src\CSearchLineEdit.cpp" />

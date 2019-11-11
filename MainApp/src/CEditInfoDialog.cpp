@@ -62,7 +62,7 @@ void CEditInfoDialog::initUsers()
 	CDbHelper dbHelper;
 	dbHelper.open();
 	QList<ModelData> vModel;
-	int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY userName asc");
+	int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime asc");
 	for (int i = 0, nLen = vModel.size(); i < nLen; ++i)
 	{
 		const ModelData model = vModel[i];

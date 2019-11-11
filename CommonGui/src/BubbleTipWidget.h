@@ -27,6 +27,9 @@ public:
 	static void showBubbleWidgetWithShadowColor(QWidget *content, const QPoint &globalPos,
 		BubbleTipWidget::ArrowDirection arrowDirection = BubbleTipWidget::Top,const QColor &shadowColor = QColor(),
 		QWidget *parent = nullptr);
+	static void showTextTipsWithShadowColor( const QString &tip,const QPoint &globalPos,
+		BubbleTipWidget::ArrowDirection arrowDirection = BubbleTipWidget::Top, const QColor &shadowColor = QColor(),
+		QWidget *parent = nullptr);
 
 public:
 	void fadeIn();

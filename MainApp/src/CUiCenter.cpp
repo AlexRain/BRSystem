@@ -28,7 +28,7 @@
 QList<HeadStruct> listHead;
 
 CUiCenter::CUiCenter(QWidget *parent)
-	: QWidget(parent), mLineEdit(nullptr), mTableView(nullptr)
+	: BaseWidget(parent), mLineEdit(nullptr), mTableView(nullptr)
 {
 	qRegisterMetaType<BorrowInfo>("BorrowInfo");
 	this->initUi();
@@ -43,7 +43,7 @@ void CUiCenter::initUi()
 {
 	//主布局
 	QGridLayout *main_layout = new QGridLayout(this);
-	main_layout->setContentsMargins(9, 0, 9, 9);
+	main_layout->setContentsMargins(9, 9, 9, 9);
 	main_layout->setSpacing(9);
 
 	/*查询输入框*/
@@ -176,6 +176,10 @@ void CUiCenter::initTableView()
 		this, SLOT(slotContextMenu(const QPoint &)));
 	connect(mTableView, SIGNAL(doubleClicked(const QModelIndex &)),
 		this, SLOT(slotTableViewDoubleClicked(const QModelIndex &)));
+	connect(mTableView, &CTableview::selectionRowChanged, [=](int selectedCount) {
+		m_pDataCount->setProperty("selectedCount", selectedCount);
+		this->updateCountLabel();
+	});
 
 	// 设置按照文件名升序排列
 	mTableView->sortByColumn(TableHeader::Status, Qt::AscendingOrder);
@@ -259,7 +263,8 @@ void CUiCenter::FuzzyQuery(const QString &key)
 void CUiCenter::setData(const QList<ModelData> &vModel)
 {
 	uint nLen = vModel.size();
-	m_pDataCount->setText(TOCH("共<span style='color:rgb(0,122,204)'>%1</span>条数据").arg(nLen));
+	m_pDataCount->setProperty("resultCount", nLen);
+	this->updateCountLabel();
 	mTableView->setData(vModel);
 	mTableView->setHeaderCheckBoxEnable(TableHeader::Order, true);
 }
@@ -306,8 +311,13 @@ void CUiCenter::sqlQueryExport()
 		return;
 	}
 
+	this->doExport(vModel);
+}
+
+void CUiCenter::doExport(QList<ModelData> &vModel)
+{
 	QStringList header;
-	for (const HeadStruct &info:listHead)
+	for (const HeadStruct &info : listHead)
 	{
 		if (!info.key.isEmpty())
 		{
@@ -316,7 +326,7 @@ void CUiCenter::sqlQueryExport()
 	}
 
 	QList<QStringList> datas;
-	for (ModelData &model:vModel)
+	for (ModelData &model : vModel)
 	{
 		int status = model["borrowStatus"].toInt();
 		if (BorrowStatus::Returned == status) {
@@ -352,7 +362,7 @@ void CUiCenter::sqlQueryExport()
 	if (Odbexcel::save(fileName, header, datas, "")) {
 		QStringList button;
 		button << TOCH("立即打开") << TOCH("取消");
-		int res = DialogMsg::question(this, TOCH("提示"), TOCH("保存成功！<br>已保存到：<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel,button);
+		int res = DialogMsg::question(this, TOCH("提示"), TOCH("保存成功！<br>已保存到：<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel, button);
 		if (res == QMessageBox::Ok) {
 			QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
 		}
@@ -361,6 +371,13 @@ void CUiCenter::sqlQueryExport()
 		QString msgError = TOCH("保存失败，") + Odbexcel::getError();
 		DialogMsg::question(this, TOCH("警告"), msgError, QMessageBox::Ok);
 	}
+}
+
+void CUiCenter::updateCountLabel()
+{
+	int resultCount = m_pDataCount->property("resultCount").toInt();
+	int selectedCount = m_pDataCount->property("selectedCount").toInt();
+	m_pDataCount->setText(TOCH("共查询到<span style='color:rgb(0,122,204)'>%1</span>条记录").arg(resultCount) + (selectedCount > 1?TOCH("，已选择<span style='color:rgb(0,122,204)'>%1</span>条").arg(selectedCount):""));
 }
 
 void CUiCenter::getBorrowData(BorrowInfo &info,int row)
@@ -375,6 +392,20 @@ void CUiCenter::getBorrowData(BorrowInfo &info,int row)
 	info.borrowReason = model->data(model->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
 	info.remarks = model->data(model->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
 	info.updateDate = model->data(model->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime();
+}
+
+void CUiCenter::getBorrowData(ModelData &info, int row)
+{
+	QAbstractItemModel *model = mTableView->model();
+	info["id"] = model->data(model->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
+	info["productionId"] = model->data(model->index(row, TableHeader::ProductionId), Qt::DisplayRole).toString();
+	info["productionName"] = model->data(model->index(row, TableHeader::ProductionName), Qt::DisplayRole).toString();
+	info["borrowerName"] = model->data(model->index(row, TableHeader::BorrowerName), Qt::DisplayRole).toString();
+	info["borrowDate"] = model->data(model->index(row, TableHeader::BorrowDate), Qt::UserRole).toDateTime().toString("yyyy-MM-dd hh:mm");
+	info["borrowStatus"] = (BorrowStatus)model->data(model->index(row, TableHeader::Status), Qt::UserRole).toInt();
+	info["borrowReason"] = model->data(model->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
+	info["remarks"] = model->data(model->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
+	info["updateDate"] = model->data(model->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime().toString("yyyy-MM-dd hh:mm");
 }
 
 void CUiCenter::setBorrowData(const BorrowInfo &info, int row)
@@ -437,12 +468,20 @@ void CUiCenter::slotContextMenu(const QPoint &pos)
 		int nCount = mTableView->selectionModel()->selectedRows().count();
 		if (nCount > 1) {
 			menu->addAction(TOCH("导出数据"), [=] {
-				
+				QList<ModelData> vModel;
+				QModelIndexList list = mTableView->selectionModel()->selectedRows();
+				for (const QModelIndex &index : list)
+				{
+					ModelData info;
+					this->getBorrowData(info, index.row());
+					vModel.append(info);
+				}
+				this->doExport(vModel);
 			});
 
 			menu->addAction(TOCH("删除"), [=] {
 				QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("提示"),
-					TOCH("确定要删除这<span style='color:rgb(0,122,204)'>%1</span>记录吗？").arg(nCount), QMessageBox::Ok | QMessageBox::Cancel);
+					TOCH("确定要删除这<span style='color:rgb(0,122,204)'>%1</span>条记录吗？").arg(nCount), QMessageBox::Ok | QMessageBox::Cancel);
 				if (ok == QMessageBox::Ok) {
 					QList<BorrowInfo> listInfo;
 					QModelIndexList list = mTableView->selectionModel()->selectedRows();

@@ -42,6 +42,9 @@
     <Filter Include="Source Files\CommonUse">
       <UniqueIdentifier>{78835ad7-f10b-493d-b995-d08a3c388324}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\label">
+      <UniqueIdentifier>{a35c92c3-6891-44b5-80c1-136b87d1de3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commongui_global.h">
@@ -115,6 +118,9 @@
     <ClCompile Include="src\CTableview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BaseWidget.h">
@@ -169,6 +175,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\CTableview.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

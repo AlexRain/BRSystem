@@ -10,10 +10,11 @@
 #include <QToolBar>
 #include <QDebug>
 #include <QBitmap>
+#include <QVBoxLayout>
 
 BRSystem::BRSystem(QWidget *parent)
-	: BaseWidget(parent), mTopWidget(nullptr), mCenterWidget(nullptr),
-	mToolbar(nullptr)
+	: BaseWidget(parent), mTopWidget(nullptr), m_pContentLayout(nullptr),
+	mToolbar(nullptr), m_pCurrentWidget(nullptr)
 {
 	this->init();
 	this->setWindowTitle(TOCH("汇声科技生产专用借还系统"));
@@ -27,14 +28,50 @@ BRSystem::~BRSystem()
 	qDebug() << "BRSystem";
 }
 
+void BRSystem::showCoverWidget(BaseWidget *content)
+{
+	qobject_cast<BRSystem*>(CApp->getMainWidget())->addwidget(content);
+}
+
+void BRSystem::addwidget(BaseWidget *content)
+{
+	Q_ASSERT(content);
+	connect(content, &BaseWidget::closed,[this](BaseWidget *obj) {
+		m_pContentLayout->removeWidget(obj);
+		auto it = mListWidgets.begin();
+		while (it != mListWidgets.end()) {
+			if (*it == obj) {
+				mListWidgets.erase(it);
+				break;
+			}
+			it++;
+		}
+	});
+
+	if (m_pCurrentWidget && m_pCurrentWidget != content) {
+		m_pContentLayout->removeWidget(m_pCurrentWidget);
+		m_pCurrentWidget->hide();
+	}
+	content->setParent(this);
+	m_pContentLayout->addWidget(content);
+	content->show();
+	m_pCurrentWidget = content;
+	mListWidgets << content;
+}
+
+void BRSystem::showMainPage()
+{
+	this->addwidget(mListWidgets.at(0));
+}
+
 void BRSystem::init()
 {
 	mTopWidget = new CUiTop(this);
-	connect(mTopWidget, &CUiTop::showChangeSkinDlg,this, [=]() {
+	connect(mTopWidget, &CUiTop::showChangeSkinDlg,this, [=](const QPoint &point) {
 		UiChangeSkin *dialog = new UiChangeSkin(this);
 		dialog->resize(350, 192);
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-		BubbleTipWidget::showBubbleWidget(dialog, QPoint(QCursor::pos().x(), pos.y() - 22 + 10),
+		BubbleTipWidget::showBubbleWidget(dialog, point,
 			BubbleTipWidget::Bottom, this);
 	});
 
@@ -61,22 +98,37 @@ void BRSystem::init()
 		if (result == QMessageBox::Ok) exit(0);
 	});
 
-	connect(mTopWidget, &CUiTop::clickProfile, [this]() {
+	connect(mTopWidget, &CUiTop::clickProfile, [this](const QPoint &point) {
 		QWidget *p = new QWidget();
 		p->resize(275, 308);
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-		BubbleTipWidget::showBubbleWidget(p,QPoint(QCursor::pos().x(), pos.y() - 22 + 10),
+		BubbleTipWidget::showBubbleWidget(p,/*QPoint(QCursor::pos().x(), pos.y() - 22 + 10)*/point,
 			BubbleTipWidget::Bottom,this);
 	});
 
-	mCenterWidget = new CUiCenter(this);
+	connect(mTopWidget, &CUiTop::showSettingUi, [this]() {
+		BaseWidget *p = new BaseWidget(this);
+		this->addwidget(p);
+	});
+
+	connect(mTopWidget, &CUiTop::showMainPage, [this]() {
+		this->showMainPage();
+	});
+
+	CUiCenter *centerWidget = new CUiCenter;
+	m_pContentLayout = new QVBoxLayout;
+	m_pContentLayout->setContentsMargins(0, 0, 0, 0);
+	m_pContentLayout->setSpacing(0);
+
 	QVBoxLayout *layout = new QVBoxLayout(this);
 	layout->setContentsMargins(0, 0, 0, 0);
 	layout->setSpacing(6);
 	layout->addWidget(mTopWidget);
 	layout->addWidget(UiHelper::createSplitter(this));
-	layout->addWidget(mCenterWidget);
+	layout->addItem(m_pContentLayout);
+
 	this->resize(958, 596);
+	this->addwidget(centerWidget);
 }
 
 void BRSystem::windowStateChanged(Qt::WindowStates states)

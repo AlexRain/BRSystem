@@ -4,6 +4,7 @@
 #include "define.h"
 #include "UiChangeSkin.h"
 #include "CirclePixmap.h"
+#include "UserSession.h"
 
 CUiTop::CUiTop(QWidget *parent)
 	: QWidget(parent), mStates(Qt::WindowNoState), headPixmap(nullptr)
@@ -14,9 +15,14 @@ CUiTop::CUiTop(QWidget *parent)
 	headPixmap->setFixedSize(30, 30);
 	headPixmap->setPixmap(QPixmap("images/testhead01.jpg"));
 	headPixmap->setCursor(Qt::PointingHandCursor);
-	connect(headPixmap, &CirclePixmap::clicked, this, &CUiTop::clickProfile);
+	connect(headPixmap, &CirclePixmap::clicked, [=]() {
+		emit clickProfile(this->mapToGlobal(QPoint(headPixmap->pos().x() + headPixmap->width() / 2, 
+			headPixmap->pos().y() + headPixmap->height() - 5)));
+	});
 	ui.horizontalLayout->replaceWidget(ui.label_head, headPixmap);
 	ui.label_head->hide();
+
+	ui.label_userName->setText(UserSession::getInstance().userData().userName);
 
 	ui.label_logo->setMinimumHeight(33);
 	QPixmap logo("images/logo.png");
@@ -49,7 +55,8 @@ void CUiTop::windowStateChanged(Qt::WindowStates states)
 
 void CUiTop::on_btn_changeSkin_clicked()
 {
-	emit showChangeSkinDlg();
+	emit showChangeSkinDlg(this->mapToGlobal(QPoint(ui.btn_changeSkin->pos().x() + ui.btn_changeSkin->width() / 2,
+		ui.btn_changeSkin->pos().y() + ui.btn_changeSkin->height() - 2)));
 }
 
 void CUiTop::on_btn_min_clicked()
@@ -65,4 +72,20 @@ void CUiTop::on_btn_max_clicked()
 void CUiTop::on_btn_close_clicked()
 {
 	emit appAboutToExit();
+}
+
+void CUiTop::on_btn_setting_clicked()
+{
+	emit showSettingUi();
+}
+
+void CUiTop::on_label_userName_clicked()
+{
+	emit clickProfile(this->mapToGlobal(QPoint(headPixmap->pos().x() + headPixmap->width() / 2,
+		headPixmap->pos().y() + headPixmap->height() - 5)));
+}
+
+void CUiTop::on_label_logo_clicked()
+{
+	emit showMainPage();
 }

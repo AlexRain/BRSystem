@@ -155,6 +155,9 @@ private:
 	void init();
 	void initHeader();
 
+signals:
+	void selectionRowChanged(int);
+
 private:
 	TableModel *m_pModel;
 	CHeaderView *m_pHeaderView;

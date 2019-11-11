@@ -33,12 +33,17 @@ private slots:
 	void on_btn_min_clicked();
 	void on_btn_max_clicked();
 	void on_btn_close_clicked();
+	void on_btn_setting_clicked();
+	void on_label_userName_clicked();
+	void on_label_logo_clicked();
 
 signals:
-	void showChangeSkinDlg();
+	void showChangeSkinDlg(const QPoint &point);
 	void aboutToChangeWindowState(CUiTop::WindowState state);
 	void appAboutToExit();
-	void clickProfile();
+	void clickProfile(const QPoint &point);
+	void showSettingUi();
+	void showMainPage();
 
 private:
 	Ui::CUiTop ui;

@@ -127,6 +127,10 @@ void CTableview::init()
 	this->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	this->setAlternatingRowColors(true);
 	this->setFrameShape(QFrame::NoFrame);
+
+	connect(selectionModel(), &QItemSelectionModel::selectionChanged, [=]() {
+		emit selectionRowChanged(selectionModel()->selectedRows().count());
+	});
 }
 
 void CTableview::initHeader()

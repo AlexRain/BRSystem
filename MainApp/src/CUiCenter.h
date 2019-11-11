@@ -9,6 +9,7 @@
 #include "ReadOnlyDelegate.h"
 #include "CTableview.h"
 #include "CDbHelper.h"
+#include "BaseWidget.h"
 
 class CSearchLineEdit;
 class QTableView;
@@ -97,7 +98,7 @@ public:
 	}
 };
 
-class CUiCenter : public QWidget, CTableview::SetDataCallback
+class CUiCenter : public BaseWidget, CTableview::SetDataCallback
 {
 	Q_OBJECT
 
@@ -118,8 +119,11 @@ private:
 	void setData(const QList<ModelData> &model);
 	void showDetailUi(const QModelIndex & index);
 	void sqlQueryExport();
+	void doExport(QList<ModelData> &datas);
+	void updateCountLabel();
 
 	void getBorrowData(BorrowInfo &info, int row);
+	void getBorrowData(ModelData &info, int row);
 	void setBorrowData(const BorrowInfo &info,int row);
 
 protected:

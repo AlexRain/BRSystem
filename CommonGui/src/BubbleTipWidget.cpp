@@ -3,12 +3,13 @@
 #include <QBitmap>
 #include <QStyleOption>
 #include <QPropertyAnimation>
+#include <QLabel>
 #include "CApplication.h"
 
 const int borderWidth = 8;
 const int arrowHeight = 10;
 const int arrowWidth = 20;
-const int contentMargins = 9;
+const int contentMargins = 0;
 const qreal radius = 3.0;
 
 BubbleTipWidget::BubbleTipWidget(ArrowDirection arowDirection,QWidget *conent, QWidget *parent)
@@ -18,9 +19,6 @@ BubbleTipWidget::BubbleTipWidget(ArrowDirection arowDirection,QWidget *conent, Q
 	this->setAttribute(Qt::WA_TranslucentBackground);
 	this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
 	this->setWindowFlags(windowFlags() | Qt::NoDropShadowWindowHint);
-
-	this->resize(conent->width() + borderWidth * 2,
-		conent->height() + borderWidth * 2);
 
 	_pBackground = new BubbleContentWidget(arowDirection,this);
 	QHBoxLayout *layout_main = new QHBoxLayout(this);
@@ -56,15 +54,14 @@ BubbleTipWidget::BubbleTipWidget(ArrowDirection arowDirection,QWidget *conent, Q
 	if (conent){
 		conent->setParent(this);
 		layout_content->addWidget(conent);
+		this->setFixedSize(conent->width() + borderWidth * 2 + layout_content->contentsMargins().left() + layout_content->contentsMargins().right(),
+			conent->height() + borderWidth * 2 + layout_content->contentsMargins().top() + layout_content->contentsMargins().bottom());
 	}
 	
 	_shadow = new QGraphicsDropShadowEffect(_pBackground);
 	_shadow->setOffset(0, 0);
 	_shadow->setBlurRadius(10);
 	_pBackground->setGraphicsEffect(_shadow);
-
-	this->setFixedSize(conent->width() + borderWidth * 2,
-		conent->height() + borderWidth * 2);
 }
 
 BubbleTipWidget::~BubbleTipWidget()
@@ -128,6 +125,15 @@ void BubbleTipWidget::showBubbleWidgetWithShadowColor(QWidget *content, const QP
 	tips->move(pos);
 	tips->fadeIn();
 	tips->setShadowColor(color);
+}
+
+void BubbleTipWidget::showTextTipsWithShadowColor(const QString &tip,const QPoint &globalPos, ArrowDirection arrowDirection /*= Top*/, const QColor &shadowColor /*= QColor()*/, QWidget *parent /*= nullptr*/)
+{
+	QLabel *p = new QLabel(tip);
+	p->setAlignment(Qt::AlignCenter);
+	int width = p->fontMetrics().width(tip), height = p->fontMetrics().height();
+	p->resize(width + 20, height + 20);
+	BubbleTipWidget::showBubbleWidgetWithShadowColor(p,globalPos,arrowDirection,shadowColor,parent);
 }
 
 void BubbleTipWidget::fadeIn()
