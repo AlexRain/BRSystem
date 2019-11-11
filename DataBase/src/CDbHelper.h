@@ -17,6 +17,7 @@
 #include "Condition.h"
 #include "database_global.h"
 #include "define.h"
+#include <QSqlError>
 
 #define DIC_BORROW_RETURN      "DIC_BORROW_RETURN"   /// 物品借还表
 #define DIC_DEPARTMENT         "DIC_DEPARTMENT"      /// 部门表
@@ -55,6 +56,8 @@ public:
 
     /// 判断表是否存在
     bool isTableExist(const QString &qsTableName);
+	/// 获取错误信息
+	QString lastErrorText() const;
     /// 插入
     int Replace(const QString &table, const ModelData &model);
     int Insert(const QString &table, const ModelData &model);

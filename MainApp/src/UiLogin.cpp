@@ -102,7 +102,12 @@ UiLogin::~UiLogin()
 void UiLogin::initUser()
 {
 	CDbHelper dbHelper;
-	dbHelper.open();
+	bool succ = dbHelper.open();
+	if (!succ){
+		DialogMsg::question(this, TOCH("·¢Éú´íÎó"), dbHelper.lastErrorText(), QMessageBox::Ok);
+		exit(0);
+	}
+
 	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
 	{
 		QList<ModelData> vModel;

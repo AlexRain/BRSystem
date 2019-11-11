@@ -6,14 +6,14 @@
 CirclePixmap::CirclePixmap(QWidget *parent, int borderWidth, const QColor &borderColor)
 	: QWidget(parent),mBorderWidth(borderWidth),mColorBorder(borderColor)
 {
-	this->mPixmap.load("images/defaulthead.png");
+	Q_ASSERT(this->mPixmap.load("images/defaulthead.png"));
 }
 
 CirclePixmap::CirclePixmap(const QPixmap &pixmap, QWidget *parent,
 	int borderWidth , const QColor &borderColor )
 	: QWidget(parent), mPixmap(pixmap),mBorderWidth(borderWidth), mColorBorder(borderColor)
 {
-	this->mPixmap.load("images/defaulthead.png");
+	Q_ASSERT(this->mPixmap.load("images/defaulthead.png"));
 }
 
 CirclePixmap::~CirclePixmap()

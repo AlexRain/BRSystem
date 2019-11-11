@@ -6,6 +6,7 @@
 #include <QSqlError>
 #include <QSqlDatabase>
 #include <QThread>
+#include <QSqlError>
 #include "qfile.h"
 
 QSqlDatabase g_db;
@@ -108,6 +109,12 @@ bool CDbHelper::isTableExist( const QString &qsTableName )
         }
     }
     return false;
+}
+
+QString CDbHelper::lastErrorText() const
+{
+	Q_ASSERT(m_pDb);
+	return m_pDb->lastError().text();
 }
 
 // ×ª»»³ÉinsertµÄsqlÓï¾ä
