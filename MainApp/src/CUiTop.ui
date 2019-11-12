@@ -205,7 +205,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="btn_max">
+      <widget class="QPushButton" name="btn_min">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -233,7 +233,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btn_min">
+      <widget class="QPushButton" name="btn_max">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>

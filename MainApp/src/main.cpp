@@ -9,7 +9,7 @@
 #include "PopupDialogContainer.h"
 #include "CApplication.h"
 #include <QDebug>
-//#define TEST
+#define TEST
 
 using namespace std;
 
@@ -107,7 +107,6 @@ int main(int argc, char *argv[])
 	double var = 3.14;
 	int value = 5;
 	const int &num = var;
-	int &num = value;
 
 	int *const p = &value;
 	int * p2 = p;

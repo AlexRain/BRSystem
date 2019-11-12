@@ -33,8 +33,8 @@ public:
     QPushButton *btn_setting;
     QLabel *divider;
     QHBoxLayout *horizontalLayout_2;
-    QPushButton *btn_max;
     QPushButton *btn_min;
+    QPushButton *btn_max;
     QPushButton *btn_close;
 
     void setupUi(QWidget *CUiTop)
@@ -118,16 +118,6 @@ public:
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(-1, -1, 0, -1);
-        btn_max = new QPushButton(CUiTop);
-        btn_max->setObjectName(QStringLiteral("btn_max"));
-        sizePolicy.setHeightForWidth(btn_max->sizePolicy().hasHeightForWidth());
-        btn_max->setSizePolicy(sizePolicy);
-        btn_max->setMinimumSize(QSize(20, 20));
-        btn_max->setMaximumSize(QSize(20, 20));
-        btn_max->setCursor(QCursor(Qt::PointingHandCursor));
-
-        horizontalLayout_2->addWidget(btn_max);
-
         btn_min = new QPushButton(CUiTop);
         btn_min->setObjectName(QStringLiteral("btn_min"));
         sizePolicy.setHeightForWidth(btn_min->sizePolicy().hasHeightForWidth());
@@ -137,6 +127,16 @@ public:
         btn_min->setCursor(QCursor(Qt::PointingHandCursor));
 
         horizontalLayout_2->addWidget(btn_min);
+
+        btn_max = new QPushButton(CUiTop);
+        btn_max->setObjectName(QStringLiteral("btn_max"));
+        sizePolicy.setHeightForWidth(btn_max->sizePolicy().hasHeightForWidth());
+        btn_max->setSizePolicy(sizePolicy);
+        btn_max->setMinimumSize(QSize(20, 20));
+        btn_max->setMaximumSize(QSize(20, 20));
+        btn_max->setCursor(QCursor(Qt::PointingHandCursor));
+
+        horizontalLayout_2->addWidget(btn_max);
 
         btn_close = new QPushButton(CUiTop);
         btn_close->setObjectName(QStringLiteral("btn_close"));
@@ -166,8 +166,8 @@ public:
         btn_changeSkin->setText(QString());
         btn_setting->setText(QString());
         divider->setText(QString());
-        btn_max->setText(QString());
         btn_min->setText(QString());
+        btn_max->setText(QString());
         btn_close->setText(QString());
     } // retranslateUi
 

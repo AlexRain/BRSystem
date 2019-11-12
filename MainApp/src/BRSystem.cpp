@@ -102,8 +102,7 @@ void BRSystem::init()
 		QWidget *p = new QWidget();
 		p->resize(275, 308);
 		QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-		BubbleTipWidget::showBubbleWidget(p,/*QPoint(QCursor::pos().x(), pos.y() - 22 + 10)*/point,
-			BubbleTipWidget::Bottom,this);
+		BubbleTipWidget::showBubbleWidget(p,point,BubbleTipWidget::Bottom,this);
 	});
 
 	connect(mTopWidget, &CUiTop::showSettingUi, [this]() {
