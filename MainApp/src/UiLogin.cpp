@@ -1,98 +1,128 @@
-#include <QGridLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QGraphicsDropShadowEffect>
-#include "define.h"
-#include "UserSession.h"
 #include "UiLogin.h"
+#include "BubbleTipWidget.h"
 #include "CDbHelper.h"
 #include "DialogMsg.h"
-#include "BubbleTipWidget.h"
-#include <QPropertyAnimation>
+#include "UserSession.h"
+#include "WebHandler.h"
+#include "define.h"
 #include <QEventLoop>
+#include <QFormLayout>
+#include <QGraphicsDropShadowEffect>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPropertyAnimation>
 
-UiLogin::UiLogin(QWidget *parent)
-	: QDialog(parent), m_pEditName(nullptr), m_pEditPwd(nullptr), m_bCanMove(false)
+static const char* USER_NAME = "USER_NAME";
+
+UiLogin::UiLogin(QWidget* parent)
+    : QDialog(parent)
+    , m_pEditName(nullptr)
+    , m_pEditPwd(nullptr)
+    , m_bCanMove(false)
 {
-	this->setWindowOpacity(0.0);
-	this->setWindowIcon(QIcon("images/app.ico"));
-	this->setWindowTitle(TOCH("物品借还系统"));
-	this->setWindowFlags(Qt::FramelessWindowHint);
-	this->setAttribute(Qt::WA_TranslucentBackground);
-	this->setMouseTracking(true);
+    this->setWindowOpacity(0.0);
+    this->setWindowIcon(QIcon("images/app.ico"));
+    this->setWindowTitle(tr("feng he network"));
+    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setMouseTracking(true);
 
-	QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
-	shadow->setOffset(0, 0);
-	shadow->setColor(Qt::black);
-	shadow->setBlurRadius(10);
-	this->setGraphicsEffect(shadow);
+    qRegisterMetaType<ResponData>("ResponData");
+    WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
+    //connect(WebHandler::instance(), &WebHandler::requestCallback, this, &UiLogin::onRequestCallback, Qt::QueuedConnection);
 
-	QHBoxLayout *layout_main = new QHBoxLayout(this);
-	QWidget *widgetContent = new QWidget(this);
-	widgetContent->setObjectName("contentWidget");
-	layout_main->addWidget(widgetContent);
+    QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
+    shadow->setOffset(0, 0);
+    shadow->setColor(Qt::black);
+    shadow->setBlurRadius(10);
+    this->setGraphicsEffect(shadow);
 
-	QLabel *pName = new QLabel(TOCH("用户名(&U)："), this);
-	m_pEditName = new QComboBox(this);
-	m_pEditName->setEditable(true);
-	m_pEditName->setMinimumHeight(35);
-	pName->setBuddy(m_pEditName);
+    QHBoxLayout* layout_main = new QHBoxLayout(this);
+    QWidget* widgetContent = new QWidget(this);
+    widgetContent->setObjectName("contentWidget");
+    layout_main->addWidget(widgetContent);
 
-	QLabel *pPwd = new QLabel(TOCH("密码(&P)："), this);
-	m_pEditPwd = new QLineEdit(this);
-	connect(m_pEditName, SIGNAL(currentIndexChanged(int)), m_pEditPwd, SLOT(setFocus()));
-	m_pEditPwd->setMinimumHeight(35);
-	m_pEditPwd->setEchoMode(QLineEdit::Password);
-	pPwd->setBuddy(m_pEditPwd);
+    QLabel* pName = new QLabel(tr("user name"), this); //用户名(&U)：
+    m_pEditName = new QLineEdit(this);
+    m_pEditName->setMinimumHeight(35);
+    pName->setBuddy(m_pEditName);
 
-	QGridLayout *layout_input = new QGridLayout;
-	layout_input->addWidget(pName, 0, 0, 1, 1);
-	layout_input->addWidget(m_pEditName, 0, 1, 1, 1);
-	layout_input->addWidget(pPwd, 1, 0, 1, 1);
-	layout_input->addWidget(m_pEditPwd, 1, 1, 1, 1);
-	layout_input->setVerticalSpacing(25);
-	layout_input->setContentsMargins(15, 15, 15, 15);
+    QLabel* pPwd = new QLabel(tr("login password"), this); //密码(&P)：
+    m_pEditPwd = new QLineEdit(this);
+    m_pEditPwd->setMinimumHeight(35);
+    m_pEditPwd->setEchoMode(QLineEdit::Password);
+    pPwd->setBuddy(m_pEditPwd);
 
-	QGridLayout *layout = new QGridLayout(widgetContent);
+    QFormLayout* layout_input = new QFormLayout;
+    {
+        QHBoxLayout* userNameLayout = new QHBoxLayout;
+        userNameLayout->setSpacing(5);
+        userNameLayout->setContentsMargins(0, 0, 0, 0);
+        userNameLayout->addWidget(m_pEditName);
+        QPushButton* registerBtn = new QPushButton(tr("register"), this);
+        registerBtn->setObjectName("registerBtn");
+        connect(registerBtn, &QPushButton::clicked, [=]() {});
+        userNameLayout->addWidget(registerBtn);
+        layout_input->addRow(pName, userNameLayout);
+    }
 
-	QPushButton *btn_close = UiHelper::creatPushButton(this, [=]() {
-		this->reject();
-	}, 25, 25, "", "btn_close");
+    {
+        QHBoxLayout* passwordLayout = new QHBoxLayout;
+        passwordLayout->setSpacing(5);
+        passwordLayout->setContentsMargins(0, 0, 0, 0);
+        passwordLayout->addWidget(m_pEditPwd);
+        QPushButton* forgetPwd = new QPushButton(tr("forget password"), this);
+        forgetPwd->setObjectName("forgetPassword");
+        connect(forgetPwd, &QPushButton::clicked, [=]() {});
+        passwordLayout->addWidget(forgetPwd);
+        layout_input->addRow(pPwd, passwordLayout);
+    }
 
-	QHBoxLayout *layout_close = new QHBoxLayout;
-	layout_close->setAlignment(Qt::AlignTop);
-	layout_close->addStretch();
-	layout_close->addWidget(btn_close);
+    layout_input->setVerticalSpacing(15);
+    layout_input->setContentsMargins(15, 15, 15, 15);
 
-	layout->addLayout(layout_close,  0, 0, 1, 1);
+    QGridLayout* layout = new QGridLayout(widgetContent);
 
-	QLabel *logo = new QLabel(this);
-	QPixmap pixLogo("images/logo.png");
-	logo->setMinimumWidth(115);
-	logo->setPixmap(UiHelper::justPixmapByWidth(115,pixLogo));
+    QPushButton* btn_close = UiHelper::creatPushButton(
+        this, [=]() {
+            this->reject();
+        },
+        25, 25, "", "btn_close");
 
-	QHBoxLayout *layout_logo = new QHBoxLayout;
-	layout_logo->addStretch();
-	layout_logo->addWidget(logo);
-	layout_logo->addStretch();
+    QHBoxLayout* layout_close = new QHBoxLayout;
+    layout_close->setAlignment(Qt::AlignTop);
+    layout_close->addStretch();
+    layout_close->addWidget(btn_close);
 
-	layout->addLayout(layout_logo, 1, 0, 3, 1);
-	layout->addLayout(layout_input, 4, 0, 3, 1);
+    layout->addLayout(layout_close, 0, 0, 1, 1);
 
-	auto verify = std::bind(&UiLogin::verify, this);
-	QPushButton *btn_ok = UiHelper::creatPushButton(this, verify, 0, 0,TOCH("登录"));
-	btn_ok->setShortcut(QKeySequence(Qt::Key_Return));
+    QLabel* logo = new QLabel(this);
+    QPixmap pixLogo("images/logo.png");
+    logo->setMinimumWidth(115);
+    logo->setPixmap(UiHelper::justPixmapByWidth(115, pixLogo));
 
-	QHBoxLayout *layout_ok = new QHBoxLayout;
-	layout_ok->addStretch();
-	layout_ok->addWidget(btn_ok);
-	layout_ok->addStretch();
+    QHBoxLayout* layout_logo = new QHBoxLayout;
+    layout_logo->addStretch();
+    layout_logo->addWidget(logo);
+    layout_logo->addStretch();
 
-	layout->addLayout(layout_ok,     7,0,3,1);
-	this->resize(430,330);
+    layout->addLayout(layout_logo, 1, 0, 3, 1);
+    layout->addLayout(layout_input, 4, 0, 3, 1);
 
-	CDbHelper::opendatabase("db.s3db");
-	this->initUser();
+    auto verify = std::bind(&UiLogin::verify, this);
+    buttonLogin = UiHelper::creatPushButton(this, verify, 0, 0, tr("login")); //登录
+    buttonLogin->setShortcut(QKeySequence(Qt::Key_Return));
+
+    QHBoxLayout* layout_ok = new QHBoxLayout;
+    layout_ok->addStretch();
+    layout_ok->addWidget(buttonLogin);
+    layout_ok->addStretch();
+
+    layout->addLayout(layout_ok, 7, 0, 3, 1);
+    this->resize(430, 330);
+
+    CDbHelper::opendatabase("db.s3db");
+    this->initUser();
 }
 
 UiLogin::~UiLogin()
@@ -101,124 +131,114 @@ UiLogin::~UiLogin()
 
 void UiLogin::initUser()
 {
-	CDbHelper dbHelper;
-	bool succ = dbHelper.open();
-	if (!succ){
-		DialogMsg::question(this, TOCH("发生错误"), dbHelper.lastErrorText(), QMessageBox::Ok);
-		exit(0);
-	}
-
-	if (dbHelper.isTableExist(DIC_BORROW_RETURN))
-	{
-		QList<ModelData> vModel;
-		int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime asc");
-		for (int i = 0,nLen = vModel.size(); i < nLen; ++i)
-		{
-			const ModelData &model = vModel[i];
-			UserData userData;
-			userData.userId = model["userId"];
-			userData.userName = model["userName"];
-			userData.isAdmin = 1 == model["isAdmin"].toInt();
-			userData.departmentId = model["departmentId"];
-			userData.departmentName = model["departmentName"];
-			userData.password = model["password"];
-			m_pEditName->addItem(model["userName"], QVariant::fromValue(userData));
-		}
-
-		m_pEditName->setCurrentIndex(0);
-		m_pEditPwd->setFocus();
-	}
-	else {
-		DialogMsg::question(this,TOCH("发生错误"),TOCH("数据错误，请联系管理员。"),QMessageBox::Ok);
-		exit(0);
-	}
+    QSettings userSetting("user.ini", QSettings::IniFormat);
+    QString userName = userSetting.value(USER_NAME, "").toString();
+    m_pEditName->setText(userName);
 }
 
 void UiLogin::verify()
 {
-	bool ok = false;
-	do 
-	{
-		QString strTip = "";
-		if (m_pEditName->currentText().isEmpty()) {
-			strTip = TOCH("请选择用户");
-			QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
-			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
-			ok = false;
-			break;
-		}
-		QString id = m_pEditName->currentData().value<UserData>().userId;
-		if (id.isEmpty() || -1 == m_pEditName->findText(m_pEditName->currentText()))
-		{
-			strTip = TOCH("请在下拉菜单中选择用户");
-			QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
-			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
-			ok = false;
-			break;
-		}
-		QString password = m_pEditName->currentData().value<UserData>().password;
-		if (password != m_pEditPwd->text() || m_pEditPwd->text().isEmpty()) {
-			strTip = TOCH("密码错误");
-			QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
-			BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
-			ok = false;
-			break;
-		}
-		ok = true;
-	} while (0);
-	
-	if (ok) {
-		UserSession::getInstance().setUserData(qvariant_cast<UserData>(m_pEditName->currentData()));
-		this->accept();
-	}
+    do {
+        QString strTip = "";
+        QString userName = m_pEditName->text();
+        if (userName.isEmpty()) {
+            strTip = tr("please input user name");
+            QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+            break;
+        }
+        QString password = m_pEditPwd->text();
+        if (password.isEmpty()) {
+            strTip = tr("please input password");
+            QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+            break;
+        }
+
+        buttonLogin->setEnabled(false);
+        RequestTask task;
+        task.reqeustId = (quint64)(this);
+        task.bodyObj.insert("account", userName);
+        task.bodyObj.insert("password", password);
+        task.apiIndex = API::login;
+        WebHandler::instance()->Post(task);
+        QSettings userSetting("user.ini", QSettings::IniFormat);
+        userSetting.setValue(USER_NAME, userName);
+    } while (0);
+}
+
+void UiLogin::onRequestCallback(const ResponData& data)
+{
+    buttonLogin->setEnabled(true);
+    if (data.task.reqeustId == (quint64)(this)) {
+        qInfo("data respond=%s", data.dataReturned.constData());
+        QJsonDocument document = QJsonDocument::fromJson(data.dataReturned);
+        QJsonObject dataObj = document.object();
+        if (dataObj.isEmpty())
+            return;
+        if (dataObj.contains("code")) {
+            int code = dataObj.value("code").toInt();
+            if (code != 0) {
+                DialogMsg::question(this, tr("warning"), dataObj.value("msg").toString(), QMessageBox::Ok);
+                return;
+            }
+
+            UserData userSession;
+            userSession.uid = dataObj.value("id").toInt();
+            userSession.token = dataObj.value("token").toString();
+            userSession.status = dataObj.value("status").toInt();
+            UserSession::instance().setUserData(userSession);
+
+            this->accept();
+        }
+    }
 }
 
 int UiLogin::fadeIn()
 {
-	this->show();
+    this->show();
 
-	/*开启事件循环，同步等待动画完成再启动*/
-	QEventLoop eventLoop;
-	QPropertyAnimation *animation = new QPropertyAnimation(this, "windowOpacity", this);
-	connect(animation, &QPropertyAnimation::finished, &eventLoop,&QEventLoop::quit);
-	animation->setDuration(200);
-	animation->setStartValue(0.0);
-	animation->setEndValue(1.0);
-	animation->start(QAbstractAnimation::DeleteWhenStopped);
-	eventLoop.exec();
+    /*开启事件循环，同步等待动画完成再启动*/
+    QEventLoop eventLoop;
+    QPropertyAnimation* animation = new QPropertyAnimation(this, "windowOpacity", this);
+    connect(animation, &QPropertyAnimation::finished, &eventLoop, &QEventLoop::quit);
+    animation->setDuration(200);
+    animation->setStartValue(0.0);
+    animation->setEndValue(1.0);
+    animation->start(QAbstractAnimation::DeleteWhenStopped);
+    eventLoop.exec();
 
-	return this->exec();
+    return this->exec();
 }
 
-void UiLogin::mouseMoveEvent(QMouseEvent *event)
+void UiLogin::mouseMoveEvent(QMouseEvent* event)
 {
-	QDialog::mouseMoveEvent(event);
-	if (event->buttons().testFlag(Qt::LeftButton) && m_bCanMove){
-		QPoint posDes = event->globalPos() - m_dragPoint;
-		this->move(posDes);
-	}
+    QDialog::mouseMoveEvent(event);
+    if (event->buttons().testFlag(Qt::LeftButton) && m_bCanMove) {
+        QPoint posDes = event->globalPos() - m_dragPoint;
+        this->move(posDes);
+    }
 }
 
-void UiLogin::mousePressEvent(QMouseEvent *event)
+void UiLogin::mousePressEvent(QMouseEvent* event)
 {
-	QDialog::mousePressEvent(event);
-	if (QRect(0, 0, this->width(), 44).contains(event->pos())){
-		m_bCanMove = true;
-		m_dragPoint = event->globalPos() - frameGeometry().topLeft();
-	}
-	else
-		m_bCanMove = false;
+    QDialog::mousePressEvent(event);
+    if (QRect(0, 0, this->width(), 44).contains(event->pos())) {
+        m_bCanMove = true;
+        m_dragPoint = event->globalPos() - frameGeometry().topLeft();
+    } else
+        m_bCanMove = false;
 }
 
-void UiLogin::mouseReleaseEvent(QMouseEvent *event)
+void UiLogin::mouseReleaseEvent(QMouseEvent* event)
 {
-	QDialog::mouseReleaseEvent(event);
-	m_bCanMove = false;
+    QDialog::mouseReleaseEvent(event);
+    m_bCanMove = false;
 }
 
-void UiLogin::keyPressEvent(QKeyEvent *event)
+void UiLogin::keyPressEvent(QKeyEvent* event)
 {
-	if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
-		this->verify();
-	}
+    if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
+        this->verify();
+    }
 }

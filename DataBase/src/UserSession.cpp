@@ -8,18 +8,18 @@ UserSession::~UserSession()
 {
 }
 
-UserSession & UserSession::getInstance()
+UserSession& UserSession::instance()
 {
-	static UserSession obj;
-	return obj;
+    static UserSession obj;
+    return obj;
 }
 
-void UserSession::setUserData(const UserData &data) 
+void UserSession::setUserData(const UserData& data)
 {
-	_userData = data;
+    _userData = data;
 }
 
-const UserData & UserSession::userData() const
+const UserData& UserSession::userData() const
 {
-	return _userData;
+    return _userData;
 }

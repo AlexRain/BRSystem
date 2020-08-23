@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'UiUsageRecord.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.2
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -38,18 +38,18 @@ public:
     void setupUi(QWidget *UiUsageRecord)
     {
         if (UiUsageRecord->objectName().isEmpty())
-            UiUsageRecord->setObjectName(QStringLiteral("UiUsageRecord"));
+            UiUsageRecord->setObjectName(QString::fromUtf8("UiUsageRecord"));
         UiUsageRecord->resize(570, 360);
         verticalLayout = new QVBoxLayout(UiUsageRecord);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(-1, 44, -1, -1);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         lineEdit = new CSearchLineEdit(UiUsageRecord);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -59,17 +59,17 @@ public:
         horizontalLayout->addWidget(lineEdit);
 
         dateEdit = new QDateEdit(UiUsageRecord);
-        dateEdit->setObjectName(QStringLiteral("dateEdit"));
+        dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
 
         horizontalLayout->addWidget(dateEdit);
 
         label = new QLabel(UiUsageRecord);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
 
         horizontalLayout->addWidget(label);
 
         dateEdit_2 = new QDateEdit(UiUsageRecord);
-        dateEdit_2->setObjectName(QStringLiteral("dateEdit_2"));
+        dateEdit_2->setObjectName(QString::fromUtf8("dateEdit_2"));
 
         horizontalLayout->addWidget(dateEdit_2);
 
@@ -81,7 +81,7 @@ public:
         verticalLayout->addLayout(horizontalLayout);
 
         tableView = new QTableView(UiUsageRecord);
-        tableView->setObjectName(QStringLiteral("tableView"));
+        tableView->setObjectName(QString::fromUtf8("tableView"));
 
         verticalLayout->addWidget(tableView);
 

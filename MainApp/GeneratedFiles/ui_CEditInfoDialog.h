@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'CEditInfoDialog.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.2
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -61,7 +61,7 @@ public:
     void setupUi(QWidget *CEditInfoDialog)
     {
         if (CEditInfoDialog->objectName().isEmpty())
-            CEditInfoDialog->setObjectName(QStringLiteral("CEditInfoDialog"));
+            CEditInfoDialog->setObjectName(QString::fromUtf8("CEditInfoDialog"));
         CEditInfoDialog->resize(698, 435);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
@@ -69,25 +69,25 @@ public:
         sizePolicy.setHeightForWidth(CEditInfoDialog->sizePolicy().hasHeightForWidth());
         CEditInfoDialog->setSizePolicy(sizePolicy);
         gridLayout_2 = new QGridLayout(CEditInfoDialog);
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setContentsMargins(-1, 44, -1, -1);
         groupBox_status = new QGroupBox(CEditInfoDialog);
-        groupBox_status->setObjectName(QStringLiteral("groupBox_status"));
+        groupBox_status->setObjectName(QString::fromUtf8("groupBox_status"));
         groupBox_status->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         horizontalLayout_2 = new QHBoxLayout(groupBox_status);
-        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         radioBtn_notReturned = new QRadioButton(groupBox_status);
-        radioBtn_notReturned->setObjectName(QStringLiteral("radioBtn_notReturned"));
+        radioBtn_notReturned->setObjectName(QString::fromUtf8("radioBtn_notReturned"));
 
         horizontalLayout_2->addWidget(radioBtn_notReturned);
 
         radioBtn_returned = new QRadioButton(groupBox_status);
-        radioBtn_returned->setObjectName(QStringLiteral("radioBtn_returned"));
+        radioBtn_returned->setObjectName(QString::fromUtf8("radioBtn_returned"));
 
         horizontalLayout_2->addWidget(radioBtn_returned);
 
         radioBtn_lost = new QRadioButton(groupBox_status);
-        radioBtn_lost->setObjectName(QStringLiteral("radioBtn_lost"));
+        radioBtn_lost->setObjectName(QString::fromUtf8("radioBtn_lost"));
 
         horizontalLayout_2->addWidget(radioBtn_lost);
 
@@ -95,9 +95,9 @@ public:
         gridLayout_2->addWidget(groupBox_status, 1, 0, 1, 2);
 
         horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
         btn_delete = new QPushButton(CEditInfoDialog);
-        btn_delete->setObjectName(QStringLiteral("btn_delete"));
+        btn_delete->setObjectName(QString::fromUtf8("btn_delete"));
 
         horizontalLayout_3->addWidget(btn_delete);
 
@@ -106,17 +106,17 @@ public:
         horizontalLayout_3->addItem(horizontalSpacer);
 
         btn_history = new QPushButton(CEditInfoDialog);
-        btn_history->setObjectName(QStringLiteral("btn_history"));
+        btn_history->setObjectName(QString::fromUtf8("btn_history"));
 
         horizontalLayout_3->addWidget(btn_history);
 
         btn_save = new QPushButton(CEditInfoDialog);
-        btn_save->setObjectName(QStringLiteral("btn_save"));
+        btn_save->setObjectName(QString::fromUtf8("btn_save"));
 
         horizontalLayout_3->addWidget(btn_save);
 
         btn_cancel = new QPushButton(CEditInfoDialog);
-        btn_cancel->setObjectName(QStringLiteral("btn_cancel"));
+        btn_cancel->setObjectName(QString::fromUtf8("btn_cancel"));
 
         horizontalLayout_3->addWidget(btn_cancel);
 
@@ -124,58 +124,58 @@ public:
         gridLayout_2->addLayout(horizontalLayout_3, 3, 1, 1, 1);
 
         groupBox_main = new QGroupBox(CEditInfoDialog);
-        groupBox_main->setObjectName(QStringLiteral("groupBox_main"));
+        groupBox_main->setObjectName(QString::fromUtf8("groupBox_main"));
         horizontalLayout = new QHBoxLayout(groupBox_main);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         groupBox_info = new QGroupBox(groupBox_main);
-        groupBox_info->setObjectName(QStringLiteral("groupBox_info"));
+        groupBox_info->setObjectName(QString::fromUtf8("groupBox_info"));
         groupBox_info->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         gridLayout = new QGridLayout(groupBox_info);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         label_5 = new QLabel(groupBox_info);
-        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
 
         gridLayout->addWidget(label_5, 3, 0, 1, 1);
 
         label = new QLabel(groupBox_info);
-        label->setObjectName(QStringLiteral("label"));
+        label->setObjectName(QString::fromUtf8("label"));
         label->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
 
         gridLayout->addWidget(label, 0, 0, 1, 1);
 
         label_2 = new QLabel(groupBox_info);
-        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
 
         gridLayout->addWidget(label_2, 1, 0, 1, 1);
 
         lineEdit_productId = new QLineEdit(groupBox_info);
-        lineEdit_productId->setObjectName(QStringLiteral("lineEdit_productId"));
+        lineEdit_productId->setObjectName(QString::fromUtf8("lineEdit_productId"));
         lineEdit_productId->setContextMenuPolicy(Qt::NoContextMenu);
 
         gridLayout->addWidget(lineEdit_productId, 0, 1, 1, 1);
 
         lineEdit_productName = new QLineEdit(groupBox_info);
-        lineEdit_productName->setObjectName(QStringLiteral("lineEdit_productName"));
+        lineEdit_productName->setObjectName(QString::fromUtf8("lineEdit_productName"));
         lineEdit_productName->setContextMenuPolicy(Qt::NoContextMenu);
 
         gridLayout->addWidget(lineEdit_productName, 1, 1, 1, 1);
 
         label_3 = new QLabel(groupBox_info);
-        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setAlignment(Qt::AlignJustify|Qt::AlignVCenter);
 
         gridLayout->addWidget(label_3, 2, 0, 1, 1);
 
         lineEdit_reason = new QLineEdit(groupBox_info);
-        lineEdit_reason->setObjectName(QStringLiteral("lineEdit_reason"));
+        lineEdit_reason->setObjectName(QString::fromUtf8("lineEdit_reason"));
         lineEdit_reason->setContextMenuPolicy(Qt::NoContextMenu);
 
         gridLayout->addWidget(lineEdit_reason, 3, 1, 1, 1);
 
         comBoBox_browerName = new QComboBox(groupBox_info);
-        comBoBox_browerName->setObjectName(QStringLiteral("comBoBox_browerName"));
+        comBoBox_browerName->setObjectName(QString::fromUtf8("comBoBox_browerName"));
 
         gridLayout->addWidget(comBoBox_browerName, 2, 1, 1, 1);
 
@@ -183,11 +183,11 @@ public:
         horizontalLayout->addWidget(groupBox_info);
 
         groupBox_mark = new QGroupBox(groupBox_main);
-        groupBox_mark->setObjectName(QStringLiteral("groupBox_mark"));
+        groupBox_mark->setObjectName(QString::fromUtf8("groupBox_mark"));
         verticalLayout = new QVBoxLayout(groupBox_mark);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         textEdit_mark = new QPlainTextEdit(groupBox_mark);
-        textEdit_mark->setObjectName(QStringLiteral("textEdit_mark"));
+        textEdit_mark->setObjectName(QString::fromUtf8("textEdit_mark"));
         textEdit_mark->setContextMenuPolicy(Qt::NoContextMenu);
 
         verticalLayout->addWidget(textEdit_mark);
@@ -199,7 +199,7 @@ public:
         gridLayout_2->addWidget(groupBox_main, 0, 0, 1, 2);
 
         label_4 = new QLabel(CEditInfoDialog);
-        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setObjectName(QString::fromUtf8("label_4"));
 
         gridLayout_2->addWidget(label_4, 2, 1, 1, 1);
 

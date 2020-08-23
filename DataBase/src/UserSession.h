@@ -1,34 +1,32 @@
-#pragma 
-#include <QString>
-#include <QMetaType>
+#pragma
 #include "database_global.h"
+#include <QMetaType>
+#include <QString>
 
-typedef struct _UserData
-{
-	QString userId;
-	QString userName;
-	bool    isAdmin;
-	QString departmentId;
-	QString departmentName;
-	QString password;
-}UserData;
+typedef struct _UserData {
+    QString userId;
+    int uid = -1;
+    QString userName;
+    bool isAdmin = false;
+    QString token;
+    int status = -1;
+    QString departmentId;
+    QString departmentName;
+} UserData;
 
 Q_DECLARE_METATYPE(UserData)
 
-class DATABASE_EXPORT UserSession
-{
-	
+class DATABASE_EXPORT UserSession {
+
 private:
-	UserSession();
-	~UserSession();
+    UserSession();
+    ~UserSession();
 
 public:
-	static UserSession & getInstance();
-	void setUserData(const UserData &data);
-	const UserData & userData() const;
+    static UserSession& instance();
+    void setUserData(const UserData& data);
+    const UserData& userData() const;
 
 private:
-	UserData _userData;
-
-
+    UserData _userData;
 };

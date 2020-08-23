@@ -533,7 +533,24 @@ StyledWidget{
 	qproperty-shadowColor:black;
 }
 
-UiTop{
-	qproperty-logo:url(:/BRSystem/images/logo.png);
+CUiTop{
+    qproperty-logo:url(:/BRSystem/images/logo.png);
+    min-height: 38px;
+    max-height: 38px;
 }
 
+UiLogin #registerBtn,#forgetPassword{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: cornflowerblue;
+}
+
+UiLogin #registerBtn:hover,#forgetPassword:hover{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: rgb(164, 190, 236);
+}

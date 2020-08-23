@@ -39,4 +39,8 @@
         <file>images/min.png</file>
         <file>images/normal.png</file>
     </qresource>
+    <qresource prefix="/translation">
+        <file>lang_en.qm</file>
+        <file>lang_zh.qm</file>
+    </qresource>
 </RCC>

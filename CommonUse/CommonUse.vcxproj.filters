@@ -24,6 +24,9 @@
     <ClCompile Include="src\CommonUse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WebLogicBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CommonUse.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WebLogicBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

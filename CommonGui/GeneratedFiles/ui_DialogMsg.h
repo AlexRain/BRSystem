@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'DialogMsg.ui'
 **
-** Created by: Qt User Interface Compiler version 5.11.2
+** Created by: Qt User Interface Compiler version 5.12.6
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -31,29 +31,29 @@ public:
     void setupUi(QDialog *DialogMsg)
     {
         if (DialogMsg->objectName().isEmpty())
-            DialogMsg->setObjectName(QStringLiteral("DialogMsg"));
+            DialogMsg->setObjectName(QString::fromUtf8("DialogMsg"));
         DialogMsg->resize(360, 216);
         verticalLayout = new QVBoxLayout(DialogMsg);
         verticalLayout->setSpacing(0);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(8, 8, 8, 8);
         contentWidget = new QWidget(DialogMsg);
-        contentWidget->setObjectName(QStringLiteral("contentWidget"));
+        contentWidget->setObjectName(QString::fromUtf8("contentWidget"));
         verticalLayout_2 = new QVBoxLayout(contentWidget);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(5, 33, 5, 5);
         label_content = new QLabel(contentWidget);
-        label_content->setObjectName(QStringLiteral("label_content"));
+        label_content->setObjectName(QString::fromUtf8("label_content"));
         label_content->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(label_content);
 
         layout_btn = new QHBoxLayout();
         layout_btn->setSpacing(15);
-        layout_btn->setObjectName(QStringLiteral("layout_btn"));
+        layout_btn->setObjectName(QString::fromUtf8("layout_btn"));
         layout_btn->setContentsMargins(-1, -1, -1, 20);
 
         verticalLayout_2->addLayout(layout_btn);
