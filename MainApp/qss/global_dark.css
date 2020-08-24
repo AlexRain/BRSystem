@@ -186,10 +186,11 @@ QPushButton#btn_min{
 }
 
 QPushButton#btn_close{
-	min-width: 0px;
-    min-height: 0px;
-	background-color:transparent;
-	border-image:url(":/images/images/close.png");
+	min-width: 25px;
+    min-height: 25px;
+    background-color:transparent;
+    border:none;
+	image:url(:/BRSystem/images/close.svg);
 }
 
 QPushButton#btn_max[isMaximized=false]{
@@ -537,6 +538,46 @@ CUiTop{
     qproperty-logo:url(:/BRSystem/images/logo.png);
     min-height: 38px;
     max-height: 38px;
+}
+
+UiLogin{
+    min-width: 330px;
+    max-width: 330px;
+    min-height: 400px;
+    max-height: 400px;
+    background:transparent;
+}
+
+UiLogin #label_logo{
+    min-width: 115px;
+    max-width: 115px;
+    min-height: 115px;
+    max-height: 115px;
+}
+
+UiLogin #page_login,
+UiLogin #page_register
+{
+    border: 1px solid #23262c;
+	border-radius:3px;
+	background:#16181c;
+}
+
+UiLogin #btn_back{
+    min-width: 25px;
+    max-width: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    background-color:transparent;
+    border:none;
+    image:url(:/BRSystem/images/back.svg);
+}
+
+UiLogin #btn_login, UiLogin #btn_register{
+    min-width: 210px;
+    max-width: 210px;
+    min-height: 30px;
+    max-height: 30px;
 }
 
 UiLogin #registerBtn,#forgetPassword{

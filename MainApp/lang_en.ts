@@ -113,49 +113,67 @@
 <context>
     <name>UiLogin</name>
     <message>
-        <location filename="src/UiLogin.cpp" line="25"/>
+        <location filename="src/UiLogin.cpp" line="26"/>
         <source>feng he network</source>
         <translation>FengHe Network</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="45"/>
+        <location filename="UiLogin.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="89"/>
+        <location filename="UiLogin.ui" line="171"/>
         <source>user name</source>
         <translation>User Name:</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="50"/>
+        <location filename="UiLogin.ui" line="82"/>
+        <location filename="UiLogin.ui" line="181"/>
         <source>login password</source>
         <translation>Password:</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="61"/>
+        <location filename="UiLogin.ui" line="216"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
         <source>register</source>
         <translation>Register</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="72"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
         <source>forget password</source>
         <translation>Forgot</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="111"/>
+        <location filename="UiLogin.ui" line="112"/>
         <source>login</source>
         <translation>Login</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="143"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
+        <source>or</source>
+        <translation>Or</translation>
+    </message>
+    <message>
+        <location filename="src/UiLogin.cpp" line="88"/>
         <source>please input user name</source>
         <translation>Please input user name</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="150"/>
+        <location filename="src/UiLogin.cpp" line="95"/>
         <source>please input password</source>
         <translation>Please input password</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="178"/>
+        <location filename="src/UiLogin.cpp" line="125"/>
         <source>warning</source>
         <translation>Warning</translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="191"/>
+        <source>confirm password</source>
+        <translation>Confirm</translation>
     </message>
     <message>
         <source>request error occured</source>

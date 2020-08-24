@@ -12,14 +12,15 @@
 #include <QLineEdit>
 #include <QPropertyAnimation>
 
+static const char* REGISTER = "register";
+static const char* FORGET_PWD = "forget";
 static const char* USER_NAME = "USER_NAME";
+static const char* RICH_TEXT = "<p><a href=\"register\"><span style=\" text - decoration: underline; color:#0000ff; \"> %s</span></a> %s<a href=\"forget\"><span style=\" text - decoration: underline; color:#0000ff; \"> %s</span></a></p>";
 
 UiLogin::UiLogin(QWidget* parent)
     : QDialog(parent)
-    , m_pEditName(nullptr)
-    , m_pEditPwd(nullptr)
-    , m_bCanMove(false)
 {
+    ui.setupUi(this);
     this->setWindowOpacity(0.0);
     this->setWindowIcon(QIcon("images/app.ico"));
     this->setWindowTitle(tr("feng he network"));
@@ -29,7 +30,6 @@ UiLogin::UiLogin(QWidget* parent)
 
     qRegisterMetaType<ResponData>("ResponData");
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
-    //connect(WebHandler::instance(), &WebHandler::requestCallback, this, &UiLogin::onRequestCallback, Qt::QueuedConnection);
 
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
     shadow->setOffset(0, 0);
@@ -37,92 +37,31 @@ UiLogin::UiLogin(QWidget* parent)
     shadow->setBlurRadius(10);
     this->setGraphicsEffect(shadow);
 
-    QHBoxLayout* layout_main = new QHBoxLayout(this);
-    QWidget* widgetContent = new QWidget(this);
-    widgetContent->setObjectName("contentWidget");
-    layout_main->addWidget(widgetContent);
-
-    QLabel* pName = new QLabel(tr("user name"), this); //ÓÃ»§Ãû(&U)£º
-    m_pEditName = new QLineEdit(this);
-    m_pEditName->setMinimumHeight(35);
-    pName->setBuddy(m_pEditName);
-
-    QLabel* pPwd = new QLabel(tr("login password"), this); //ÃÜÂë(&P)£º
-    m_pEditPwd = new QLineEdit(this);
-    m_pEditPwd->setMinimumHeight(35);
-    m_pEditPwd->setEchoMode(QLineEdit::Password);
-    pPwd->setBuddy(m_pEditPwd);
-
-    QFormLayout* layout_input = new QFormLayout;
-    {
-        QHBoxLayout* userNameLayout = new QHBoxLayout;
-        userNameLayout->setSpacing(5);
-        userNameLayout->setContentsMargins(0, 0, 0, 0);
-        userNameLayout->addWidget(m_pEditName);
-        QPushButton* registerBtn = new QPushButton(tr("register"), this);
-        registerBtn->setObjectName("registerBtn");
-        connect(registerBtn, &QPushButton::clicked, [=]() {});
-        userNameLayout->addWidget(registerBtn);
-        layout_input->addRow(pName, userNameLayout);
-    }
-
-    {
-        QHBoxLayout* passwordLayout = new QHBoxLayout;
-        passwordLayout->setSpacing(5);
-        passwordLayout->setContentsMargins(0, 0, 0, 0);
-        passwordLayout->addWidget(m_pEditPwd);
-        QPushButton* forgetPwd = new QPushButton(tr("forget password"), this);
-        forgetPwd->setObjectName("forgetPassword");
-        connect(forgetPwd, &QPushButton::clicked, [=]() {});
-        passwordLayout->addWidget(forgetPwd);
-        layout_input->addRow(pPwd, passwordLayout);
-    }
-
-    layout_input->setVerticalSpacing(15);
-    layout_input->setContentsMargins(15, 15, 15, 15);
-
-    QGridLayout* layout = new QGridLayout(widgetContent);
-
-    QPushButton* btn_close = UiHelper::creatPushButton(
+    btn_close = UiHelper::creatPushButton(
         this, [=]() {
             this->reject();
         },
         25, 25, "", "btn_close");
 
-    QHBoxLayout* layout_close = new QHBoxLayout;
-    layout_close->setAlignment(Qt::AlignTop);
-    layout_close->addStretch();
-    layout_close->addWidget(btn_close);
+    btn_back = UiHelper::creatPushButton(
+        this, [=]() {
+            btn_back->hide();
+            ui.stackedWidget->setCurrentWidget(ui.page_login);
+        },
+        25, 25, "", "btn_back");
+    btn_back->hide();
 
-    layout->addLayout(layout_close, 0, 0, 1, 1);
+    QString linkText;
+    linkText.sprintf(RICH_TEXT, tr("register").toUtf8().constData(), tr("or").toUtf8().constData(), tr("forget password").toUtf8().constData());
+    ui.label_link->setText(linkText);
+    connect(ui.label_link, &QLabel::linkActivated, this, &UiLogin::onLinkActived);
 
-    QLabel* logo = new QLabel(this);
-    QPixmap pixLogo("images/logo.png");
-    logo->setMinimumWidth(115);
-    logo->setPixmap(UiHelper::justPixmapByWidth(115, pixLogo));
-
-    QHBoxLayout* layout_logo = new QHBoxLayout;
-    layout_logo->addStretch();
-    layout_logo->addWidget(logo);
-    layout_logo->addStretch();
-
-    layout->addLayout(layout_logo, 1, 0, 3, 1);
-    layout->addLayout(layout_input, 4, 0, 3, 1);
-
-    auto verify = std::bind(&UiLogin::verify, this);
-    buttonLogin = UiHelper::creatPushButton(this, verify, 0, 0, tr("login")); //µÇÂ¼
-    buttonLogin->setShortcut(QKeySequence(Qt::Key_Return));
-
-    QHBoxLayout* layout_ok = new QHBoxLayout;
-    layout_ok->addStretch();
-    layout_ok->addWidget(buttonLogin);
-    layout_ok->addStretch();
-
-    layout->addLayout(layout_ok, 7, 0, 3, 1);
-    this->resize(430, 330);
+    ui.btn_login->setShortcut(QKeySequence(Qt::Key_Return));
+    connect(ui.btn_login, &QPushButton::clicked, this, &UiLogin::verify);
 
     CDbHelper::opendatabase("db.s3db");
     this->initUser();
+    ui.stackedWidget->setCurrentWidget(ui.page_login);
 }
 
 UiLogin::~UiLogin()
@@ -131,31 +70,35 @@ UiLogin::~UiLogin()
 
 void UiLogin::initUser()
 {
+    QPixmap pixLogo("images/logo.png");
+    ui.label_logo->setMinimumWidth(115);
+    ui.label_logo->setPixmap(UiHelper::justPixmapByWidth(115, pixLogo));
+
     QSettings userSetting("user.ini", QSettings::IniFormat);
     QString userName = userSetting.value(USER_NAME, "").toString();
-    m_pEditName->setText(userName);
+    ui.input_user_name->setText(userName);
 }
 
 void UiLogin::verify()
 {
     do {
         QString strTip = "";
-        QString userName = m_pEditName->text();
+        QString userName = ui.input_user_name->text();
         if (userName.isEmpty()) {
             strTip = tr("please input user name");
-            QPoint pos = m_pEditName->mapToGlobal(QPoint(m_pEditName->width() / 2, 15));
+            QPoint pos = ui.input_user_name->mapToGlobal(QPoint(ui.input_user_name->width() / 2, 15));
             BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
             break;
         }
-        QString password = m_pEditPwd->text();
+        QString password = ui.input_password->text();
         if (password.isEmpty()) {
             strTip = tr("please input password");
-            QPoint pos = m_pEditPwd->mapToGlobal(QPoint(m_pEditPwd->width() / 2, 15));
+            QPoint pos = ui.input_password->mapToGlobal(QPoint(ui.input_password->width() / 2, 15));
             BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
             break;
         }
 
-        buttonLogin->setEnabled(false);
+        ui.btn_login->setEnabled(false);
         RequestTask task;
         task.reqeustId = (quint64)(this);
         task.bodyObj.insert("account", userName);
@@ -169,7 +112,7 @@ void UiLogin::verify()
 
 void UiLogin::onRequestCallback(const ResponData& data)
 {
-    buttonLogin->setEnabled(true);
+    ui.btn_login->setEnabled(true);
     if (data.task.reqeustId == (quint64)(this)) {
         qInfo("data respond=%s", data.dataReturned.constData());
         QJsonDocument document = QJsonDocument::fromJson(data.dataReturned);
@@ -211,6 +154,15 @@ int UiLogin::fadeIn()
     return this->exec();
 }
 
+void UiLogin::onLinkActived(const QString& link)
+{
+    if (link == REGISTER) {
+        btn_back->show();
+        ui.stackedWidget->setCurrentWidget(ui.page_register);
+    } else if (link == FORGET_PWD) {
+    }
+}
+
 void UiLogin::mouseMoveEvent(QMouseEvent* event)
 {
     QDialog::mouseMoveEvent(event);
@@ -241,4 +193,18 @@ void UiLogin::keyPressEvent(QKeyEvent* event)
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
         this->verify();
     }
+}
+
+void UiLogin::resizeEvent(QResizeEvent* event)
+{
+    if (btn_close) {
+        btn_close->move(this->width() - btn_close->width() - 10, 10);
+        btn_close->raise();
+    }
+
+    if (btn_back) {
+        btn_back->move(10, 10);
+        btn_back->raise();
+    }
+    QDialog::resizeEvent(event);
 }

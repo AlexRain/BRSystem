@@ -413,6 +413,7 @@
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiTop.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
+    <QtUic Include="UiLogin.ui" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />

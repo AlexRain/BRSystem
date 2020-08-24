@@ -113,49 +113,67 @@
 <context>
     <name>UiLogin</name>
     <message>
-        <location filename="src/UiLogin.cpp" line="25"/>
+        <location filename="src/UiLogin.cpp" line="26"/>
         <source>feng he network</source>
         <translation>风禾网络</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="45"/>
+        <location filename="UiLogin.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="89"/>
+        <location filename="UiLogin.ui" line="171"/>
         <source>user name</source>
-        <translation>用户名(&amp;U)：</translation>
+        <translation>用户名</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="50"/>
+        <location filename="UiLogin.ui" line="82"/>
+        <location filename="UiLogin.ui" line="181"/>
         <source>login password</source>
-        <translation>密码(&amp;P)：</translation>
+        <translation>密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="61"/>
+        <location filename="UiLogin.ui" line="216"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
         <source>register</source>
         <translation>注册</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="72"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
         <source>forget password</source>
         <translation>忘记</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="111"/>
+        <location filename="UiLogin.ui" line="112"/>
         <source>login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="143"/>
+        <location filename="src/UiLogin.cpp" line="55"/>
+        <source>or</source>
+        <translation>或</translation>
+    </message>
+    <message>
+        <location filename="src/UiLogin.cpp" line="88"/>
         <source>please input user name</source>
         <translation>请输入用户名用户</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="150"/>
+        <location filename="src/UiLogin.cpp" line="95"/>
         <source>please input password</source>
         <translation>请输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="178"/>
+        <location filename="src/UiLogin.cpp" line="125"/>
         <source>warning</source>
         <translation>警告</translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="191"/>
+        <source>confirm password</source>
+        <translation>确认</translation>
     </message>
     <message>
         <source>request error occured</source>
