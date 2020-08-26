@@ -4,6 +4,7 @@
 #include "CApplication.h"
 #include "CDbHelper.h"
 #include "CTableview.h"
+#include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
 #include "define.h"
 #include <QModelIndex>
@@ -128,6 +129,7 @@ protected:
 private slots:
     void slotContextMenu(const QPoint&);
     void slotTableViewDoubleClicked(const QModelIndex& index);
+    void onRequestCallback(const ResponData&);
 
 private:
     CSearchLineEdit* mLineEdit;

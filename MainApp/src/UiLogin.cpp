@@ -15,7 +15,7 @@
 static const char* REGISTER = "register";
 static const char* FORGET_PWD = "forget";
 static const char* USER_NAME = "USER_NAME";
-static const char* RICH_TEXT = "<p><a href=\"register\"><span style=\" text - decoration: underline; color:#0000ff; \"> %s</span></a> %s<a href=\"forget\"><span style=\" text - decoration: underline; color:#0000ff; \"> %s</span></a></p>";
+static const char* RICH_TEXT = "<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \"> %s</span></a> %s<a href=\"forget\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \"> %s</span></a></p>";
 
 UiLogin::UiLogin(QWidget* parent)
     : QDialog(parent)
@@ -116,16 +116,17 @@ void UiLogin::onRequestCallback(const ResponData& data)
     if (data.task.reqeustId == (quint64)(this)) {
         qInfo("data respond=%s", data.dataReturned.constData());
         QJsonDocument document = QJsonDocument::fromJson(data.dataReturned);
-        QJsonObject dataObj = document.object();
-        if (dataObj.isEmpty())
+        QJsonObject root = document.object();
+        if (root.isEmpty())
             return;
-        if (dataObj.contains("code")) {
-            int code = dataObj.value("code").toInt();
+        if (root.contains("code")) {
+            int code = root.value("code").toInt();
             if (code != 0) {
-                DialogMsg::question(this, tr("warning"), dataObj.value("msg").toString(), QMessageBox::Ok);
+                DialogMsg::question(this, tr("warning"), root.value("msg").toString(), QMessageBox::Ok);
                 return;
             }
 
+            QJsonObject dataObj = root.value("data").toObject();
             UserData userSession;
             userSession.uid = dataObj.value("id").toInt();
             userSession.token = dataObj.value("token").toString();

@@ -1,4 +1,4 @@
-#include "CUiCenter.h"
+ï»¿#include "CUiCenter.h"
 #include "CApplication.h"
 #include "CEditInfoDialog.h"
 #include "CSearchLineEdit.h"
@@ -13,6 +13,7 @@
 #include "SortFilterProxyModel.h"
 #include "StyledDelegate.h"
 #include "UserSession.h"
+#include "WebHandler.h"
 #include <QCursor>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -32,6 +33,7 @@ CUiCenter::CUiCenter(QWidget* parent)
     , mLineEdit(nullptr)
     , mTableView(nullptr)
 {
+    WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     qRegisterMetaType<BorrowInfo>("BorrowInfo");
     this->initUi();
     this->initData();
@@ -43,17 +45,15 @@ CUiCenter::~CUiCenter()
 
 void CUiCenter::initUi()
 {
-    //Ö÷²¼¾Ö
     QGridLayout* main_layout = new QGridLayout(this);
     main_layout->setContentsMargins(9, 9, 9, 9);
     main_layout->setSpacing(9);
 
-    /*²éÑ¯ÊäÈë¿ò*/
     mLineEdit = new CSearchLineEdit(this);
     connect(mLineEdit, &CSearchLineEdit::query, [this](const QString& info) {
         this->FuzzyQuery(info);
     });
-    mLineEdit->setPlaceholderText(TOCH("ÊäÈë¼ìË÷ÐÅÏ¢"));
+    mLineEdit->setPlaceholderText(TOCH("search"));
     mLineEdit->setFixedHeight(24);
 
     m_pDataCount = new QLabel(this);
@@ -65,7 +65,6 @@ void CUiCenter::initUi()
     main_layout->addWidget(mLineEdit, 0, 0, 1, 2);
     main_layout->addWidget(m_pDataCount, 0, 2, 1, 1);
 
-    //ÐÂ½¨½èÌõ°´Å¥
     QPushButton* btn_add = UiHelper::creatPushButton(
         this, [=]() {
             CEditInfoDialog* infoDialog = new CEditInfoDialog(this, false);
@@ -91,27 +90,25 @@ void CUiCenter::initUi()
                     }
                 },
                 Qt::DirectConnection);
-            PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), TOCH("ÐÂ½¨½èÌõ"));
+            PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), tr("detail"));
         },
         25, 25, "", "btn_add");
-    btn_add->setToolTip(TOCH("ÐÂ½¨½èÌõ"));
+    btn_add->setToolTip(tr("add"));
 
-    /*´ò¿ª²Ù×÷ÈÕÖ¾*/
     QPushButton* btn_log = UiHelper::creatPushButton(
         this, [=]() {
             OperationLog* content = new OperationLog(this);
-            PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), TOCH("²Ù×÷ÈÕÖ¾"));
+            PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("log"));
         },
         25, 25, "", "btn_log");
-    btn_log->setToolTip(TOCH("²Ù×÷ÈÕÖ¾"));
+    btn_log->setToolTip(tr("log"));
 
-    /*µ¼³ö*/
     QPushButton* btn_export = UiHelper::creatPushButton(
         this, [=]() {
             this->sqlQueryExport();
         },
         25, 25, "", "btn_export");
-    btn_export->setToolTip(TOCH("µ¼³öÊý¾Ý"));
+    btn_export->setToolTip(TOCH("export"));
 
     main_layout->addWidget(btn_export, 0, 9, 1, 1);
     main_layout->addWidget(btn_log, 0, 10, 1, 1);
@@ -123,34 +120,19 @@ void CUiCenter::initHeader()
 {
     Q_ASSERT(mTableView);
 
-    HeadStruct headNode = { TOCH("Î¨Ò»ID"), -1, true };
+    HeadStruct headNode = { "id", -1, true };
     listHead << headNode;
 
-    headNode = { TOCH("ÐòºÅ"), 70, false };
+    headNode = { tr("index"), 70, false };
     listHead << headNode;
 
-    headNode = { TOCH("ÎïÆ·±àºÅ"), 150, false, "productionId" };
+    headNode = { tr("qq number"), -1, false };
     listHead << headNode;
 
-    headNode = { TOCH("ÎïÆ·Ãû³Æ"), -1, false, "productionName" };
+    headNode = { tr("phone number"), -1, false };
     listHead << headNode;
 
-    headNode = { TOCH("½èÓÃÈË"), 150, false, "borrowerName" };
-    listHead << headNode;
-
-    headNode = { TOCH("½èÓÃÈÕÆÚ"), 150, false, "borrowDate" };
-    listHead << headNode;
-
-    headNode = { TOCH("×´Ì¬"), 80, false, "borrowStatus" };
-    listHead << headNode;
-
-    headNode = { TOCH("½èÓÃÔ­ÓÉ"), -1, true, "borrowReason" };
-    listHead << headNode;
-
-    headNode = { TOCH("±¸×¢"), -1, true, "remarks" };
-    listHead << headNode;
-
-    headNode = { TOCH("¸üÐÂÊ±¼ä"), 150, false, "updateDate" };
+    headNode = { tr("status"), -1, false };
     listHead << headNode;
 
     mTableView->setHeader(listHead);
@@ -158,7 +140,7 @@ void CUiCenter::initHeader()
 
 void CUiCenter::initData()
 {
-    CDbHelper dbHelper;
+    /*CDbHelper dbHelper;
     dbHelper.open();
     QList<ModelData> vModel;
     if (dbHelper.isTableExist(DIC_BORROW_RETURN)) {
@@ -166,7 +148,13 @@ void CUiCenter::initData()
     } else {
         dbHelper.exec(CREATE_TABLE_SQL);
     }
-    this->setData(vModel);
+    this->setData(vModel);*/
+    RequestTask task;
+    task.reqeustId = (quint64)mTableView;
+    task.headerObj.insert("uid", UserSession::instance().userData().uid);
+    task.headerObj.insert("token", UserSession::instance().userData().token);
+    task.apiIndex = API::accountList;
+    WebHandler::instance()->Post(task);
 }
 
 void CUiCenter::initTableView()
@@ -174,9 +162,7 @@ void CUiCenter::initTableView()
     mTableView = new CTableview(this);
     this->initHeader();
     mTableView->setCreatRowCallbackListener(this);
-    mTableView->setHeaderCheckBoxEnable(TableHeader::Order, true);
 
-    //ÉèÖÃÓÒ¼ü²Ëµ¥
     mTableView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(mTableView, SIGNAL(customContextMenuRequested(const QPoint&)),
         this, SLOT(slotContextMenu(const QPoint&)));
@@ -187,13 +173,7 @@ void CUiCenter::initTableView()
         this->updateCountLabel();
     });
 
-    // ÉèÖÃ°´ÕÕÎÄ¼þÃûÉýÐòÅÅÁÐ
-    mTableView->sortByColumn(TableHeader::Status, Qt::AscendingOrder);
-    mTableView->sortByColumn(TableHeader::BorrowDate, Qt::AscendingOrder);
-    mTableView->sortByColumn(TableHeader::UpdateDate, Qt::AscendingOrder);
-
     mTableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
-    mTableView->setItemDelegateForColumn(TableHeader::Order, new CheckBoxDelegate(this));
 }
 
 void CUiCenter::sqlQuery(const QString& sql)
@@ -270,7 +250,6 @@ void CUiCenter::setData(const QList<ModelData>& vModel)
     m_pDataCount->setProperty("resultCount", nLen);
     this->updateCountLabel();
     mTableView->setData(vModel);
-    mTableView->setHeaderCheckBoxEnable(TableHeader::Order, true);
 }
 
 void CUiCenter::showDetailUi(const QModelIndex& index)
@@ -282,7 +261,6 @@ void CUiCenter::showDetailUi(const QModelIndex& index)
     CEditInfoDialog* infoDialog = new CEditInfoDialog(this);
     connect(
         infoDialog, &CEditInfoDialog::deleteItem, this, [=](const BorrowInfo& info) {
-            /*Êý¾Ý¿â²ÉÓÃ±ê¼ÇÉ¾³ý£¬¶ø·ÇÎïÀíÉ¾³ý*/
             ModelData model;
             model["deleteFlag"] = "1";
             this->sqlUpdate(model, info.id);
@@ -306,7 +284,7 @@ void CUiCenter::showDetailUi(const QModelIndex& index)
     BorrowInfo info;
     this->getBorrowData(info, index.row());
     infoDialog->setData(info);
-    PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), TOCH("±à¼­½èÌõ"));
+    PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), tr(""));
 }
 
 void CUiCenter::sqlQueryExport()
@@ -316,7 +294,7 @@ void CUiCenter::sqlQueryExport()
     QList<ModelData> vModel;
     int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN  WHERE deleteFlag = '0' ORDER BY updateDate desc");
     if (rows <= 0) {
-        DialogMsg::question(this, TOCH("¾¯¸æ"), TOCH("µ¼³öÊý¾ÝÎª¿Õ£¡"), QMessageBox::Ok);
+        DialogMsg::question(this, tr("question"), tr(""), QMessageBox::Ok);
         return;
     }
 
@@ -336,11 +314,11 @@ void CUiCenter::doExport(QList<ModelData>& vModel)
     for (ModelData& model : vModel) {
         int status = model["borrowStatus"].toInt();
         if (BorrowStatus::Returned == status) {
-            model["borrowStatus"] = TOCH("ÒÑ»¹");
+            model["borrowStatus"] = TOCH("ï¿½Ñ»ï¿½");
         } else if (BorrowStatus::NotReturned == status) {
-            model["borrowStatus"] = TOCH("Î´»¹");
+            model["borrowStatus"] = TOCH("Î´ï¿½ï¿½");
         } else {
-            model["borrowStatus"] = TOCH("¶ªÊ§");
+            model["borrowStatus"] = TOCH("ï¿½ï¿½Ê§");
         }
         QStringList list;
         for (const HeadStruct& info : listHead) {
@@ -355,23 +333,23 @@ void CUiCenter::doExport(QList<ModelData>& vModel)
     dialog.setFileMode(QFileDialog::ExistingFile);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     QStringList list;
-    list << TOCH("Excel97-2003¹¤×÷±¡(*.xls)");
+    list << TOCH("Excel97-2003ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(*.xls)");
     dialog.setNameFilters(list);
-    dialog.selectFile(TOCH("»ãÉù¿Æ¼¼%1½è»¹ÐÅÏ¢.xls").arg(TOCH("")));
+    dialog.selectFile(TOCH("ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½%1ï¿½è»¹ï¿½ï¿½Ï¢.xls").arg(TOCH("")));
     if (QDialog::Accepted != dialog.exec())
         return;
 
     QString fileName = dialog.selectedFiles()[0];
     if (Odbexcel::save(fileName, header, datas, "")) {
         QStringList button;
-        button << TOCH("Á¢¼´´ò¿ª") << TOCH("È¡Ïû");
-        int res = DialogMsg::question(this, TOCH("ÌáÊ¾"), TOCH("±£´æ³É¹¦£¡<br>ÒÑ±£´æµ½£º<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel, button);
+        button << TOCH("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½") << TOCH("È¡ï¿½ï¿½");
+        int res = DialogMsg::question(this, TOCH("ï¿½ï¿½Ê¾"), TOCH("ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½<br>ï¿½Ñ±ï¿½ï¿½æµ½ï¿½ï¿½<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel, button);
         if (res == QMessageBox::Ok) {
             QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
         }
     } else {
-        QString msgError = TOCH("±£´æÊ§°Ü£¬") + Odbexcel::getError();
-        DialogMsg::question(this, TOCH("¾¯¸æ"), msgError, QMessageBox::Ok);
+        QString msgError = TOCH("ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½") + Odbexcel::getError();
+        DialogMsg::question(this, TOCH("ï¿½ï¿½ï¿½ï¿½"), msgError, QMessageBox::Ok);
     }
 }
 
@@ -379,7 +357,9 @@ void CUiCenter::updateCountLabel()
 {
     int resultCount = m_pDataCount->property("resultCount").toInt();
     int selectedCount = m_pDataCount->property("selectedCount").toInt();
-    m_pDataCount->setText(TOCH("¹²²éÑ¯µ½<span style='color:rgb(0,122,204)'>%1</span>Ìõ¼ÇÂ¼").arg(resultCount) + (selectedCount > 1 ? TOCH("£¬ÒÑÑ¡Ôñ<span style='color:rgb(0,122,204)'>%1</span>Ìõ").arg(selectedCount) : ""));
+    QString tip;
+    tip.sprintf("%s<span style='color:rgb(0,122,204)'>%d</span>%s", tr("searched"), resultCount, tr("records"));
+    m_pDataCount->setText(tip);
 }
 
 void CUiCenter::getBorrowData(BorrowInfo& info, int row)
@@ -428,37 +408,19 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
     item.append(new QStandardItem(QString::number(index)));
-    item.append(new QStandardItem(model["productionId"]));
-    item.append(new QStandardItem(model["productionName"]));
-    item.append(new QStandardItem(model["borrowerName"]));
+    item.append(new QStandardItem(model["qq"]));
+    item.append(new QStandardItem(model["phone"]));
+    item.append(new QStandardItem(model["status"]));
 
-    QStandardItem* itemDate = new QStandardItem;
-    itemDate->setData(QDateTime::fromString(model["borrowDate"].left(16), "yyyy-MM-dd hh:mm"), Qt::UserRole);
-    item.append(itemDate);
-
-    QStandardItem* itemStatus = new QStandardItem;
-    itemStatus->setData((BorrowStatus)model["borrowStatus"].toInt(), Qt::UserRole);
-    item.append(itemStatus);
-
-    item.append(new QStandardItem(model["borrowReason"]));
-    item.append(new QStandardItem(model["remarks"]));
-
-    QStandardItem* itemUpdateDate = new QStandardItem;
-    itemUpdateDate->setData(QDateTime::fromString(model["updateDate"].left(16), "yyyy-MM-dd hh:mm"), Qt::UserRole);
-    item.append(itemUpdateDate);
-
-    //ÉèÖÃÁÐÊýµÄ¶ÔÆë·½Ê½
     item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
     return item;
 }
 
-/*ÏÔÊ¾ÓÒ¼ü²Ëµ¥*/
 void CUiCenter::slotContextMenu(const QPoint& pos)
 {
     QModelIndex index = mTableView->indexAt(pos);
@@ -468,7 +430,7 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
         QAbstractItemModel* model = mTableView->model();
         int nCount = mTableView->selectionModel()->selectedRows().count();
         if (nCount > 1) {
-            menu->addAction(TOCH("µ¼³öÊý¾Ý"), [=] {
+            menu->addAction(tr("export"), [=] {
                 QList<ModelData> vModel;
                 QModelIndexList list = mTableView->selectionModel()->selectedRows();
                 for (const QModelIndex& index : list) {
@@ -479,9 +441,9 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
                 this->doExport(vModel);
             });
 
-            menu->addAction(TOCH("É¾³ý"), [=] {
-                QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("ÌáÊ¾"),
-                    TOCH("È·¶¨ÒªÉ¾³ýÕâ<span style='color:rgb(0,122,204)'>%1</span>Ìõ¼ÇÂ¼Âð£¿").arg(nCount), QMessageBox::Ok | QMessageBox::Cancel);
+            menu->addAction(tr("delete"), [=] {
+                QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), tr("tips"),
+                    TOCH("È·ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½<span style='color:rgb(0,122,204)'>%1</span>ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½").arg(nCount), QMessageBox::Ok | QMessageBox::Cancel);
                 if (ok == QMessageBox::Ok) {
                     QList<BorrowInfo> listInfo;
                     QModelIndexList list = mTableView->selectionModel()->selectedRows();
@@ -496,13 +458,13 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             });
         } else {
             QModelIndex indexFirst = mTableView->model()->index(0, (int)TableHeader::Order);
-            menu->addAction(TOCH("²é¿´ÏêÇé"), [=] {
+            menu->addAction(TOCH("ï¿½é¿´ï¿½ï¿½ï¿½ï¿½"), [=] {
                 this->showDetailUi(index);
             });
 
-            menu->addAction(TOCH("É¾³ý"), [=] {
-                QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("ÌáÊ¾"),
-                    TOCH("È·¶¨ÒªÉ¾³ýÕâÌõ¼ÇÂ¼Âð£¿"), QMessageBox::Ok | QMessageBox::Cancel);
+            menu->addAction(TOCH("É¾ï¿½ï¿½"), [=] {
+                QMessageBox::StandardButton ok = DialogMsg::question(CApp->getMainWidget(), TOCH("ï¿½ï¿½Ê¾"),
+                    TOCH("È·ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½"), QMessageBox::Ok | QMessageBox::Cancel);
                 if (ok == QMessageBox::Ok) {
                     BorrowInfo info;
                     this->getBorrowData(info, index.row());
@@ -516,14 +478,14 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             QString id = model->data(model->index(index.row(), (int)TableHeader::UniqueId)).toString();
             switch (status) {
             case Returned:
-                menu->addAction(TOCH("±ê¼ÇÎªÎ´»¹"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½ÎªÎ´ï¿½ï¿½"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
                     this->sqlUpdate(data, id);
                     model->setData(indexLast, BorrowStatus::NotReturned, Qt::UserRole);
                 });
 
-                menu->addAction(TOCH("±ê¼ÇÎª¶ªÊ§"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê§"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
                     this->sqlUpdate(data, id);
@@ -531,14 +493,14 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
                 });
                 break;
             case NotReturned:
-                menu->addAction(TOCH("±ê¼ÇÎªÒÑ»¹"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½Îªï¿½Ñ»ï¿½"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
                     this->sqlUpdate(data, id);
                     model->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
                 });
 
-                menu->addAction(TOCH("±ê¼ÇÎª¶ªÊ§"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê§"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::Lost);
                     this->sqlUpdate(data, id);
@@ -546,14 +508,14 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
                 });
                 break;
             case Lost:
-                menu->addAction(TOCH("±ê¼ÇÎªÒÑ»¹"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½Îªï¿½Ñ»ï¿½"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::Returned);
                     this->sqlUpdate(data, id);
                     model->setData(indexLast, BorrowStatus::Returned, Qt::UserRole);
                 });
 
-                menu->addAction(TOCH("±ê¼ÇÎªÎ´»¹"), [=] {
+                menu->addAction(TOCH("ï¿½ï¿½ï¿½ÎªÎ´ï¿½ï¿½"), [=] {
                     ModelData data;
                     data["borrowStatus"] = QString::number((int)BorrowStatus::NotReturned);
                     this->sqlUpdate(data, id);
@@ -571,4 +533,31 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
 {
     this->showDetailUi(index);
+}
+
+void CUiCenter::onRequestCallback(const ResponData& data)
+{
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)mTableView) {
+        QJsonObject dataObj;
+        DataParseResult result;
+        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
+        if (result.errorCode == DataParseResult::NoError) {
+            QJsonArray array = dataObj.value("List").toArray();
+            auto iter = array.constBegin();
+            QList<ModelData> listData;
+            while (iter != array.constEnd()) {
+                QJsonObject obj = (*iter).toObject();
+                ModelData itemData;
+                itemData["id"] = obj.value("id").toString();
+                itemData["qq"] = obj.value("qq").toString();
+                itemData["phone"] = obj.value("phone").toString();
+                itemData["status"] = obj.value("status").toString();
+                listData.append(itemData);
+                ++iter;
+            }
+            this->setData(listData);
+        }
+    }
 }

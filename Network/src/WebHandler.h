@@ -30,6 +30,9 @@ public:
     static bool bindLoadingCallback(const QObject* receiver, const char* method);
     static bool bindNetworkStatusChangeCallback(const QObject* receiver, const char* method);
 
+    static void ParseJsonData(const QByteArray& rawData, QJsonObject& data, DataParseResult* result = nullptr);
+    static void JsonToArray(const QJsonArray& root, void (*func)(const QJsonObject& obj, void* param), void* param);
+
 signals:
     void requestCallback(const ResponData& data);
     void accesibleChanged(NetworkAccessiblity accesibility);

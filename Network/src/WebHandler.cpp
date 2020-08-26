@@ -70,6 +70,45 @@ bool WebHandler::bindNetworkStatusChangeCallback(const QObject* receiver, const 
     return QObject::connect(WebHandler::instance(), SIGNAL(accesibleChanged(NetworkAccessiblity)), receiver, method, Qt::QueuedConnection);
 }
 
+void WebHandler::ParseJsonData(const QByteArray& rawData, QJsonObject& data, DataParseResult* result)
+{
+    QJsonParseError error;
+    QJsonDocument document = QJsonDocument::fromJson(rawData, &error);
+    if (error.error != QJsonParseError::NoError) {
+        if (result) {
+            result->errorCode = DataParseResult::ParseError;
+            result->message = tr("parse error");
+        }
+        return;
+    }
+    QJsonObject root = document.object();
+    if (root.value("code").toInt() != 0) {
+        if (result) {
+            result->errorCode = DataParseResult::ParseError;
+            result->message = root.value("msg").toString();
+        }
+        return;
+    }
+    if (result)
+        result->message = root.value("msg").toString();
+    data = root.value("data").toObject();
+}
+
+void WebHandler::JsonToArray(const QJsonArray& array, void (*func)(const QJsonObject& obj, void* param), void* param)
+{
+    Q_ASSERT(func);
+    if (array.size() > 0) {
+        auto iter = array.constBegin();
+        while (iter != array.constEnd()) {
+            if ((*iter).isObject()) {
+                QJsonObject itemObj = (*iter).toObject();
+                func(itemObj, param);
+            }
+            ++iter;
+        }
+    }
+}
+
 void WebHandler::start()
 {
     if (!thread.isRunning()) {
@@ -129,6 +168,7 @@ void WebHandler::requestFinished(QNetworkReply* reply)
             if (statusCode == 200) {
                 qDebug("http request url=%s success", qPrintable(reply->url().toEncoded().constData()));
                 QByteArray data = reply->readAll();
+                qInfo("data respond=%s", data.constData());
                 dataCallback.dataReturned = data;
                 emit requestCallback(dataCallback);
                 return;
@@ -180,6 +220,12 @@ void WebHandler::startNextRequest()
         QByteArray bodyParam;
         setRequestBodyByParam(bodyParam, currentTask.task.bodyObj);
         currentRequest = manager->post(request, bodyParam);
+#ifdef DEBUG
+        qInfo() << "request param"
+                << "header";
+
+#endif // DEBUG
+
         break;
     }
     default:
@@ -255,6 +301,17 @@ void WebHandler::setQueryByParam(QUrl& url, const QJsonObject& objQuery)
         urlQuery.addQueryItem(iter.key(), iter.value().toString().toUtf8());
         ++iter;
     }
+}
+
+QByteArray intToByte(int i)
+{
+    QByteArray abyte0;
+    abyte0.resize(4);
+    abyte0[0] = (uchar)(0x000000ff & i);
+    abyte0[1] = (uchar)((0x0000ff00 & i) >> 8);
+    abyte0[2] = (uchar)((0x00ff0000 & i) >> 16);
+    abyte0[3] = (uchar)((0xff000000 & i) >> 24);
+    return abyte0;
 }
 
 void WebHandler::setRequestHeaderByParam(QNetworkRequest& httpRequest, const QJsonObject& jsonObject)

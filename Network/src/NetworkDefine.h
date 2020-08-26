@@ -65,3 +65,14 @@ enum class NetworkRequestError {
 };
 
 Q_ENUMS(NetworkRequestError)
+
+struct DataParseResult {
+    enum ErrorCode {
+        NoError = 0,
+        ParseError
+    };
+    QString message;
+    ErrorCode errorCode { NoError };
+};
+
+Q_DECLARE_METATYPE(DataParseResult)
