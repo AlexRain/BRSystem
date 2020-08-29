@@ -410,6 +410,7 @@
     <ClCompile Include="src\UiUsageRecord.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="CUiCenter.ui" />
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiTop.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />

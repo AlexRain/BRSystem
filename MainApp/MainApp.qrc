@@ -26,6 +26,8 @@
         <file>images/setting.png</file>
         <file>images/back.svg</file>
         <file>images/close.svg</file>
+        <file>images/phone-number.svg</file>
+        <file>images/sync.svg</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>
@@ -44,5 +46,10 @@
     <qresource prefix="/translation">
         <file>lang_en.qm</file>
         <file>lang_zh.qm</file>
+    </qresource>
+    <qresource prefix="/theme">
+        <file>qss/global_dark.css</file>
+        <file>qss/global_orange.css</file>
+        <file>qss/global_white.css</file>
     </qresource>
 </RCC>

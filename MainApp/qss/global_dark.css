@@ -39,6 +39,10 @@ QMenuBar {
 	background-color:#16181c;
 	color: white;
 }
+
+QSplitter::handle{
+    background-color: #16181c;
+}
  
 QMenuBar::item {
     spacing: 50px;
@@ -146,7 +150,7 @@ QPushButton {
 	border-radius: 3px;
     padding: 4px;
     min-width: 65px;
-    min-height: 12px;
+    min-height: 25px;
 }
 
 QPushButton:hover {
@@ -168,29 +172,28 @@ QPushButton#btn_changeSkin{
 	min-width: 0px;
     min-height: 0px;
 	background-color:transparent;
-	border-image:url(":/images/images/icon_skin.png");
+	border-image:url(:/images/images/icon_skin.png);
 }
 
 QPushButton#btn_setting{
 	min-width: 0px;
     min-height: 0px;
 	background-color:transparent;
-	border-image:url(":/BRSystem/images/setting.png");
+	border-image:url(:/BRSystem/images/setting.png);
 }
 
 QPushButton#btn_min{
 	min-width: 0px;
     min-height: 0px;
 	background-color:transparent;
-	border-image:url(":/images/images/min.png");
+	border-image:url(:/images/images/min.png);
 }
 
 QPushButton#btn_close{
-	min-width: 25px;
-    min-height: 25px;
+	min-width: 0px;
+    min-height: 0px;
     background-color:transparent;
-    border:none;
-	image:url(:/BRSystem/images/close.svg);
+	border-image:url(:/images/images/close.png);
 }
 
 QPushButton#btn_max[isMaximized=false]{
@@ -348,7 +351,7 @@ QComboBox QAbstractItemView {
 }
 QComboBox QAbstractItemView::item {
         min-height: 25px;
-        color: rgb(175, 175, 175);
+        color: #afafaf;
 		background-color:#333333;
 }
 QComboBox QAbstractItemView::item:selected {
@@ -359,7 +362,7 @@ QComboBox QAbstractItemView::item:selected {
 /*查询控件样式*/
 CSearchLineEdit{
 	color:gray;
-	selection-background-color:rgb(58,99,144);
+	selection-background-color:#3a6390;
 	background-color:#202226;
 	padding-left:25px;padding-right:5px;
 	border-style:solid;border-color:#23262c;border-width:1px;
@@ -367,13 +370,15 @@ CSearchLineEdit{
 
 CSearchLineEdit:hover{
 	color:rgb(230, 230, 230);
-	border-color:rgb(0,122,204);
+	border-color:#007acc;
 }
 
 /*查询控件*/
 QPushButton#btn_search{
-	min-width: 0px;
-    min-height: 0px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -382,10 +387,10 @@ QPushButton#btn_search{
 
 /*添加借条按钮*/
 QPushButton#btn_add{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -394,10 +399,10 @@ QPushButton#btn_add{
 
 /*添加日志按钮*/
 QPushButton#btn_log{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -406,10 +411,10 @@ QPushButton#btn_log{
 
 /*导出数据*/
 QPushButton#btn_export{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -418,14 +423,38 @@ QPushButton#btn_export{
 
 /*刷新*/
 QPushButton#btn_refresh{
-	min-width: 0px;
-    min-height: 0px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
-	width:25px;
-	height:25px;
 	border-radius:0px;
 	background-color:transparent;
-	border-image:url(":/BRSystem/images/refresh_dark.png");
+    border-image:url(":/BRSystem/images/refresh_dark.png");
+}
+
+/*手机号管理*/
+QPushButton#btn_phone_manage{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/phone-number.svg);
+}
+
+/*同步手机号*/
+QPushButton#btn_sync_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/sync.svg);
 }
 
 /**********滚动条-水平**********/
@@ -440,7 +469,7 @@ QScrollBar:horizontal {
 QScrollBar::handle:horizontal {
         height: 14px;
         min-width: 30px;
-        background: rgb(68, 69, 73);
+        background: #444549;
         margin-left: 0px;
         margin-right: 0px;
 }
@@ -594,4 +623,9 @@ UiLogin #registerBtn:hover,#forgetPassword:hover{
     min-height: 0px;
     background: transparent;
     color: rgb(164, 190, 236);
+}
+
+UiCenter #groupBox_btn > QPushButton,
+UiCenter #groupBox > QPushButton{
+    min-height: 40px;
 }

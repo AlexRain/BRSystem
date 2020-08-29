@@ -5,6 +5,10 @@ QWidget{
 	color:#eeeeee;
 }
 
+QSplitter::handle{
+    background-color: #323232;
+}
+
 QToolTip
 {
      background-color: #ffa02f;
@@ -154,7 +158,7 @@ QPushButton
     padding-left: 5px;
     padding-right: 5px;
 	min-width: 65px;
-    min-height: 12px;
+    min-height: 25px;
 }
 
 QPushButton:pressed
@@ -579,8 +583,10 @@ CSearchLineEdit:hover{
 
 /*查询控件*/
 QPushButton#btn_search{
-	min-width: 0px;
-    min-height: 0px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -589,10 +595,10 @@ QPushButton#btn_search{
 
 /*添加借条按钮*/
 QPushButton#btn_add{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -601,10 +607,10 @@ QPushButton#btn_add{
 
 /*添加日志按钮*/
 QPushButton#btn_log{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -613,10 +619,10 @@ QPushButton#btn_log{
 
 /*导出数据*/
 QPushButton#btn_export{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -625,14 +631,38 @@ QPushButton#btn_export{
 
 /*刷新*/
 QPushButton#btn_refresh{
-	min-width: 0px;
-    min-height: 0px;
-	padding:0px;
-	width:25px;
-	height:25px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	border-radius:0px;
+	padding:0px;
 	background-color:transparent;
 	border-image:url(":/BRSystem/images/refresh_dark.png");
+}
+
+/*手机号管理*/
+QPushButton#btn_phone_manage{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/phone-number.svg);
+}
+
+/*同步手机号*/
+QPushButton#btn_sync_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/sync.svg);
 }
 
 /*中间界面样式*/
@@ -655,5 +685,69 @@ BubbleContentWidget{
 StyledWidget{
 	qproperty-backgroundColor:#d7801a;
 	qproperty-shadowColor:#1e1e1e;
+}
+
+UiLogin{
+    min-width: 330px;
+    max-width: 330px;
+    min-height: 400px;
+    max-height: 400px;
+    background:transparent;
+}
+
+UiLogin #label_logo{
+    min-width: 115px;
+    max-width: 115px;
+    min-height: 115px;
+    max-height: 115px;
+}
+
+UiLogin #page_login,
+UiLogin #page_register
+{
+    border: 1px solid #23262c;
+	border-radius:3px;
+	background:#16181c;
+}
+
+UiLogin #btn_back{
+    min-width: 25px;
+    max-width: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    background-color:transparent;
+    border:none;
+    image:url(:/BRSystem/images/back.svg);
+}
+
+UiLogin #btn_login, UiLogin #btn_register{
+    min-width: 210px;
+    max-width: 210px;
+    min-height: 30px;
+    max-height: 30px;
+}
+
+UiLogin #registerBtn,#forgetPassword{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: cornflowerblue;
+}
+
+UiLogin #registerBtn:hover,#forgetPassword:hover{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: rgb(164, 190, 236);
+}
+
+CUiCenter #label_ads{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: cornflowerblue;
 }
 

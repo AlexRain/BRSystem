@@ -14,8 +14,8 @@ class QLabel;
 
 typedef struct _HeadStruct {
     QString headText;
-    int columnWidth;
-    bool isHidden;
+    int columnWidth = -1;
+    bool isHidden = false;
     QString key;
 } HeadStruct;
 

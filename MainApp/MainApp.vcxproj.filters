@@ -207,6 +207,9 @@
     <QtUic Include="UiLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="CUiCenter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />

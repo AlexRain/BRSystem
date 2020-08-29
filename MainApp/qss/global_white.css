@@ -5,6 +5,10 @@ QWidget{
 	color:rgb(51,51,51);
 }
 
+QSplitter::handle{
+    background-color: #eee8d5;
+}
+
 QToolTip
 {
      background-color: #ddd6c1;
@@ -15,13 +19,13 @@ QToolTip
 }
 
 QLabel{
-	background-color:rgb(238,232,213);
+	background-color:transparent;
 }
 
 QLabel#label_title{
 	border-top-left-radius:3px;
 	border-top-right-radius:3px;
-	border-bottom:1px solid rgb(197,194,182);
+	border-bottom:1px solid #c5c2b6;
 }
 
 QLabel#label_content{
@@ -31,7 +35,7 @@ QLabel#label_content{
 
 /*分隔器*/
 QLabel#divider{
-	background-color:rgb(197,194,182);
+	background-color:#c5c2b6;
 }
 
 QLabel#checkIcon{
@@ -40,7 +44,7 @@ QLabel#checkIcon{
 
 /*所有菜单样式*/
 QMenuBar {
-	background-color:rgb(238,232,213);
+	background-color:#eee8d5;
 	color: rgb(51,51,51);
 }
  
@@ -50,32 +54,32 @@ QMenuBar::item {
 	border-width:1px 1px 0px 1px;
 	border-color:transparent;
 	border-style:solid;
-    background: rgb(238,232,213);
+    background: #eee8d5;
  }
 
  QMenuBar::item:selected {
-     background: rgb(214,208,191);
+     background: #d6d0bf;
  }
 
  QMenuBar::item:pressed {
-    background: rgb(214,208,191);
+    background: #d6d0bf;
 	border-width:1px 1px 0px 1px;
-	border-color:rgb(197,194,182);
+	border-color:#c5c2b6;
 	border-style:solid;
  }
 
 QMenu{
-	background-color:rgb(238,232,213);
-    border: 1px solid rgb(203,200,191);
+	background-color:#eee8d5;
+    border: 1px solid #cbc8bf;
 }
 
 QMenu::item {       
         color: rgb(51,51,51);
-        background-color:rgb(238,232,213);
+        background-color:#eee8d5;
 }
 		
 QMenu::item:selected {
-        background-color:rgb(223,202,136);
+        background-color:#dfca88;
 }	
 
 /*中间界面样式*/
@@ -84,56 +88,56 @@ QMenu::item:selected {
 }
 
 QTableView{
-	background-color:rgb(238,232,213);
-    alternate-background-color: rgb(234, 224, 192);
+	background-color:#eee8d5;
+    alternate-background-color: #eae0c0;
 	border-width:1px;
-	border-color:rgb(197,194,182);
+	border-color:#c5c2b6;
 	border-style:solid;
 }
 
 QTableView::item{
-    background:rgb(238,232,213);    
+    background:#eee8d5;    
 }
 
 QTableView::item:selected{
-    background:rgb(197,194,182);    
+    background:#c5c2b6;    
 }
 
 QHeaderView::section {
-    background: rgb(238,232,213);
+    background: #eee8d5;
 	border:0;
-    border-bottom: 1px solid rgb(197,194,182);
-    color: rgb(51,51,51);
+    border-bottom: 1px solid #c5c2b6;
+    color: #333333;
     padding: 3px 0 3px 4px;
 }
 
 QHeaderView::section:hover{
-	background: rgb(234,224,192);
+	background: #eae0c0;
 }
 
 BRSystem{
-	background-color:rgb(238,232,213);
+	background-color:#eee8d5;
 	
 }
 
 /*按钮样式*/
 QPushButton {
-    border: 1px solid rgb(197,194,182);
-	background:rgb(216,212,196);
+    border: 1px solid #c5c2b6;
+	background:#d8d4c4;
 	border-radius: 3px;
     padding: 4px;
     min-width: 65px;
-    min-height: 12px;
+    min-height: 25px;
 }
 
 QPushButton:hover {
-    background-color: rgb(214,208,191);
-    border-color: rgb(197,194,182);
+    background-color: #d6d0bf;
+    border-color: #c5c2b6;
 }
 
 QPushButton:pressed {
-    background-color: rgb(209,203,184);
-    border-color: rgb(197,194,182);
+    background-color: #d1cbb8;
+    border-color: #c5c2b6;
 }
 
 QPushButton:disabled {
@@ -234,7 +238,7 @@ QLineEdit {
     border-radius: 3px;
     min-height: 25px;
     border: 1px solid rgb(211,175,134);
-    background: rgb(221,214,193);
+    background: #ddd6c1;
 	selection-background-color:rgb(190,180,151);
 }
 QLineEdit:enabled {
@@ -351,8 +355,10 @@ CSearchLineEdit:focus{
 
 /*查询控件*/
 QPushButton#btn_search{
-	min-width: 0px;
-    min-height: 0px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -361,10 +367,10 @@ QPushButton#btn_search{
 
 /*添加借条按钮*/
 QPushButton#btn_add{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -373,10 +379,10 @@ QPushButton#btn_add{
 
 /*添加日志按钮*/
 QPushButton#btn_log{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -385,10 +391,10 @@ QPushButton#btn_log{
 
 /*导出数据*/
 QPushButton#btn_export{
-	min-width: 0px;
-    min-height: 0px;
-	width:17px;
-	height:17px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -397,8 +403,10 @@ QPushButton#btn_export{
 
 /*皮肤选择项选中按钮*/
 QPushButton#checkIcon{
-	min-width: 0px;
-    min-height: 0px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
@@ -407,14 +415,38 @@ QPushButton#checkIcon{
 
 /*刷新*/
 QPushButton#btn_refresh{
-	min-width: 0px;
-    min-height: 0px;
-	width:25px;
-	height:25px;
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
 	padding:0px;
 	border-radius:0px;
 	background-color:transparent;
 	border-image:url(":/BRSystem/images/refresh_dark.png");
+}
+
+/*手机号管理*/
+QPushButton#btn_phone_manage{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/phone-number.svg);
+}
+
+/*同步手机号*/
+QPushButton#btn_sync_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/sync.svg);
 }
 
 /**********滚动条-水平**********/
@@ -527,6 +559,66 @@ UiTop{
 	qproperty-logo:url(:/BRSystem/images/logo_black.png);
 }
 
+UiLogin{
+    min-width: 330px;
+    max-width: 330px;
+    min-height: 400px;
+    max-height: 400px;
+    background:transparent;
+}
 
+UiLogin #label_logo{
+    min-width: 115px;
+    max-width: 115px;
+    min-height: 115px;
+    max-height: 115px;
+}
+
+UiLogin #page_login,
+UiLogin #page_register
+{
+    border: 1px solid #23262c;
+	border-radius:3px;
+	background:#ddd6c1;
+}
+
+UiLogin #btn_back{
+    min-width: 25px;
+    max-width: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    background-color:transparent;
+    border:none;
+    image:url(:/BRSystem/images/back.svg);
+}
+
+UiLogin #btn_login, UiLogin #btn_register{
+    min-width: 210px;
+    max-width: 210px;
+    min-height: 30px;
+	max-height: 30px;
+	background:transparent;
+}
+
+UiLogin #registerBtn,#forgetPassword{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: cornflowerblue;
+}
+
+UiLogin #registerBtn:hover,#forgetPassword:hover{
+    border:none;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
+    color: #a4beec;
+}
+
+UiCenter #groupBox_btn > QPushButton,
+UiCenter #groupBox > QPushButton{
+    min-height: 40px;
+}
 
 

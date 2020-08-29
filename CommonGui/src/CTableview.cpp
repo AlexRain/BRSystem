@@ -121,7 +121,7 @@ void CTableview::init()
     this->setShowGrid(true);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
-    this->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    this->setSelectionMode(QAbstractItemView::SingleSelection);
     this->setAlternatingRowColors(true);
     this->setFrameShape(QFrame::NoFrame);
 

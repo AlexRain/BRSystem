@@ -24,12 +24,14 @@ UiLogin::UiLogin(QWidget* parent)
     this->setWindowOpacity(0.0);
     this->setWindowIcon(QIcon("images/app.ico"));
     this->setWindowTitle(tr("feng he network"));
-    this->setWindowFlags(Qt::FramelessWindowHint);
+    this->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setMouseTracking(true);
 
     qRegisterMetaType<ResponData>("ResponData");
+    qRegisterMetaType<NetworkRequestError>("NetworkRequestError");
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
+    WebHandler::bindErrorCallback(this, SLOT(onRequestError(const ResponData&, NetworkRequestError)));
 
     QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect(this);
     shadow->setOffset(0, 0);
@@ -77,6 +79,11 @@ void UiLogin::initUser()
     QSettings userSetting("user.ini", QSettings::IniFormat);
     QString userName = userSetting.value(USER_NAME, "").toString();
     ui.input_user_name->setText(userName);
+    if (userName.isEmpty()) {
+        ui.input_user_name->setFocus();
+    } else {
+        ui.input_password->setFocus();
+    }
 }
 
 void UiLogin::verify()
@@ -107,7 +114,7 @@ void UiLogin::verify()
         WebHandler::instance()->Post(task);
         QSettings userSetting("user.ini", QSettings::IniFormat);
         userSetting.setValue(USER_NAME, userName);
-    } while (0);
+    } while (false);
 }
 
 void UiLogin::onRequestCallback(const ResponData& data)
@@ -161,6 +168,15 @@ void UiLogin::onLinkActived(const QString& link)
         btn_back->show();
         ui.stackedWidget->setCurrentWidget(ui.page_register);
     } else if (link == FORGET_PWD) {
+    }
+}
+
+void UiLogin::onRequestError(const ResponData& data, NetworkRequestError errorType)
+{
+    if (data.task.reqeustId == (quint64)this) {
+        ui.btn_login->setEnabled(true);
+        DialogMsg::question(this, tr("warning"), tr("network error occured"), QMessageBox::Ok);
+        return;
     }
 }
 

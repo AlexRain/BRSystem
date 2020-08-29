@@ -7,6 +7,7 @@
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
 #include "define.h"
+#include "ui_CUiCenter.h"
 #include <QModelIndex>
 #include <QPainter>
 #include <QStandardItemModel>
@@ -104,6 +105,7 @@ public:
     ~CUiCenter();
 
 private:
+    friend class CUiTop;
     void initUi();
     void initHeader();
     void initData();
@@ -122,6 +124,9 @@ private:
     void getBorrowData(BorrowInfo& info, int row);
     void getBorrowData(ModelData& info, int row);
     void setBorrowData(const BorrowInfo& info, int row);
+    void setAddvertiseLink(const QString& link);
+    void openPhoneNumberList();
+    void UpdateStatusText(const QString& text);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -130,9 +135,14 @@ private slots:
     void slotContextMenu(const QPoint&);
     void slotTableViewDoubleClicked(const QModelIndex& index);
     void onRequestCallback(const ResponData&);
+    void on_bt_modify_pwd_clicked();
+    void on_btn_unsecure_clicked();
+    void on_btn_account_status_clicked();
+    void on_btn_role_clicked();
+    void on_btn_add_account_clicked();
+    void on_btn_send_msg_clicked();
+    void on_btn_sync_phone_clicked();
 
 private:
-    CSearchLineEdit* mLineEdit;
-    CTableview* mTableView;
-    QLabel* m_pDataCount;
+    Ui::CUiCenter ui;
 };

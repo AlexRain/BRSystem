@@ -27,6 +27,7 @@ public:
 private slots:
     void onRequestCallback(const ResponData& data);
     void onLinkActived(const QString& link);
+    void onRequestError(const ResponData& data, NetworkRequestError errorType);
 
 protected:
     void mouseMoveEvent(QMouseEvent* event);

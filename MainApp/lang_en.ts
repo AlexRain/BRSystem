@@ -80,6 +80,80 @@
     </message>
 </context>
 <context>
+    <name>CUiCenter</name>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="93"/>
+        <source>detail</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="96"/>
+        <source>add</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="101"/>
+        <location filename="src/CUiCenter.cpp" line="104"/>
+        <source>log</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="126"/>
+        <source>index</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="129"/>
+        <source>qq number</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="132"/>
+        <source>phone number</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="135"/>
+        <source>status</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="270"/>
+        <source>question</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="311"/>
+        <source>借还信息.xls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="334"/>
+        <source>searched</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="334"/>
+        <source>records</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="406"/>
+        <source>export</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="417"/>
+        <source>delete</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="418"/>
+        <source>tips</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>CUiTop</name>
     <message>
         <location filename="src/CUiTop.ui" line="14"/>
@@ -105,7 +179,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="src/main.cpp" line="22"/>
+        <location filename="src/main.cpp" line="23"/>
         <source>feng he network</source>
         <translation>FengHe Network</translation>
     </message>
@@ -124,54 +198,60 @@
     </message>
     <message>
         <location filename="UiLogin.ui" line="89"/>
-        <location filename="UiLogin.ui" line="171"/>
+        <location filename="UiLogin.ui" line="175"/>
         <source>user name</source>
         <translation>User Name:</translation>
     </message>
     <message>
         <location filename="UiLogin.ui" line="82"/>
-        <location filename="UiLogin.ui" line="181"/>
+        <location filename="UiLogin.ui" line="185"/>
         <source>login password</source>
         <translation>Password:</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="216"/>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="UiLogin.ui" line="228"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>register</source>
         <translation>Register</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>forget password</source>
         <translation>Forgot</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="112"/>
+        <location filename="UiLogin.ui" line="116"/>
         <source>login</source>
         <translation>Login</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>or</source>
         <translation>Or</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="88"/>
+        <location filename="src/UiLogin.cpp" line="90"/>
         <source>please input user name</source>
         <translation>Please input user name</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="95"/>
+        <location filename="src/UiLogin.cpp" line="97"/>
         <source>please input password</source>
         <translation>Please input password</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="125"/>
+        <location filename="src/UiLogin.cpp" line="127"/>
+        <location filename="src/UiLogin.cpp" line="173"/>
         <source>warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="191"/>
+        <location filename="src/UiLogin.cpp" line="173"/>
+        <source>network error occured</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="199"/>
         <source>confirm password</source>
         <translation>Confirm</translation>
     </message>

@@ -27,7 +27,7 @@
     <number>5</number>
    </property>
    <property name="rightMargin">
-    <number>5</number>
+    <number>10</number>
    </property>
    <property name="bottomMargin">
     <number>0</number>
@@ -43,20 +43,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btn_qq_manage">
-     <property name="text">
-      <string>qq manage</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="btn_phone_manage">
-     <property name="text">
-      <string>phone manage</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -68,13 +54,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item>
-    <widget class="QPushButton" name="btn_login_register">
-     <property name="text">
-      <string>register acount</string>
-     </property>
-    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -198,6 +177,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>10</number>
+     </property>
      <property name="rightMargin">
       <number>0</number>
      </property>

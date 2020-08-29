@@ -16,11 +16,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     CApplication a(argc, argv);
 
     a.setWindowIcon(QIcon("images/app.ico"));
     a.setApplicationName(QObject::tr("feng he network"));
-    a.setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QTranslator translator_zh_CN;
     translator_zh_CN.load(":/translation/lang_zh.qm");

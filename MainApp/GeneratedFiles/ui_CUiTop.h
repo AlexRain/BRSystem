@@ -25,10 +25,7 @@ class Ui_CUiTop
 public:
     QHBoxLayout *horizontalLayout;
     CLabel *label_logo;
-    QPushButton *btn_qq_manage;
-    QPushButton *btn_phone_manage;
     QSpacerItem *horizontalSpacer;
-    QPushButton *btn_login_register;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_head;
     CLabel *label_userName;
@@ -50,31 +47,16 @@ public:
         horizontalLayout->setSpacing(23);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        horizontalLayout->setContentsMargins(15, 5, 5, 0);
+        horizontalLayout->setContentsMargins(15, 5, 10, 0);
         label_logo = new CLabel(CUiTop);
         label_logo->setObjectName(QString::fromUtf8("label_logo"));
         label_logo->setCursor(QCursor(Qt::PointingHandCursor));
 
         horizontalLayout->addWidget(label_logo);
 
-        btn_qq_manage = new QPushButton(CUiTop);
-        btn_qq_manage->setObjectName(QString::fromUtf8("btn_qq_manage"));
-
-        horizontalLayout->addWidget(btn_qq_manage);
-
-        btn_phone_manage = new QPushButton(CUiTop);
-        btn_phone_manage->setObjectName(QString::fromUtf8("btn_phone_manage"));
-
-        horizontalLayout->addWidget(btn_phone_manage);
-
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
-
-        btn_login_register = new QPushButton(CUiTop);
-        btn_login_register->setObjectName(QString::fromUtf8("btn_login_register"));
-
-        horizontalLayout->addWidget(btn_login_register);
 
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(10);
@@ -129,7 +111,7 @@ public:
         horizontalLayout->addWidget(divider);
 
         horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setSpacing(10);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(-1, -1, 0, -1);
         btn_min = new QPushButton(CUiTop);
@@ -175,9 +157,6 @@ public:
     {
         CUiTop->setWindowTitle(QApplication::translate("CUiTop", "CUiTop", nullptr));
         label_logo->setText(QString());
-        btn_qq_manage->setText(QApplication::translate("CUiTop", "qq manage", nullptr));
-        btn_phone_manage->setText(QApplication::translate("CUiTop", "phone manage", nullptr));
-        btn_login_register->setText(QApplication::translate("CUiTop", "register acount", nullptr));
         label_head->setText(QString());
         label_userName->setText(QString());
         btn_changeSkin->setText(QString());

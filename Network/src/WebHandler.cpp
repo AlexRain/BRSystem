@@ -318,7 +318,13 @@ void WebHandler::setRequestHeaderByParam(QNetworkRequest& httpRequest, const QJs
 {
     auto iter = jsonObject.constBegin();
     while (iter != jsonObject.constEnd()) {
-        httpRequest.setRawHeader(iter.key().toUtf8(), iter.value().toString().toUtf8());
+        if (iter.value().isDouble()) {
+            qInfo("set rawHeader,%s=%d", iter.key().toUtf8().constData(), iter.value().toInt());
+            httpRequest.setRawHeader(iter.key().toUtf8(), QString::number(iter.value().toInt()).toUtf8());
+        } else {
+            qInfo("set rawHeader,%s=%s", iter.key().toUtf8().constData(), iter.value().toString().toUtf8().constData());
+            httpRequest.setRawHeader(iter.key().toUtf8(), iter.value().toString().toUtf8());
+        }
         ++iter;
     }
 }

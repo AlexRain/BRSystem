@@ -80,6 +80,80 @@
     </message>
 </context>
 <context>
+    <name>CUiCenter</name>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="93"/>
+        <source>detail</source>
+        <translation>详情</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="96"/>
+        <source>add</source>
+        <translation>添加</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="101"/>
+        <location filename="src/CUiCenter.cpp" line="104"/>
+        <source>log</source>
+        <translation>操作日志</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="126"/>
+        <source>index</source>
+        <translation>序号</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="129"/>
+        <source>qq number</source>
+        <translation>QQ号</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="132"/>
+        <source>phone number</source>
+        <translation>手机号</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="135"/>
+        <source>status</source>
+        <translation>状态</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="270"/>
+        <source>question</source>
+        <translation>提示</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="311"/>
+        <source>借还信息.xls</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="334"/>
+        <source>searched</source>
+        <translation>查询到</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="334"/>
+        <source>records</source>
+        <translation>记录</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="406"/>
+        <source>export</source>
+        <translation>导出</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="417"/>
+        <source>delete</source>
+        <translation>删除</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="418"/>
+        <source>tips</source>
+        <translation>提示</translation>
+    </message>
+</context>
+<context>
     <name>CUiTop</name>
     <message>
         <location filename="src/CUiTop.ui" line="14"/>
@@ -94,7 +168,7 @@
     <message>
         <location filename="src/CUiTop.ui" line="55"/>
         <source>phone manage</source>
-        <translation>手机管理</translation>
+        <translation>手机号管理</translation>
     </message>
     <message>
         <location filename="src/CUiTop.ui" line="75"/>
@@ -105,7 +179,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="src/main.cpp" line="22"/>
+        <location filename="src/main.cpp" line="23"/>
         <source>feng he network</source>
         <translation>风禾网络</translation>
     </message>
@@ -124,54 +198,60 @@
     </message>
     <message>
         <location filename="UiLogin.ui" line="89"/>
-        <location filename="UiLogin.ui" line="171"/>
+        <location filename="UiLogin.ui" line="175"/>
         <source>user name</source>
         <translation>用户名</translation>
     </message>
     <message>
         <location filename="UiLogin.ui" line="82"/>
-        <location filename="UiLogin.ui" line="181"/>
+        <location filename="UiLogin.ui" line="185"/>
         <source>login password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="216"/>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="UiLogin.ui" line="228"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>register</source>
         <translation>注册</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>forget password</source>
         <translation>忘记</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="112"/>
+        <location filename="UiLogin.ui" line="116"/>
         <source>login</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="55"/>
+        <location filename="src/UiLogin.cpp" line="57"/>
         <source>or</source>
         <translation>或</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="88"/>
+        <location filename="src/UiLogin.cpp" line="90"/>
         <source>please input user name</source>
         <translation>请输入用户名用户</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="95"/>
+        <location filename="src/UiLogin.cpp" line="97"/>
         <source>please input password</source>
         <translation>请输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="125"/>
+        <location filename="src/UiLogin.cpp" line="127"/>
+        <location filename="src/UiLogin.cpp" line="173"/>
         <source>warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="UiLogin.ui" line="191"/>
+        <location filename="src/UiLogin.cpp" line="173"/>
+        <source>network error occured</source>
+        <translation>网络错误</translation>
+    </message>
+    <message>
+        <location filename="UiLogin.ui" line="199"/>
         <source>confirm password</source>
         <translation>确认</translation>
     </message>
