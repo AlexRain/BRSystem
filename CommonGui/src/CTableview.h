@@ -153,12 +153,16 @@ public:
     void exitMutipleSelectionMode();
     void setItemDelegateForColumn(int column, QAbstractItemDelegate* delegate);
 
+protected:
+    virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous) override;
+
 private:
     void init();
     void initHeader();
 
 signals:
     void selectionRowChanged(int);
+    void currentIndexChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private:
     TableModel* m_pModel;

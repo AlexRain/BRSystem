@@ -1,40 +1,5 @@
 #include "WebHandler.h"
 
-static const int REQUEST_TIMEOUT = 15 * 1000;
-static const int SHOW_LOADING = 500;
-static const char* baseUrl = "http://39.101.209.77:31001/api/v1";
-
-std::string getApi(API apiType)
-{
-    std::string api = "";
-    switch (apiType) {
-    case API::accountList:
-        api = "/account/";
-        break;
-    case API::bindPhone:
-        api = "/account/bind";
-        break;
-    case API::login:
-        api = "/admin/login";
-        break;
-    case API::getToken:
-        api = "/admin/token";
-        break;
-    case API::getProfile:
-        api = "/admin/profile";
-        break;
-    case API::getPhoneList:
-        api = "/phone/";
-        break;
-    case API::SyncPhone:
-        api = "/phone/phones";
-        break;
-    default:
-        break;
-    }
-    return api;
-}
-
 WebHandler::WebHandler(QObject* parent)
     : QObject(parent)
 {
@@ -253,7 +218,7 @@ void WebHandler::startNextRequest()
     }
 }
 
-bool WebHandler::isHttpRedirect(QNetworkReply* reply) const
+bool WebHandler::isHttpRedirect(QNetworkReply* reply)
 {
     if (!reply)
         return false;

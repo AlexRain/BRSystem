@@ -151,3 +151,9 @@ void CTableview::initHeader()
         }
     }
 }
+
+void CTableview::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    emit currentIndexChanged(current, previous);
+    QTableView::currentChanged(current, previous);
+}

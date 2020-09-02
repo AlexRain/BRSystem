@@ -1,6 +1,8 @@
 #include "OperationLog.h"
 #include "DialogMsg.h"
 #include "ReadOnlyDelegate.h"
+#include "UserSession.h"
+#include "WebHandler.h"
 #include "define.h"
 #include <QAbstractItemView>
 #include <QGraphicsDropShadowEffect>
@@ -15,7 +17,7 @@ OperationLog::OperationLog(QWidget* parent)
 {
     QMetaObject::connectSlotsByName(this);
     this->resize(698, 435);
-    QGridLayout* layout = new QGridLayout(this);
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(9, 44, 9, 9);
 
     QHBoxLayout* layout_btn = new QHBoxLayout;
@@ -23,40 +25,30 @@ OperationLog::OperationLog(QWidget* parent)
     layout_btn->setSpacing(10);
 
     QPushButton* btn_import = new QPushButton(this);
+    btn_import->setCursor(Qt::PointingHandCursor);
     btn_import->setObjectName("btn_import_phone");
 
     QPushButton* btn_export = new QPushButton(this);
-    btn_import->setObjectName("btn_export_phone");
+    btn_export->setCursor(Qt::PointingHandCursor);
+    btn_export->setObjectName("btn_export_phone");
 
     QPushButton* btn_add = new QPushButton(this);
-    btn_import->setObjectName("btn_import_phone");
+    btn_add->setCursor(Qt::PointingHandCursor);
+    btn_add->setObjectName("btn_add_phone");
 
     layout_btn->addStretch();
     layout_btn->addWidget(btn_import);
     layout_btn->addWidget(btn_export);
     layout_btn->addWidget(btn_add);
 
+    WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     m_pTableView = new CTableview(this);
     this->initHeader();
     m_pTableView->setItemDelegate(new ReadOnlyDelegate(this));
     m_pTableView->setCreatRowCallbackListener(this);
 
-    m_pLabelCount = new QLabel(this);
-    m_pLabelCount->setAlignment(Qt::AlignRight);
-
+    layout->addLayout(layout_btn);
     layout->addWidget(m_pTableView);
-    layout->addWidget(m_pLabelCount);
-
-    auto fun = std::bind(&OperationLog::refreshData, this);
-    m_pBtnRefresh = UiHelper::creatPushButton(this, fun, 25, 25, "", "btn_refresh");
-    m_pBtnRefresh->setToolTip(TOCH("刷新"));
-
-    QGraphicsDropShadowEffect* effct = new QGraphicsDropShadowEffect(m_pBtnRefresh);
-    effct->setBlurRadius(10);
-    effct->setOffset(0, 0);
-    effct->setColor(StyledWidget::getInstance().shadowColor());
-    m_pBtnRefresh->setGraphicsEffect(effct);
-
     this->initData();
 }
 
@@ -72,55 +64,31 @@ void OperationLog::refreshData()
 void OperationLog::initHeader()
 {
     QList<HeadStruct> listHead;
-    HeadStruct headNode = { TOCH("序号"), 70, false };
+    HeadStruct headNode = { tr("index"), 70, false };
     listHead << headNode;
 
-    headNode = { TOCH("物品编号"), -1, false };
-    listHead << headNode;
-
-    headNode = { TOCH("物品名称"), 150, false };
-    listHead << headNode;
-
-    headNode = { TOCH("操作事项"), 150, false };
-    listHead << headNode;
-
-    headNode = { TOCH("操作人"), -1, false };
-    listHead << headNode;
-
-    headNode = { TOCH("操作时间"), 150, false };
-    listHead << headNode;
-
-    headNode = { TOCH("凭据ID"), -1, true };
+    headNode = { tr("phone number"), -1, false };
     listHead << headNode;
     m_pTableView->setHeader(listHead);
 }
 
 void OperationLog::initData()
 {
-    CDbHelper dbHelper;
-    dbHelper.open();
-    QList<ModelData> vModel;
-    if (dbHelper.isTableExist(DIC_OPERATION_LOG)) {
-        /*联表查*/
-        int rows = dbHelper.Queuey(vModel, "SELECT log.productionId,log.productionName,log.operateItem,log.operateTime,log.operateUserId,log.iouId,user.userName \
-FROM DIC_OPERATION_LOG AS log INNER JOIN DIC_USER AS user ON log.operateUserId = user.userId ORDER BY operateTime desc");
-    } else {
-        DialogMsg::question(this, TOCH("错误"), TOCH("暂无相关数据库表,请联系管理员"), QMessageBox::Ok);
-    }
-    this->setData(vModel);
+    RequestTask task;
+    task.reqeustId = (quint64)m_pTableView;
+    task.headerObj.insert("uid", UserSession::instance().userData().uid);
+    task.headerObj.insert("token", UserSession::instance().userData().token);
+    task.apiIndex = API::getPhoneList;
+    WebHandler::instance()->Get(task);
 }
 
 void OperationLog::setData(const QList<ModelData>& datas)
 {
-    uint nLen = datas.size();
-    m_pLabelCount->setText(TOCH("共查询到<span style='color:rgb(0,122,204)'>%1</span>条记录").arg(nLen));
     m_pTableView->setData(datas);
 }
 
 void OperationLog::resizeEvent(QResizeEvent* event)
 {
-    QRect rect = m_pTableView->rect();
-    m_pBtnRefresh->move(rect.right() - 20 - m_pBtnRefresh->width(), rect.bottom() - 15);
     BaseWidget::resizeEvent(event);
 }
 
@@ -128,21 +96,35 @@ QList<QStandardItem*> OperationLog::creatRow(const ModelData& model, int index)
 {
     QList<QStandardItem*> item;
     item.append(new QStandardItem(QString::number(index)));
-    item.append(new QStandardItem(model["productionId"]));
-    item.append(new QStandardItem(model["productionName"]));
-    item.append(new QStandardItem(model["operateItem"]));
-    item.append(new QStandardItem(model["userName"]));
-    item.append(new QStandardItem(model["operateTime"]));
-    item.append(new QStandardItem(model["iouId"]));
+    item.append(new QStandardItem(model["phone"]));
 
     //设置列数的对齐方式
     item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(6)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
     return item;
+}
+
+void OperationLog::onRequestCallback(const ResponData& data)
+{
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)m_pTableView) {
+        QJsonObject dataObj;
+        DataParseResult result;
+        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
+        if (result.errorCode == DataParseResult::NoError) {
+            QJsonArray array = dataObj.value("list").toArray();
+            auto iter = array.constBegin();
+            QList<ModelData> listData;
+            while (iter != array.constEnd()) {
+                QJsonObject obj = (*iter).toObject();
+                ModelData itemData;
+                itemData["phone"] = obj.value("phone").toString();
+                listData.append(itemData);
+                ++iter;
+            }
+            this->setData(listData);
+        }
+    }
 }

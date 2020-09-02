@@ -172,6 +172,10 @@ void CUiCenter::initTableView()
         this->updateCountLabel();
     });
 
+    connect(ui.tableView, &CTableview::currentIndexChanged, [=](const QModelIndex& current, const QModelIndex& previous) {
+        qInfo("current index changed");
+    });
+
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
 }
 
@@ -378,12 +382,27 @@ void CUiCenter::setAddvertiseLink(const QString& link)
 void CUiCenter::openPhoneNumberList()
 {
     OperationLog* content = new OperationLog(this);
-    PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("log"));
+    PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("phone number list"));
 }
 
 void CUiCenter::UpdateStatusText(const QString& text)
 {
     ui.label_status->setText(text);
+}
+
+bool CUiCenter::GetCurrentData(ModelData& data)
+{
+    QModelIndex currentIndex = ui.tableView->currentIndex();
+    if (!currentIndex.isValid()) {
+        DialogMsg::question(this, tr("warning"), tr("network error occured"), QMessageBox::Ok);
+        return false;
+    }
+    QAbstractItemModel* model = ui.tableView->model();
+    int row = currentIndex.row();
+    data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+    data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+    data["status"] = model->data(model->index(row, TableAcocountList::status), Qt::DisplayRole).toString();
+    return true;
 }
 
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
@@ -476,32 +495,44 @@ void CUiCenter::onRequestCallback(const ResponData& data)
 
 void CUiCenter::on_bt_modify_pwd_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_unsecure_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_account_status_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_role_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_add_account_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_send_msg_clicked()
 {
-    QModelIndex curentIndex = ui.tableView->currentIndex();
+    ModelData data;
+    if (GetCurrentData(data)) {
+    }
 }
 
 void CUiCenter::on_btn_sync_phone_clicked()
@@ -512,4 +543,17 @@ void CUiCenter::on_btn_sync_phone_clicked()
     task.headerObj.insert("token", UserSession::instance().userData().token);
     task.apiIndex = API::SyncPhone;
     WebHandler::instance()->Get(task);
+}
+
+void CUiCenter::on_btn_bind_phone_clicked()
+{
+    ModelData data;
+    if (GetCurrentData(data)) {
+        RequestTask task;
+        task.reqeustId = (quint64)this;
+        task.headerObj.insert("uid", UserSession::instance().userData().uid);
+        task.headerObj.insert("token", UserSession::instance().userData().token);
+        task.apiIndex = API::bindPhone;
+        WebHandler::instance()->Post(task);
+    }
 }

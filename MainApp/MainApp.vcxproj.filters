@@ -164,6 +164,12 @@
     <ClCompile Include="src\OperationLog.cpp">
       <Filter>Source Files\Ui</Filter>
     </ClCompile>
+    <ClCompile Include="src\MsgTaskManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TaskService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -193,6 +199,12 @@
     <QtMoc Include="src\OperationLog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\MsgTaskManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\TaskService.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -202,12 +214,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\UiUsageRecord.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="UiLogin.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="CUiCenter.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -226,5 +232,13 @@
     <None Include="lang_zh.ts">
       <Filter>Translation Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\CUiCenter.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\UiLogin.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

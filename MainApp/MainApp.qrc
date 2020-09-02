@@ -28,6 +28,11 @@
         <file>images/close.svg</file>
         <file>images/phone-number.svg</file>
         <file>images/sync.svg</file>
+        <file>images/add list.svg</file>
+        <file>images/add-list.svg</file>
+        <file>images/export.svg</file>
+        <file>images/icon-export.svg</file>
+        <file>images/icon-import.svg</file>
     </qresource>
     <qresource prefix="/images">
         <file>images/search_black.png</file>

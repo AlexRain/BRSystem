@@ -449,6 +449,40 @@ QPushButton#btn_sync_phone{
 	image:url(:/BRSystem/images/sync.svg);
 }
 
+OperationLog QPushButton#btn_import_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/icon-import.svg);
+}
+
+OperationLog QPushButton#btn_export_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/icon-export.svg);
+}
+
+OperationLog QPushButton#btn_add_phone{
+	min-width: 25px;
+    min-height: 25px;
+    max-width: 25px;
+    max-height: 25px;
+	padding:0px;
+	border:none;
+	background-color:transparent;
+	image:url(:/BRSystem/images/add-list.svg);
+}
+
+
 /**********滚动条-水平**********/
 QScrollBar:horizontal {
         height: 14px;

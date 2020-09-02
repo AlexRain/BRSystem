@@ -3,6 +3,7 @@
 #include "BaseWidget.h"
 #include "CDbHelper.h"
 #include "CTableview.h"
+#include "NetworkDefine.h"
 #include <QPainter>
 
 class QStandardItemModel;
@@ -10,39 +11,38 @@ class QPushButton;
 class QLabel;
 class CTableview;
 
-class OperationLog : public BaseWidget,CTableview::SetDataCallback
-{
-	Q_OBJECT
+class OperationLog : public BaseWidget, CTableview::SetDataCallback {
+    Q_OBJECT
 
-	enum Header
-	{
-		Order,
-		ProductionId,
-		ProductionName,
-		OperationDetail,
-		OperationUser,
-		OperationDateTime,
-		IouId
-	};
+    enum Header {
+        Order,
+        ProductionId,
+        ProductionName,
+        OperationDetail,
+        OperationUser,
+        OperationDateTime,
+        IouId
+    };
 
 public:
-	OperationLog(QWidget *parent = Q_NULLPTR);
-	~OperationLog();
+    OperationLog(QWidget* parent = Q_NULLPTR);
+    ~OperationLog();
 
 public:
-	void refreshData();
+    void refreshData();
+
+private slots:
+    void onRequestCallback(const ResponData& data);
 
 private:
-	void initHeader();
-	void initData();
-	void setData(const QList<ModelData> &datas);
+    void initHeader();
+    void initData();
+    void setData(const QList<ModelData>& datas);
 
 protected:
-	void resizeEvent(QResizeEvent *event);
-	QList<QStandardItem*> creatRow(const ModelData &model,int index) override;
+    void resizeEvent(QResizeEvent* event);
+    QList<QStandardItem*> creatRow(const ModelData& model, int index) override;
 
 private:
-	CTableview *m_pTableView;
-	QPushButton *m_pBtnRefresh;	
-	QLabel *m_pLabelCount;
+    CTableview* m_pTableView;
 };

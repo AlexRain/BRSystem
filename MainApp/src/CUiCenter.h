@@ -127,6 +127,7 @@ private:
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
     void UpdateStatusText(const QString& text);
+    bool GetCurrentData(ModelData& data);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -142,6 +143,7 @@ private slots:
     void on_btn_add_account_clicked();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
+    void on_btn_bind_phone_clicked();
 
 private:
     Ui::CUiCenter ui;

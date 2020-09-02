@@ -82,74 +82,132 @@
 <context>
     <name>CUiCenter</name>
     <message>
-        <location filename="src/CUiCenter.cpp" line="93"/>
+        <location filename="src/CUiCenter.cpp" line="89"/>
         <source>detail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="96"/>
+        <location filename="src/CUiCenter.cpp" line="92"/>
         <source>add</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="101"/>
-        <location filename="src/CUiCenter.cpp" line="104"/>
+        <location filename="src/CUiCenter.cpp" line="97"/>
+        <location filename="src/CUiCenter.cpp" line="100"/>
+        <location filename="src/CUiCenter.cpp" line="381"/>
         <source>log</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="126"/>
+        <location filename="src/CUiCenter.cpp" line="114"/>
+        <source>phone manage</source>
+        <translation type="unfinished">Phone Manage</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="120"/>
+        <source>phone sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="135"/>
         <source>index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="129"/>
+        <location filename="src/CUiCenter.cpp" line="138"/>
         <source>qq number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="132"/>
+        <location filename="src/CUiCenter.cpp" line="449"/>
+        <source>fetch list data success!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="471"/>
+        <source>sync phone numbers success!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="14"/>
+        <source>CUiCenter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="167"/>
+        <source>message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="182"/>
+        <location filename="CUiCenter.ui" line="189"/>
+        <location filename="src/CUiCenter.cpp" line="141"/>
         <source>phone number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="135"/>
+        <location filename="CUiCenter.ui" line="196"/>
+        <source>message content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="231"/>
+        <source>send</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="243"/>
+        <source>operation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="255"/>
+        <location filename="src/CUiCenter.cpp" line="415"/>
+        <source>modify password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="268"/>
+        <location filename="src/CUiCenter.cpp" line="419"/>
+        <source>unsecure mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="281"/>
+        <location filename="src/CUiCenter.cpp" line="423"/>
+        <source>search account status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="294"/>
+        <location filename="src/CUiCenter.cpp" line="427"/>
+        <source>search role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="CUiCenter.ui" line="307"/>
+        <location filename="src/CUiCenter.cpp" line="431"/>
+        <source>add account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="144"/>
         <source>status</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="270"/>
+        <location filename="src/CUiCenter.cpp" line="277"/>
         <source>question</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="311"/>
+        <location filename="src/CUiCenter.cpp" line="310"/>
         <source>借还信息.xls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="334"/>
-        <source>searched</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="334"/>
-        <source>records</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="406"/>
+        <location filename="src/CUiCenter.cpp" line="107"/>
         <source>export</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="417"/>
-        <source>delete</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="418"/>
-        <source>tips</source>
         <translation></translation>
     </message>
 </context>
@@ -161,19 +219,16 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiTop.ui" line="48"/>
         <source>qq manage</source>
-        <translation>QQ Manage</translation>
+        <translation type="vanished">QQ Manage</translation>
     </message>
     <message>
-        <location filename="src/CUiTop.ui" line="55"/>
         <source>phone manage</source>
-        <translation>Phone Manage</translation>
+        <translation type="vanished">Phone Manage</translation>
     </message>
     <message>
-        <location filename="src/CUiTop.ui" line="75"/>
         <source>register acount</source>
-        <translation>Sign in/up</translation>
+        <translation type="vanished">Sign in/up</translation>
     </message>
 </context>
 <context>
@@ -230,23 +285,23 @@
         <translation>Or</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="90"/>
+        <location filename="src/UiLogin.cpp" line="95"/>
         <source>please input user name</source>
         <translation>Please input user name</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="97"/>
+        <location filename="src/UiLogin.cpp" line="102"/>
         <source>please input password</source>
         <translation>Please input password</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="127"/>
-        <location filename="src/UiLogin.cpp" line="173"/>
+        <location filename="src/UiLogin.cpp" line="132"/>
+        <location filename="src/UiLogin.cpp" line="178"/>
         <source>warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="173"/>
+        <location filename="src/UiLogin.cpp" line="178"/>
         <source>network error occured</source>
         <translation></translation>
     </message>

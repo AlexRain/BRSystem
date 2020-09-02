@@ -33,6 +33,13 @@ public:
     static void ParseJsonData(const QByteArray& rawData, QJsonObject& data, DataParseResult* result = nullptr);
     static void JsonToArray(const QJsonArray& root, void (*func)(const QJsonObject& obj, void* param), void* param);
 
+    static bool isHttpRedirect(QNetworkReply* reply);
+    static void reportRedirect(QNetworkReply* reply);
+    static void parseParam(QNetworkRequest& httpPart, QUrl& url, const RequestTask& paramJson);
+    static void setQueryByParam(QUrl& url, const QJsonObject& jsonObject);
+    static void setRequestHeaderByParam(QNetworkRequest& request, const QJsonObject& jsonObject);
+    static void setRequestBodyByParam(QByteArray& param, const QJsonObject& jsonObject);
+
 signals:
     void requestCallback(const ResponData& data);
     void accesibleChanged(NetworkAccessiblity accesibility);
@@ -46,12 +53,6 @@ private slots:
 
 private:
     void start();
-    bool isHttpRedirect(QNetworkReply* reply) const;
-    void reportRedirect(QNetworkReply* reply);
-    void parseParam(QNetworkRequest& httpPart, QUrl& url, const RequestTask& paramJson);
-    void setQueryByParam(QUrl& url, const QJsonObject& jsonObject);
-    void setRequestHeaderByParam(QNetworkRequest& request, const QJsonObject& jsonObject);
-    void setRequestBodyByParam(QByteArray& param, const QJsonObject& jsonObject);
 
     QThread thread;
     QNetworkAccessManager* manager = nullptr;

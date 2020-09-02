@@ -231,10 +231,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <QtMoc Include="src\TaskService.h" />
     <QtMoc Include="src\UiUsageRecord.h">
     </QtMoc>
     <QtMoc Include="src\OperationLog.h">
     </QtMoc>
+    <QtMoc Include="src\MsgTaskManager.h" />
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -404,17 +406,19 @@
     <ClCompile Include="src\CUiCenter.cpp" />
     <ClCompile Include="src\CUiTop.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MsgTaskManager.cpp" />
     <ClCompile Include="src\OperationLog.cpp" />
+    <ClCompile Include="src\TaskService.cpp" />
     <ClCompile Include="src\UiChangeSkin.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
     <ClCompile Include="src\UiUsageRecord.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="CUiCenter.ui" />
     <QtUic Include="src\CEditInfoDialog.ui" />
+    <CustomBuild Include="src\CUiCenter.ui" />
     <QtUic Include="src\CUiTop.ui" />
+    <CustomBuild Include="src\UiLogin.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
-    <QtUic Include="UiLogin.ui" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />
