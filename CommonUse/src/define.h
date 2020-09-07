@@ -9,11 +9,18 @@
 #include <QPushButton>
 #include <QSize>
 #include <QWidget>
+#include <QStyle>
 
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
 
 typedef QMap<QString, QString> ModelData;
+
+enum class AccountStatus {
+    Forbidden = 2,
+    SafeMode = 1,
+    Normal = 0
+};
 
 enum TableHeader {
     UniqueId = 0,
@@ -184,6 +191,14 @@ static void PaintPixmapFrame8(QPixmap& pixMap, QList<QPixmap>& listPixmap, int n
         if (!listPixmap[i].isNull()) { //зѓжа
             painter.drawPixmap(QRect(0, nBY1, nBX1, nH - nBY1 - nBY2), listPixmap[i]);
         }
+    }
+}
+
+static void flushStyle(QWidget *widget) {
+    if (widget)
+    {
+        widget->style()->unpolish(widget);
+        widget->style()->polish(widget);
     }
 }
 };

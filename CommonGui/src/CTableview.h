@@ -147,6 +147,7 @@ public:
 public:
     void setHeader(const QList<HeadStruct>& head);
     void setData(const QList<ModelData>& data);
+    void addData(const ModelData& data);
     void setCreatRowCallbackListener(SetDataCallback* listener);
     void setHeaderCheckBoxEnable(int logicalIndex, bool enable);
     void showMutipleSelectionMode();
@@ -155,6 +156,10 @@ public:
 
 protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous) override;
+    virtual void dragEnterEvent(QDragEnterEvent* event) override;
+    virtual void dragMoveEvent(QDragMoveEvent* event) override;
+    virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
+    virtual void dropEvent(QDropEvent* event) override;
 
 private:
     void init();
@@ -163,6 +168,7 @@ private:
 signals:
     void selectionRowChanged(int);
     void currentIndexChanged(const QModelIndex& current, const QModelIndex& previous);
+    void dropFiles(const QList<QUrl>& listFiles);
 
 private:
     TableModel* m_pModel;

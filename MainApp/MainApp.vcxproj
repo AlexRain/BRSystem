@@ -231,6 +231,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <QtMoc Include="src\ThreadImport.h" />
     <QtMoc Include="src\TaskService.h" />
     <QtMoc Include="src\UiUsageRecord.h">
     </QtMoc>
@@ -409,6 +410,7 @@
     <ClCompile Include="src\MsgTaskManager.cpp" />
     <ClCompile Include="src\OperationLog.cpp" />
     <ClCompile Include="src\TaskService.cpp" />
+    <ClCompile Include="src\ThreadImport.cpp" />
     <ClCompile Include="src\UiChangeSkin.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
     <ClCompile Include="src\UiUsageRecord.cpp" />
@@ -429,6 +431,9 @@
   <ItemGroup>
     <None Include="lang_en.ts" />
     <None Include="lang_zh.ts" />
+    <None Include="qss\global_dark.css" />
+    <None Include="qss\global_orange.css" />
+    <None Include="qss\global_white.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

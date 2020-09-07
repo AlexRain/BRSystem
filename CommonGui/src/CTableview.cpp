@@ -1,5 +1,6 @@
 #include "CTableview.h"
 #include <QGridLayout>
+#include <QMimeData>
 #include <QStandardItemModel>
 
 CTableview::CTableview(QWidget* parent)
@@ -37,9 +38,17 @@ void CTableview::setData(const QList<ModelData>& data)
     Q_ASSERT(m_pSetDataListener);
     for (int i = 0; i < nLen; ++i) {
         const ModelData& model = data[i];
-        auto row = m_pSetDataListener->creatRow(model, i + 1);
+        auto row = m_pSetDataListener->creatRow(model, m_pModel->rowCount());
         m_pModel->appendRow(row);
     }
+}
+
+void CTableview::addData(const ModelData& data)
+{
+    Q_ASSERT(m_pSetDataListener);
+    auto row = m_pSetDataListener->creatRow(data, m_pModel->rowCount());
+    m_pModel->appendRow(row);
+    m_pTip->hide();
 }
 
 void CTableview::setCreatRowCallbackListener(SetDataCallback* listener)
@@ -90,6 +99,7 @@ void CTableview::setItemDelegateForColumn(int column, QAbstractItemDelegate* del
 
 void CTableview::init()
 {
+    setAcceptDrops(true);
     m_pModel = new TableModel;
     this->setModel(m_pModel);
     m_pHeaderView = new CHeaderView(Qt::Horizontal, this);
@@ -121,7 +131,7 @@ void CTableview::init()
     this->setShowGrid(true);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
-    this->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->setSelectionMode(QAbstractItemView::ExtendedSelection);
     this->setAlternatingRowColors(true);
     this->setFrameShape(QFrame::NoFrame);
 
@@ -156,4 +166,36 @@ void CTableview::currentChanged(const QModelIndex& current, const QModelIndex& p
 {
     emit currentIndexChanged(current, previous);
     QTableView::currentChanged(current, previous);
+}
+
+void CTableview::dragEnterEvent(QDragEnterEvent* event)
+{
+    setProperty("dragEnter", true);
+    UiHelper::flushStyle(this);
+    event->acceptProposedAction();
+}
+
+void CTableview::dragMoveEvent(QDragMoveEvent* event)
+{
+    event->acceptProposedAction();
+}
+
+void CTableview::dropEvent(QDropEvent* event)
+{
+    const QMimeData* mimeData = event->mimeData();
+    if (mimeData->hasUrls()) {
+        QList<QUrl> urlList = mimeData->urls();
+        emit dropFiles(urlList);
+    }
+
+    setProperty("dragEnter", false);
+    UiHelper::flushStyle(this);
+    event->acceptProposedAction();
+}
+
+void CTableview::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    event->accept();
+    setProperty("dragEnter", false);
+    UiHelper::flushStyle(this);
 }

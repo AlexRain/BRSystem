@@ -28,6 +28,7 @@
 #include <QTableView>
 
 QList<HeadStruct> listHead;
+#define ENABLE_DRAG_FILE
 
 CUiCenter::CUiCenter(QWidget* parent)
     : BaseWidget(parent)
@@ -35,6 +36,7 @@ CUiCenter::CUiCenter(QWidget* parent)
     ui.setupUi(this);
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     qRegisterMetaType<BorrowInfo>("BorrowInfo");
+    qRegisterMetaType<ImportData>("ImportData");
     this->initUi();
     this->initData();
     QMetaObject::connectSlotsByName(this);
@@ -42,6 +44,8 @@ CUiCenter::CUiCenter(QWidget* parent)
 
 CUiCenter::~CUiCenter()
 {
+    threadImport.quit();
+    threadImport.wait();
 }
 
 void CUiCenter::initUi()
@@ -132,6 +136,9 @@ void CUiCenter::initHeader()
     HeadStruct headNode = { "id", -1, true };
     listHead << headNode;
 
+    headNode = { tr("password"), -1, true };
+    listHead << headNode;
+
     headNode = { tr("index"), 70 };
     listHead << headNode;
 
@@ -149,12 +156,17 @@ void CUiCenter::initHeader()
 
 void CUiCenter::initData()
 {
+#ifdef ENABLE_DRAG_FILE
+    QList<ModelData> listData;
+    this->setData(listData);
+#else
     RequestTask task;
     task.reqeustId = (quint64)ui.tableView;
     task.headerObj.insert("uid", UserSession::instance().userData().uid);
     task.headerObj.insert("token", UserSession::instance().userData().token);
     task.apiIndex = API::accountList;
     WebHandler::instance()->Post(task);
+#endif
 }
 
 void CUiCenter::initTableView()
@@ -172,9 +184,13 @@ void CUiCenter::initTableView()
         this->updateCountLabel();
     });
 
+    connect(ui.tableView, &CTableview::dropFiles, this, &CUiCenter::OnDropFiles);
+
     connect(ui.tableView, &CTableview::currentIndexChanged, [=](const QModelIndex& current, const QModelIndex& previous) {
         qInfo("current index changed");
     });
+
+    connect(&taskImport, &ThreadImport::addRow, this, &CUiCenter::OnAddRow, Qt::QueuedConnection);
 
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
 }
@@ -409,16 +425,34 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
 {
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
+    item.append(new QStandardItem(model["password"]));
     item.append(new QStandardItem(QString::number(index)));
     item.append(new QStandardItem(model["qq"]));
     item.append(new QStandardItem(model["phone"]));
-    item.append(new QStandardItem(model["status"]));
+
+    QString strStatus;
+    auto status = (AccountStatus)model["status"].toInt();
+    switch (status) {
+    case AccountStatus::Normal:
+        strStatus = tr("normal");
+        break;
+    case AccountStatus::SafeMode:
+        strStatus = tr("safe mode");
+        break;
+    case AccountStatus::Forbidden:
+        strStatus = tr("account forbidden");
+        break;
+    default:
+        break;
+    }
+    item.append(new QStandardItem(strStatus));
 
     item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
     return item;
 }
@@ -556,4 +590,25 @@ void CUiCenter::on_btn_bind_phone_clicked()
         task.apiIndex = API::bindPhone;
         WebHandler::instance()->Post(task);
     }
+}
+
+void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
+{
+    if (!threadImport.isRunning()) {
+        taskImport.moveToThread(&threadImport);
+        threadImport.start();
+    }
+    for (auto url : listFiles) {
+        taskImport.AddTask(url.toLocalFile());
+    }
+}
+
+void CUiCenter::OnAddRow(ImportData data)
+{
+    ModelData model;
+    model["qq"] = data.qq;
+    model["phone"] = data.phoneNumber;
+    model["password"] = data.password;
+    model["status"] = QString::number((int)AccountStatus::Normal);
+    ui.tableView->addData(model);
 }

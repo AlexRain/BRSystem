@@ -170,6 +170,9 @@
     <ClCompile Include="src\TaskService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ThreadImport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -205,6 +208,9 @@
     <QtMoc Include="src\TaskService.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\ThreadImport.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -232,6 +238,9 @@
     <None Include="lang_zh.ts">
       <Filter>Translation Files</Filter>
     </None>
+    <None Include="qss\global_dark.css" />
+    <None Include="qss\global_orange.css" />
+    <None Include="qss\global_white.css" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="src\CUiCenter.ui">

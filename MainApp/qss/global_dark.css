@@ -115,6 +115,14 @@ QTableView{
 	border-style:solid;
 }
 
+QTableView[dragEnter=true]{
+    border-color: #007acc;
+}
+
+QTableView[dragEnter=false]{
+    border-color: #23262c;
+}
+
 QTableView::item{
     background:rgb(22,24,28);    
 }

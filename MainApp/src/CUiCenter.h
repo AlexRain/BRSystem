@@ -6,6 +6,7 @@
 #include "CTableview.h"
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
+#include "ThreadImport.h"
 #include "define.h"
 #include "ui_CUiCenter.h"
 #include <QModelIndex>
@@ -144,7 +145,11 @@ private slots:
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
     void on_btn_bind_phone_clicked();
+    void OnDropFiles(const QList<QUrl>& listFiles);
+    void OnAddRow(ImportData data);
 
 private:
     Ui::CUiCenter ui;
+    ThreadImport taskImport;
+    QThread threadImport;
 };
