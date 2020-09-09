@@ -160,6 +160,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
     {
         auto accountMenu = menuBar->addMenu(tr("settings"));
         accountMenu->addAction(tr("change ip"), [=]() {});
+        accountMenu->addAction(tr("pppoe"), [=]() {});
         accountMenu->addSeparator();
         accountMenu->addAction(tr("change style"), [=]() {
             UiChangeSkin* dialog = new UiChangeSkin(this);
