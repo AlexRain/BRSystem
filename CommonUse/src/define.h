@@ -14,6 +14,8 @@
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
 
+static const int RESTART_CODE = 1;
+
 typedef QMap<QString, QString> ModelData;
 
 enum class AccountStatus {

@@ -238,6 +238,9 @@
     <QtMoc Include="src\OperationLog.h">
     </QtMoc>
     <QtMoc Include="src\MsgTaskManager.h" />
+    <QtMoc Include="src\HFChargeView.h" />
+    <QtMoc Include="src\HFBroadbandDial.h" />
+    <QtMoc Include="src\HFChangePhoneView.h" />
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -406,6 +409,9 @@
     <ClCompile Include="src\CSkinItem.cpp" />
     <ClCompile Include="src\CUiCenter.cpp" />
     <ClCompile Include="src\CUiTop.cpp" />
+    <ClCompile Include="src\HFBroadbandDial.cpp" />
+    <ClCompile Include="src\HFChangePhoneView.cpp" />
+    <ClCompile Include="src\HFChargeView.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgTaskManager.cpp" />
     <ClCompile Include="src\OperationLog.cpp" />
@@ -419,6 +425,9 @@
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiCenter.ui" />
     <QtUic Include="src\CUiTop.ui" />
+    <QtUic Include="src\HFBroadbandDial.ui" />
+    <QtUic Include="src\HFChangePhoneView.ui" />
+    <QtUic Include="src\HFChargeView.ui" />
     <QtUic Include="src\UiLogin.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
   </ItemGroup>

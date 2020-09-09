@@ -29,14 +29,21 @@ int main(int argc, char* argv[])
     StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
     StyleHelper::loadAppStyle(style.cssFile);
 
-    /*登录界面*/
-    UiLogin login;
-    if (QDialog::Accepted != login.fadeIn())
-        return 0;
-
     /*主界面*/
-    BRSystem w;
-    a.setMainWidget(&w);
-    w.show();
-    return a.exec();
+    int result = 0;
+    do {
+#ifndef _DEBUG
+        /*登录界面*/
+        UiLogin login;
+        if (QDialog::Accepted != login.fadeIn())
+            return 0;
+#endif // !_DEBUG
+
+        BRSystem w;
+        a.setMainWidget(&w);
+        w.show();
+        result = a.exec();
+    } while (result == RESTART_CODE);
+    
+    return result;
 }

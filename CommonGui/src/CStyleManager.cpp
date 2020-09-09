@@ -17,20 +17,20 @@ CStyleManager::CStyleManager()
         QColor(221, 214, 193)
     };
 
-    StyleStruct styleYellow = {
+    /*StyleStruct styleYellow = {
         Yellow,
         QObject::tr("orange"),
         QString("qss/global_orange.css"),
         QColor("#ffaa00")
-    };
+    };*/
 
     mCurrentStyle = (StyleType)mSetting.value("CONFIG/skinType", (int)StyleType::Dark).toInt();
     mStyles << std::make_pair(styleDark.type, styleDark)
-            << std::make_pair(styleWhite.type, styleWhite) << std::make_pair(styleYellow.type, styleYellow);
+            << std::make_pair(styleWhite.type, styleWhite) /*<< std::make_pair(styleYellow.type, styleYellow)*/;
 
     mapStyles[Dark] = styleDark;
     mapStyles[White] = styleWhite;
-    mapStyles[Yellow] = styleYellow;
+    //mapStyles[Yellow] = styleYellow;
 }
 
 CStyleManager& CStyleManager::getInstance()

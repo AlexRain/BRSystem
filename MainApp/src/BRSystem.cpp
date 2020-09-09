@@ -6,6 +6,9 @@
 #include "PopupDialogContainer.h"
 #include "UiChangeSkin.h"
 #include "UiFrostedLayer.h"
+#include "HFChargeView.h"
+#include "HFBroadbandDial.h"
+#include "HFChangePhoneView.h"
 #include <QBitmap>
 #include <QDebug>
 #include <QMenuBar>
@@ -141,10 +144,19 @@ void BRSystem::createMenus(QMenuBar* menuBar)
     //account
     {
         auto accountMenu = menuBar->addMenu(tr("account"));
-        accountMenu->addAction(tr("charge"), [=]() {});
-        accountMenu->addAction(tr("change phone"), [=]() {});
+        accountMenu->addAction(tr("charge"), [=]() {
+            HFChargeView* chargeView = new HFChargeView(this);
+            connect(chargeView, &HFChargeView::chargeSuccess, [=]() {});
+            chargeView->resize(400, 300);
+            PopupDialogContainer::showPopupDialogFadeIn(chargeView, CApp->getMainWidget(), tr("charge"));
+            });
+        accountMenu->addAction(tr("change phone"), [=]() {
+            HFChangePhoneView* changePhoneView = new HFChangePhoneView(this);
+            PopupDialogContainer::showPopupDialogFadeIn(changePhoneView, CApp->getMainWidget(), tr("change phone"));
+            });
         accountMenu->addAction(tr("register"), [=]() {});
         accountMenu->addAction(tr("login"), [=]() {});
+        accountMenu->addSeparator();
         accountMenu->addAction(tr("exit"), [=]() {
             exit(0);
         });
@@ -160,12 +172,15 @@ void BRSystem::createMenus(QMenuBar* menuBar)
     {
         auto accountMenu = menuBar->addMenu(tr("settings"));
         accountMenu->addAction(tr("change ip"), [=]() {});
-        accountMenu->addAction(tr("pppoe"), [=]() {});
+        accountMenu->addAction(tr("pppoe"), [=]() {
+            HFBroadbandDial* pppoeView = new HFBroadbandDial(this);
+            PopupDialogContainer::showPopupDialogFadeIn(pppoeView, CApp->getMainWidget(), tr("pppoe"));
+            });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("change style"), [=]() {
             UiChangeSkin* dialog = new UiChangeSkin(this);
             dialog->resize(350, 192);
-            PopupDialogContainer::showPopupDialogFadeIn(dialog, CApp->getMainWidget(), tr("detail"));
+            PopupDialogContainer::showPopupDialogFadeIn(dialog, CApp->getMainWidget(), tr("change style"));
         });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("up to date"), [=]() {});

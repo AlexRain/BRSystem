@@ -14,6 +14,68 @@ QToolTip
 	 border: 1px solid #23262c;
 }
 
+QSpinBox {
+    border-radius: 4px;
+    height: 24px;
+    min-width: 40px;
+    border: 1px solid #23262c;
+    background: #202226;
+}
+
+QSpinBox:enabled {
+    color: rgb(220, 220, 220);
+}
+
+QSpinBox:enabled:hover{
+    color: #e6e6e6;
+}
+
+QLineEdit:enabled:focus {
+    color: #e6e6e6;
+    border-color:#007acc;
+}
+
+QSpinBox:!enabled {
+    color: rgb(65, 65, 65);
+    background: transparent;
+}
+
+QSpinBox::up-button {
+    width: 18px;
+    height: 12px;
+    border-top-right-radius: 3px;
+    border-left: 1px solid #23262c;
+    image: url(:/BRSystem/images/orange/arrow_up.svg);
+    background: rgb(50, 50, 50);
+}
+
+QSpinBox::up-button:!enabled {
+    border-left: 1px solid gray;
+    background: transparent;
+}
+
+QSpinBox::up-button:enabled:hover {
+    background: #3a3c40;
+}
+
+QSpinBox::down-button {
+    width: 18px;
+    height: 12px;
+    border-bottom-right-radius: 3px;
+    border-left: 1px solid #23262c;
+    image: url(:/BRSystem/images/orange/arrow_down.svg);
+    background: #323232;
+}
+
+QSpinBox::down-button:!enabled {
+    border-left: 1px solid gray;
+    background: transparent;
+}
+
+QSpinBox::down-button:enabled:hover {
+    background: #3a3c40;
+}
+
 QLabel{
 	background-color:#16181c;
 }
@@ -158,8 +220,6 @@ QPushButton {
     border: 1px solid #333333;
 	border-radius: 3px;
     padding: 4px;
-    min-width: 65px;
-    min-height: 25px;
 }
 
 QPushButton:hover {
@@ -273,18 +333,18 @@ QLineEdit {
 	selection-background-color:rgb(58,99,144);
 }
 QLineEdit:enabled {
-    color: rgb(175, 175, 175);
+    color: #afafaf;
 }
 QLineEdit:enabled:hover{
-    color: rgb(230, 230, 230);
+    color: #e6e6e6;
 }
 QLineEdit:!enabled {
     color: rgb(155, 155, 155);
 }
 
 QLineEdit:enabled:focus {
-    color: rgb(230, 230, 230);
-	border-color:rgb(0,122,204);
+    color: #e6e6e6;
+	border-color:#007acc;
 }
 
 /**********文本编辑框**********/
@@ -343,7 +403,9 @@ QComboBox::drop-down:hover {
         background: rgba(255, 255, 255, 30);
 }
 QComboBox::down-arrow {
-        image: url(:/BRSystem/images/orange/down_arrow.png);
+    width: 18px;
+    height: 12px;
+    image: url(:/BRSystem/images/orange/arrow_down.svg);
 }
 
 QComboBox:on
@@ -670,4 +732,34 @@ UiLogin #registerBtn:hover,#forgetPassword:hover{
 UiCenter #groupBox_btn > QPushButton,
 UiCenter #groupBox > QPushButton{
     min-height: 40px;
+}
+
+HFChargeView{
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 300px;
+    max-height: 300px;
+    background:transparent;
+}
+
+HFChargeView #btn_charge{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 25px;
+	max-height: 25px;
+}
+
+HFBroadbandDial{
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 300px;
+    max-height: 300px;
+    background:transparent;
+}
+
+HFBroadbandDial #btn_save{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 25px;
+	max-height: 25px;
 }

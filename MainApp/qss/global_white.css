@@ -18,6 +18,50 @@ QToolTip
 	 border: 1px solid #c5c2b6;
 }
 
+QSpinBox {
+    border-radius: 4px;
+    height: 24px;
+    min-width: 40px;
+    border: 1px solid #d3af86;
+    background: #ddd6c1;
+}
+QSpinBox:enabled {
+    color: rgb(60, 60, 60);
+}
+QSpinBox:enabled:hover, QSpinBox:enabled:focus {
+    color: rgb(51, 51, 51);
+}
+QSpinBox:!enabled {
+    color: rgb(210, 210, 210);
+    background: transparent;
+}
+QSpinBox::up-button {
+    border-left: 1px solid #d3af86;
+    width: 18px;
+    height: 12px;
+    border-top-right-radius: 3px;
+    image: url(:/BRSystem/images/orange/arrow_up_white.svg);
+}
+QSpinBox::up-button:!enabled {
+    background: transparent;
+}
+QSpinBox::up-button:enabled:hover {
+    background: rgb(255, 255, 255, 30);
+}
+QSpinBox::down-button {
+    border-left: 1px solid #d3af86;
+    width: 18px;
+    height: 12px;
+    border-bottom-right-radius: 3px;
+    image: url(:/BRSystem/images/orange/arrow_down_white.svg);
+}
+QSpinBox::down-button:!enabled {
+    background: transparent;
+}
+QSpinBox::down-button:hover {
+    background: rgb(255, 255, 255, 30);
+}
+
 QLabel{
 	background-color:transparent;
 }
@@ -134,8 +178,6 @@ QPushButton {
 	background:#d8d4c4;
 	border-radius: 3px;
     padding: 4px;
-    min-width: 65px;
-    min-height: 25px;
 }
 
 QPushButton:hover {
@@ -319,7 +361,9 @@ QComboBox::drop-down:hover {
         background: rgba(255, 255, 255, 30);
 }
 QComboBox::down-arrow {
-        image: url(:/BRSystem/images/orange/down_arrow.png);
+    width: 18px;
+    height: 12px;
+    image: url(:/BRSystem/images/orange/arrow_down_white.svg);
 }
 
 QComboBox:on
@@ -639,7 +683,6 @@ UiLogin #btn_login, UiLogin #btn_register{
     max-width: 210px;
     min-height: 30px;
 	max-height: 30px;
-	background:transparent;
 }
 
 UiLogin #registerBtn,#forgetPassword{
@@ -661,6 +704,36 @@ UiLogin #registerBtn:hover,#forgetPassword:hover{
 UiCenter #groupBox_btn > QPushButton,
 UiCenter #groupBox > QPushButton{
     min-height: 40px;
+}
+
+HFChargeView{
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 300px;
+    max-height: 300px;
+    background:transparent;
+}
+
+HFChargeView #btn_charge{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 25px;
+	max-height: 25px;
+}
+
+HFBroadbandDial{
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 300px;
+    max-height: 300px;
+    background:transparent;
+}
+
+HFBroadbandDial #btn_save{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 25px;
+	max-height: 25px;
 }
 
 

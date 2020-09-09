@@ -4,87 +4,91 @@
 <context>
     <name>BRSystem</name>
     <message>
-        <location filename="src/BRSystem.cpp" line="23"/>
+        <location filename="src/BRSystem.cpp" line="26"/>
         <source>feng he network</source>
         <translation type="unfinished">FengHe Network</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="143"/>
+        <location filename="src/BRSystem.cpp" line="146"/>
         <source>account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="144"/>
+        <location filename="src/BRSystem.cpp" line="147"/>
+        <location filename="src/BRSystem.cpp" line="151"/>
         <source>charge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="145"/>
+        <location filename="src/BRSystem.cpp" line="153"/>
+        <location filename="src/BRSystem.cpp" line="155"/>
         <source>change phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="146"/>
+        <location filename="src/BRSystem.cpp" line="157"/>
         <source>register</source>
         <translation type="unfinished">Register</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="147"/>
+        <location filename="src/BRSystem.cpp" line="158"/>
         <source>login</source>
         <translation type="unfinished">Login</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="148"/>
+        <location filename="src/BRSystem.cpp" line="160"/>
         <source>exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="155"/>
+        <location filename="src/BRSystem.cpp" line="167"/>
         <source>import export bind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="156"/>
+        <location filename="src/BRSystem.cpp" line="168"/>
         <source>import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="161"/>
+        <location filename="src/BRSystem.cpp" line="173"/>
         <source>settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="162"/>
+        <location filename="src/BRSystem.cpp" line="174"/>
         <source>change ip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="164"/>
+        <location filename="src/BRSystem.cpp" line="175"/>
+        <location filename="src/BRSystem.cpp" line="177"/>
+        <source>pppoe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/BRSystem.cpp" line="180"/>
+        <location filename="src/BRSystem.cpp" line="183"/>
         <source>change style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="167"/>
-        <source>detail</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/BRSystem.cpp" line="170"/>
+        <location filename="src/BRSystem.cpp" line="186"/>
         <source>up to date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="171"/>
+        <location filename="src/BRSystem.cpp" line="187"/>
         <source>about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="187"/>
+        <location filename="src/BRSystem.cpp" line="203"/>
         <source>tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="187"/>
+        <location filename="src/BRSystem.cpp" line="203"/>
         <source>are you sure you want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -170,83 +174,83 @@
 <context>
     <name>CUiCenter</name>
     <message>
-        <location filename="src/CUiCenter.cpp" line="93"/>
+        <location filename="src/CUiCenter.cpp" line="80"/>
         <source>detail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="96"/>
+        <location filename="src/CUiCenter.cpp" line="83"/>
         <source>add</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="101"/>
-        <location filename="src/CUiCenter.cpp" line="104"/>
+        <location filename="src/CUiCenter.cpp" line="88"/>
+        <location filename="src/CUiCenter.cpp" line="91"/>
         <source>log</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="118"/>
+        <location filename="src/CUiCenter.cpp" line="105"/>
         <source>phone manage</source>
         <translation type="unfinished">Phone Manage</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="124"/>
+        <location filename="src/CUiCenter.cpp" line="111"/>
         <source>phone sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="139"/>
+        <location filename="src/CUiCenter.cpp" line="126"/>
         <source>password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="142"/>
+        <location filename="src/CUiCenter.cpp" line="129"/>
         <source>index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="145"/>
+        <location filename="src/CUiCenter.cpp" line="132"/>
         <source>qq number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="401"/>
+        <location filename="src/CUiCenter.cpp" line="388"/>
         <source>phone number list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="413"/>
+        <location filename="src/CUiCenter.cpp" line="400"/>
         <source>warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="413"/>
+        <location filename="src/CUiCenter.cpp" line="400"/>
         <source>network error occured</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="437"/>
+        <location filename="src/CUiCenter.cpp" line="424"/>
         <source>normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="440"/>
+        <location filename="src/CUiCenter.cpp" line="427"/>
         <source>safe mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="443"/>
+        <location filename="src/CUiCenter.cpp" line="430"/>
         <source>account forbidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="502"/>
+        <location filename="src/CUiCenter.cpp" line="489"/>
         <source>fetch list data success!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="524"/>
+        <location filename="src/CUiCenter.cpp" line="511"/>
         <source>sync phone numbers success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -256,19 +260,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="259"/>
+        <location filename="src/CUiCenter.ui" line="307"/>
         <source>message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="275"/>
-        <location filename="src/CUiCenter.ui" line="282"/>
-        <location filename="src/CUiCenter.cpp" line="148"/>
+        <location filename="src/CUiCenter.ui" line="323"/>
+        <location filename="src/CUiCenter.ui" line="330"/>
+        <location filename="src/CUiCenter.cpp" line="135"/>
         <source>phone number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="314"/>
+        <location filename="src/CUiCenter.ui" line="374"/>
         <source>send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -278,62 +282,62 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="162"/>
-        <location filename="src/CUiCenter.cpp" line="468"/>
+        <location filename="src/CUiCenter.ui" line="180"/>
+        <location filename="src/CUiCenter.cpp" line="455"/>
         <source>modify password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="175"/>
-        <location filename="src/CUiCenter.cpp" line="472"/>
+        <location filename="src/CUiCenter.ui" line="199"/>
+        <location filename="src/CUiCenter.cpp" line="459"/>
         <source>unsecure mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="188"/>
-        <location filename="src/CUiCenter.cpp" line="476"/>
+        <location filename="src/CUiCenter.ui" line="218"/>
+        <location filename="src/CUiCenter.cpp" line="463"/>
         <source>search account status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="201"/>
-        <location filename="src/CUiCenter.cpp" line="480"/>
+        <location filename="src/CUiCenter.ui" line="237"/>
+        <location filename="src/CUiCenter.cpp" line="467"/>
         <source>search role</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="214"/>
+        <location filename="src/CUiCenter.ui" line="256"/>
         <source>bind phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="227"/>
-        <location filename="src/CUiCenter.cpp" line="484"/>
+        <location filename="src/CUiCenter.ui" line="275"/>
+        <location filename="src/CUiCenter.cpp" line="471"/>
         <source>add account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="296"/>
+        <location filename="src/CUiCenter.ui" line="344"/>
         <source>message template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="151"/>
+        <location filename="src/CUiCenter.cpp" line="138"/>
         <source>status</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="297"/>
+        <location filename="src/CUiCenter.cpp" line="284"/>
         <source>question</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="330"/>
+        <location filename="src/CUiCenter.cpp" line="317"/>
         <source>借还信息.xls</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="111"/>
+        <location filename="src/CUiCenter.cpp" line="98"/>
         <source>export</source>
         <translation></translation>
     </message>
@@ -356,6 +360,165 @@
     <message>
         <source>register acount</source>
         <translation type="vanished">Sign in/up</translation>
+    </message>
+</context>
+<context>
+    <name>HFBroadbandDial</name>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="14"/>
+        <source>HFBroadbandDial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="46"/>
+        <source>account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="56"/>
+        <source>password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="66"/>
+        <source>interval time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="88"/>
+        <source>second(&gt;0)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="97"/>
+        <source>on/off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="107"/>
+        <source>on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="112"/>
+        <source>off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.ui" line="131"/>
+        <source>save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.cpp" line="18"/>
+        <location filename="src/HFBroadbandDial.cpp" line="23"/>
+        <location filename="src/HFBroadbandDial.cpp" line="28"/>
+        <location filename="src/HFBroadbandDial.cpp" line="32"/>
+        <source>tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.cpp" line="18"/>
+        <source>please enter account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.cpp" line="23"/>
+        <source>please enter password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.cpp" line="28"/>
+        <source>time can not be zero</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFBroadbandDial.cpp" line="32"/>
+        <source>Setting will be apply after restart, restart now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HFChangePhoneView</name>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="14"/>
+        <source>HFChangePhoneView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="45"/>
+        <location filename="src/HFChangePhoneView.ui" line="89"/>
+        <source>get code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="54"/>
+        <source>ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="67"/>
+        <source>new phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="77"/>
+        <source>verify code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChangePhoneView.ui" line="100"/>
+        <source>bind</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HFChargeView</name>
+    <message>
+        <location filename="src/HFChargeView.ui" line="14"/>
+        <source>HFChargeView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.ui" line="49"/>
+        <source>card number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.ui" line="59"/>
+        <source>card password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.ui" line="76"/>
+        <source>charge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.cpp" line="12"/>
+        <source>get charge card?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.cpp" line="35"/>
+        <source>warning</source>
+        <translation type="unfinished">Warning</translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.cpp" line="43"/>
+        <location filename="src/HFChargeView.cpp" line="48"/>
+        <source>tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.cpp" line="43"/>
+        <source>please enter card number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/HFChargeView.cpp" line="48"/>
+        <source>please enter card secret</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

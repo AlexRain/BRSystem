@@ -24,6 +24,11 @@ enum class API {
     getPhoneList,
     SyncPhone,
 
+    //wallet
+    walletList,
+    charge,
+    withdraw,
+
     //add api type above
     apiDefineEnd
 };
@@ -54,6 +59,15 @@ static std::string getApi(API apiType)
         break;
     case API::SyncPhone:
         api = "/phone/phones";
+        break;
+    case API::walletList:
+        api = "/wallet/";
+        break;
+    case API::charge:
+        api = "/wallet/charge";
+        break;
+    case API::withdraw:
+        api = "/wallet/withdraw";
         break;
     default:
         break;

@@ -173,6 +173,15 @@
     <ClCompile Include="src\ThreadImport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\HFChargeView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HFBroadbandDial.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HFChangePhoneView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -211,6 +220,15 @@
     <QtMoc Include="src\ThreadImport.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\HFChargeView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HFBroadbandDial.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\HFChangePhoneView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -226,6 +244,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\UiLogin.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\HFChargeView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\HFBroadbandDial.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\HFChangePhoneView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
