@@ -37,7 +37,8 @@ QLabel#divider{
 /*所有菜单样式*/
 QMenuBar {
 	background-color:#16181c;
-	color: white;
+    color: white;
+    max-height: 30px;
 }
 
 QSplitter::handle{

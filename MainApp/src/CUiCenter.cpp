@@ -54,7 +54,7 @@ void CUiCenter::initUi()
     ui.label_ads->setText(TOCH("<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">广告位招商，详询qq:123456</span></a></p>"));
 
     {
-        QSplitter* splitter = new QSplitter(Qt::Horizontal, ui.frameTool);
+        /*QSplitter* splitter = new QSplitter(Qt::Horizontal, ui.frameTool);
         ui.horizontalLayout_3->addWidget(splitter);
         splitter->addWidget(ui.groupBox);
         splitter->addWidget(ui.groupBox_btn);
@@ -62,7 +62,7 @@ void CUiCenter::initUi()
         splitter->setStretchFactor(1, 2);
         splitter->setHandleWidth(5);
         splitter->setCollapsible(0, false);
-        splitter->setCollapsible(1, false);
+        splitter->setCollapsible(1, false);*/
     }
 
     QPushButton* btn_add = UiHelper::creatPushButton(

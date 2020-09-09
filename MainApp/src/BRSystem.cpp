@@ -9,26 +9,24 @@
 #include <QBitmap>
 #include <QDebug>
 #include <QMenuBar>
+#include <QStatusBar>
 #include <QToolBar>
 #include <QVBoxLayout>
 
 BRSystem::BRSystem(QWidget* parent)
-    : BaseWidget(parent)
-    , mTopWidget(nullptr)
+    : QWidget(parent)
     , m_pContentLayout(nullptr)
     , mToolbar(nullptr)
     , m_pCurrentWidget(nullptr)
 {
     this->init();
-    this->setWindowTitle(TOCH("汇声科技生产专用借还系统"));
-    this->setAttribute(Qt::WA_DeleteOnClose);
+    this->setWindowTitle(tr("feng he network"));
     pLayer = new UiFrostedLayer(this);
     pLayer->hide();
 }
 
 BRSystem::~BRSystem()
 {
-    qDebug() << "BRSystem";
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -69,7 +67,7 @@ void BRSystem::showMainPage()
 
 void BRSystem::init()
 {
-    mTopWidget = new CUiTop(this);
+    /*mTopWidget = new CUiTop(this);
     connect(mTopWidget, &CUiTop::showChangeSkinDlg, this, [=](const QPoint& point) {
         UiChangeSkin* dialog = new UiChangeSkin(this);
         dialog->resize(350, 192);
@@ -115,7 +113,7 @@ void BRSystem::init()
 
     connect(mTopWidget, &CUiTop::showMainPage, [this]() {
         this->showMainPage();
-    });
+    });*/
 
     CUiCenter* centerWidget = new CUiCenter(this);
     centerWidget->setObjectName("centerWidget");
@@ -123,10 +121,14 @@ void BRSystem::init()
     m_pContentLayout->setContentsMargins(0, 0, 0, 0);
     m_pContentLayout->setSpacing(0);
 
+    QMenuBar* menuBar = new QMenuBar(this);
+    createMenus(menuBar);
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(6);
-    layout->addWidget(mTopWidget);
+    layout->addWidget(menuBar);
+    //layout->addWidget(mTopWidget);
     layout->addWidget(UiHelper::createSplitter(this));
     layout->addItem(m_pContentLayout);
 
@@ -134,14 +136,58 @@ void BRSystem::init()
     this->addwidget(centerWidget);
 }
 
-void BRSystem::windowStateChanged(Qt::WindowStates states)
+void BRSystem::createMenus(QMenuBar* menuBar)
 {
-    mTopWidget->windowStateChanged(states);
-    BaseWidget::windowStateChanged(states);
+    //account
+    {
+        auto accountMenu = menuBar->addMenu(tr("account"));
+        accountMenu->addAction(tr("charge"), [=]() {});
+        accountMenu->addAction(tr("change phone"), [=]() {});
+        accountMenu->addAction(tr("register"), [=]() {});
+        accountMenu->addAction(tr("login"), [=]() {});
+        accountMenu->addAction(tr("exit"), [=]() {
+            exit(0);
+        });
+    }
+
+    //import
+    {
+        auto accountMenu = menuBar->addMenu(tr("import export bind"));
+        accountMenu->addAction(tr("import"), [=]() {});
+    }
+
+    //setting
+    {
+        auto accountMenu = menuBar->addMenu(tr("settings"));
+        accountMenu->addAction(tr("change ip"), [=]() {});
+        accountMenu->addSeparator();
+        accountMenu->addAction(tr("change style"), [=]() {
+            UiChangeSkin* dialog = new UiChangeSkin(this);
+            dialog->resize(350, 192);
+            PopupDialogContainer::showPopupDialogFadeIn(dialog, CApp->getMainWidget(), tr("detail"));
+        });
+        accountMenu->addSeparator();
+        accountMenu->addAction(tr("up to date"), [=]() {});
+        accountMenu->addAction(tr("about"), [=]() {});
+    }
+}
+
+void BRSystem::createStatusBar()
+{
 }
 
 void BRSystem::resizeEvent(QResizeEvent* event)
 {
     pLayer->resize(this->size());
     pLayer->move(0, 0);
+}
+
+void BRSystem::closeEvent(QCloseEvent* event)
+{
+    int result = DialogMsg::question(this, tr("tips"), tr("are you sure you want to exit?"), QMessageBox::Ok | QMessageBox::Cancel);
+    if (result != QMessageBox::Ok) {
+        event->ignore();
+        return;
+    }
+    QWidget::closeEvent(event);
 }

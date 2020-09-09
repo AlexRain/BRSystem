@@ -222,6 +222,9 @@
     <QtUic Include="src\UiUsageRecord.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\CUiCenter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />
@@ -243,9 +246,6 @@
     <None Include="qss\global_white.css" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="src\CUiCenter.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="src\UiLogin.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
