@@ -103,7 +103,7 @@ QMessageBox::StandardButton DialogMsg::question(QWidget* parent, const QString& 
 {
     QMessageBox::StandardButton ok = QMessageBox::Cancel;
     DialogMsg dlgMsg(parent, title, text, buttons, buttonsText);
-    dlgMsg.showLayer();
+    //dlgMsg.showLayer();
     int result = dlgMsg.exec();
     if (result == QDialog::Accepted)
         ok = QMessageBox::Ok;

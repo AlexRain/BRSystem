@@ -7,6 +7,8 @@ using PointerValue = unsigned long long;
 static const int REQUEST_TIMEOUT = 15 * 1000;
 static const int SHOW_LOADING = 500;
 static const char* baseUrl = "http://39.101.209.77:31001/api/v1";
+static const char* baseUrl2 = "http://bill.ah-fenghe.com/api/v1";
+static const char* localServer = "localhost:5001";
 
 enum class API {
     apiNoneType,
@@ -28,6 +30,12 @@ enum class API {
     walletList,
     charge,
     withdraw,
+
+    //local python server api
+    local_queryBan,
+    local_queryRole,
+    local_queryScore,
+    local_queryIdentifyStatus,
 
     //add api type above
     apiDefineEnd

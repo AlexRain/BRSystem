@@ -70,54 +70,6 @@ void BRSystem::showMainPage()
 
 void BRSystem::init()
 {
-    /*mTopWidget = new CUiTop(this);
-    connect(mTopWidget, &CUiTop::showChangeSkinDlg, this, [=](const QPoint& point) {
-        UiChangeSkin* dialog = new UiChangeSkin(this);
-        dialog->resize(350, 192);
-        QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-        BubbleTipWidget::showBubbleWidget(dialog, point,
-            BubbleTipWidget::Bottom, this);
-    });
-
-    connect(mTopWidget, &CUiTop::aboutToChangeWindowState, this, [=](CUiTop::WindowState stateAboutToChanged) {
-        QWidget* parent = this;
-        while (parent->parentWidget()) {
-            parent = parent->parentWidget();
-        }
-
-        if (parent->inherits("PopupDialogContainer")) {
-            PopupDialogContainer* pWidget = qobject_cast<PopupDialogContainer*>(parent);
-            if (pWidget) {
-                if (stateAboutToChanged == CUiTop::StateMin)
-                    parent->setWindowState(Qt::WindowMinimized);
-                else
-                    pWidget->showMaxorNormal();
-            }
-        }
-    });
-
-    connect(mTopWidget, &CUiTop::appAboutToExit, this, [=]() {
-        int result = DialogMsg::question(this, TOCH("提示"), TOCH("确定要关闭？"), QMessageBox::Ok | QMessageBox::Cancel);
-        if (result == QMessageBox::Ok)
-            exit(0);
-    });
-
-    connect(mTopWidget, &CUiTop::clickProfile, [this](const QPoint& point) {
-        QWidget* p = new QWidget();
-        p->resize(275, 308);
-        QPoint pos = this->mapToGlobal(QPoint(0, mTopWidget->height() + 8));
-        BubbleTipWidget::showBubbleWidget(p, point, BubbleTipWidget::Bottom, this);
-    });
-
-    connect(mTopWidget, &CUiTop::showSettingUi, [this]() {
-        BaseWidget* p = new BaseWidget(this);
-        this->addwidget(p);
-    });
-
-    connect(mTopWidget, &CUiTop::showMainPage, [this]() {
-        this->showMainPage();
-    });*/
-
     CUiCenter* centerWidget = new CUiCenter(this);
     centerWidget->setObjectName("centerWidget");
     m_pContentLayout = new QVBoxLayout;

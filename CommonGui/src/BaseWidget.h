@@ -12,6 +12,8 @@ public:
 	BaseWidget(QWidget *parent = nullptr);
 	virtual ~BaseWidget();
 
+	void SetTitle(const QString &title);
+
 public:
 	virtual void windowStateChanged(Qt::WindowStates states) {};
 
@@ -21,4 +23,5 @@ protected:
 
 signals:
 	void closed(BaseWidget *p = nullptr);
+	void windowTitleChanged(const QString &title);
 };

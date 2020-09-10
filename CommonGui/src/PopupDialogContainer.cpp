@@ -126,6 +126,12 @@ void PopupDialogContainer::addWidget(BaseWidget* widget)
         this->closeFlag = true;
         this->close();
     });
+
+    connect(widget, &BaseWidget::windowTitleChanged, this, [=](const QString &title) {
+        mLabelTitle->setVisible(!title.isEmpty());
+        mLabelTitle->setText(title);
+        });
+
     int marginSpace = mLayout->margin() * 2;
     this->resize(widget->width() + marginSpace, widget->height() + marginSpace);
 }
@@ -196,7 +202,7 @@ void PopupDialogContainer::showPopupDialog(BaseWidget* widget, QWidget* parent,
     bool showCloseBtn, bool resizeGrip, bool doubleClickResize)
 {
     PopupDialogContainer* container = new PopupDialogContainer(parent, title, isModal, showCloseBtn, resizeGrip, doubleClickResize);
-    container->showLayer();
+    //container->showLayer();
     container->addWidget(widget);
     container->show();
 }
@@ -208,7 +214,7 @@ void PopupDialogContainer::showPopupDialogFadeIn(BaseWidget* widget, QWidget* pa
     if (nullptr == widget)
         return;
     PopupDialogContainer* container = new PopupDialogContainer(parent, title, isModal, showCloseBtn, resizeGrip, doubleClickResize);
-    container->showLayer();
+    //container->showLayer();
     container->addWidget(widget);
     container->fadeIn();
 }

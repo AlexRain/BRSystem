@@ -9,3 +9,10 @@ HFChangePhoneView::HFChangePhoneView(QWidget *parent)
 HFChangePhoneView::~HFChangePhoneView()
 {
 }
+
+void HFChangePhoneView::SetOldPhoneNumber(const QString& number)
+{
+	oldNumber = number;
+	QString displayNumber = number.left(3) + "****" + number.right(4);
+	ui.label_title->setText(tr("get %1 code").arg(displayNumber));
+}

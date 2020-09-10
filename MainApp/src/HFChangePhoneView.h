@@ -12,6 +12,9 @@ public:
 	HFChangePhoneView(QWidget *parent = Q_NULLPTR);
 	~HFChangePhoneView();
 
+	void SetOldPhoneNumber(const QString &number);
+
 private:
 	Ui::HFChangePhoneView ui;
+	QString oldNumber;
 };

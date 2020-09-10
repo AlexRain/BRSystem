@@ -53,7 +53,7 @@ public:
             manager = new QNetworkAccessManager;
         }
 
-        std::string strUrl = std::string(baseUrl) + getApi(task.apiIndex);
+        std::string strUrl = std::string(localServer) + getApi(task.apiIndex);
         QUrl url = QUrl::fromEncoded(QByteArray::fromStdString(strUrl));
         QNetworkRequest request(url);
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

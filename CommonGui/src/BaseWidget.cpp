@@ -14,6 +14,11 @@ BaseWidget::~BaseWidget()
 {
 }
 
+void BaseWidget::SetTitle(const QString& title)
+{
+	emit windowTitleChanged(title);
+}
+
 void BaseWidget::paintEvent(QPaintEvent *event)
 {
 	/*子类化控件使用样式表*/

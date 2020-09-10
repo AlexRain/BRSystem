@@ -60,7 +60,7 @@ void CEditInfoDialog::initEdit()
 
 void CEditInfoDialog::initUsers()
 {
-    CDbHelper dbHelper;
+    /*CDbHelper dbHelper;
     dbHelper.open();
     QList<ModelData> vModel;
     int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_USER ORDER BY createTime asc");
@@ -73,7 +73,7 @@ void CEditInfoDialog::initUsers()
         userData.departmentId = model["departmentId"];
         userData.departmentName = model["departmentName"];
         ui.comBoBox_browerName->addItem(model["userName"], QVariant::fromValue(userData));
-    }
+    }*/
 }
 
 void CEditInfoDialog::initData()
