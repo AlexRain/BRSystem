@@ -8,7 +8,7 @@ static const int REQUEST_TIMEOUT = 15 * 1000;
 static const int SHOW_LOADING = 500;
 static const char* baseUrl = "http://39.101.209.77:31001/api/v1";
 static const char* baseUrl2 = "http://bill.ah-fenghe.com/api/v1";
-static const char* localServer = "localhost:5001";
+static const char* localServer = "http://127.0.0.1:5001";
 
 enum class API {
     apiNoneType,
@@ -16,6 +16,7 @@ enum class API {
     //account user
     accountList,
     bindPhone,
+    bindPlatform,
 
     //admin user
     login,
@@ -31,11 +32,14 @@ enum class API {
     charge,
     withdraw,
 
+    //task
+    addTask,
+
+    //version upgrade
+    checkUpdate,
+
     //local python server api
-    local_queryBan,
-    local_queryRole,
-    local_queryScore,
-    local_queryIdentifyStatus,
+    doTask,
 
     //add api type above
     apiDefineEnd
@@ -51,6 +55,9 @@ static std::string getApi(API apiType)
         api = "/account/";
         break;
     case API::bindPhone:
+        api = "/account/bindPhone";
+        break;
+    case API::bindPlatform:
         api = "/account/bind";
         break;
     case API::login:
@@ -76,6 +83,15 @@ static std::string getApi(API apiType)
         break;
     case API::withdraw:
         api = "/wallet/withdraw";
+        break;
+    case API::addTask:
+        api = "/task/";
+        break;
+    case API::checkUpdate:
+        api = "/version/";
+        break;
+    case API::doTask:
+        api = "/doTask";
         break;
     default:
         break;

@@ -6,19 +6,20 @@
 #include <QThread>
 #include <QtCore>
 #include <QtNetwork>
+//task type
+enum TaskType {
+    change_password = 1,
+    unpack_safe_mode,
+    bind_mobile,
+    query_role,
+    query_identity,
+    query_ban,
+    query_credit_score,
+    send_short_message
+};
 
 class NETWORK_EXPORT TaskManager : public QObject {
     Q_OBJECT
-    //task type
-    enum TaskType {
-        change_password = 1,
-        unpack_safe_mode,
-        bind_mobile,
-        query_role,
-        query_identity,
-        query_ban,
-        query_credit_score
-    };
 
 public:
     static TaskManager* instance()
@@ -47,12 +48,12 @@ private slots:
     void startNextRequest();
     void excuteRequest(const RequestTaskInner& requestTask);
     void requestFinished(QNetworkReply* reply);
-    void localRequestFinished(QNetworkReply* reply);
+    void localRequestFinished(QNetworkReply* reply, const QString& taskId);
 
 private:
     void start();
     void excuteLocalTask();
-    void parseLocalTaskData(const QJsonObject& dataObj);
+    void parseLocalTaskData(const QJsonObject& dataObj, const QString& taskId);
 
     QThread thread;
     QNetworkAccessManager* manager = nullptr;

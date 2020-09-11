@@ -3,12 +3,12 @@
 #include "CUiCenter.h"
 #include "CUiTop.h"
 #include "DialogMsg.h"
+#include "HFBroadbandDial.h"
+#include "HFChangePhoneView.h"
+#include "HFChargeView.h"
 #include "PopupDialogContainer.h"
 #include "UiChangeSkin.h"
 #include "UiFrostedLayer.h"
-#include "HFChargeView.h"
-#include "HFBroadbandDial.h"
-#include "HFChangePhoneView.h"
 #include <QBitmap>
 #include <QDebug>
 #include <QMenuBar>
@@ -22,6 +22,7 @@ BRSystem::BRSystem(QWidget* parent)
     , mToolbar(nullptr)
     , m_pCurrentWidget(nullptr)
 {
+    qRegisterMetaType<ResponData>("ResponData");
     this->init();
     this->setWindowTitle(tr("feng he network"));
     pLayer = new UiFrostedLayer(this);
@@ -68,27 +69,77 @@ void BRSystem::showMainPage()
     this->addwidget(mListWidgets.at(0));
 }
 
+void BRSystem::outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    QString message;
+    switch (type) {
+    case QtDebugMsg:
+        message = QString("Debug:");
+        break;
+
+    case QtWarningMsg:
+        message = QString("Warning:");
+        break;
+
+    case QtCriticalMsg:
+        message = QString("Critical:");
+        break;
+
+    case QtFatalMsg:
+        message = QString("Fatal:");
+        break;
+
+    case QtInfoMsg:
+        message = QString("Info:");
+        break;
+    }
+    if (logOutput)
+        logOutput->append(message.append(msg));
+}
+
 void BRSystem::init()
 {
     CUiCenter* centerWidget = new CUiCenter(this);
     centerWidget->setObjectName("centerWidget");
     m_pContentLayout = new QVBoxLayout;
-    m_pContentLayout->setContentsMargins(0, 0, 0, 0);
+    m_pContentLayout->setContentsMargins(10, 0, 10, 0);
     m_pContentLayout->setSpacing(0);
 
     QMenuBar* menuBar = new QMenuBar(this);
     createMenus(menuBar);
 
+    // add log output
+    auto groupLog = new QGroupBox(this);
+    groupLog->setTitle(tr("log"));
+
+    auto layoutLog = new QVBoxLayout(groupLog);
+    layoutLog->setSpacing(0);
+    logOutput = new QTextBrowser(groupLog);
+    layoutLog->addWidget(logOutput);
+
     QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(0, 10, 0, 10);
     layout->setSpacing(6);
     layout->addWidget(menuBar);
-    //layout->addWidget(mTopWidget);
     layout->addWidget(UiHelper::createSplitter(this));
     layout->addItem(m_pContentLayout);
+    m_pContentLayout->addWidget(centerWidget);
+    m_pContentLayout->addWidget(groupLog);
+
+    // adds area bottom
+    {
+        labelAdds = new QLabel(this);
+        labelAdds->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        labelAdds->setText(TOCH("<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">广告位招商，详询qq:123456</span></a></p>"));
+        auto widgetBottom = new QFrame(this);
+        auto laytoutBottom = new QHBoxLayout(widgetBottom);
+        laytoutBottom->setContentsMargins(0, 0, 0, 0);
+        laytoutBottom->addStretch();
+        laytoutBottom->addWidget(labelAdds);
+        m_pContentLayout->addWidget(labelAdds);
+    }
 
     this->resize(958, 596);
-    this->addwidget(centerWidget);
 }
 
 void BRSystem::createMenus(QMenuBar* menuBar)
@@ -101,11 +152,11 @@ void BRSystem::createMenus(QMenuBar* menuBar)
             connect(chargeView, &HFChargeView::chargeSuccess, [=]() {});
             chargeView->resize(400, 300);
             PopupDialogContainer::showPopupDialogFadeIn(chargeView, CApp->getMainWidget(), tr("charge"));
-            });
+        });
         accountMenu->addAction(tr("change phone"), [=]() {
             HFChangePhoneView* changePhoneView = new HFChangePhoneView(this);
             PopupDialogContainer::showPopupDialogFadeIn(changePhoneView, CApp->getMainWidget(), tr("change phone"));
-            });
+        });
         accountMenu->addAction(tr("register"), [=]() {});
         accountMenu->addAction(tr("login"), [=]() {});
         accountMenu->addSeparator();
@@ -127,7 +178,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         accountMenu->addAction(tr("pppoe"), [=]() {
             HFBroadbandDial* pppoeView = new HFBroadbandDial(this);
             PopupDialogContainer::showPopupDialogFadeIn(pppoeView, CApp->getMainWidget(), tr("pppoe"));
-            });
+        });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("change style"), [=]() {
             UiChangeSkin* dialog = new UiChangeSkin(this);

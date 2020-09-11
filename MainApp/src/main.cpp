@@ -8,9 +8,18 @@
 #include <QDebug>
 #include <QFile>
 #include <QObject>
+#include <QPointer>
 #include <QStyleFactory>
 #include <QTranslator>
 #include <QtWidgets/QApplication>
+
+QPointer<BRSystem> logPrinter = nullptr;
+
+void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    /*if (logPrinter)
+        logPrinter->outputMessage(type, context, msg);*/
+}
 
 using namespace std;
 
@@ -32,18 +41,18 @@ int main(int argc, char* argv[])
     /*主界面*/
     int result = 0;
     do {
-#ifndef _DEBUG
         /*登录界面*/
         UiLogin login;
         if (QDialog::Accepted != login.fadeIn())
             return 0;
-#endif // !_DEBUG
 
         BRSystem w;
+        logPrinter = &w;
+        //qInstallMessageHandler(outputMessage);
         a.setMainWidget(&w);
         w.show();
         result = a.exec();
     } while (result == RESTART_CODE);
-    
+
     return result;
 }

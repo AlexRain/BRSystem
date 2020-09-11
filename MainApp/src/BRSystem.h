@@ -3,6 +3,7 @@
 #include "BaseWidget.h"
 #include <QLabel>
 #include <QMap>
+#include <QTextBrowser>
 #include <QWidget>
 
 class CUiTop;
@@ -22,7 +23,8 @@ public:
 public:
     static void showCoverWidget(BaseWidget* content);
     void addwidget(BaseWidget* content);
-    inline void showMainPage();
+    void showMainPage();
+    void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 private:
     void init();
@@ -30,7 +32,7 @@ private:
     void createStatusBar();
 
 protected:
-    void resizeEvent(QResizeEvent* event);
+    virtual void resizeEvent(QResizeEvent* event) override;
     virtual void closeEvent(QCloseEvent* event) override;
 
 private:
@@ -42,4 +44,6 @@ private:
     QMap<int, QWidget*> m_mapWidget;
     QVBoxLayout* m_pContentLayout;
     BaseWidget* m_pCurrentWidget;
+    QTextBrowser* logOutput = nullptr;
+    QLabel* labelAdds = nullptr;
 };

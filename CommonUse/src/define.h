@@ -8,8 +8,8 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QSize>
-#include <QWidget>
 #include <QStyle>
+#include <QWidget>
 
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
@@ -39,6 +39,8 @@ enum TableHeader {
 
 enum TableAcocountList {
     uid = 0,
+    password,
+    index,
     qqNumber,
     phoneNumber,
     status
@@ -196,9 +198,9 @@ static void PaintPixmapFrame8(QPixmap& pixMap, QList<QPixmap>& listPixmap, int n
     }
 }
 
-static void flushStyle(QWidget *widget) {
-    if (widget)
-    {
+static void flushStyle(QWidget* widget)
+{
+    if (widget) {
         widget->style()->unpolish(widget);
         widget->style()->polish(widget);
     }

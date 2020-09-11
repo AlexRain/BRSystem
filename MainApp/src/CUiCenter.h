@@ -6,6 +6,7 @@
 #include "CTableview.h"
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
+#include "TaskManager.h"
 #include "ThreadImport.h"
 #include "define.h"
 #include "ui_CUiCenter.h"
@@ -105,6 +106,8 @@ public:
     CUiCenter(QWidget* parent = Q_NULLPTR);
     ~CUiCenter();
 
+    using ModeDataList = QList<ModelData>;
+
 private:
     friend class CUiTop;
     void initUi();
@@ -128,7 +131,8 @@ private:
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
     void UpdateStatusText(const QString& text);
-    bool GetCurrentData(ModelData& data);
+    bool GetCurrentData(QList<ModelData>& selectedRows);
+    void excuteTasks(TaskType type);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -141,15 +145,17 @@ private slots:
     void on_btn_unsecure_clicked();
     void on_btn_account_status_clicked();
     void on_btn_role_clicked();
-    void on_btn_add_account_clicked();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
     void on_btn_bind_phone_clicked();
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
+    void OnImportFinished();
 
 private:
     Ui::CUiCenter ui;
     ThreadImport taskImport;
     QThread threadImport;
+    int importCount = 0;
+    ModeDataList listImport;
 };

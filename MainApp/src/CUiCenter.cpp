@@ -50,7 +50,6 @@ CUiCenter::~CUiCenter()
 void CUiCenter::initUi()
 {
     this->initTableView();
-    ui.label_ads->setText(TOCH("<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">广告位招商，详询qq:123456</span></a></p>"));
 
     QPushButton* btn_add = UiHelper::creatPushButton(
         this, [=]() {
@@ -174,10 +173,11 @@ void CUiCenter::initTableView()
     connect(ui.tableView, &CTableview::dropFiles, this, &CUiCenter::OnDropFiles);
 
     connect(ui.tableView, &CTableview::currentIndexChanged, [=](const QModelIndex& current, const QModelIndex& previous) {
-        qInfo("current index changed");
+
     });
 
     connect(&taskImport, &ThreadImport::addRow, this, &CUiCenter::OnAddRow, Qt::QueuedConnection);
+    connect(&taskImport, &ThreadImport::taskFinished, this, &CUiCenter::OnImportFinished, Qt::QueuedConnection);
 
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
 }
@@ -379,7 +379,6 @@ void CUiCenter::setBorrowData(const BorrowInfo& info, int row)
 
 void CUiCenter::setAddvertiseLink(const QString& link)
 {
-    ui.label_ads->setText(link);
 }
 
 void CUiCenter::openPhoneNumberList()
@@ -390,29 +389,61 @@ void CUiCenter::openPhoneNumberList()
 
 void CUiCenter::UpdateStatusText(const QString& text)
 {
-    ui.label_status->setText(text);
 }
 
-bool CUiCenter::GetCurrentData(ModelData& data)
+bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
 {
-    QModelIndex currentIndex = ui.tableView->currentIndex();
-    if (!currentIndex.isValid()) {
-        DialogMsg::question(this, tr("warning"), tr("network error occured"), QMessageBox::Ok);
+    auto selectRows = ui.tableView->selectionModel()->selectedRows();
+    int count = selectRows.size();
+    if (selectRows.isEmpty()) {
+        DialogMsg::question(this, tr("warning"), tr("please select at least one row"), QMessageBox::Ok);
         return false;
     }
     QAbstractItemModel* model = ui.tableView->model();
-    int row = currentIndex.row();
-    data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
-    data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
-    data["status"] = model->data(model->index(row, TableAcocountList::status), Qt::DisplayRole).toString();
+    for (const auto& rowData : selectRows) {
+        ModelData data;
+        int row = rowData.row();
+        data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+        data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+        selectedRows.append(data);
+    }
     return true;
+}
+
+void CUiCenter::excuteTasks(TaskType type)
+{
+    ModeDataList dataList;
+    if (GetCurrentData(dataList)) {
+        int bizType = static_cast<int>(type);
+
+        qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
+        for (const auto& data : dataList) {
+            RequestTask task;
+            task.reqeustId = (quint64)this;
+            task.headerObj.insert("uid", UserSession::instance().userData().uid);
+            task.headerObj.insert("token", UserSession::instance().userData().token);
+            task.bodyObj.insert("bizType", bizType);
+            QJsonObject objParam;
+            objParam.insert("new_password", data["new_password"]);
+            objParam.insert("new_phone", data["new_phone"]);
+            objParam.insert("password", data["password"]);
+            objParam.insert("phone", data["phone"]);
+            objParam.insert("qq", data["qq"]);
+            task.bodyObj.insert("params", objParam);
+            task.apiIndex = API::addTask;
+            TaskManager::instance()->Post(task);
+        }
+    }
 }
 
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
 {
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
-    item.append(new QStandardItem(model["password"]));
+    auto itemPassword = new QStandardItem;
+    itemPassword->setData(model["password"], Qt::UserRole);
+    item.append(itemPassword);
     item.append(new QStandardItem(QString::number(index)));
     item.append(new QStandardItem(model["qq"]));
     item.append(new QStandardItem(model["phone"]));
@@ -467,10 +498,6 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
         menu->addAction(tr("search role"), [=] {
             on_btn_role_clicked();
         });
-
-        menu->addAction(tr("add account"), [=] {
-            on_btn_add_account_clicked();
-        });
         menu->exec(QCursor::pos());
     }
 }
@@ -516,44 +543,26 @@ void CUiCenter::onRequestCallback(const ResponData& data)
 
 void CUiCenter::on_bt_modify_pwd_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
+    excuteTasks(change_password);
 }
 
 void CUiCenter::on_btn_unsecure_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
+    excuteTasks(unpack_safe_mode);
 }
 
 void CUiCenter::on_btn_account_status_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
+    excuteTasks(change_password);
 }
 
 void CUiCenter::on_btn_role_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
-}
-
-void CUiCenter::on_btn_add_account_clicked()
-{
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
+    excuteTasks(query_role);
 }
 
 void CUiCenter::on_btn_send_msg_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-    }
 }
 
 void CUiCenter::on_btn_sync_phone_clicked()
@@ -568,19 +577,13 @@ void CUiCenter::on_btn_sync_phone_clicked()
 
 void CUiCenter::on_btn_bind_phone_clicked()
 {
-    ModelData data;
-    if (GetCurrentData(data)) {
-        RequestTask task;
-        task.reqeustId = (quint64)this;
-        task.headerObj.insert("uid", UserSession::instance().userData().uid);
-        task.headerObj.insert("token", UserSession::instance().userData().token);
-        task.apiIndex = API::bindPhone;
-        WebHandler::instance()->Post(task);
-    }
+    excuteTasks(bind_mobile);
 }
 
 void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
 {
+    importCount = 0;
+    listImport.clear();
     if (!threadImport.isRunning()) {
         taskImport.moveToThread(&threadImport);
         threadImport.start();
@@ -592,10 +595,38 @@ void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
 
 void CUiCenter::OnAddRow(ImportData data)
 {
+    importCount++;
     ModelData model;
     model["qq"] = data.qq;
     model["phone"] = data.phoneNumber;
     model["password"] = data.password;
     model["status"] = QString::number((int)AccountStatus::Normal);
+    listImport.append(model);
     ui.tableView->addData(model);
+}
+
+void CUiCenter::OnImportFinished()
+{
+    if (listImport.isEmpty())
+        return;
+    int result = DialogMsg::question(this, tr("question"), tr("you have imported %1 pieces of data, bind platform for them?").arg(listImport.size()), QMessageBox::Ok | QMessageBox::Cancel);
+    if (result == QMessageBox::Ok) {
+        RequestTask task;
+        task.reqeustId = (quint64)this;
+        task.headerObj.insert("uid", UserSession::instance().userData().uid);
+        task.headerObj.insert("token", UserSession::instance().userData().token);
+        QJsonArray arrayParam;
+        for (const auto& data : listImport) {
+            if (!data.value("qq").isEmpty() || !data.value("password").isEmpty()) {
+                QJsonObject obj;
+                obj.insert("password", data.value("password"));
+                obj.insert("qq", data.value("qq"));
+                obj.insert("phone", data.value("phone"));
+                arrayParam.append(obj);
+            }
+        }
+        task.bodyObj.insert("list", arrayParam);
+        task.apiIndex = API::bindPlatform;
+        WebHandler::instance()->Post(task);
+    }
 }

@@ -63,25 +63,26 @@ void TaskManager::start()
     }
 }
 
-void TaskManager::parseLocalTaskData(const QJsonObject& dataObj)
+void TaskManager::parseLocalTaskData(const QJsonObject& dataObj, const QString& taskId)
 {
     if (dataObj.contains("type")) {
         int type = dataObj.value("type").toInt();
+        qInfo("task excute success, task type=%d, task id=%s", type, taskId.toUtf8().constData());
         auto taskType = static_cast<TaskType>(type);
         switch (taskType) {
-        case TaskManager::change_password:
+        case change_password:
             break;
-        case TaskManager::unpack_safe_mode:
+        case unpack_safe_mode:
             break;
-        case TaskManager::bind_mobile:
+        case bind_mobile:
             break;
-        case TaskManager::query_role:
+        case query_role:
             break;
-        case TaskManager::query_identity:
+        case query_identity:
             break;
-        case TaskManager::query_ban:
+        case query_ban:
             break;
-        case TaskManager::query_credit_score:
+        case query_credit_score:
             break;
         default:
             break;
@@ -151,17 +152,20 @@ void TaskManager::requestFinished(QNetworkReply* reply)
             if (result.errorCode == DataParseResult::NoError) {
                 if (dataObj.contains("id")) {
                     QNetworkRequest requstTask;
-                    requstTask.setUrl(QUrl::fromEncoded(localServer));
-                    auto task_id = dataObj.value("id").toString().toUtf8();
+                    auto task_id = QString::number(dataObj.value("id").toInt());
+                    qInfo("get task id success, task id=%s, request task server", task_id.toUtf8().constData());
+                    std::string strUrl = std::string(localServer) + getApi(API::doTask);
+                    QUrl url = QUrl::fromEncoded(QByteArray::fromStdString(strUrl));
+                    requstTask.setUrl(url);
                     requstTask.setHeader(QNetworkRequest::ContentTypeHeader,
                         "application/json");
                     requstTask.setRawHeader(
                         "uid",
-                        dataCallback.task.headerObj.value("uid").toString().toUtf8());
+                        QString::number(dataCallback.task.headerObj.value("uid").toInt()).toUtf8());
                     requstTask.setRawHeader(
                         "token",
                         dataCallback.task.headerObj.value("token").toString().toUtf8());
-                    requstTask.setRawHeader("task_id", task_id);
+                    requstTask.setRawHeader("task_id", task_id.toUtf8());
 
                     // create a local python http request to excute task by task id.
                     QTimer requestTimeOut;
@@ -172,15 +176,15 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                     connect(
                         currentRequest, &QNetworkReply::finished, &loop, &QEventLoop::quit);
                     connect(&requestTimeOut, &QTimer::timeout, &loop, &QEventLoop::quit);
-                    requestTimeOut.start(REQUEST_TIMEOUT);
+                    requestTimeOut.start(120 * 1000);
                     loop.exec();
 
                     if (requestTimeOut.isActive()) {
                         requestTimeOut.stop();
-                        localRequestFinished(currentRequest);
+                        localRequestFinished(currentRequest, task_id);
                     } else {
                         // request time out.
-                        qWarning("local task faied");
+                        qWarning("local task time out");
                         disconnect(currentRequest,
                             &QNetworkReply::finished,
                             &loop,
@@ -190,10 +194,10 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                         currentRequest->deleteLater();
                     }
                 }
+            } else {
+                emit requestError(dataCallback, NetworkRequestError::Status_Error);
             }
-            return;
         }
-        emit requestError(dataCallback, NetworkRequestError::Status_Error);
     }
 
     reply->deleteLater();
@@ -263,6 +267,7 @@ void TaskManager::startNextRequest()
         if (showLoadTimer.isActive())
             showLoadTimer.stop();
         requestFinished(currentRequest);
+        startNextRequest();
     } else {
         // request time out.
         qDebug("http request url=%s time out!", strUrl.c_str());
@@ -275,7 +280,7 @@ void TaskManager::startNextRequest()
     }
 }
 
-void TaskManager::localRequestFinished(QNetworkReply* reply)
+void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& taskId)
 {
     // local task callback.
     if (!reply)
@@ -297,7 +302,7 @@ void TaskManager::localRequestFinished(QNetworkReply* reply)
             DataParseResult result;
             WebHandler::ParseJsonData(data, dataObj, &result);
             if (result.errorCode == DataParseResult::NoError) {
-                parseLocalTaskData(dataObj);
+                parseLocalTaskData(dataObj, taskId);
                 reply->deleteLater();
                 return;
             }

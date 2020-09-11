@@ -77,7 +77,6 @@ PopupDialogContainer::PopupDialogContainer(QWidget* parent, const QString& title
 
 PopupDialogContainer::~PopupDialogContainer()
 {
-    qDebug() << "PopupDialogContainer";
 }
 
 void PopupDialogContainer::showMainWidget(BaseWidget* widget)
@@ -127,10 +126,10 @@ void PopupDialogContainer::addWidget(BaseWidget* widget)
         this->close();
     });
 
-    connect(widget, &BaseWidget::windowTitleChanged, this, [=](const QString &title) {
+    connect(widget, &BaseWidget::windowTitleChanged, this, [=](const QString& title) {
         mLabelTitle->setVisible(!title.isEmpty());
         mLabelTitle->setText(title);
-        });
+    });
 
     int marginSpace = mLayout->margin() * 2;
     this->resize(widget->width() + marginSpace, widget->height() + marginSpace);
