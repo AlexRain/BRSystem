@@ -6,6 +6,7 @@
 #include "ComboBoxDelegate.h"
 #include "DialogMsg.h"
 #include "FilterBtnDelegate.h"
+#include "InputPwdView.h"
 #include "Odbexcel.h"
 #include "OperationLog.h"
 #include "PopupDialogContainer.h"
@@ -51,47 +52,9 @@ void CUiCenter::initUi()
 {
     this->initTableView();
 
-    QPushButton* btn_add = UiHelper::creatPushButton(
-        this, [=]() {
-            CEditInfoDialog* infoDialog = new CEditInfoDialog(this, false);
-            connect(
-                infoDialog, &CEditInfoDialog::saveData, this, [=](const BorrowInfo& info) {
-                    CDbHelper dbHelper;
-                    dbHelper.open();
-                    if (dbHelper.isTableExist(DIC_BORROW_RETURN)) {
-                        ModelData model;
-                        model["productionId"] = info.productionId;
-                        model["productionName"] = info.productionName;
-                        model["borrowerName"] = info.borrowerName;
-                        model["borrowReason"] = info.borrowReason;
-                        model["borrowStatus"] = QString::number((int)info.borrowStatus);
-                        model["remarks"] = info.remarks;
-                        model["createUserId"] = UserSession::instance().userData().userId;
-                        int rows = dbHelper.Insert(DIC_BORROW_RETURN, model);
-                        if (rows > 0) {
-                            this->FuzzyQuery();
-                        }
-                    } else {
-                        dbHelper.exec(CREATE_TABLE_SQL);
-                    }
-                },
-                Qt::DirectConnection);
-            PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), tr("detail"));
-        },
-        -1, -1, "", "btn_add");
-    btn_add->setToolTip(tr("add"));
-
-    QPushButton* btn_log = UiHelper::creatPushButton(
-        this, [=]() {
-            OperationLog* content = new OperationLog(this);
-            PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("log"));
-        },
-        -1, -1, "", "btn_log");
-    btn_log->setToolTip(tr("log"));
-
     QPushButton* btn_export = UiHelper::creatPushButton(
         this, [=]() {
-            this->sqlQueryExport();
+
         },
         -1, -1, "", "btn_export");
     btn_export->setToolTip(tr("export"));
@@ -113,8 +76,10 @@ void CUiCenter::initUi()
     ui.layout_left_button->addWidget(btn_sync);
 
     ui.layout_buttons->addWidget(btn_export);
-    ui.layout_buttons->addWidget(btn_log);
-    ui.layout_buttons->addWidget(btn_add);
+
+    ui.comboBox_template->addItem(tr("chang phone"), tr("change phone message temp"));
+    ui.comboBox_template->addItem(tr("safe mode"), tr("safe mode message temp"));
+    ui.comboBox_template->setCurrentIndex(0);
 }
 
 void CUiCenter::initHeader()
@@ -166,8 +131,7 @@ void CUiCenter::initTableView()
     connect(ui.tableView, SIGNAL(doubleClicked(const QModelIndex&)),
         this, SLOT(slotTableViewDoubleClicked(const QModelIndex&)));
     connect(ui.tableView, &CTableview::selectionRowChanged, [=](int selectedCount) {
-        ui.tableView->setProperty("selectedCount", selectedCount);
-        this->updateCountLabel();
+        this->updateButtonState(selectedCount);
     });
 
     connect(ui.tableView, &CTableview::dropFiles, this, &CUiCenter::OnDropFiles);
@@ -180,160 +144,24 @@ void CUiCenter::initTableView()
     connect(&taskImport, &ThreadImport::taskFinished, this, &CUiCenter::OnImportFinished, Qt::QueuedConnection);
 
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
-}
-
-void CUiCenter::sqlQuery(const QString& sql)
-{
-    CDbHelper dbHelper;
-    dbHelper.open();
-    QList<ModelData> vModel;
-    int rows = dbHelper.Queuey(vModel, sql);
-    this->setData(vModel);
-}
-
-void CUiCenter::sqlUpdate(const ModelData& model, const QString& id)
-{
-    CDbHelper dbHelper;
-    dbHelper.open();
-    ModelData modelTemp = const_cast<ModelData&>(model);
-    modelTemp["updateUserId"] = UserSession::instance().userData().userId;
-    int rows = dbHelper.Update(DIC_BORROW_RETURN, modelTemp, QString(" WHERE ID = %1").arg(id));
-}
-
-void CUiCenter::sqlDelete(const BorrowInfo& info)
-{
-    ModelData model;
-    model["deleteFlag"] = "1";
-    model["updateUserId"] = UserSession::instance().userData().userId;
-    CDbHelper dbHelper;
-    dbHelper.open();
-    int rows = dbHelper.Update(DIC_BORROW_RETURN, model, QString(" WHERE ID = %1").arg(info.id));
-}
-
-void CUiCenter::sqlDelete(const QList<BorrowInfo>& infos)
-{
-    CDbHelper dbHelper;
-    dbHelper.open();
-    QString ids = "";
-    for (BorrowInfo info : infos) {
-        if (ids.isEmpty()) {
-            ids = "ID = " + info.id;
-        } else
-            ids += QString(" OR ") + "ID = " + info.id;
-    }
-    ModelData model;
-    model["deleteFlag"] = "1";
-    model["updateUserId"] = UserSession::instance().userData().userId;
-    int rows = dbHelper.Update(DIC_BORROW_RETURN, model, QString(" WHERE %1").arg(ids));
-}
-
-void CUiCenter::FuzzyQuery(const QString& key)
-{
-    initData();
+    ui.tableView->setNodaTips(tr("no data"));
+    updateButtonState(0);
 }
 
 void CUiCenter::setData(const QList<ModelData>& vModel)
 {
     uint nLen = vModel.size();
-    this->updateCountLabel();
     ui.tableView->setData(vModel);
-}
-
-void CUiCenter::showDetailUi(const QModelIndex& index)
-{
-    QModelIndex indexFirst = ui.tableView->model()->index(0, (int)TableHeader::Order);
-    if (ui.tableView->model()->data(indexFirst, Qt::UserRole).toBool())
-        return;
-
-    CEditInfoDialog* infoDialog = new CEditInfoDialog(this);
-    connect(
-        infoDialog, &CEditInfoDialog::deleteItem, this, [=](const BorrowInfo& info) {
-            ModelData model;
-            model["deleteFlag"] = "1";
-            this->sqlUpdate(model, info.id);
-            this->FuzzyQuery();
-        },
-        Qt::DirectConnection);
-
-    connect(
-        infoDialog, &CEditInfoDialog::updateData, this, [=](const BorrowInfo& info) {
-            ModelData model;
-            model["productionId"] = info.productionId;
-            model["productionName"] = info.productionName;
-            model["borrowerName"] = info.borrowerName;
-            model["borrowStatus"] = QString::number((int)info.borrowStatus);
-            model["borrowReason"] = info.borrowReason;
-            model["remarks"] = info.remarks;
-            this->sqlUpdate(model, info.id);
-            this->FuzzyQuery();
-        },
-        Qt::DirectConnection);
-    BorrowInfo info;
-    this->getBorrowData(info, index.row());
-    infoDialog->setData(info);
-    PopupDialogContainer::showSecondPopupFadeIn(infoDialog, CApp->getMainWidget(), tr(""));
-}
-
-void CUiCenter::sqlQueryExport()
-{
-    CDbHelper dbHelper;
-    dbHelper.open();
-    QList<ModelData> vModel;
-    int rows = dbHelper.Queuey(vModel, "SELECT * FROM DIC_BORROW_RETURN  WHERE deleteFlag = '0' ORDER BY updateDate desc");
-    if (rows <= 0) {
-        DialogMsg::question(this, tr("question"), tr(""), QMessageBox::Ok);
-        return;
-    }
-
-    this->doExport(vModel);
 }
 
 void CUiCenter::doExport(QList<ModelData>& vModel)
 {
-    QStringList header;
-    for (const HeadStruct& info : listHead) {
-        if (!info.key.isEmpty()) {
-            header << info.headText;
-        }
-    }
-
-    QList<QStringList> datas;
-    for (ModelData& model : vModel) {
-        QStringList list;
-        for (const HeadStruct& info : listHead) {
-            if (!info.key.isEmpty()) {
-                list << model[info.key];
-            }
-        }
-        datas << list;
-    }
-
-    QFileDialog dialog;
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    QStringList list;
-    list << TOCH("Excel97-2003工作簿(*.xls)");
-    dialog.setNameFilters(list);
-    dialog.selectFile(tr("借还信息.xls").arg(TOCH("")));
-    if (QDialog::Accepted != dialog.exec())
-        return;
-
-    QString fileName = dialog.selectedFiles()[0];
-    if (Odbexcel::save(fileName, header, datas, "")) {
-        QStringList button;
-        button << TOCH("立即打开") << TOCH("取消");
-        int res = DialogMsg::question(this, TOCH("提示"), TOCH("保存成功！<br>已保存到：<span style='color:rgb(0,122,204)'>%1</span>").arg(fileName), QMessageBox::Ok | QMessageBox::Cancel, button);
-        if (res == QMessageBox::Ok) {
-            QDesktopServices::openUrl(QUrl::fromLocalFile(fileName));
-        }
-    } else {
-        QString msgError = TOCH("保存失败，") + Odbexcel::getError();
-        DialogMsg::question(this, TOCH("警告"), msgError, QMessageBox::Ok);
-    }
 }
 
-void CUiCenter::updateCountLabel()
+void CUiCenter::updateButtonState(int selectedCount)
 {
+    bool enabled = (selectedCount > 0);
+    ui.groupBox_btn->setEnabled(enabled);
 }
 
 void CUiCenter::getBorrowData(BorrowInfo& info, int row)
@@ -416,6 +244,13 @@ void CUiCenter::excuteTasks(TaskType type)
     ModeDataList dataList;
     if (GetCurrentData(dataList)) {
         int bizType = static_cast<int>(type);
+        bool isModifyPassword = (change_password == type);
+        bool isBindPhone = (bind_mobile == type);
+        QString password;
+        if (isModifyPassword) {
+            ShowInputPwdView(password);
+        } else if (isBindPhone) {
+        }
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
@@ -425,7 +260,7 @@ void CUiCenter::excuteTasks(TaskType type)
             task.headerObj.insert("token", UserSession::instance().userData().token);
             task.bodyObj.insert("bizType", bizType);
             QJsonObject objParam;
-            objParam.insert("new_password", data["new_password"]);
+            objParam.insert("new_password", password);
             objParam.insert("new_phone", data["new_phone"]);
             objParam.insert("password", data["password"]);
             objParam.insert("phone", data["phone"]);
@@ -435,6 +270,18 @@ void CUiCenter::excuteTasks(TaskType type)
             TaskManager::instance()->Post(task);
         }
     }
+}
+
+void CUiCenter::ShowInputPwdView(QString& password)
+{
+    auto view = new InputPwdView(this);
+    if (QDialog::Accepted == view->exec()) {
+        view->GetPassword(password);
+    }
+}
+
+void CUiCenter::ShowInputPhone(QString& phone)
+{
 }
 
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
@@ -504,8 +351,6 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
 
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
 {
-    return;
-    this->showDetailUi(index);
 }
 
 void CUiCenter::onRequestCallback(const ResponData& data)
@@ -563,6 +408,24 @@ void CUiCenter::on_btn_role_clicked()
 
 void CUiCenter::on_btn_send_msg_clicked()
 {
+    if (ui.lineEdit_phone->text().isEmpty() && ui.lineEdit_qq_number->text().isEmpty()) {
+        DialogMsg::question(this, tr("tips"), tr("please enter qq account or phone number"), QMessageBox::Ok | QMessageBox::Cancel);
+        return;
+    }
+
+    RequestTask task;
+    task.reqeustId = (quint64)this;
+    task.headerObj.insert("uid", UserSession::instance().userData().uid);
+    task.headerObj.insert("token", UserSession::instance().userData().token);
+    int bizType = static_cast<int>(send_short_message);
+    task.bodyObj.insert("bizType", bizType);
+    QJsonObject objParam;
+    objParam.insert("phone", ui.lineEdit_phone->text());
+    objParam.insert("qq", ui.lineEdit_qq_number->text());
+    objParam.insert("content", ui.comboBox_template->currentData().toString());
+    task.bodyObj.insert("params", objParam);
+    task.apiIndex = API::addTask;
+    TaskManager::instance()->Post(task);
 }
 
 void CUiCenter::on_btn_sync_phone_clicked()

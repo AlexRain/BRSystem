@@ -231,6 +231,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <QtMoc Include="src\UpgradeHelper.h" />
     <QtMoc Include="src\ThreadImport.h" />
     <QtMoc Include="src\TaskService.h" />
     <QtMoc Include="src\UiUsageRecord.h">
@@ -241,6 +242,8 @@
     <QtMoc Include="src\HFChargeView.h" />
     <QtMoc Include="src\HFBroadbandDial.h" />
     <QtMoc Include="src\HFChangePhoneView.h" />
+    <QtMoc Include="src\AboutView.h" />
+    <QtMoc Include="src\InputPwdView.h" />
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -404,6 +407,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AboutView.cpp" />
     <ClCompile Include="src\BRSystem.cpp" />
     <ClCompile Include="src\CEditInfoDialog.cpp" />
     <ClCompile Include="src\CSkinItem.cpp" />
@@ -412,6 +416,7 @@
     <ClCompile Include="src\HFBroadbandDial.cpp" />
     <ClCompile Include="src\HFChangePhoneView.cpp" />
     <ClCompile Include="src\HFChargeView.cpp" />
+    <ClCompile Include="src\InputPwdView.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgTaskManager.cpp" />
     <ClCompile Include="src\OperationLog.cpp" />
@@ -420,14 +425,17 @@
     <ClCompile Include="src\UiChangeSkin.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
     <ClCompile Include="src\UiUsageRecord.cpp" />
+    <ClCompile Include="src\UpgradeHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\AboutView.ui" />
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiCenter.ui" />
     <QtUic Include="src\CUiTop.ui" />
     <QtUic Include="src\HFBroadbandDial.ui" />
     <QtUic Include="src\HFChangePhoneView.ui" />
     <QtUic Include="src\HFChargeView.ui" />
+    <QtUic Include="src\InputPwdView.ui" />
     <QtUic Include="src\UiLogin.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
   </ItemGroup>

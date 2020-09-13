@@ -1,4 +1,5 @@
 #include "BRSystem.h"
+#include "AboutView.h"
 #include "BubbleTipWidget.h"
 #include "CUiCenter.h"
 #include "CUiTop.h"
@@ -9,8 +10,10 @@
 #include "PopupDialogContainer.h"
 #include "UiChangeSkin.h"
 #include "UiFrostedLayer.h"
+#include "UpgradeHelper.h"
 #include <QBitmap>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QToolBar>
@@ -19,7 +22,6 @@
 BRSystem::BRSystem(QWidget* parent)
     : QWidget(parent)
     , m_pContentLayout(nullptr)
-    , mToolbar(nullptr)
     , m_pCurrentWidget(nullptr)
 {
     qRegisterMetaType<ResponData>("ResponData");
@@ -103,7 +105,7 @@ void BRSystem::init()
     centerWidget->setObjectName("centerWidget");
     m_pContentLayout = new QVBoxLayout;
     m_pContentLayout->setContentsMargins(10, 0, 10, 0);
-    m_pContentLayout->setSpacing(0);
+    m_pContentLayout->setSpacing(6);
 
     QMenuBar* menuBar = new QMenuBar(this);
     createMenus(menuBar);
@@ -161,7 +163,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         accountMenu->addAction(tr("login"), [=]() {});
         accountMenu->addSeparator();
         accountMenu->addAction(tr("exit"), [=]() {
-            exit(0);
+            qApp->exit(0);
         });
     }
 
@@ -186,13 +188,31 @@ void BRSystem::createMenus(QMenuBar* menuBar)
             PopupDialogContainer::showPopupDialogFadeIn(dialog, CApp->getMainWidget(), tr("change style"));
         });
         accountMenu->addSeparator();
-        accountMenu->addAction(tr("up to date"), [=]() {});
-        accountMenu->addAction(tr("about"), [=]() {});
+        accountMenu->addAction(tr("up to date"), [=]() { CheckUpgrade(); });
+        accountMenu->addAction(tr("about"), [=]() {
+            AboutView* about = new AboutView(this);
+            about->resize(350, 192);
+            PopupDialogContainer::showPopupDialogFadeIn(about, CApp->getMainWidget(), tr("about"));
+        });
     }
 }
 
-void BRSystem::createStatusBar()
+void BRSystem::CheckUpgrade()
 {
+    UpgradeHelper checkHelper;
+    UpgradeHelper::UpgradeResult result;
+    checkHelper.CheckUpgrade(result);
+    if (result.needUpdate) {
+        if (result.force_update) {
+            int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
+            if (code == QMessageBox::Ok) {
+                QDesktopServices::openUrl(QUrl::fromEncoded(result.download_url.toUtf8()));
+            }
+            qApp->exit(0);
+        }
+    } else {
+        DialogMsg::question(nullptr, QObject::tr("tips"), QObject::tr("your application is up to date"), QMessageBox::Ok);
+    }
 }
 
 void BRSystem::resizeEvent(QResizeEvent* event)

@@ -1,9 +1,11 @@
 #include "BRSystem.h"
 #include "CApplication.h"
 #include "CStyleManager.h"
+#include "DialogMsg.h"
 #include "PopupDialogContainer.h"
 #include "UiFrostedLayer.h"
 #include "UiLogin.h"
+#include "UpgradeHelper.h"
 #include "define.h"
 #include <QDebug>
 #include <QFile>
@@ -12,6 +14,7 @@
 #include <QStyleFactory>
 #include <QTranslator>
 #include <QtWidgets/QApplication>
+#include <QDesktopServices>
 
 QPointer<BRSystem> logPrinter = nullptr;
 
@@ -37,6 +40,20 @@ int main(int argc, char* argv[])
 
     StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
     StyleHelper::loadAppStyle(style.cssFile);
+
+    //check new version
+    {
+        UpgradeHelper checkHelper;
+        UpgradeHelper::UpgradeResult result;
+        checkHelper.CheckUpgrade(result);
+        if (result.needUpdate && result.force_update) {
+            int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
+            if (code == QMessageBox::Ok) {
+                QDesktopServices::openUrl(QUrl::fromEncoded(result.download_url.toUtf8()));
+            }
+            return 0;
+        }
+    }
 
     /*Ö÷½çÃæ*/
     int result = 0;

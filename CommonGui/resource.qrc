@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/translation">
+        <file>commongui_zh.qm</file>
+    </qresource>
+</RCC>

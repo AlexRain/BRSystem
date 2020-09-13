@@ -158,7 +158,7 @@ void WebHandler::startNextRequest()
     }
     std::string strUrl = std::string(baseUrl) + getApi(currentTask.task.apiIndex);
     QUrl url = QUrl::fromEncoded(QByteArray::fromStdString(strUrl));
-    QNetworkRequest request(url);
+    QNetworkRequest request;
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     qInfo("http request url=%s, request type=%d", strUrl.c_str(), currentTask.requestType);
@@ -174,6 +174,7 @@ void WebHandler::startNextRequest()
 
     // parse param
     parseParam(request, url, currentTask.task);
+    request.setUrl(url);
     switch (currentTask.requestType) {
     case RequestType::Get: {
         currentRequest = manager->get(request);
@@ -265,6 +266,7 @@ void WebHandler::setQueryByParam(QUrl& url, const QJsonObject& objQuery)
         urlQuery.addQueryItem(iter.key(), iter.value().toString().toUtf8());
         ++iter;
     }
+    url.setQuery(urlQuery);
 }
 
 void WebHandler::setRequestHeaderByParam(QNetworkRequest& httpRequest, const QJsonObject& jsonObject)

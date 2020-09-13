@@ -114,16 +114,9 @@ private:
     void initHeader();
     void initData();
     void initTableView();
-    void sqlQuery(const QString& sql);
-    void sqlUpdate(const ModelData& model, const QString& id);
-    void sqlDelete(const BorrowInfo& info);
-    void sqlDelete(const QList<BorrowInfo>& infos);
-    void FuzzyQuery(const QString& info = QString());
     void setData(const QList<ModelData>& model);
-    void showDetailUi(const QModelIndex& index);
-    void sqlQueryExport();
     void doExport(QList<ModelData>& datas);
-    void updateCountLabel();
+    void updateButtonState(int selectedCount);
 
     void getBorrowData(BorrowInfo& info, int row);
     void getBorrowData(ModelData& info, int row);
@@ -133,6 +126,8 @@ private:
     void UpdateStatusText(const QString& text);
     bool GetCurrentData(QList<ModelData>& selectedRows);
     void excuteTasks(TaskType type);
+    void ShowInputPwdView(QString& password);
+    void ShowInputPhone(QString& phone);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);

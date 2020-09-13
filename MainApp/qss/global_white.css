@@ -2,7 +2,7 @@ QWidget{
 	outline:none;
 	font-family:"Microsoft YaHei";
 	font-size:13px;
-	color:rgb(51,51,51);
+	color:#333333;
 }
 
 QSplitter::handle{
@@ -191,7 +191,7 @@ QPushButton:pressed {
 }
 
 QPushButton:disabled {
-    color: #333333;
+    color: gray;
 }
 
 /*顶部界面*/
@@ -217,9 +217,9 @@ QPushButton#btn_min{
 }
 
 QPushButton#btn_close{
-	min-width: 0px;
+    min-width: 0px;
     min-height: 0px;
-	background-color:transparent;
+    background-color:transparent;
 	border-image:url(":/images/images/close.png");
 }
 
@@ -287,20 +287,20 @@ QLineEdit {
 	color:rgb(88,110,117);
     border-radius: 3px;
     min-height: 25px;
-    border: 1px solid rgb(211,175,134);
+    border: 1px solid #d3af86;
     background: #ddd6c1;
-	selection-background-color:rgb(190,180,151);
+	selection-background-color:#beb497;
 }
 QLineEdit:enabled {
     color: rgb(88,110,117);
 }
 QLineEdit:enabled:hover, QLineEdit:enabled:focus {
-    color: rgb(88,110,117);
+    color: #586e75;
 }
 
 QLineEdit:enabled:focus {
     color: rgb(88,110,117);
-	border-color:rgb(0,122,204);
+	border-color:#007acc;
 }
 
 QLineEdit:!enabled {
@@ -309,32 +309,32 @@ QLineEdit:!enabled {
 
 /**********文本编辑框**********/
 QTextEdit {
-    border: 1px solid #23262c;
-    color: rgb(175, 175, 175);
-    background: #202226;
+    border: 1px solid #c5c2b6;
+    color: #333333;
+    background: #ddd6c1;
 }
 
 QPlainTextEdit {
-	selection-background-color:rgb(190,180,151);
+	selection-background-color:#beb497;
     border-radius: 3px;
     min-height: 25px;
     border: 1px solid rgb(211,175,134);
     background: rgb(221,214,193);
 }
 QPlainTextEdit:enabled {
-    color:rgb(88,110,117);;
+    color:#586e75;;
 }
 QPlainTextEdit:enabled:hover, QLineEdit:enabled:focus {
-    color: rgb(88, 110, 117);
+    color: #586e75;
 }
 
 QPlainTextEdit:enabled:focus {
-    color: rgb(88, 110, 117);
-	border-color:rgb(0,122,204);
+    color: #586e75;
+	border-color:#007acc;
 }
 
-QPlainTextEdit:!enabled {
-    color: rgb(155, 155, 155);
+QPlainTextEdit:disabled {
+    color: #9b9b9b;
 }
 
 /**********下拉列表**********/
@@ -348,8 +348,8 @@ QComboBox {
 QComboBox:enabled {
         color: #333333;
 }
-QComboBox:!enabled {
-        color: rgb(155, 155, 155);
+QComboBox:disabled {
+        color: #9b9b9b;
 }
 
 QComboBox::drop-down {
@@ -389,7 +389,7 @@ QComboBox QAbstractItemView::item:selected {
 
 /*查询控件样式*/
 CSearchLineEdit{
-	color:rgb(88,110,117);
+	color:#586e75;
 	selection-background-color:rgb(190,180,151);
 	background-color:rgb(221,214,193);
 	padding-left:25px;padding-right:5px;
@@ -734,6 +734,30 @@ HFBroadbandDial #btn_save{
     max-width: 150px;
     min-height: 25px;
 	max-height: 25px;
+}
+
+BaseDialog #content{
+    background: #eee8d5;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+    border:none;
+}
+
+BaseDialog #label_title{
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border:none;
+}
+
+BaseDialog #frame_title{
+    background: #eee8d5;
+    border-bottom: 1px solid #c5c2b6;
+}
+
+BaseDialog #frame_center{
+    border: 1px solid #c5c2b6;
+	border-radius:3px;
+	background:#ddd6c1;
 }
 
 

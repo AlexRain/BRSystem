@@ -184,6 +184,7 @@
     <QtMoc Include="src\BubbleTipWidget.h" />
     <QtMoc Include="src\CApplication.h" />
     <QtMoc Include="src\CLabel.h" />
+    <QtMoc Include="src\BaseDialog.h" />
     <ClInclude Include="src\CStyleManager.h" />
     <QtMoc Include="src\CustomShadowEffect.h" />
     <QtMoc Include="src\UiFrostedLayer.h" />
@@ -198,10 +199,11 @@
     <QtMoc Include="src\CirclePixmap.h" />
     <QtMoc Include="src\CheckBoxDelegate.h" />
     <QtMoc Include="src\BaseWidget.h" />
-    <ClInclude Include="src\CommonGui.h" />
+    <QtMoc Include="src\CommonGui.h" />
     <ClInclude Include="src\commongui_global.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BaseDialog.cpp" />
     <ClCompile Include="src\BaseWidget.cpp" />
     <ClCompile Include="src\BubbleTipWidget.cpp" />
     <ClCompile Include="src\CApplication.cpp" />
@@ -225,7 +227,14 @@
     <ClCompile Include="src\UiFrostedLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="src\BaseDialog.ui" />
     <QtUic Include="src\DialogMsg.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="commongui_zh.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="resource.qrc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

@@ -763,3 +763,27 @@ HFBroadbandDial #btn_save{
     min-height: 25px;
 	max-height: 25px;
 }
+
+BaseDialog #content{
+    background: #16181c;
+    border-bottom-left-radius:3px;
+    border-bottom-right-radius:3px;
+    border:none;
+}
+
+BaseDialog #label_title{
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border:none;
+}
+
+BaseDialog #frame_title{
+    background: #16181c;
+    border-bottom: 1px solid #23262c;
+}
+
+BaseDialog #frame_center{
+    border: 1px solid #23262c;
+	border-radius:3px;
+	background:#16181c;
+}

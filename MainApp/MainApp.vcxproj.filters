@@ -182,6 +182,15 @@
     <ClCompile Include="src\HFChangePhoneView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UpgradeHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AboutView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputPwdView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -229,6 +238,15 @@
     <QtMoc Include="src\HFChangePhoneView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\UpgradeHelper.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\AboutView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\InputPwdView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -253,6 +271,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\HFChangePhoneView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\AboutView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\InputPwdView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

@@ -307,8 +307,17 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_phone">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="placeholderText">
                 <string>phone number</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -328,8 +337,17 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEdit_qq_number">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="placeholderText">
                 <string>qq account</string>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

@@ -2,98 +2,112 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>AboutView</name>
+    <message>
+        <location filename="src/AboutView.ui" line="14"/>
+        <source>AboutView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/AboutView.ui" line="33"/>
+        <source>ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BRSystem</name>
     <message>
-        <location filename="src/BRSystem.cpp" line="27"/>
+        <location filename="src/BRSystem.cpp" line="29"/>
         <source>feng he network</source>
         <translation type="unfinished">FengHe Network</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="113"/>
+        <location filename="src/BRSystem.cpp" line="115"/>
         <source>log</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="149"/>
+        <location filename="src/BRSystem.cpp" line="151"/>
         <source>account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="150"/>
-        <location filename="src/BRSystem.cpp" line="154"/>
+        <location filename="src/BRSystem.cpp" line="152"/>
+        <location filename="src/BRSystem.cpp" line="156"/>
         <source>charge</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="156"/>
         <location filename="src/BRSystem.cpp" line="158"/>
+        <location filename="src/BRSystem.cpp" line="160"/>
         <source>change phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="160"/>
+        <location filename="src/BRSystem.cpp" line="162"/>
         <source>register</source>
         <translation type="unfinished">Register</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="161"/>
+        <location filename="src/BRSystem.cpp" line="163"/>
         <source>login</source>
         <translation type="unfinished">Login</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="163"/>
+        <location filename="src/BRSystem.cpp" line="165"/>
         <source>exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="170"/>
+        <location filename="src/BRSystem.cpp" line="172"/>
         <source>import export bind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="171"/>
+        <location filename="src/BRSystem.cpp" line="173"/>
         <source>import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="176"/>
+        <location filename="src/BRSystem.cpp" line="178"/>
         <source>settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="177"/>
+        <location filename="src/BRSystem.cpp" line="179"/>
         <source>change ip</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="178"/>
         <location filename="src/BRSystem.cpp" line="180"/>
+        <location filename="src/BRSystem.cpp" line="182"/>
         <source>pppoe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="183"/>
-        <location filename="src/BRSystem.cpp" line="186"/>
+        <location filename="src/BRSystem.cpp" line="185"/>
+        <location filename="src/BRSystem.cpp" line="188"/>
         <source>change style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="189"/>
+        <location filename="src/BRSystem.cpp" line="191"/>
         <source>up to date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="190"/>
+        <location filename="src/BRSystem.cpp" line="192"/>
+        <location filename="src/BRSystem.cpp" line="195"/>
         <source>about</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="206"/>
+        <location filename="src/BRSystem.cpp" line="226"/>
         <source>tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="206"/>
+        <location filename="src/BRSystem.cpp" line="226"/>
         <source>are you sure you want to exit?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -179,88 +193,103 @@
 <context>
     <name>CUiCenter</name>
     <message>
-        <location filename="src/CUiCenter.cpp" line="79"/>
-        <source>detail</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="82"/>
-        <source>add</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="87"/>
-        <location filename="src/CUiCenter.cpp" line="90"/>
-        <source>log</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="104"/>
+        <location filename="src/CUiCenter.cpp" line="67"/>
         <source>phone manage</source>
         <translation type="unfinished">Phone Manage</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="110"/>
+        <location filename="src/CUiCenter.cpp" line="73"/>
         <source>phone sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="125"/>
+        <location filename="src/CUiCenter.cpp" line="80"/>
+        <source>chang phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="80"/>
+        <source>change phone message temp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="81"/>
+        <source>safe mode message temp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="90"/>
         <source>password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="128"/>
+        <location filename="src/CUiCenter.cpp" line="93"/>
         <source>index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="131"/>
+        <location filename="src/CUiCenter.cpp" line="96"/>
         <source>qq number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="387"/>
+        <location filename="src/CUiCenter.cpp" line="147"/>
+        <source>no data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="215"/>
         <source>phone number list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="399"/>
+        <location filename="src/CUiCenter.cpp" line="227"/>
         <source>warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="399"/>
+        <location filename="src/CUiCenter.cpp" line="227"/>
         <source>please select at least one row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="612"/>
+        <location filename="src/CUiCenter.cpp" line="412"/>
+        <source>tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="412"/>
+        <source>please enter qq account or phone number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="475"/>
         <source>you have imported %1 pieces of data, bind platform for them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="455"/>
+        <location filename="src/CUiCenter.cpp" line="302"/>
         <source>normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="458"/>
+        <location filename="src/CUiCenter.cpp" line="81"/>
+        <location filename="src/CUiCenter.cpp" line="305"/>
         <source>safe mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="461"/>
+        <location filename="src/CUiCenter.cpp" line="308"/>
         <source>account forbidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="516"/>
+        <location filename="src/CUiCenter.cpp" line="361"/>
         <source>fetch list data success!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="538"/>
+        <location filename="src/CUiCenter.cpp" line="383"/>
         <source>sync phone numbers success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -276,19 +305,19 @@
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="304"/>
-        <location filename="src/CUiCenter.ui" line="311"/>
-        <location filename="src/CUiCenter.cpp" line="134"/>
+        <location filename="src/CUiCenter.ui" line="317"/>
+        <location filename="src/CUiCenter.cpp" line="99"/>
         <source>phone number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="325"/>
-        <location filename="src/CUiCenter.ui" line="332"/>
+        <location filename="src/CUiCenter.ui" line="334"/>
+        <location filename="src/CUiCenter.ui" line="347"/>
         <source>qq account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="376"/>
+        <location filename="src/CUiCenter.ui" line="394"/>
         <source>send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -299,25 +328,25 @@
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="180"/>
-        <location filename="src/CUiCenter.cpp" line="486"/>
+        <location filename="src/CUiCenter.cpp" line="333"/>
         <source>modify password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="199"/>
-        <location filename="src/CUiCenter.cpp" line="490"/>
+        <location filename="src/CUiCenter.cpp" line="337"/>
         <source>unsecure mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="218"/>
-        <location filename="src/CUiCenter.cpp" line="494"/>
+        <location filename="src/CUiCenter.cpp" line="341"/>
         <source>search account status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="237"/>
-        <location filename="src/CUiCenter.cpp" line="498"/>
+        <location filename="src/CUiCenter.cpp" line="345"/>
         <source>search role</source>
         <translation type="unfinished"></translation>
     </message>
@@ -327,28 +356,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="346"/>
+        <location filename="src/CUiCenter.ui" line="364"/>
         <source>message template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="137"/>
+        <location filename="src/CUiCenter.cpp" line="102"/>
         <source>status</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="284"/>
-        <location filename="src/CUiCenter.cpp" line="612"/>
+        <location filename="src/CUiCenter.cpp" line="475"/>
         <source>question</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="317"/>
-        <source>借还信息.xls</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.cpp" line="97"/>
+        <location filename="src/CUiCenter.cpp" line="60"/>
         <source>export</source>
         <translation></translation>
     </message>
@@ -538,6 +561,34 @@
     </message>
 </context>
 <context>
+    <name>InputPwdView</name>
+    <message>
+        <location filename="src/InputPwdView.ui" line="14"/>
+        <source>InputPwdView</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/InputPwdView.ui" line="25"/>
+        <source>new password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/InputPwdView.ui" line="37"/>
+        <source>create automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/InputPwdView.ui" line="46"/>
+        <source>6 to 8 charactors include letters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/InputPwdView.ui" line="55"/>
+        <source>ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>OperationLog</name>
     <message>
         <location filename="src/OperationLog.cpp" line="67"/>
@@ -553,9 +604,31 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="src/main.cpp" line="32"/>
+        <location filename="src/main.cpp" line="35"/>
         <source>feng he network</source>
         <translation>FengHe Network</translation>
+    </message>
+    <message>
+        <location filename="src/main.cpp" line="50"/>
+        <location filename="src/BRSystem.cpp" line="207"/>
+        <source>question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/main.cpp" line="50"/>
+        <location filename="src/BRSystem.cpp" line="207"/>
+        <source>find a new version, please up to date.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/BRSystem.cpp" line="214"/>
+        <source>tips</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/BRSystem.cpp" line="214"/>
+        <source>your application is up to date</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

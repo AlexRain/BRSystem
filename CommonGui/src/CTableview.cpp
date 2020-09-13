@@ -30,7 +30,6 @@ void CTableview::setData(const QList<ModelData>& data)
     this->initHeader();
     uint nLen = data.size();
     if (nLen <= 0) {
-        m_pTip->setText(tr("no data"));
         m_pTip->show();
         return;
     }
@@ -97,6 +96,13 @@ void CTableview::setItemDelegateForColumn(int column, QAbstractItemDelegate* del
     QTableView::setItemDelegateForColumn(column, delegate);
 }
 
+void CTableview::setNodaTips(const QString& tips)
+{
+    if (m_pTip) {
+        m_pTip->setText(tips);
+    }
+}
+
 void CTableview::init()
 {
     setAcceptDrops(true);
@@ -121,7 +127,6 @@ void CTableview::init()
     sp_retain.setRetainSizeWhenHidden(true);
     m_pTip->setSizePolicy(sp_retain);
     m_pTip->setAlignment(Qt::AlignCenter);
-    m_pTip->setText(tr("no data"));
     layout->addWidget(m_pTip, 0, 0);
     layout->setAlignment(m_pTip, Qt::AlignCenter);
 

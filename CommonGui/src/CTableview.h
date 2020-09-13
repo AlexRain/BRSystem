@@ -153,6 +153,7 @@ public:
     void showMutipleSelectionMode();
     void exitMutipleSelectionMode();
     void setItemDelegateForColumn(int column, QAbstractItemDelegate* delegate);
+    void setNodaTips(const QString &tips);
 
 protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous) override;

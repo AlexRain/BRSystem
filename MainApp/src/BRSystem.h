@@ -29,16 +29,13 @@ public:
 private:
     void init();
     void createMenus(QMenuBar* menuBar);
-    void createStatusBar();
+    void CheckUpgrade();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
     virtual void closeEvent(QCloseEvent* event) override;
 
 private:
-    //CUiTop* mTopWidget;
-    QMenuBar* mMenuBar;
-    QToolBar* mToolbar;
     UiFrostedLayer* pLayer;
     QList<BaseWidget*> mListWidgets;
     QMap<int, QWidget*> m_mapWidget;

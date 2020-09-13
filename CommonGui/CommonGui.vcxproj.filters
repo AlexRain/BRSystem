@@ -45,12 +45,14 @@
     <Filter Include="Source Files\label">
       <UniqueIdentifier>{a35c92c3-6891-44b5-80c1-136b87d1de3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commongui_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CommonGui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CStyleManager.h">
@@ -121,6 +123,9 @@
     <ClCompile Include="src\CLabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BaseDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BaseWidget.h">
@@ -180,10 +185,29 @@
     <QtMoc Include="src\CLabel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\CommonGui.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\BaseDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\DialogMsg.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\BaseDialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="commongui_zh.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>
