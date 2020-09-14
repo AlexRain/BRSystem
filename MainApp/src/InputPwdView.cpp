@@ -6,6 +6,7 @@ InputPwdView::InputPwdView(QWidget* parent)
     : BaseDialog(parent)
 {
     ui.setupUi(this->getContent());
+    this->SetTitle(tr("modify password"));
     connect(ui.lineEdit_password, &QLineEdit::textChanged, this, [=](const QString& text) {
         ui.btn_ok->setEnabled(!text.isEmpty());
     });

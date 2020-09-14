@@ -30,7 +30,7 @@ bool TaskManager::bindErrorCallback(const QObject* receiver, const char* method)
 {
     return QObject::connect(
         TaskManager::instance(),
-        SIGNAL(requestError(const ResponData&, NetworkRequestError)),
+        SIGNAL(requestError(const ResponData&, NetworkRequestError, const QString&)),
         receiver,
         method,
         Qt::QueuedConnection);
@@ -138,7 +138,7 @@ void TaskManager::requestFinished(QNetworkReply* reply)
         qDebug("http request url=%s failed, error info=%s",
             reply->url().toEncoded().constData(),
             qPrintable(reply->errorString()));
-        emit requestError(dataCallback, NetworkRequestError::Status_Error);
+        emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200) {
@@ -195,8 +195,10 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                     }
                 }
             } else {
-                emit requestError(dataCallback, NetworkRequestError::Status_Error);
+                emit requestError(dataCallback, NetworkRequestError::Status_Error, result.message);
             }
+        } else {
+            emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }
     }
 
@@ -293,7 +295,7 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
         qDebug("http request url=%s failed, error info=%s",
             reply->url().toEncoded().constData(),
             qPrintable(reply->errorString()));
-        emit requestError(dataCallback, NetworkRequestError::Status_Error);
+        emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200) {
@@ -305,9 +307,12 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
                 parseLocalTaskData(dataObj, taskId);
                 reply->deleteLater();
                 return;
+            } else {
+                emit requestError(dataCallback, NetworkRequestError::Status_Error, result.message);
             }
+        } else {
+            emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }
-        emit requestError(dataCallback, NetworkRequestError::Status_Error);
     }
     reply->deleteLater();
 }

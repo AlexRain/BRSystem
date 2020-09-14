@@ -1,11 +1,14 @@
 ﻿#include "CUiCenter.h"
+#include "BRSystem.h"
 #include "CApplication.h"
 #include "CEditInfoDialog.h"
 #include "CSearchLineEdit.h"
 #include "CheckBoxDelegate.h"
 #include "ComboBoxDelegate.h"
 #include "DialogMsg.h"
+#include "ExportDataView.h"
 #include "FilterBtnDelegate.h"
+#include "InputPhoneView.h"
 #include "InputPwdView.h"
 #include "Odbexcel.h"
 #include "OperationLog.h"
@@ -36,6 +39,8 @@ CUiCenter::CUiCenter(QWidget* parent)
 {
     ui.setupUi(this);
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
+    TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&)));
+    TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
     qRegisterMetaType<BorrowInfo>("BorrowInfo");
     qRegisterMetaType<ImportData>("ImportData");
     this->initUi();
@@ -54,7 +59,7 @@ void CUiCenter::initUi()
 
     QPushButton* btn_export = UiHelper::creatPushButton(
         this, [=]() {
-
+            this->exportList();
         },
         -1, -1, "", "btn_export");
     btn_export->setToolTip(tr("export"));
@@ -164,6 +169,16 @@ void CUiCenter::updateButtonState(int selectedCount)
     ui.groupBox_btn->setEnabled(enabled);
 }
 
+void CUiCenter::exportList()
+{
+    ExportDataView viewExport;
+    ExportDataView::ExportSetting setting;
+    if (QDialog::Accepted != viewExport.exec())
+        return;
+    viewExport.GetExportSetting(setting);
+    //TODO EXPORT
+}
+
 void CUiCenter::getBorrowData(BorrowInfo& info, int row)
 {
     QAbstractItemModel* model = ui.tableView->model();
@@ -247,9 +262,11 @@ void CUiCenter::excuteTasks(TaskType type)
         bool isModifyPassword = (change_password == type);
         bool isBindPhone = (bind_mobile == type);
         QString password;
+        QString phoneNumber;
         if (isModifyPassword) {
             ShowInputPwdView(password);
         } else if (isBindPhone) {
+            ShowInputPhone(phoneNumber);
         }
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
@@ -261,7 +278,7 @@ void CUiCenter::excuteTasks(TaskType type)
             task.bodyObj.insert("bizType", bizType);
             QJsonObject objParam;
             objParam.insert("new_password", password);
-            objParam.insert("new_phone", data["new_phone"]);
+            objParam.insert("new_phone", phoneNumber);
             objParam.insert("password", data["password"]);
             objParam.insert("phone", data["phone"]);
             objParam.insert("qq", data["qq"]);
@@ -272,16 +289,24 @@ void CUiCenter::excuteTasks(TaskType type)
     }
 }
 
-void CUiCenter::ShowInputPwdView(QString& password)
+bool CUiCenter::ShowInputPwdView(QString& password)
 {
-    auto view = new InputPwdView(this);
-    if (QDialog::Accepted == view->exec()) {
-        view->GetPassword(password);
+    InputPwdView view;
+    if (QDialog::Accepted == view.exec()) {
+        view.GetPassword(password);
+        return true;
     }
+    return false;
 }
 
-void CUiCenter::ShowInputPhone(QString& phone)
+bool CUiCenter::ShowInputPhone(QString& phone)
 {
+    InputPhoneView view;
+    if (QDialog::Accepted == view.exec()) {
+        view.GetPhoneNumber(phone);
+        return true;
+    }
+    return false;
 }
 
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
@@ -398,7 +423,7 @@ void CUiCenter::on_btn_unsecure_clicked()
 
 void CUiCenter::on_btn_account_status_clicked()
 {
-    excuteTasks(change_password);
+    excuteTasks(query_ban);
 }
 
 void CUiCenter::on_btn_role_clicked()
@@ -491,5 +516,22 @@ void CUiCenter::OnImportFinished()
         task.bodyObj.insert("list", arrayParam);
         task.apiIndex = API::bindPlatform;
         WebHandler::instance()->Post(task);
+    }
+}
+
+void CUiCenter::onTaskRequestCallback(const ResponData& data)
+{
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)ui.tableView) {
+    }
+}
+
+void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString)
+{
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)this) {
+        qobject_cast<BRSystem*>(CApp->getMainWidget())->printLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
     }
 }

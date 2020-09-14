@@ -25,6 +25,7 @@ public:
     void addwidget(BaseWidget* content);
     void showMainPage();
     void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+    void printLog(QtMsgType type, const QString& msg);
 
 private:
     void init();

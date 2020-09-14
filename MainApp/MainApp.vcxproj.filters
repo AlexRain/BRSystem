@@ -191,6 +191,12 @@
     <ClCompile Include="src\InputPwdView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\InputPhoneView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExportDataView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -247,6 +253,12 @@
     <QtMoc Include="src\InputPwdView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\InputPhoneView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ExportDataView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -277,6 +289,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\InputPwdView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\InputPhoneView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ExportDataView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

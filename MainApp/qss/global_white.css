@@ -237,6 +237,14 @@ QPushButton#btn_max[isMaximized=true]{
 	border-image:url(:/images/images/normal.png);
 }
 
+QPushButton #btn_save,
+QPushButton #btn_ok{
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 25px;
+	max-height: 25px;
+}
+
 /*多选按钮*/
 QCheckBox{
     spacing: 5px;
@@ -751,6 +759,8 @@ BaseDialog #label_title{
 
 BaseDialog #frame_title{
     background: #eee8d5;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
     border-bottom: 1px solid #c5c2b6;
 }
 
@@ -758,6 +768,27 @@ BaseDialog #frame_center{
     border: 1px solid #c5c2b6;
 	border-radius:3px;
 	background:#ddd6c1;
+}
+
+InputPwdView{
+    min-width: 390px;
+    max-width: 390px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+InputPhoneView{
+    min-width: 320px;
+    max-width: 320px;
+    min-height: 150px;
+    max-height: 150px;
+}
+
+ExportDataView{
+    min-width: 390px;
+    max-width: 390px;
+    min-height: 200px;
+    max-height: 200px;
 }
 
 

@@ -117,6 +117,7 @@ private:
     void setData(const QList<ModelData>& model);
     void doExport(QList<ModelData>& datas);
     void updateButtonState(int selectedCount);
+    void exportList();
 
     void getBorrowData(BorrowInfo& info, int row);
     void getBorrowData(ModelData& info, int row);
@@ -126,8 +127,8 @@ private:
     void UpdateStatusText(const QString& text);
     bool GetCurrentData(QList<ModelData>& selectedRows);
     void excuteTasks(TaskType type);
-    void ShowInputPwdView(QString& password);
-    void ShowInputPhone(QString& phone);
+    bool ShowInputPwdView(QString& password);
+    bool ShowInputPhone(QString& phone);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -146,6 +147,8 @@ private slots:
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
     void OnImportFinished();
+    void onTaskRequestCallback(const ResponData&);
+    void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
 
 private:
     Ui::CUiCenter ui;

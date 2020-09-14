@@ -41,7 +41,7 @@ public:
 
 signals:
     void requestCallback(const ResponData& data);
-    void requestError(const ResponData& data, NetworkRequestError errorType);
+    void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
 
 private slots:

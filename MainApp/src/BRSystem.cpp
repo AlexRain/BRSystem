@@ -76,27 +76,55 @@ void BRSystem::outputMessage(QtMsgType type, const QMessageLogContext& context, 
     QString message;
     switch (type) {
     case QtDebugMsg:
-        message = QString("Debug:");
+        message = QString("[Debug]");
         break;
 
     case QtWarningMsg:
-        message = QString("Warning:");
+        message = QString("[Warning]");
         break;
 
     case QtCriticalMsg:
-        message = QString("Critical:");
+        message = QString("[Critical]");
         break;
 
     case QtFatalMsg:
-        message = QString("Fatal:");
+        message = QString("[Fatal]");
         break;
 
     case QtInfoMsg:
-        message = QString("Info:");
+        message = QString("[Info]");
         break;
     }
     if (logOutput)
         logOutput->append(message.append(msg));
+}
+
+void BRSystem::printLog(QtMsgType type, const QString& msg)
+{
+    QString message;
+    switch (type) {
+    case QtDebugMsg:
+        message = QString("[Debug]%1");
+        break;
+
+    case QtWarningMsg:
+        message = QString("<span style='color:red'>[Warning]%1</span>");
+        break;
+
+    case QtCriticalMsg:
+        message = QString("<span style='color:red'>[Critical]%1</span>");
+        break;
+
+    case QtFatalMsg:
+        message = QString("[Fatal]%1");
+        break;
+
+    case QtInfoMsg:
+        message = QString("[Info]%1");
+        break;
+    }
+    if (logOutput)
+        logOutput->append(message.arg(msg));
 }
 
 void BRSystem::init()

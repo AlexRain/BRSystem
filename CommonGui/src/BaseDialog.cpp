@@ -38,6 +38,7 @@ BaseDialog::~BaseDialog()
 void BaseDialog::SetTitle(const QString& title)
 {
     ui.label_title->setText(title);
+    setWindowTitle(title);
 }
 
 QWidget* BaseDialog::getContent()
