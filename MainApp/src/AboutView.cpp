@@ -1,11 +1,17 @@
 #include "AboutView.h"
 
-AboutView::AboutView(QWidget *parent)
-	: BaseWidget(parent)
+AboutView::AboutView(QWidget* parent)
+    : BaseDialog(parent)
 {
-	ui.setupUi(this);
+    ui.setupUi(this->getContent());
+    QMetaObject::connectSlotsByName(this);
 }
 
 AboutView::~AboutView()
 {
+}
+
+void AboutView::on_btn_ok_clicked()
+{
+    this->accept();
 }

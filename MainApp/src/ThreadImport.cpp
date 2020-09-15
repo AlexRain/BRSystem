@@ -4,8 +4,6 @@
 #include <QThread>
 #include <QTimer>
 
-static const char* separator = "----";
-
 ThreadImport::ThreadImport(QObject* parent)
     : QObject(parent)
 {

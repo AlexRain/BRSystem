@@ -1,16 +1,18 @@
 #pragma once
 
-#include "BaseWidget.h"
+#include "BaseDialog.h"
 #include "ui_AboutView.h"
 
-class AboutView : public BaseWidget
-{
-	Q_OBJECT
+class AboutView : public BaseDialog {
+    Q_OBJECT
 
 public:
-	AboutView(QWidget *parent = Q_NULLPTR);
-	~AboutView();
+    AboutView(QWidget* parent = Q_NULLPTR);
+    ~AboutView();
+
+private slots:
+    void on_btn_ok_clicked();
 
 private:
-	Ui::AboutView ui;
+    Ui::AboutView ui;
 };

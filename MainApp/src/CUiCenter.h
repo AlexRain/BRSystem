@@ -4,6 +4,7 @@
 #include "CApplication.h"
 #include "CDbHelper.h"
 #include "CTableview.h"
+#include "ExportDataView.h"
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
 #include "TaskManager.h"
@@ -118,13 +119,11 @@ private:
     void doExport(QList<ModelData>& datas);
     void updateButtonState(int selectedCount);
     void exportList();
+    void doExport(ExportDataView::ExportSetting setting);
 
-    void getBorrowData(BorrowInfo& info, int row);
-    void getBorrowData(ModelData& info, int row);
-    void setBorrowData(const BorrowInfo& info, int row);
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
-    void UpdateStatusText(const QString& text);
+    void PrintLog(QtMsgType type, const QString& text);
     bool GetCurrentData(QList<ModelData>& selectedRows);
     void excuteTasks(TaskType type);
     bool ShowInputPwdView(QString& password);

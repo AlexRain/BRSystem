@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>479</height>
+    <width>290</width>
+    <height>301</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="topMargin">
-    <number>44</number>
+    <number>9</number>
    </property>
    <item alignment="Qt::AlignHCenter">
     <widget class="QLabel" name="label_logo">

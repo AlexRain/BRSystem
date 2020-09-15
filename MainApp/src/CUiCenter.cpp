@@ -6,7 +6,6 @@
 #include "CheckBoxDelegate.h"
 #include "ComboBoxDelegate.h"
 #include "DialogMsg.h"
-#include "ExportDataView.h"
 #include "FilterBtnDelegate.h"
 #include "InputPhoneView.h"
 #include "InputPwdView.h"
@@ -176,48 +175,63 @@ void CUiCenter::exportList()
     if (QDialog::Accepted != viewExport.exec())
         return;
     viewExport.GetExportSetting(setting);
-    //TODO EXPORT
+    doExport(setting);
 }
 
-void CUiCenter::getBorrowData(BorrowInfo& info, int row)
+void CUiCenter::doExport(ExportDataView::ExportSetting setting)
 {
     QAbstractItemModel* model = ui.tableView->model();
-    info.id = model->data(model->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
-    info.productionId = model->data(model->index(row, TableHeader::ProductionId), Qt::DisplayRole).toString();
-    info.productionName = model->data(model->index(row, TableHeader::ProductionName), Qt::DisplayRole).toString();
-    info.borrowerName = model->data(model->index(row, TableHeader::BorrowerName), Qt::DisplayRole).toString();
-    info.borrowDate = model->data(model->index(row, TableHeader::BorrowDate), Qt::UserRole).toDateTime();
-    info.borrowStatus = (BorrowStatus)model->data(model->index(row, TableHeader::Status), Qt::UserRole).toInt();
-    info.borrowReason = model->data(model->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
-    info.remarks = model->data(model->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
-    info.updateDate = model->data(model->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime();
-}
+    int rowCount = model->rowCount();
 
-void CUiCenter::getBorrowData(ModelData& info, int row)
-{
-    QAbstractItemModel* model = ui.tableView->model();
-    info["id"] = model->data(model->index(row, TableHeader::UniqueId), Qt::DisplayRole).toString();
-    info["productionId"] = model->data(model->index(row, TableHeader::ProductionId), Qt::DisplayRole).toString();
-    info["productionName"] = model->data(model->index(row, TableHeader::ProductionName), Qt::DisplayRole).toString();
-    info["borrowerName"] = model->data(model->index(row, TableHeader::BorrowerName), Qt::DisplayRole).toString();
-    info["borrowDate"] = model->data(model->index(row, TableHeader::BorrowDate), Qt::UserRole).toDateTime().toString("yyyy-MM-dd hh:mm");
-    info["borrowStatus"] = (BorrowStatus)model->data(model->index(row, TableHeader::Status), Qt::UserRole).toInt();
-    info["borrowReason"] = model->data(model->index(row, TableHeader::BorrowReason), Qt::DisplayRole).toString();
-    info["remarks"] = model->data(model->index(row, TableHeader::Remark), Qt::DisplayRole).toString();
-    info["updateDate"] = model->data(model->index(row, TableHeader::UpdateDate), Qt::UserRole).toDateTime().toString("yyyy-MM-dd hh:mm");
-}
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    QStringList list;
+    auto defaultFileName = QString("export_") + QDateTime::currentDateTime().toString("yyyyMMddhhmmss");
+    list << "*.txt";
+    dialog.setNameFilters(list);
+    dialog.selectFile(defaultFileName);
+    if (QDialog::Accepted != dialog.exec())
+        return;
+    QString fileName = dialog.selectedFiles()[0];
 
-void CUiCenter::setBorrowData(const BorrowInfo& info, int row)
-{
-    QAbstractItemModel* model = ui.tableView->model();
-    model->setData(model->index(row, TableHeader::UniqueId), info.id, Qt::DisplayRole);
-    model->setData(model->index(row, TableHeader::ProductionId), info.productionId, Qt::DisplayRole);
-    model->setData(model->index(row, TableHeader::ProductionName), info.productionName, Qt::DisplayRole);
-    model->setData(model->index(row, TableHeader::BorrowerName), info.borrowerName, Qt::DisplayRole);
-    model->setData(model->index(row, TableHeader::BorrowDate), info.borrowDate, Qt::UserRole);
-    model->setData(model->index(row, TableHeader::Status), (int)info.borrowStatus, Qt::UserRole);
-    model->setData(model->index(row, TableHeader::BorrowReason), info.borrowReason, Qt::DisplayRole);
-    model->setData(model->index(row, TableHeader::Remark), info.remarks, Qt::DisplayRole);
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        file.close();
+        return;
+    }
+    QTextStream dataStream(&file);
+    for (int row = 0; row < rowCount; ++row) {
+
+        QString rowString;
+        if (setting.export_account) {
+            auto qq = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+            rowString.append(qq);
+        }
+        if (setting.export_phone) {
+            if (!rowString.isEmpty())
+                rowString.append(separator);
+            auto phone = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+            rowString.append(phone);
+        }
+
+        if (setting.export_password) {
+            if (!rowString.isEmpty())
+                rowString.append(separator);
+            auto password = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+            rowString.append(password);
+        }
+
+        if (setting.export_role) {
+            if (!rowString.isEmpty())
+                rowString.append(separator);
+            auto status = model->data(model->index(row, TableAcocountList::status), Qt::DisplayRole).toString();
+            rowString.append(status);
+        }
+        dataStream << rowString << "\n";
+    }
+    file.close();
+    qobject_cast<BRSystem*>(CApp->getMainWidget())->printLog(QtInfoMsg, tr("export success"));
 }
 
 void CUiCenter::setAddvertiseLink(const QString& link)
@@ -230,8 +244,9 @@ void CUiCenter::openPhoneNumberList()
     PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("phone number list"));
 }
 
-void CUiCenter::UpdateStatusText(const QString& text)
+void CUiCenter::PrintLog(QtMsgType type, const QString& text)
 {
+    qobject_cast<BRSystem*>(CApp->getMainWidget())->printLog(type, text);
 }
 
 bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
@@ -383,7 +398,7 @@ void CUiCenter::onRequestCallback(const ResponData& data)
     if (data.task.reqeustId == 0)
         return;
     if (data.task.reqeustId == (quint64)ui.tableView) {
-        this->UpdateStatusText(tr("fetch list data success!"));
+        PrintLog(QtInfoMsg, tr("fetch list data success!"));
         QJsonObject dataObj;
         DataParseResult result;
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
@@ -405,7 +420,7 @@ void CUiCenter::onRequestCallback(const ResponData& data)
         }
     } else if (data.task.reqeustId == (quint64)this) {
         if (data.task.apiIndex == API::SyncPhone) {
-            this->UpdateStatusText(tr("sync phone numbers success!"));
+            PrintLog(QtInfoMsg, tr("sync phone numbers success!"));
             initData();
         }
     }
@@ -524,6 +539,7 @@ void CUiCenter::onTaskRequestCallback(const ResponData& data)
     if (data.task.reqeustId == 0)
         return;
     if (data.task.reqeustId == (quint64)ui.tableView) {
+        //TODO update row data
     }
 }
 
@@ -532,6 +548,6 @@ void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError e
     if (data.task.reqeustId == 0)
         return;
     if (data.task.reqeustId == (quint64)this) {
-        qobject_cast<BRSystem*>(CApp->getMainWidget())->printLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
+        PrintLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
     }
 }

@@ -218,9 +218,9 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         accountMenu->addSeparator();
         accountMenu->addAction(tr("up to date"), [=]() { CheckUpgrade(); });
         accountMenu->addAction(tr("about"), [=]() {
-            AboutView* about = new AboutView(this);
-            about->resize(350, 192);
-            PopupDialogContainer::showPopupDialogFadeIn(about, CApp->getMainWidget(), tr("about"));
+            AboutView about;
+            about.SetTitle(tr("about"));
+            about.exec();
         });
     }
 }

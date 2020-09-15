@@ -9,6 +9,8 @@ struct ImportData {
     QString phoneNumber;
 };
 
+static const char* separator = "----";
+
 Q_DECLARE_METATYPE(ImportData)
 
 class ThreadImport : public QObject {
