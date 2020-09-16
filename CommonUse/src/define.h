@@ -13,6 +13,9 @@
 
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
+#define DAIL_SETTING "yunguo/dail_setting.ini"
+
+static const char* PY_SERVER_EXE = "yunguo/main.exe";
 
 static const int RESTART_CODE = 1;
 

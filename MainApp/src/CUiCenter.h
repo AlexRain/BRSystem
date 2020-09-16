@@ -38,7 +38,7 @@ protected:
         QString text = index.model()->data(index, Qt::DisplayRole).toString();
 
         painter->save();
-        if (TableHeader::Status == index.column()) {
+        /*if (TableHeader::Status == index.column()) {
             BorrowStatus status = (BorrowStatus)index.model()->data(index, Qt::UserRole).toInt();
             if (BorrowStatus::Returned == status) {
                 painter->setPen(Qt::green);
@@ -59,7 +59,7 @@ protected:
         } else if (TableHeader::UpdateDate == index.column()) {
             QDateTime date = index.model()->data(index, Qt::UserRole).toDateTime();
             text = date.toString("yyyy-MM-dd hh:mm");
-        }
+        }*/
 
         QStyleOptionViewItem view_option(option);
         view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
@@ -128,6 +128,9 @@ private:
     void excuteTasks(TaskType type);
     bool ShowInputPwdView(QString& password);
     bool ShowInputPhone(QString& phone);
+    void parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId);
+    void setListRowData(int rowIndex, int column, const QVariant& data);
+    QString getTaskTypeString(TaskType type);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -146,7 +149,7 @@ private slots:
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
     void OnImportFinished();
-    void onTaskRequestCallback(const ResponData&);
+    void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
 
 private:

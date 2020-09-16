@@ -23,7 +23,7 @@ UiLogin::UiLogin(QWidget* parent)
     ui.setupUi(this);
     this->setWindowOpacity(0.0);
     this->setWindowIcon(QIcon("images/app.ico"));
-    this->setWindowTitle(tr("feng he network"));
+    this->setWindowTitle(tr("login"));
     this->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setMouseTracking(true);

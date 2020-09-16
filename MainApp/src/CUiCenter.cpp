@@ -40,7 +40,6 @@ CUiCenter::CUiCenter(QWidget* parent)
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&)));
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
-    qRegisterMetaType<BorrowInfo>("BorrowInfo");
     qRegisterMetaType<ImportData>("ImportData");
     this->initUi();
     this->initData();
@@ -148,7 +147,7 @@ void CUiCenter::initTableView()
     connect(&taskImport, &ThreadImport::taskFinished, this, &CUiCenter::OnImportFinished, Qt::QueuedConnection);
 
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
-    ui.tableView->setNodaTips(tr("no data"));
+    ui.tableView->setNodaTips(tr("drop files here"));
     updateButtonState(0);
 }
 
@@ -261,6 +260,7 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
     for (const auto& rowData : selectRows) {
         ModelData data;
         int row = rowData.row();
+        data["index"] = QString::number(row);
         data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
         data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
@@ -288,6 +288,7 @@ void CUiCenter::excuteTasks(TaskType type)
         for (const auto& data : dataList) {
             RequestTask task;
             task.reqeustId = (quint64)this;
+            task.index = data["index"].toInt();
             task.headerObj.insert("uid", UserSession::instance().userData().uid);
             task.headerObj.insert("token", UserSession::instance().userData().token);
             task.bodyObj.insert("bizType", bizType);
@@ -306,7 +307,7 @@ void CUiCenter::excuteTasks(TaskType type)
 
 bool CUiCenter::ShowInputPwdView(QString& password)
 {
-    InputPwdView view;
+    InputPwdView view(this);
     if (QDialog::Accepted == view.exec()) {
         view.GetPassword(password);
         return true;
@@ -316,7 +317,7 @@ bool CUiCenter::ShowInputPwdView(QString& password)
 
 bool CUiCenter::ShowInputPhone(QString& phone)
 {
-    InputPhoneView view;
+    InputPhoneView view(this);
     if (QDialog::Accepted == view.exec()) {
         view.GetPhoneNumber(phone);
         return true;
@@ -324,13 +325,74 @@ bool CUiCenter::ShowInputPhone(QString& phone)
     return false;
 }
 
+void CUiCenter::parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId)
+{
+    if (dataObj.contains("bizType")) {
+        int type = dataObj.value("bizType").toInt();
+        qInfo("task excute success, task type=%d, task id=%s", type, taskId.toUtf8().constData());
+        if (dataObj.contains("show")) {
+            QString strShow = dataObj.value("show").toString();
+            setListRowData(index, TableAcocountList::status, strShow);
+            auto taskType = static_cast<TaskType>(type);
+            QString strType = getTaskTypeString(taskType);
+            PrintLog(QtInfoMsg, QString("[%1]").arg(strType) + strShow);
+        } else {
+            PrintLog(QtWarningMsg, tr("parse json error"));
+        }
+    }
+}
+
+void CUiCenter::setListRowData(int rowIndex, int column, const QVariant& data)
+{
+    QAbstractItemModel* model = ui.tableView->model();
+    auto index = model->index(rowIndex, column);
+    if (model->index(rowIndex, column).isValid()) {
+        model->setData(index, data, Qt::DisplayRole);
+        model->setData(index, data, Qt::ToolTipRole);
+    }
+}
+
+QString CUiCenter::getTaskTypeString(TaskType taskType)
+{
+    QString taskTypeString;
+    switch (taskType) {
+    case change_password:
+        taskTypeString = tr("modify password");
+        break;
+    case unpack_safe_mode:
+        taskTypeString = tr("unpack safe mode");
+        break;
+    case bind_mobile:
+        taskTypeString = tr("bind phone");
+        break;
+    case query_role:
+        taskTypeString = tr("search role");
+        break;
+    case query_identity:
+        taskTypeString = tr("query_identity");
+        break;
+    case query_ban:
+        taskTypeString = tr("query_ban");
+        break;
+    case query_credit_score:
+        taskTypeString = tr("query_credit_score");
+        break;
+    default:
+        break;
+    }
+    return taskTypeString;
+}
+
 QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
 {
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
-    auto itemPassword = new QStandardItem;
-    itemPassword->setData(model["password"], Qt::UserRole);
-    item.append(itemPassword);
+
+    {
+        auto itemPassword = new QStandardItem;
+        itemPassword->setData(model["password"], Qt::UserRole);
+        item.append(itemPassword);
+    }
     item.append(new QStandardItem(QString::number(index)));
     item.append(new QStandardItem(model["qq"]));
     item.append(new QStandardItem(model["phone"]));
@@ -350,7 +412,13 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
     default:
         break;
     }
-    item.append(new QStandardItem(strStatus));
+
+    {
+        auto itemPassword = new QStandardItem;
+        itemPassword->setData(strStatus, Qt::DisplayRole);
+        itemPassword->setData(strStatus, Qt::ToolTipRole);
+        item.append(itemPassword);
+    }
 
     item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -534,12 +602,17 @@ void CUiCenter::OnImportFinished()
     }
 }
 
-void CUiCenter::onTaskRequestCallback(const ResponData& data)
+void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
 {
     if (data.task.reqeustId == 0)
         return;
     if (data.task.reqeustId == (quint64)ui.tableView) {
-        //TODO update row data
+        QJsonObject dataObj;
+        DataParseResult result;
+        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
+        if (result.errorCode == DataParseResult::NoError) {
+            parseLocalTaskData(dataObj, data.task.index, taskId);
+        }
     }
 }
 

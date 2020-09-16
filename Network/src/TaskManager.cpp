@@ -299,17 +299,9 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (statusCode == 200) {
-            auto data = reply->readAll();
-            QJsonObject dataObj;
-            DataParseResult result;
-            WebHandler::ParseJsonData(data, dataObj, &result);
-            if (result.errorCode == DataParseResult::NoError) {
-                parseLocalTaskData(dataObj, taskId);
-                reply->deleteLater();
-                return;
-            } else {
-                emit requestError(dataCallback, NetworkRequestError::Status_Error, result.message);
-            }
+            QByteArray data = reply->readAll();
+            dataCallback.dataReturned = data;
+            emit requestCallback(dataCallback,taskId);
         } else {
             emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }

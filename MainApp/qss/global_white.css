@@ -94,7 +94,7 @@ QMenuBar {
  
 QMenuBar::item {
     spacing: 50px;
-    padding: 2px 10px;   
+    padding: 5px 10px;   
 	border-width:1px 1px 0px 1px;
 	border-color:transparent;
 	border-style:solid;

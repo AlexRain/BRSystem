@@ -38,9 +38,10 @@ public:
     static bool bindErrorCallback(const QObject* receiver, const char* method);
     static bool bindLoadingCallback(const QObject* receiver, const char* method);
     static bool bindNetworkStatusChangeCallback(const QObject* receiver, const char* method);
+    static void parseLocalTaskData(const QJsonObject& dataObj, const QString& taskId);
 
 signals:
-    void requestCallback(const ResponData& data);
+    void requestCallback(const ResponData& data, const QString &taskId);
     void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
 
@@ -53,7 +54,6 @@ private slots:
 private:
     void start();
     void excuteLocalTask();
-    void parseLocalTaskData(const QJsonObject& dataObj, const QString& taskId);
 
     QThread thread;
     QNetworkAccessManager* manager = nullptr;

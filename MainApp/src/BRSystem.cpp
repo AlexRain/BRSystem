@@ -29,10 +29,14 @@ BRSystem::BRSystem(QWidget* parent)
     this->setWindowTitle(tr("feng he network"));
     pLayer = new UiFrostedLayer(this);
     pLayer->hide();
+    startLocalPyServer();
 }
 
 BRSystem::~BRSystem()
 {
+    if (process) {
+        process->kill();
+    }
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -150,7 +154,13 @@ void BRSystem::init()
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 10, 0, 10);
     layout->setSpacing(6);
-    layout->addWidget(menuBar);
+
+    QHBoxLayout* layoutMenu = new QHBoxLayout;
+    layoutMenu->setContentsMargins(10, 0, 0, 0);
+    layoutMenu->setSpacing(0);
+    layoutMenu->addWidget(menuBar);
+
+    layout->addLayout(layoutMenu);
     layout->addWidget(UiHelper::createSplitter(this));
     layout->addItem(m_pContentLayout);
     m_pContentLayout->addWidget(centerWidget);
@@ -162,11 +172,12 @@ void BRSystem::init()
         labelAdds->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         labelAdds->setText(TOCH("<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">广告位招商，详询qq:123456</span></a></p>"));
         auto widgetBottom = new QFrame(this);
+        widgetBottom->setObjectName("frameBottom");
         auto laytoutBottom = new QHBoxLayout(widgetBottom);
         laytoutBottom->setContentsMargins(0, 0, 0, 0);
         laytoutBottom->addStretch();
         laytoutBottom->addWidget(labelAdds);
-        m_pContentLayout->addWidget(labelAdds);
+        m_pContentLayout->addWidget(widgetBottom);
     }
 
     this->resize(958, 596);
@@ -218,7 +229,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         accountMenu->addSeparator();
         accountMenu->addAction(tr("up to date"), [=]() { CheckUpgrade(); });
         accountMenu->addAction(tr("about"), [=]() {
-            AboutView about;
+            AboutView about(this);
             about.SetTitle(tr("about"));
             about.exec();
         });
@@ -232,14 +243,22 @@ void BRSystem::CheckUpgrade()
     checkHelper.CheckUpgrade(result);
     if (result.needUpdate) {
         if (result.force_update) {
-            int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
+            int code = DialogMsg::question(this, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
             if (code == QMessageBox::Ok) {
                 QDesktopServices::openUrl(QUrl::fromEncoded(result.download_url.toUtf8()));
             }
             qApp->exit(0);
         }
     } else {
-        DialogMsg::question(nullptr, QObject::tr("tips"), QObject::tr("your application is up to date"), QMessageBox::Ok);
+        DialogMsg::question(this, QObject::tr("tips"), QObject::tr("your application is up to date"), QMessageBox::Ok);
+    }
+}
+
+void BRSystem::startLocalPyServer()
+{
+    if (nullptr == process) {
+        process = new QProcess(this);
+        process->start(PY_SERVER_EXE);
     }
 }
 
@@ -247,6 +266,7 @@ void BRSystem::resizeEvent(QResizeEvent* event)
 {
     pLayer->resize(this->size());
     pLayer->move(0, 0);
+    QWidget::resizeEvent(event);
 }
 
 void BRSystem::closeEvent(QCloseEvent* event)

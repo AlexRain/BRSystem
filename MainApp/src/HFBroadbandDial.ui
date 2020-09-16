@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>237</height>
+    <height>252</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,12 +58,16 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_password"/>
+      <widget class="QLineEdit" name="lineEdit_password">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>interval time</string>
+        <string>redial interval</string>
        </property>
       </widget>
      </item>
@@ -73,7 +77,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QSpinBox" name="spinBox_second">
+        <widget class="QSpinBox" name="spinBox_tasks">
          <property name="singleStep">
           <number>5</number>
          </property>
@@ -83,11 +87,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>second(&gt;0)</string>
-         </property>
-        </widget>
+        <widget class="QLabel" name="label_2"/>
        </item>
       </layout>
      </item>
@@ -102,14 +102,17 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QComboBox" name="comboBox_switch">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
          <item>
           <property name="text">
-           <string>on</string>
+           <string>off</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>off</string>
+           <string>on</string>
           </property>
          </item>
         </widget>
@@ -127,6 +130,18 @@
    </item>
    <item alignment="Qt::AlignHCenter">
     <widget class="QPushButton" name="btn_save">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>save</string>
      </property>

@@ -8,13 +8,13 @@
 #include "UpgradeHelper.h"
 #include "define.h"
 #include <QDebug>
+#include <QDesktopServices>
 #include <QFile>
 #include <QObject>
 #include <QPointer>
 #include <QStyleFactory>
 #include <QTranslator>
 #include <QtWidgets/QApplication>
-#include <QDesktopServices>
 
 QPointer<BRSystem> logPrinter = nullptr;
 
@@ -65,7 +65,6 @@ int main(int argc, char* argv[])
 
         BRSystem w;
         logPrinter = &w;
-        //qInstallMessageHandler(outputMessage);
         a.setMainWidget(&w);
         w.show();
         result = a.exec();

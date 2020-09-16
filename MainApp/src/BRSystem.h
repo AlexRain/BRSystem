@@ -3,6 +3,7 @@
 #include "BaseWidget.h"
 #include <QLabel>
 #include <QMap>
+#include <QProcess>
 #include <QTextBrowser>
 #include <QWidget>
 
@@ -31,6 +32,7 @@ private:
     void init();
     void createMenus(QMenuBar* menuBar);
     void CheckUpgrade();
+    void startLocalPyServer();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
@@ -44,4 +46,5 @@ private:
     BaseWidget* m_pCurrentWidget;
     QTextBrowser* logOutput = nullptr;
     QLabel* labelAdds = nullptr;
+    QProcess* process = nullptr;
 };

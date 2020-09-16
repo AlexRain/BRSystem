@@ -25,6 +25,7 @@ DialogMsg::DialogMsg(QWidget* parent, const QString& title,
     this->setFixedSize(360, 216);
     this->setAttribute(Qt::WA_TranslucentBackground);
     this->setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
+    this->setWindowTitle(tr("upgrade"));
 
     _pTitle = new QLabel(this);
     _pTitle->setObjectName("label_title");
