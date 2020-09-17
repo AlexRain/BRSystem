@@ -39,6 +39,7 @@ CUiCenter::CUiCenter(QWidget* parent)
     ui.setupUi(this);
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&)));
+    TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const QString&, const QString&, const QString&)));
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
     qRegisterMetaType<ImportData>("ImportData");
     this->initUi();
@@ -80,6 +81,7 @@ void CUiCenter::initUi()
 
     ui.layout_buttons->addWidget(btn_export);
 
+    //消息模板
     ui.comboBox_template->addItem(tr("chang phone"), tr("change phone message temp"));
     ui.comboBox_template->addItem(tr("safe mode"), tr("safe mode message temp"));
     ui.comboBox_template->setCurrentIndex(0);
@@ -90,19 +92,24 @@ void CUiCenter::initHeader()
     HeadStruct headNode = { "id", -1, true };
     listHead << headNode;
 
-    headNode = { tr("password"), -1, true };
-    listHead << headNode;
-
-    headNode = { tr("index"), 70 };
+    //headNode = { tr("password"), -1, true };
+    
+    headNode = { tr("index"), 30 };
     listHead << headNode;
 
     headNode = { tr("qq number"), -1 };
     listHead << headNode;
 
+    headNode = { tr("password"), -1 };
+    listHead << headNode;
+
     headNode = { tr("phone number"), -1 };
     listHead << headNode;
 
-    headNode = { tr("status"), 70 };
+    headNode = { tr("status"), -1 };
+    listHead << headNode;
+
+    headNode = { tr("task_status"), -1 };
     listHead << headNode;
 
     ui.tableView->setHeader(listHead);
@@ -217,7 +224,7 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
         if (setting.export_password) {
             if (!rowString.isEmpty())
                 rowString.append(separator);
-            auto password = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+            auto password = model->data(model->index(row, TableAcocountList::password), Qt::DisplayRole).toString();
             rowString.append(password);
         }
 
@@ -263,7 +270,7 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         data["index"] = QString::number(row);
         data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
-        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::DisplayRole).toString();
         selectedRows.append(data);
     }
     return true;
@@ -286,6 +293,8 @@ void CUiCenter::excuteTasks(TaskType type)
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
+          
+            //修改状态为执行中
             RequestTask task;
             task.reqeustId = (quint64)this;
             task.index = data["index"].toInt();
@@ -300,6 +309,7 @@ void CUiCenter::excuteTasks(TaskType type)
             objParam.insert("qq", data["qq"]);
             task.bodyObj.insert("params", objParam);
             task.apiIndex = API::addTask;
+
             TaskManager::instance()->Post(task);
         }
     }
@@ -388,13 +398,14 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
 
+
+    item.append(new QStandardItem(QString::number(index+1)));
+    item.append(new QStandardItem(model["qq"]));
     {
         auto itemPassword = new QStandardItem;
-        itemPassword->setData(model["password"], Qt::UserRole);
+        itemPassword->setData(model["password"], Qt::DisplayRole);
         item.append(itemPassword);
     }
-    item.append(new QStandardItem(QString::number(index)));
-    item.append(new QStandardItem(model["qq"]));
     item.append(new QStandardItem(model["phone"]));
 
     QString strStatus;
@@ -430,6 +441,7 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
     return item;
 }
 
+//右键菜单
 void CUiCenter::slotContextMenu(const QPoint& pos)
 {
     QModelIndex index = ui.tableView->indexAt(pos);
@@ -450,9 +462,20 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             on_btn_account_status_clicked();
         });
 
+        menu->addAction(tr("remove"), [=] {
+            remove();
+        });
+
+        menu->addAction(tr("remove all"), [=] {
+            QAbstractItemModel* model = ui.tableView->model();
+            model->removeRows(0, model->rowCount());
+            });
+
+
         menu->addAction(tr("search role"), [=] {
             on_btn_role_clicked();
-        });
+            });
+
         menu->exec(QCursor::pos());
     }
 }
@@ -514,6 +537,29 @@ void CUiCenter::on_btn_role_clicked()
     excuteTasks(query_role);
 }
 
+void CUiCenter::remove()
+{   
+    QAbstractItemModel* model = ui.tableView->model();
+    QItemSelectionModel* selections = ui.tableView->selectionModel();
+    QModelIndexList selected = selections->selectedIndexes();
+    QMap<int, int> rows;
+    foreach(QModelIndex index, selected)
+        rows.insert(index.row(), 0);
+    QMapIterator<int, int> r(rows);
+    r.toBack();
+    while (r.hasPrevious()) {
+        r.previous();
+        model->removeRow(r.key());
+    }
+    // 对行号进行重新排序
+     int rowCount = model->rowCount();
+     for (int i = 0; i < rowCount; i++)
+     {
+         model->setData(model->index(i,TableAcocountList::index), i+1);
+     }
+}
+
+//发送短信
 void CUiCenter::on_btn_send_msg_clicked()
 {
     if (ui.lineEdit_phone->text().isEmpty() && ui.lineEdit_qq_number->text().isEmpty()) {
@@ -536,6 +582,7 @@ void CUiCenter::on_btn_send_msg_clicked()
     TaskManager::instance()->Post(task);
 }
 
+
 void CUiCenter::on_btn_sync_phone_clicked()
 {
     RequestTask task;
@@ -546,6 +593,7 @@ void CUiCenter::on_btn_sync_phone_clicked()
     WebHandler::instance()->Get(task);
 }
 
+//绑定手机
 void CUiCenter::on_btn_bind_phone_clicked()
 {
     excuteTasks(bind_mobile);
@@ -571,9 +619,40 @@ void CUiCenter::OnAddRow(ImportData data)
     model["qq"] = data.qq;
     model["phone"] = data.phoneNumber;
     model["password"] = data.password;
+    
+
     model["status"] = QString::number((int)AccountStatus::Normal);
-    listImport.append(model);
-    ui.tableView->addData(model);
+    // 判重
+
+    QAbstractItemModel* tableModel = ui.tableView->model();
+    int rowCount = tableModel->rowCount();
+    bool isReply = false;
+    for (int row = 0;row < rowCount;row++) {
+        QString qq = tableModel->data(tableModel->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+        if (qq == model["qq"]) {
+            isReply = true;
+            break;
+        }
+    }
+    if (!isReply){
+        listImport.append(model);
+        ui.tableView->addData(model);
+    }
+
+
+    /*if (rowCount == 0) {
+
+    }
+    else {
+        for (int row = 0;row < rowCount;row++) {
+            auto qq = tableModel->data(tableModel->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+            if (qq != data.qq) {
+                listImport.append(model);
+                ui.tableView->addData(model);
+            }
+        }
+    }*/
+    
 }
 
 void CUiCenter::OnImportFinished()
@@ -601,6 +680,18 @@ void CUiCenter::OnImportFinished()
         WebHandler::instance()->Post(task);
     }
 }
+
+
+void CUiCenter::onTaskDo(const QString& index,const QString& msg,const QString& status)
+{
+    qDebug() << "index :" << index;
+    qDebug() << "msg :" << msg;
+    qDebug() << "status :" << status;
+    QAbstractItemModel* model = ui.tableView->selectionModel()->model();
+    model->setData(model->index(index.toInt(), TableAcocountList::status), msg);
+    model->setData(model->index(index.toInt(), TableAcocountList::task_status),status);
+}
+
 
 void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
 {

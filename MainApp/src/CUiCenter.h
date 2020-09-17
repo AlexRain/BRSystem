@@ -143,14 +143,17 @@ private slots:
     void on_btn_unsecure_clicked();
     void on_btn_account_status_clicked();
     void on_btn_role_clicked();
+    void remove();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
     void on_btn_bind_phone_clicked();
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
     void OnImportFinished();
+    void onTaskDo(const QString& index, const QString& msg, const QString& status);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
+
 
 private:
     Ui::CUiCenter ui;

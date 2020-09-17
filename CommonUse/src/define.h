@@ -42,11 +42,12 @@ enum TableHeader {
 
 enum TableAcocountList {
     uid = 0,
-    password,
     index,
     qqNumber,
+    password,
     phoneNumber,
-    status
+    status,
+    task_status
 };
 
 enum BorrowStatus {

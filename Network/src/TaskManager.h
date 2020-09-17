@@ -34,6 +34,7 @@ public:
     void Get(const RequestTask& taskData);
     void Post(const RequestTask& taskData);
 
+    static bool bindTaskGoing(const QObject* receiver, const char* method);
     static bool bindDataCallback(const QObject* receiver, const char* method);
     static bool bindErrorCallback(const QObject* receiver, const char* method);
     static bool bindLoadingCallback(const QObject* receiver, const char* method);
@@ -44,6 +45,7 @@ signals:
     void requestCallback(const ResponData& data, const QString &taskId);
     void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
+    void taskGoing(const QString&, const QString&, const QString&);
 
 private slots:
     void startNextRequest();
