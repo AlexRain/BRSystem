@@ -107,6 +107,8 @@ public:
     CUiCenter(QWidget* parent = Q_NULLPTR);
     ~CUiCenter();
 
+    void PrintLog(QtMsgType type, const QString& text);
+
     using ModeDataList = QList<ModelData>;
 
 private:
@@ -123,7 +125,6 @@ private:
 
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
-    void PrintLog(QtMsgType type, const QString& text);
     bool GetCurrentData(QList<ModelData>& selectedRows);
     void excuteTasks(TaskType type);
     bool ShowInputPwdView(QString& password);

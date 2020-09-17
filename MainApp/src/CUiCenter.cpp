@@ -37,11 +37,12 @@ CUiCenter::CUiCenter(QWidget* parent)
     : BaseWidget(parent)
 {
     ui.setupUi(this);
+    qRegisterMetaType<ImportData>("ImportData");
+    qRegisterMetaType<ResponData>("ResponData");
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
-    TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&)));
+    TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&, const QString &)));
     TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const QString&, const QString&, const QString&)));
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
-    qRegisterMetaType<ImportData>("ImportData");
     this->initUi();
     this->initData();
 }
@@ -345,7 +346,7 @@ void CUiCenter::parseLocalTaskData(const QJsonObject& dataObj, int index, const 
             setListRowData(index, TableAcocountList::status, strShow);
             auto taskType = static_cast<TaskType>(type);
             QString strType = getTaskTypeString(taskType);
-            PrintLog(QtInfoMsg, QString("[%1]").arg(strType) + strShow);
+            PrintLog(QtInfoMsg, "task:" + QString("[%1]").arg(strType) + strShow);
         } else {
             PrintLog(QtWarningMsg, tr("parse json error"));
         }
@@ -697,7 +698,7 @@ void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& tas
 {
     if (data.task.reqeustId == 0)
         return;
-    if (data.task.reqeustId == (quint64)ui.tableView) {
+    if (data.task.reqeustId == (quint64)this) {
         QJsonObject dataObj;
         DataParseResult result;
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);

@@ -30,7 +30,7 @@ bool TaskManager::bindTaskGoing(const QObject* receiver, const char* method)
 bool TaskManager::bindDataCallback(const QObject* receiver, const char* method)
 {
     return QObject::connect(TaskManager::instance(),
-        SIGNAL(requestCallback(const ResponData&)),
+        SIGNAL(requestCallback(const ResponData&, const QString &)),
         receiver,
         method,
         Qt::QueuedConnection);

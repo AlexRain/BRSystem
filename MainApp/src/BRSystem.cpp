@@ -133,7 +133,7 @@ void BRSystem::printLog(QtMsgType type, const QString& msg)
 
 void BRSystem::init()
 {
-    CUiCenter* centerWidget = new CUiCenter(this);
+    centerWidget = new CUiCenter(this);
     centerWidget->setObjectName("centerWidget");
     m_pContentLayout = new QVBoxLayout;
     m_pContentLayout->setContentsMargins(10, 0, 10, 0);
@@ -258,6 +258,7 @@ void BRSystem::startLocalPyServer()
 {
     if (nullptr == process) {
         process = new QProcess(this);
+        connect(process, SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(onStartPyServerError(QProcess::ProcessError)));
         process->start(PY_SERVER_EXE);
     }
 }
@@ -277,4 +278,9 @@ void BRSystem::closeEvent(QCloseEvent* event)
         return;
     }
     QWidget::closeEvent(event);
+}
+
+void BRSystem::onStartPyServerError(QProcess::ProcessError error)
+{
+    printLog(QtWarningMsg, tr("start py server failed").append("error code=%1").arg(error));
 }

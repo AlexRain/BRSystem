@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseWidget.h"
+#include "CUiCenter.h"
 #include <QLabel>
 #include <QMap>
 #include <QProcess>
@@ -8,7 +9,6 @@
 #include <QWidget>
 
 class CUiTop;
-class CUiCenter;
 class QMenuBar;
 class QToolBar;
 class UiFrostedLayer;
@@ -38,12 +38,16 @@ protected:
     virtual void resizeEvent(QResizeEvent* event) override;
     virtual void closeEvent(QCloseEvent* event) override;
 
+private slots:
+    void onStartPyServerError(QProcess::ProcessError error);
+
 private:
     UiFrostedLayer* pLayer;
     QList<BaseWidget*> mListWidgets;
     QMap<int, QWidget*> m_mapWidget;
     QVBoxLayout* m_pContentLayout;
     BaseWidget* m_pCurrentWidget;
+    CUiCenter* centerWidget = nullptr;
     QTextBrowser* logOutput = nullptr;
     QLabel* labelAdds = nullptr;
     QProcess* process = nullptr;
