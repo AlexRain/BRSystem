@@ -46,6 +46,7 @@ enum TableAcocountList {
     qqNumber,
     password,
     phoneNumber,
+    newPhoneNumber,
     status,
     task_status
 };

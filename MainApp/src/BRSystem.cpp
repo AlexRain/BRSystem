@@ -199,7 +199,9 @@ void BRSystem::createMenus(QMenuBar* menuBar)
             PopupDialogContainer::showPopupDialogFadeIn(changePhoneView, CApp->getMainWidget(), tr("change phone"));
         });
         accountMenu->addAction(tr("register"), [=]() {});
-        accountMenu->addAction(tr("login"), [=]() {});
+        accountMenu->addAction(tr("logout"), [=]() {
+            qApp->exit(2);
+            });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("exit"), [=]() {
             qApp->exit(0);
@@ -270,17 +272,17 @@ void BRSystem::resizeEvent(QResizeEvent* event)
     QWidget::resizeEvent(event);
 }
 
-void BRSystem::closeEvent(QCloseEvent* event)
-{
-    int result = DialogMsg::question(this, tr("tips"), tr("are you sure you want to exit?"), QMessageBox::Ok | QMessageBox::Cancel);
-    if (result != QMessageBox::Ok) {
-        event->ignore();
-        return;
-    }
-    QWidget::closeEvent(event);
-}
 
 void BRSystem::onStartPyServerError(QProcess::ProcessError error)
 {
     printLog(QtWarningMsg, tr("start py server failed").append("error code=%1").arg(error));
 }
+//void BRSystem::closeEvent(QCloseEvent* event)
+//{
+//    int result = DialogMsg::question(this, tr("tips"), tr("are you sure you want to exit?"), QMessageBox::Ok | QMessageBox::Cancel);
+//    if (result != QMessageBox::Ok) {
+//        event->ignore();
+//        return;
+//    }
+//    /*QWidget::closeEvent(event);*/
+//}

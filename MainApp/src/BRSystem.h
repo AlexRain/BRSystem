@@ -36,7 +36,7 @@ private:
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
-    virtual void closeEvent(QCloseEvent* event) override;
+    //virtual void closeEvent(QCloseEvent* event) override;
 
 private slots:
     void onStartPyServerError(QProcess::ProcessError error);

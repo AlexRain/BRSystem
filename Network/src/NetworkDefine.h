@@ -9,7 +9,7 @@ static const int SHOW_LOADING = 500;
 static const char* baseUrl = "http://39.101.209.77:31001/api/v1";
 static const char* baseUrl2 = "http://bill.ah-fenghe.com/api/v1";
 static const char* localServer = "http://127.0.0.1:5001";
-static const char* app_version = "1.0.0.1";
+static const char* app_version = "1.0.0";
 
 enum class API {
     apiNoneType,

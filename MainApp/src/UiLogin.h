@@ -20,6 +20,7 @@ public:
     ~UiLogin();
 
 public:
+    void getUserInfo();
     void initUser();
     void verify();
     int fadeIn();
@@ -35,6 +36,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
     virtual void resizeEvent(QResizeEvent* event) override;
+    QSettings userSetting;
 
 private:
     Ui::UiLogin ui;

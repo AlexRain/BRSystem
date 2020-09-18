@@ -144,10 +144,13 @@ private slots:
     void on_btn_unsecure_clicked();
     void on_btn_account_status_clicked();
     void on_btn_role_clicked();
+    void on_btn_query_score_clicked();
+    void on_btn_query_identity_clicked();
     void remove();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
     void on_btn_bind_phone_clicked();
+    //export file
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
     void OnImportFinished();
@@ -162,4 +165,5 @@ private:
     QThread threadImport;
     int importCount = 0;
     ModeDataList listImport;
+    QSettings mSetting;
 };

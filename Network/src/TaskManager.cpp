@@ -285,7 +285,9 @@ void TaskManager::startNextRequest()
     requestTimeOut.start(REQUEST_TIMEOUT);
     showLoadTimer.start();
     loop.exec();
+    qInfo() << "do task";
     emit taskGoing(QString::number(currentTask.task.index),tr("task is going"),tr("done"));
+    qDebug() << "do task 2";
     if (requestTimeOut.isActive()) {
         requestTimeOut.stop();
         if (showLoadTimer.isActive())

@@ -26,11 +26,15 @@ void outputMessage(QtMsgType type, const QMessageLogContext& context, const QStr
 
 using namespace std;
 
+void relogin(void);
+
+QString gstrFilePath = "";
+
 int main(int argc, char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     CApplication a(argc, argv);
-
+    gstrFilePath = QCoreApplication::applicationFilePath();
     a.setWindowIcon(QIcon("images/app.ico"));
     a.setApplicationName(QObject::tr("feng he network"));
 
@@ -60,15 +64,30 @@ int main(int argc, char* argv[])
     do {
         /*登录界面*/
         UiLogin login;
+
         if (QDialog::Accepted != login.fadeIn())
             return 0;
+        
+
 
         BRSystem w;
         logPrinter = &w;
         a.setMainWidget(&w);
         w.show();
         result = a.exec();
+        if (result == 2)
+        {
+            atexit(relogin);
+        }
     } while (result == RESTART_CODE);
 
     return result;
+}
+
+
+//这里启用重新启动一个新的示例
+void relogin()
+{
+    QProcess process;
+    process.startDetached(gstrFilePath);
 }

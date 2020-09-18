@@ -38,16 +38,21 @@ void ThreadImport::startNextTask()
     while (!line.isNull()) {
         ImportData data;
         QStringList listData = line.split(separator);
-        if (3 == listData.size()) {
+        if (listData.size() > 0) {
             data.qq = listData.at(0);
-            data.password = listData.at(1);
-            data.phoneNumber = listData.at(2);
-        } else if (1 == listData.size()) {
-            data.qq = listData.at(0);
+            if (listData.size() > 1) {
+                data.password = listData.at(1);
+            }
+            if (listData.size() > 2) {
+                data.phoneNumber = listData.at(2);
+            }
+            if (listData.size() > 3) {
+                data.newPhoneNumber = listData.at(3);
+            }
+            emit addRow(data);
+            line = in.readLine();
+            QThread::msleep(30);
         }
-        emit addRow(data);
-        line = in.readLine();
-        QThread::msleep(30);
     }
 
     startNextTask();

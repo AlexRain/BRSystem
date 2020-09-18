@@ -30,11 +30,13 @@
 #include <QStandardItem>
 #include <QTableView>
 
+static const char* LAST_FILE_PATH = "last_file_path";
 QList<HeadStruct> listHead;
 #define ENABLE_DRAG_FILE
 
 CUiCenter::CUiCenter(QWidget* parent)
     : BaseWidget(parent)
+    ,mSetting(CONFIG_FILE,QSettings::IniFormat)
 {
     ui.setupUi(this);
     qRegisterMetaType<ImportData>("ImportData");
@@ -45,6 +47,16 @@ CUiCenter::CUiCenter(QWidget* parent)
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
     this->initUi();
     this->initData();
+
+    //get last export file
+    QString lastExportFile = mSetting.value(LAST_FILE_PATH).toString();
+    if (lastExportFile != "") {
+        QUrl u(lastExportFile);
+        qDebug() << "readUrl is ：" << u;
+        QList<QUrl> list;
+        list.append(u);
+        this->OnDropFiles(list);
+    }
 }
 
 CUiCenter::~CUiCenter()
@@ -88,6 +100,7 @@ void CUiCenter::initUi()
     ui.comboBox_template->setCurrentIndex(0);
 }
 
+//初始化表头
 void CUiCenter::initHeader()
 {
     HeadStruct headNode = { "id", -1, true };
@@ -98,19 +111,22 @@ void CUiCenter::initHeader()
     headNode = { tr("index"), 30 };
     listHead << headNode;
 
-    headNode = { tr("qq number"), -1 };
+    headNode = { tr("qq number"), 120 };
     listHead << headNode;
 
-    headNode = { tr("password"), -1 };
+    headNode = { tr("password"), 120 };
     listHead << headNode;
 
-    headNode = { tr("phone number"), -1 };
+    headNode = { tr("phone number"), 200};
+    listHead << headNode;
+
+    headNode = { tr("new phone number"), 200 };
     listHead << headNode;
 
     headNode = { tr("status"), -1 };
     listHead << headNode;
 
-    headNode = { tr("task_status"), -1 };
+    headNode = { tr("task_status"), 60 };
     listHead << headNode;
 
     ui.tableView->setHeader(listHead);
@@ -131,9 +147,11 @@ void CUiCenter::initData()
 #endif
 }
 
+//表格初始化
 void CUiCenter::initTableView()
 {
     this->initHeader();
+    
     ui.tableView->setCreatRowCallbackListener(this);
 
     ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -157,6 +175,9 @@ void CUiCenter::initTableView()
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
     ui.tableView->setNodaTips(tr("drop files here"));
     updateButtonState(0);
+
+    // get last file
+   
 }
 
 void CUiCenter::setData(const QList<ModelData>& vModel)
@@ -185,6 +206,7 @@ void CUiCenter::exportList()
     doExport(setting);
 }
 
+//导出
 void CUiCenter::doExport(ExportDataView::ExportSetting setting)
 {
     QAbstractItemModel* model = ui.tableView->model();
@@ -203,7 +225,7 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
     QString fileName = dialog.selectedFiles()[0];
 
     QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
         file.close();
         return;
     }
@@ -272,6 +294,7 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
         data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::DisplayRole).toString();
+        data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
         selectedRows.append(data);
     }
     return true;
@@ -408,6 +431,7 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
         item.append(itemPassword);
     }
     item.append(new QStandardItem(model["phone"]));
+    item.append(new QStandardItem(model["new_phone"]));
 
     QString strStatus;
     auto status = (AccountStatus)model["status"].toInt();
@@ -477,6 +501,14 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             on_btn_role_clicked();
             });
 
+        menu->addAction(tr("query_credit_score"), [=] {
+            on_btn_query_score_clicked();
+            });
+
+        menu->addAction(tr("query_identity"), [=] {
+            on_btn_query_identity_clicked();
+            });
+
         menu->exec(QCursor::pos());
     }
 }
@@ -536,6 +568,16 @@ void CUiCenter::on_btn_account_status_clicked()
 void CUiCenter::on_btn_role_clicked()
 {
     excuteTasks(query_role);
+}
+
+void CUiCenter::on_btn_query_score_clicked()
+{
+    excuteTasks(query_credit_score);
+}
+
+void CUiCenter::on_btn_query_identity_clicked()
+{
+    excuteTasks(query_identity);
 }
 
 void CUiCenter::remove()
@@ -609,6 +651,8 @@ void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
         threadImport.start();
     }
     for (auto url : listFiles) {
+        qDebug() << "url is " << url.toDisplayString();
+        mSetting.setValue(LAST_FILE_PATH, url.toDisplayString());
         taskImport.AddTask(url.toLocalFile());
     }
 }
@@ -618,9 +662,22 @@ void CUiCenter::OnAddRow(ImportData data)
     importCount++;
     ModelData model;
     model["qq"] = data.qq;
+    if (data.phoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
+        data.phoneNumber = "";
+    }
     model["phone"] = data.phoneNumber;
+
+
+    if (data.password.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
+        data.password = "";
+    }
+
     model["password"] = data.password;
-    
+
+    if (data.newPhoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
+        data.newPhoneNumber = "";
+    }
+    model["new_phone"] = data.newPhoneNumber;
 
     model["status"] = QString::number((int)AccountStatus::Normal);
     // 判重
