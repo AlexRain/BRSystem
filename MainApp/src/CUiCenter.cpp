@@ -114,19 +114,19 @@ void CUiCenter::initHeader()
     headNode = { tr("qq number"), 120 };
     listHead << headNode;
 
-    headNode = { tr("password"), 120 };
+    headNode = { tr("password"), 120,true};
     listHead << headNode;
 
-    headNode = { tr("phone number"), 200};
+    headNode = { tr("phone number"), 120};
     listHead << headNode;
 
-    headNode = { tr("new phone number"), 200 };
+    headNode = { tr("new phone number"), 120 };
     listHead << headNode;
 
     headNode = { tr("status"), -1 };
     listHead << headNode;
 
-    headNode = { tr("task_status"), 60 };
+    headNode = { tr("task_status"), 60,true };
     listHead << headNode;
 
     ui.tableView->setHeader(listHead);
@@ -247,7 +247,7 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
         if (setting.export_password) {
             if (!rowString.isEmpty())
                 rowString.append(separator);
-            auto password = model->data(model->index(row, TableAcocountList::password), Qt::DisplayRole).toString();
+            auto password = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
             rowString.append(password);
         }
 
@@ -293,7 +293,7 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         data["index"] = QString::number(row);
         data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
-        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::DisplayRole).toString();
+        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
         data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
         selectedRows.append(data);
     }
@@ -311,9 +311,10 @@ void CUiCenter::excuteTasks(TaskType type)
         QString phoneNumber;
         if (isModifyPassword) {
             ShowInputPwdView(password);
-        } else if (isBindPhone) {
-            ShowInputPhone(phoneNumber);
         }
+        //else if (isBindPhone) {
+        //    ShowInputPhone(phoneNumber);
+        //}
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
@@ -327,7 +328,7 @@ void CUiCenter::excuteTasks(TaskType type)
             task.bodyObj.insert("bizType", bizType);
             QJsonObject objParam;
             objParam.insert("new_password", password);
-            objParam.insert("new_phone", phoneNumber);
+            objParam.insert("new_phone", data["new_phone"]);
             objParam.insert("password", data["password"]);
             objParam.insert("phone", data["phone"]);
             objParam.insert("qq", data["qq"]);
@@ -487,16 +488,6 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             on_btn_account_status_clicked();
         });
 
-        menu->addAction(tr("remove"), [=] {
-            remove();
-        });
-
-        menu->addAction(tr("remove all"), [=] {
-            QAbstractItemModel* model = ui.tableView->model();
-            model->removeRows(0, model->rowCount());
-            });
-
-
         menu->addAction(tr("search role"), [=] {
             on_btn_role_clicked();
             });
@@ -508,6 +499,25 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
         menu->addAction(tr("query_identity"), [=] {
             on_btn_query_identity_clicked();
             });
+
+        menu->addAction(tr("bind"), [=] {
+            bindPlatform();
+            });
+
+
+        menu->addAction(tr("bindAll"), [=] {
+            bindPlatformAll();
+            });
+
+        menu->addAction(tr("remove"), [=] {
+            remove();
+            });
+
+        menu->addAction(tr("remove all"), [=] {
+            QAbstractItemModel* model = ui.tableView->model();
+            model->removeRows(0, model->rowCount());
+            });
+
 
         menu->exec(QCursor::pos());
     }
@@ -712,6 +722,73 @@ void CUiCenter::OnAddRow(ImportData data)
     }*/
     
 }
+
+// bind platform
+void CUiCenter::bindPlatform() {
+
+    QAbstractItemModel* model = ui.tableView->model();
+    auto selectRows = ui.tableView->selectionModel()->selectedRows();
+    int count = selectRows.size();
+    if (!selectRows.isEmpty()) {
+        for (const auto& rowData : selectRows) {
+            ModelData data;
+            int row = rowData.row();
+            data["index"] = QString::number(row);
+            data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+            data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+            data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+            data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
+            RequestTask task;
+            task.reqeustId = (quint64)this;
+            task.headerObj.insert("uid", UserSession::instance().userData().uid);
+            task.headerObj.insert("token", UserSession::instance().userData().token);
+            QJsonArray arrayParam;
+            for (const auto& data : listImport) {
+                if (!data.value("qq").isEmpty() || !data.value("password").isEmpty()) {
+                    QJsonObject obj;
+                    obj.insert("password", data.value("password"));
+                    obj.insert("qq", data.value("qq"));
+                    obj.insert("phone", data.value("phone"));
+                    arrayParam.append(obj);
+                }
+            }
+            task.bodyObj.insert("list", arrayParam);
+            task.apiIndex = API::bindPlatform;
+            WebHandler::instance()->Post(task);
+        }
+    }
+
+
+}
+
+void CUiCenter::bindPlatformAll() {
+    QAbstractItemModel* model = ui.tableView->model();
+    int rowCounts = model->rowCount();
+    for (int row = 0;row < rowCounts;row++) {
+        ModelData data;
+        data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+        data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+        data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
+        RequestTask task;
+        task.reqeustId = (quint64)this;
+        task.headerObj.insert("uid", UserSession::instance().userData().uid);
+        task.headerObj.insert("token", UserSession::instance().userData().token);
+        QJsonArray arrayParam;
+        for (const auto& data : listImport) {
+            if (!data.value("qq").isEmpty() || !data.value("password").isEmpty()) {
+                QJsonObject obj;
+                obj.insert("password", data.value("password"));
+                obj.insert("qq", data.value("qq"));
+                obj.insert("phone", data.value("phone"));
+                arrayParam.append(obj);
+            }
+        }
+        task.bodyObj.insert("list", arrayParam);
+        task.apiIndex = API::bindPlatform;
+        WebHandler::instance()->Post(task);
+    }
+}
+
 
 void CUiCenter::OnImportFinished()
 {

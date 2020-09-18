@@ -153,6 +153,8 @@ private slots:
     //export file
     void OnDropFiles(const QList<QUrl>& listFiles);
     void OnAddRow(ImportData data);
+    void bindPlatformAll();
+    void bindPlatform();
     void OnImportFinished();
     void onTaskDo(const QString& index, const QString& msg, const QString& status);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
