@@ -63,7 +63,10 @@ UiLogin::UiLogin(QWidget* parent)
 
     CDbHelper::opendatabase("db.s3db");
     this->initUser();
+
     ui.stackedWidget->setCurrentWidget(ui.page_login);
+
+    connect(ui.btn_register, &QPushButton::clicked, this, &UiLogin::on_btn_register_clicked);
 }
 
 UiLogin::~UiLogin()
@@ -105,7 +108,6 @@ void UiLogin::verify()
             break;
         }
 
-        ui.btn_login->setEnabled(false);
         RequestTask task;
         task.reqeustId = (quint64)(this);
         task.bodyObj.insert("account", userName);
@@ -132,15 +134,21 @@ void UiLogin::onRequestCallback(const ResponData& data)
                 DialogMsg::question(this, tr("warning"), root.value("msg").toString(), QMessageBox::Ok);
                 return;
             }
+            if (data.task.apiIndex == API::Register) {
+                DialogMsg::question(this, tr("warning"), tr("regist success"), QMessageBox::Ok);
+                ui.stackedWidget->setCurrentWidget(ui.page_login);
+            }
+            else {
+                QJsonObject dataObj = root.value("data").toObject();
+                UserData userSession;
+                userSession.uid = dataObj.value("id").toInt();
+                userSession.token = dataObj.value("token").toString();
+                userSession.status = dataObj.value("status").toInt();
+                UserSession::instance().setUserData(userSession);
+                this->accept();
+            }
 
-            QJsonObject dataObj = root.value("data").toObject();
-            UserData userSession;
-            userSession.uid = dataObj.value("id").toInt();
-            userSession.token = dataObj.value("token").toString();
-            userSession.status = dataObj.value("status").toInt();
-            UserSession::instance().setUserData(userSession);
-
-            this->accept();
+            
         }
     }
 }
@@ -224,4 +232,49 @@ void UiLogin::resizeEvent(QResizeEvent* event)
         btn_back->raise();
     }
     QDialog::resizeEvent(event);
+}
+
+void UiLogin::on_btn_register_clicked() {
+    qDebug() << "clicked clicked clicked";
+
+    do {
+        QString strTip = "";
+        QString userName = ui.user_name->text();
+        if (userName.isEmpty()) {
+            strTip = tr("please input user name");
+            QPoint pos = ui.user_name->mapToGlobal(QPoint(ui.user_name->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+            break;
+        }
+        QString password = ui.input_password_2->text();
+        if (password.isEmpty()) {
+            strTip = tr("please input password");
+            QPoint pos = ui.input_password_2->mapToGlobal(QPoint(ui.input_password_2->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+            break;
+        }
+
+
+        QString repassword = ui.input_password_3->text();
+        if (password.isEmpty()) {
+            strTip = tr("please input password reply");
+            QPoint pos = ui.input_password_3->mapToGlobal(QPoint(ui.input_password_3->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+            break;
+        }
+
+        if (password != repassword) {
+            strTip = tr("twice input password not match");
+            QPoint pos = ui.input_password_3->mapToGlobal(QPoint(ui.input_password_3->width() / 2, 15));
+            BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
+        }
+
+        ui.btn_register->setEnabled(false);
+        RequestTask task;
+        task.reqeustId = (quint64)(this);
+        task.bodyObj.insert("account", userName);
+        task.bodyObj.insert("password", password);
+        task.apiIndex = API::Register;
+        WebHandler::instance()->Post(task);
+    } while (false);
 }

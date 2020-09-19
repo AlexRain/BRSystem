@@ -1,4 +1,4 @@
-#include "BRSystem.h"
+﻿#include "BRSystem.h"
 #include "AboutView.h"
 #include "BubbleTipWidget.h"
 #include "CUiCenter.h"
@@ -170,7 +170,8 @@ void BRSystem::init()
     {
         labelAdds = new QLabel(this);
         labelAdds->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-        labelAdds->setText(TOCH("<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">���λ���̣���ѯqq:123456</span></a></p>"));
+        labelAdds->setText(TOCH("<p><a href=\"www.HL019.com\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">哈喽游戏交易平台.WWW.HL019.COM&nbsp;专业回收DNF&nbsp;魔兽&nbsp;金币&nbsp;材料&nbsp;秒出货秒打款，官方出货群：692812379</span></a></p>"));
+        connect(labelAdds, SIGNAL(clicked()), this, SLOT(openHLWeb()));
         auto widgetBottom = new QFrame(this);
         widgetBottom->setObjectName("frameBottom");
         auto laytoutBottom = new QHBoxLayout(widgetBottom);
@@ -183,6 +184,10 @@ void BRSystem::init()
     this->resize(958, 596);
 }
 
+
+void BRSystem::openHLWeb() {
+    QDesktopServices::openUrl(QUrl(QString("https://www.HL019.com")));
+}
 void BRSystem::createMenus(QMenuBar* menuBar)
 {
     //account
