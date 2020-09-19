@@ -60,8 +60,6 @@ UiLogin::UiLogin(QWidget* parent)
 
     ui.btn_login->setShortcut(QKeySequence(Qt::Key_Return));
     connect(ui.btn_login, &QPushButton::clicked, this, &UiLogin::verify);
-
-    CDbHelper::opendatabase("db.s3db");
     this->initUser();
 
     ui.stackedWidget->setCurrentWidget(ui.page_login);
@@ -137,8 +135,7 @@ void UiLogin::onRequestCallback(const ResponData& data)
             if (data.task.apiIndex == API::Register) {
                 DialogMsg::question(this, tr("warning"), tr("regist success"), QMessageBox::Ok);
                 ui.stackedWidget->setCurrentWidget(ui.page_login);
-            }
-            else {
+            } else {
                 QJsonObject dataObj = root.value("data").toObject();
                 UserData userSession;
                 userSession.uid = dataObj.value("id").toInt();
@@ -147,8 +144,6 @@ void UiLogin::onRequestCallback(const ResponData& data)
                 UserSession::instance().setUserData(userSession);
                 this->accept();
             }
-
-            
         }
     }
 }
@@ -156,6 +151,7 @@ void UiLogin::onRequestCallback(const ResponData& data)
 int UiLogin::fadeIn()
 {
     this->show();
+    this->raise();
 
     /*开启事件循环，同步等待动画完成再启动*/
     QEventLoop eventLoop;
@@ -234,7 +230,8 @@ void UiLogin::resizeEvent(QResizeEvent* event)
     QDialog::resizeEvent(event);
 }
 
-void UiLogin::on_btn_register_clicked() {
+void UiLogin::on_btn_register_clicked()
+{
     qDebug() << "clicked clicked clicked";
 
     do {
@@ -253,7 +250,6 @@ void UiLogin::on_btn_register_clicked() {
             BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
             break;
         }
-
 
         QString repassword = ui.input_password_3->text();
         if (password.isEmpty()) {

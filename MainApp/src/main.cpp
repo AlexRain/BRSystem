@@ -45,11 +45,12 @@ int main(int argc, char* argv[])
     StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
     StyleHelper::loadAppStyle(style.cssFile);
 
+#ifndef _DEBUG
     //check new version
     {
         UpgradeHelper checkHelper;
-        UpgradeHelper::UpgradeResult result;
-        checkHelper.CheckUpgrade(result);
+        checkHelper.CheckUpgrade();
+        auto result = checkHelper.GetCheckResult();
         if (result.needUpdate && result.force_update) {
             int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
             if (code == QMessageBox::Ok) {
@@ -58,6 +59,7 @@ int main(int argc, char* argv[])
             return 0;
         }
     }
+#endif // _DEBUG
 
     /*主界面*/
     int result = 0;
@@ -67,23 +69,19 @@ int main(int argc, char* argv[])
 
         if (QDialog::Accepted != login.fadeIn())
             return 0;
-        
-
 
         BRSystem w;
         logPrinter = &w;
         a.setMainWidget(&w);
         w.show();
         result = a.exec();
-        if (result == 2)
-        {
+        if (result == 2) {
             atexit(relogin);
         }
     } while (result == RESTART_CODE);
 
     return result;
 }
-
 
 //这里启用重新启动一个新的示例
 void relogin()

@@ -14,7 +14,7 @@ UpgradeHelper::~UpgradeHelper()
 {
 }
 
-void UpgradeHelper::CheckUpgrade(UpgradeResult& result)
+void UpgradeHelper::CheckUpgrade()
 {
     QEventLoop eventLoop;
     connect(this, &UpgradeHelper::checkFinished, &eventLoop, &QEventLoop::quit);
@@ -39,19 +39,22 @@ void UpgradeHelper::onRequestCallback(const ResponData& data)
                 QString currentVersion = dataObj.value("current_version").toString();
                 QString localVersion(app_version);
                 checkResult.currentVersion = currentVersion;
-                checkResult.needUpdate = (localVersion < currentVersion);
-                checkResult.force_update = (0 == dataObj.value("is_force").toInt());
+                checkResult.needUpdate = (1 == dataObj.value("is_update").toInt());
+                checkResult.force_update = (1 == dataObj.value("is_force").toInt());
                 checkResult.desc = dataObj.value("desc").toString();
                 checkResult.download_url = dataObj.value("download_url").toString();
-            }
-            else {
+            } else {
                 qWarning("check upgrade failed");
             }
-        }
-        else {
+        } else {
             qWarning("check upgrade failed");
         }
-        checkResult = checkResult;
+        updateResult = checkResult;
         emit checkFinished();
     }
+}
+
+UpgradeHelper::UpgradeResult UpgradeHelper::GetCheckResult()
+{
+    return updateResult;
 }

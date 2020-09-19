@@ -15,7 +15,7 @@
 #define CONFIG_FILE "app.ini"
 #define DAIL_SETTING "yunguo/dail_setting.ini"
 
-static const char* PY_SERVER_EXE = "yunguo/main.exe";
+static const char* PY_SERVER_EXE = "yunguo/hl-py.exe";
 
 static const int RESTART_CODE = 1;
 

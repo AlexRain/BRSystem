@@ -40,7 +40,6 @@ protected:
 
 private slots:
     void onStartPyServerError(QProcess::ProcessError error);
-    void openHLWeb();
 
 private:
     UiFrostedLayer* pLayer;

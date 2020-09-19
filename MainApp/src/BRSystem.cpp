@@ -165,13 +165,15 @@ void BRSystem::init()
     layout->addItem(m_pContentLayout);
     m_pContentLayout->addWidget(centerWidget);
     m_pContentLayout->addWidget(groupLog);
+    m_pContentLayout->setStretchFactor(centerWidget, 8);
+    m_pContentLayout->setStretchFactor(groupLog, 3);
 
     // adds area bottom
     {
         labelAdds = new QLabel(this);
+        labelAdds->setOpenExternalLinks(true);
         labelAdds->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         labelAdds->setText(TOCH("<p><a href=\"www.HL019.com\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \">哈喽游戏交易平台.WWW.HL019.COM&nbsp;专业回收DNF&nbsp;魔兽&nbsp;金币&nbsp;材料&nbsp;秒出货秒打款，官方出货群：692812379</span></a></p>"));
-        connect(labelAdds, SIGNAL(clicked()), this, SLOT(openHLWeb()));
         auto widgetBottom = new QFrame(this);
         widgetBottom->setObjectName("frameBottom");
         auto laytoutBottom = new QHBoxLayout(widgetBottom);
@@ -184,10 +186,6 @@ void BRSystem::init()
     this->resize(958, 596);
 }
 
-
-void BRSystem::openHLWeb() {
-    QDesktopServices::openUrl(QUrl(QString("https://www.HL019.com")));
-}
 void BRSystem::createMenus(QMenuBar* menuBar)
 {
     //account
@@ -206,7 +204,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         accountMenu->addAction(tr("register"), [=]() {});
         accountMenu->addAction(tr("logout"), [=]() {
             qApp->exit(2);
-            });
+        });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("exit"), [=]() {
             qApp->exit(0);
@@ -246,8 +244,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
 void BRSystem::CheckUpgrade()
 {
     UpgradeHelper checkHelper;
-    UpgradeHelper::UpgradeResult result;
-    checkHelper.CheckUpgrade(result);
+    auto result = checkHelper.GetCheckResult();
     if (result.needUpdate) {
         if (result.force_update) {
             int code = DialogMsg::question(this, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
@@ -276,7 +273,6 @@ void BRSystem::resizeEvent(QResizeEvent* event)
     pLayer->move(0, 0);
     QWidget::resizeEvent(event);
 }
-
 
 void BRSystem::onStartPyServerError(QProcess::ProcessError error)
 {

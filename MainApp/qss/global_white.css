@@ -791,4 +791,11 @@ ExportDataView{
     max-height: 200px;
 }
 
+AboutView #label_logo{
+    min-width: 115px;
+    max-width: 115px;
+    min-height: 115px;
+    max-height: 115px;
+}
+
 

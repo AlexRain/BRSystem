@@ -210,6 +210,9 @@ void WebHandler::startNextRequest()
     } else {
         // request time out.
         qDebug("http request url=%s time out!", strUrl.c_str());
+        ResponData dataCallback;
+        dataCallback.task = currentTask.task;
+        emit requestError(dataCallback, NetworkRequestError::TIME_OUT_ERROR);
         disconnect(currentRequest, &QNetworkReply::finished, &loop, &QEventLoop::quit);
         currentRequest->abort();
         currentRequest->close();

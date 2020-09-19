@@ -20,7 +20,8 @@ public:
     UpgradeHelper(QObject* parent = nullptr);
     ~UpgradeHelper();
 
-    void CheckUpgrade(UpgradeResult& result);
+    void CheckUpgrade();
+    UpgradeHelper::UpgradeResult GetCheckResult();
 
 private slots:
     void onRequestCallback(const ResponData&);
@@ -30,5 +31,5 @@ signals:
 
 private:
     bool needUpdate = false;
-    UpgradeResult result;
+    UpgradeResult updateResult;
 };
