@@ -21,8 +21,10 @@ enum class API {
 
     //admin user
     login,
+    Register,
     getToken,
     getProfile,
+    getWalllet,
 
     //phone phone management
     getPhoneList,
@@ -64,6 +66,9 @@ static std::string getApi(API apiType)
     case API::login:
         api = "/admin/login";
         break;
+    case API::Register:
+        api = "/admin/register";
+        break;
     case API::getToken:
         api = "/admin/token";
         break;
@@ -77,6 +82,9 @@ static std::string getApi(API apiType)
         api = "/phone/phones";
         break;
     case API::walletList:
+        api = "/wallet/";
+        break;
+    case API::getWalllet:
         api = "/wallet/";
         break;
     case API::charge:

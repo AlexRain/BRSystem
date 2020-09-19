@@ -39,6 +39,9 @@ CUiCenter::CUiCenter(QWidget* parent)
     ,mSetting(CONFIG_FILE,QSettings::IniFormat)
 {
     ui.setupUi(this);
+
+    this->getUserWallet();
+
     qRegisterMetaType<ImportData>("ImportData");
     qRegisterMetaType<ResponData>("ResponData");
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
@@ -57,6 +60,7 @@ CUiCenter::CUiCenter(QWidget* parent)
         list.append(u);
         this->OnDropFiles(list);
     }
+
 }
 
 CUiCenter::~CUiCenter()
@@ -336,6 +340,7 @@ void CUiCenter::excuteTasks(TaskType type)
             task.apiIndex = API::addTask;
 
             TaskManager::instance()->Post(task);
+            this->getUserWallet();
         }
     }
 }
@@ -531,6 +536,18 @@ void CUiCenter::onRequestCallback(const ResponData& data)
 {
     if (data.task.reqeustId == 0)
         return;
+    if (data.task.apiIndex == API::getWalllet) {
+        QJsonObject dataObj;
+        DataParseResult result;
+        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
+        if (result.errorCode == DataParseResult::NoError) {
+            ui.wallet_label->setText(tr("balance : %1").arg(dataObj.value("balance").toDouble()));
+        }
+        else {
+            onTaskDo(QString::number(data.task.index), result.message, "");
+        }
+        return;
+    }
     if (data.task.reqeustId == (quint64)ui.tableView) {
         PrintLog(QtInfoMsg, tr("fetch list data success!"));
         QJsonObject dataObj;
@@ -551,6 +568,9 @@ void CUiCenter::onRequestCallback(const ResponData& data)
                 ++iter;
             }
             this->setData(listData);
+        }
+        else {
+            onTaskDo(QString::number(data.task.index), result.message, "");
         }
     } else if (data.task.reqeustId == (quint64)this) {
         if (data.task.apiIndex == API::SyncPhone) {
@@ -615,9 +635,25 @@ void CUiCenter::remove()
 //发送短信
 void CUiCenter::on_btn_send_msg_clicked()
 {
+    QString fromPhone = ui.lineEdit_phone->text();
+    if (fromPhone.isEmpty()) {
+        DialogMsg::question(this, tr("tips"), tr("please enter qq account or phone number"), QMessageBox::Ok | QMessageBox::Cancel);
+        return;
+    }
+    QString toPhone = ui.lineEdit_qq_number->text();
+    if (toPhone.isEmpty()) {
+        toPhone = ui.lineEdit_qq_number->placeholderText();
+    }
+
     if (ui.lineEdit_phone->text().isEmpty() && ui.lineEdit_qq_number->text().isEmpty()) {
         DialogMsg::question(this, tr("tips"), tr("please enter qq account or phone number"), QMessageBox::Ok | QMessageBox::Cancel);
         return;
+    }
+    QString content;
+    content = ui.comboBox_template->currentData().toString();
+    QString sms = ui.lineEdit_sms->text();
+    if (!sms.isEmpty()) {
+        content = sms;
     }
 
     RequestTask task;
@@ -627,12 +663,14 @@ void CUiCenter::on_btn_send_msg_clicked()
     int bizType = static_cast<int>(send_short_message);
     task.bodyObj.insert("bizType", bizType);
     QJsonObject objParam;
-    objParam.insert("phone", ui.lineEdit_phone->text());
-    objParam.insert("qq", ui.lineEdit_qq_number->text());
-    objParam.insert("content", ui.comboBox_template->currentData().toString());
+    objParam.insert("phone", fromPhone);
+    objParam.insert("new_phone", toPhone);
+    objParam.insert("content", content);
     task.bodyObj.insert("params", objParam);
     task.apiIndex = API::addTask;
     TaskManager::instance()->Post(task);
+    getUserWallet();
+    
 }
 
 
@@ -690,8 +728,8 @@ void CUiCenter::OnAddRow(ImportData data)
     model["new_phone"] = data.newPhoneNumber;
 
     model["status"] = QString::number((int)AccountStatus::Normal);
-    // 判重
 
+    // 判重
     QAbstractItemModel* tableModel = ui.tableView->model();
     int rowCount = tableModel->rowCount();
     bool isReply = false;
@@ -706,21 +744,6 @@ void CUiCenter::OnAddRow(ImportData data)
         listImport.append(model);
         ui.tableView->addData(model);
     }
-
-
-    /*if (rowCount == 0) {
-
-    }
-    else {
-        for (int row = 0;row < rowCount;row++) {
-            auto qq = tableModel->data(tableModel->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
-            if (qq != data.qq) {
-                listImport.append(model);
-                ui.tableView->addData(model);
-            }
-        }
-    }*/
-    
 }
 
 // bind platform
@@ -849,4 +872,14 @@ void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError e
     if (data.task.reqeustId == (quint64)this) {
         PrintLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
     }
+}
+
+
+void CUiCenter::getUserWallet() {
+    RequestTask task;
+    task.reqeustId = (quint64)this;
+    task.headerObj.insert("uid", UserSession::instance().userData().uid);
+    task.headerObj.insert("token", UserSession::instance().userData().token);
+    task.apiIndex = API::getWalllet;
+    WebHandler::instance()->Get(task);
 }

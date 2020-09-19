@@ -160,6 +160,7 @@ private slots:
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
 
+    void getUserWallet();
 
 private:
     Ui::CUiCenter ui;

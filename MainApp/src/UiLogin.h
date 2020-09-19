@@ -36,6 +36,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event);
     void keyPressEvent(QKeyEvent* event);
     virtual void resizeEvent(QResizeEvent* event) override;
+    void on_btn_register_clicked();
     QSettings userSetting;
 
 private:

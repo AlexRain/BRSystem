@@ -189,172 +189,174 @@
 <context>
     <name>CUiCenter</name>
     <message>
-        <location filename="src/CUiCenter.cpp" line="84"/>
+        <location filename="src/CUiCenter.cpp" line="88"/>
         <source>phone manage</source>
         <translation type="unfinished">Phone Manage</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="90"/>
+        <location filename="src/CUiCenter.cpp" line="94"/>
         <source>phone sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="98"/>
+        <location filename="src/CUiCenter.cpp" line="102"/>
         <source>chang phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="98"/>
+        <location filename="src/CUiCenter.cpp" line="102"/>
         <source>change phone message temp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="99"/>
+        <location filename="src/CUiCenter.cpp" line="103"/>
         <source>safe mode message temp</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="117"/>
+        <location filename="src/CUiCenter.cpp" line="121"/>
         <source>password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="111"/>
+        <location filename="src/CUiCenter.cpp" line="115"/>
         <source>index</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="114"/>
+        <location filename="src/CUiCenter.cpp" line="118"/>
         <source>qq number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="123"/>
+        <location filename="src/CUiCenter.cpp" line="127"/>
         <source>new phone number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="129"/>
+        <location filename="src/CUiCenter.cpp" line="133"/>
         <source>task_status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="273"/>
+        <location filename="src/CUiCenter.cpp" line="277"/>
         <source>phone number list</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="286"/>
+        <location filename="src/CUiCenter.cpp" line="290"/>
         <source>warning</source>
         <translation type="unfinished">Warning</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="286"/>
+        <location filename="src/CUiCenter.cpp" line="290"/>
         <source>please select at least one row</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="375"/>
+        <location filename="src/CUiCenter.cpp" line="380"/>
         <source>parse json error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="398"/>
+        <location filename="src/CUiCenter.cpp" line="403"/>
         <source>unpack safe mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="251"/>
-        <location filename="src/CUiCenter.cpp" line="407"/>
-        <location filename="src/CUiCenter.cpp" line="499"/>
+        <location filename="src/CUiCenter.cpp" line="412"/>
+        <location filename="src/CUiCenter.cpp" line="504"/>
         <source>query_identity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="410"/>
+        <location filename="src/CUiCenter.cpp" line="415"/>
         <source>query_ban</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="244"/>
-        <location filename="src/CUiCenter.cpp" line="413"/>
-        <location filename="src/CUiCenter.cpp" line="495"/>
+        <location filename="src/CUiCenter.cpp" line="418"/>
+        <location filename="src/CUiCenter.cpp" line="500"/>
         <source>query_credit_score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="619"/>
+        <location filename="src/CUiCenter.cpp" line="633"/>
+        <location filename="src/CUiCenter.cpp" line="642"/>
         <source>tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="619"/>
+        <location filename="src/CUiCenter.cpp" line="633"/>
+        <location filename="src/CUiCenter.cpp" line="642"/>
         <source>please enter qq account or phone number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="797"/>
+        <location filename="src/CUiCenter.cpp" line="813"/>
         <source>you have imported %1 pieces of data, bind platform for them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="850"/>
+        <location filename="src/CUiCenter.cpp" line="866"/>
         <source>Network erorr, error code = %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="441"/>
+        <location filename="src/CUiCenter.cpp" line="446"/>
         <source>normal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="99"/>
-        <location filename="src/CUiCenter.cpp" line="444"/>
+        <location filename="src/CUiCenter.cpp" line="103"/>
+        <location filename="src/CUiCenter.cpp" line="449"/>
         <source>safe mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="176"/>
+        <location filename="src/CUiCenter.cpp" line="180"/>
         <source>drop files here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="263"/>
+        <location filename="src/CUiCenter.cpp" line="267"/>
         <source>export success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="447"/>
+        <location filename="src/CUiCenter.cpp" line="452"/>
         <source>account forbidden</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="503"/>
+        <location filename="src/CUiCenter.cpp" line="508"/>
         <source>bind</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="508"/>
+        <location filename="src/CUiCenter.cpp" line="513"/>
         <source>bindAll</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="512"/>
+        <location filename="src/CUiCenter.cpp" line="517"/>
         <source>remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="516"/>
+        <location filename="src/CUiCenter.cpp" line="521"/>
         <source>remove all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="535"/>
+        <location filename="src/CUiCenter.cpp" line="548"/>
         <source>fetch list data success!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="557"/>
+        <location filename="src/CUiCenter.cpp" line="570"/>
         <source>sync phone numbers success!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -370,19 +372,13 @@
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="318"/>
-        <location filename="src/CUiCenter.ui" line="331"/>
-        <location filename="src/CUiCenter.cpp" line="120"/>
+        <location filename="src/CUiCenter.ui" line="339"/>
+        <location filename="src/CUiCenter.cpp" line="124"/>
         <source>phone number</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="348"/>
-        <location filename="src/CUiCenter.ui" line="361"/>
-        <source>qq account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/CUiCenter.ui" line="408"/>
+        <location filename="src/CUiCenter.ui" line="423"/>
         <source>send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -393,53 +389,73 @@
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="180"/>
-        <location filename="src/CUiCenter.cpp" line="395"/>
-        <location filename="src/CUiCenter.cpp" line="479"/>
+        <location filename="src/CUiCenter.cpp" line="400"/>
+        <location filename="src/CUiCenter.cpp" line="484"/>
         <source>modify password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="199"/>
-        <location filename="src/CUiCenter.cpp" line="483"/>
+        <location filename="src/CUiCenter.cpp" line="488"/>
         <source>unsecure mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="270"/>
-        <location filename="src/CUiCenter.cpp" line="487"/>
+        <location filename="src/CUiCenter.cpp" line="492"/>
         <source>search account status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="218"/>
-        <location filename="src/CUiCenter.cpp" line="404"/>
-        <location filename="src/CUiCenter.cpp" line="491"/>
+        <location filename="src/CUiCenter.cpp" line="409"/>
+        <location filename="src/CUiCenter.cpp" line="496"/>
         <source>search role</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/CUiCenter.ui" line="237"/>
-        <location filename="src/CUiCenter.cpp" line="401"/>
+        <location filename="src/CUiCenter.cpp" line="406"/>
         <source>bind phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="378"/>
+        <location filename="src/CUiCenter.ui" line="354"/>
+        <source>to phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="373"/>
+        <source>1069070069</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="390"/>
         <source>message template</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="126"/>
+        <location filename="src/CUiCenter.ui" line="451"/>
+        <source>wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="130"/>
         <source>status</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="797"/>
+        <location filename="src/CUiCenter.cpp" line="544"/>
+        <source>balance : %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.cpp" line="813"/>
         <source>question</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="77"/>
+        <location filename="src/CUiCenter.cpp" line="81"/>
         <source>export</source>
         <translation></translation>
     </message>
@@ -500,6 +516,29 @@
         <location filename="src/ExportDataView.cpp" line="7"/>
         <source>export setting</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Form</name>
+    <message>
+        <location filename="src/UiRegister.ui" line="14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/UiRegister.ui" line="44"/>
+        <source>login password</source>
+        <translation type="unfinished">Password:</translation>
+    </message>
+    <message>
+        <location filename="src/UiRegister.ui" line="51"/>
+        <source>user name</source>
+        <translation type="unfinished">User Name:</translation>
+    </message>
+    <message>
+        <location filename="src/UiRegister.ui" line="77"/>
+        <source>register</source>
+        <translation type="unfinished">Register</translation>
     </message>
 </context>
 <context>
@@ -816,25 +855,43 @@
         <translation>Or</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="95"/>
+        <location filename="src/UiLogin.cpp" line="98"/>
+        <location filename="src/UiLogin.cpp" line="244"/>
         <source>please input user name</source>
         <translation>Please input user name</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="102"/>
+        <location filename="src/UiLogin.cpp" line="105"/>
+        <location filename="src/UiLogin.cpp" line="251"/>
         <source>please input password</source>
         <translation>Please input password</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="132"/>
-        <location filename="src/UiLogin.cpp" line="178"/>
+        <location filename="src/UiLogin.cpp" line="134"/>
+        <location filename="src/UiLogin.cpp" line="138"/>
+        <location filename="src/UiLogin.cpp" line="186"/>
         <source>warning</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="178"/>
+        <location filename="src/UiLogin.cpp" line="138"/>
+        <source>regist success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/UiLogin.cpp" line="186"/>
         <source>network error occured</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="src/UiLogin.cpp" line="260"/>
+        <source>please input password reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/UiLogin.cpp" line="267"/>
+        <source>twice input password not match</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="src/UiLogin.ui" line="199"/>

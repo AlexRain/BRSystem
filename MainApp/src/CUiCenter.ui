@@ -319,23 +319,29 @@
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_phone">
-               <property name="minimumSize">
-                <size>
-                 <width>120</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="placeholderText">
-                <string>phone number</string>
-               </property>
-               <property name="clearButtonEnabled">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_phone">
+             <property name="minimumSize">
+              <size>
+               <width>60</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>120</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="placeholderText">
+              <string>phone number</string>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -345,7 +351,7 @@
              <item>
               <widget class="QLabel" name="label_qq_number">
                <property name="text">
-                <string>qq account</string>
+                <string>to phone</string>
                </property>
               </widget>
              </item>
@@ -353,12 +359,18 @@
               <widget class="QLineEdit" name="lineEdit_qq_number">
                <property name="minimumSize">
                 <size>
-                 <width>120</width>
+                 <width>0</width>
                  <height>0</height>
                 </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
+                 <height>16777215</height>
+                </size>
+               </property>
                <property name="placeholderText">
-                <string>qq account</string>
+                <string>1069070069</string>
                </property>
                <property name="clearButtonEnabled">
                 <bool>true</bool>
@@ -383,6 +395,9 @@
               <widget class="QComboBox" name="comboBox_template"/>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_sms"/>
            </item>
            <item>
             <widget class="QPushButton" name="btn_send_msg">
@@ -418,11 +433,24 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>459</width>
+             <width>40</width>
              <height>20</height>
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="wallet_label">
+           <property name="minimumSize">
+            <size>
+             <width>146</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>wallet</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
