@@ -330,3 +330,15 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 MainApp/GeneratedFiles/qrc_MainApp.cpp
+/Win32/release_x86
+/Win32
+/CommonGui/release_x86
+/CommonGui/new_release
+/CommonUse/new_release
+/CommonUse/release_x86
+/DataBase/new_release
+/DataBase/release_x86
+/MainApp/new_release
+/MainApp/release_x86
+/Network/new_release
+/Network/release_x86
