@@ -154,7 +154,8 @@ void TaskManager::requestFinished(QNetworkReply* reply)
             qPrintable(reply->errorString()));
         //return failed signal
        QString taskIndex = QString::number(currentTask.task.index);
-       emit taskGoing(QString::number(currentTask.task.index), reply->errorString(), "");
+       emit taskGoing(QString::number(currentTask.task.index), qPrintable(reply->errorString()), "");
+       qDebug() << "is failed" << reply;
         emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -286,7 +287,7 @@ void TaskManager::startNextRequest()
     showLoadTimer.start();
     loop.exec();
     qInfo() << "do task";
-    emit taskGoing(QString::number(currentTask.task.index),tr("task is going"),tr("done"));
+    emit taskGoing(QString::number(currentTask.task.index), QStringLiteral("任务执行中"),tr("done"));
     qDebug() << "do task 2";
     if (requestTimeOut.isActive()) {
         requestTimeOut.stop();
@@ -321,7 +322,7 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
         qDebug("http request url=%s failed, error info=%s",
             reply->url().toEncoded().constData(),
             qPrintable(reply->errorString()));
-        emit taskGoing(taskId, reply->errorString(), "");
+        emit taskGoing(taskIndex, QStringLiteral("服务器连接失败，请稍后..."), "");
         emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -330,7 +331,7 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
             dataCallback.dataReturned = data;
             emit requestCallback(dataCallback,taskId);
         } else {
-            emit taskGoing(taskId,tr("network error"), "");
+            emit taskGoing(taskIndex,QStringLiteral("服务器错误"), "");
             emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }
     }

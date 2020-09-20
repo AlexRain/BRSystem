@@ -862,6 +862,10 @@ void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& tas
         if (result.errorCode == DataParseResult::NoError) {
             parseLocalTaskData(dataObj, data.task.index, taskId);
         }
+        else {
+            qDebug() << result.message;
+            onTaskDo(QString::number(data.task.index), result.message,"");
+        }
     }
 }
 

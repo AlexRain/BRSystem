@@ -129,12 +129,19 @@ void UiLogin::onRequestCallback(const ResponData& data)
         if (root.contains("code")) {
             int code = root.value("code").toInt();
             if (code != 0) {
+                if (data.task.apiIndex == API::Register) {
+                    ui.btn_register->setEnabled(true);
+                }
+                else {
+                    ui.btn_login->setEnabled(true);
+                }
+
                 DialogMsg::question(this, tr("warning"), root.value("msg").toString(), QMessageBox::Ok);
                 return;
             }
             if (data.task.apiIndex == API::Register) {
                 DialogMsg::question(this, tr("warning"), tr("regist success"), QMessageBox::Ok);
-                ui.stackedWidget->setCurrentWidget(ui.page_login);
+                ui.btn_register->setEnabled(true);
             } else {
                 QJsonObject dataObj = root.value("data").toObject();
                 UserData userSession;
@@ -177,7 +184,11 @@ void UiLogin::onLinkActived(const QString& link)
 
 void UiLogin::onRequestError(const ResponData& data, NetworkRequestError errorType)
 {
-    if (data.task.reqeustId == (quint64)this) {
+    if (data.task.apiIndex == API::Register) {
+        ui.btn_register->setEnabled(true);
+        DialogMsg::question(this, tr("warning"), tr("network error occured"), QMessageBox::Ok);
+        return;
+    }else if (data.task.reqeustId == (quint64)this) {
         ui.btn_login->setEnabled(true);
         DialogMsg::question(this, tr("warning"), tr("network error occured"), QMessageBox::Ok);
         return;
