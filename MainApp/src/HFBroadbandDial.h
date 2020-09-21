@@ -17,5 +17,4 @@ private slots:
 
 private:
     Ui::HFBroadbandDial ui;
-    QSettings mSetting;
 };

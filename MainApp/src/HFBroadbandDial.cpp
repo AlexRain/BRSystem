@@ -4,7 +4,6 @@
 
 HFBroadbandDial::HFBroadbandDial(QWidget* parent)
     : BaseWidget(parent)
-    , mSetting(DAIL_SETTING, QSettings::IniFormat)
 {
     ui.setupUi(this);
 }
@@ -29,10 +28,11 @@ void HFBroadbandDial::on_btn_save_clicked()
         int result = DialogMsg::question(this, tr("tips"), tr("time can not be zero"), QMessageBox::Ok);
         return;
     }
-    mSetting.setValue("username", ui.lineEdit_account->text());
-    mSetting.setValue("password", ui.lineEdit_password->text());
-    mSetting.setValue("redail", ui.spinBox_tasks->value());
-    mSetting.setValue("switch", ui.comboBox_switch->currentIndex());
+    QSettings setting(GetAppDataLocation() + QDir::separator() + DAIL_SETTING, QSettings::IniFormat);
+    setting.setValue("username", ui.lineEdit_account->text());
+    setting.setValue("password", ui.lineEdit_password->text());
+    setting.setValue("redail", ui.spinBox_tasks->value());
+    setting.setValue("switch", ui.comboBox_switch->currentIndex());
     int result = DialogMsg::question(this, tr("tips"), tr("Setting will be apply after restart, restart now?"), QMessageBox::Ok | QMessageBox::Cancel);
     if (result == QMessageBox::Ok) {
         qApp->exit(RESTART_CODE);

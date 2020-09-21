@@ -35,24 +35,22 @@ QList<HeadStruct> listHead;
 #define ENABLE_DRAG_FILE
 
 CUiCenter::CUiCenter(QWidget* parent)
-    : BaseWidget(parent)
-    ,mSetting(CONFIG_FILE,QSettings::IniFormat)
+    : QWidget(parent)
 {
     ui.setupUi(this);
-
-    this->getUserWallet();
-
     qRegisterMetaType<ImportData>("ImportData");
     qRegisterMetaType<ResponData>("ResponData");
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
-    TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&, const QString &)));
+    TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&, const QString&)));
     TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const QString&, const QString&, const QString&)));
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
+    this->getUserWallet();
     this->initUi();
     this->initData();
 
     //get last export file
-    QString lastExportFile = mSetting.value(LAST_FILE_PATH).toString();
+    QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
+    QString lastExportFile = setting.value(LAST_FILE_PATH).toString();
     if (lastExportFile != "") {
         QUrl u(lastExportFile);
         qDebug() << "readUrl is ：" << u;
@@ -60,7 +58,6 @@ CUiCenter::CUiCenter(QWidget* parent)
         list.append(u);
         this->OnDropFiles(list);
     }
-
 }
 
 CUiCenter::~CUiCenter()
@@ -111,17 +108,17 @@ void CUiCenter::initHeader()
     listHead << headNode;
 
     //headNode = { tr("password"), -1, true };
-    
+
     headNode = { tr("index"), 30 };
     listHead << headNode;
 
     headNode = { tr("qq number"), 120 };
     listHead << headNode;
 
-    headNode = { tr("password"), 120,true};
+    headNode = { tr("password"), 120, true };
     listHead << headNode;
 
-    headNode = { tr("phone number"), 120};
+    headNode = { tr("phone number"), 120 };
     listHead << headNode;
 
     headNode = { tr("new phone number"), 120 };
@@ -130,7 +127,7 @@ void CUiCenter::initHeader()
     headNode = { tr("status"), -1 };
     listHead << headNode;
 
-    headNode = { tr("task_status"), 60,true };
+    headNode = { tr("task_status"), 60, true };
     listHead << headNode;
 
     ui.tableView->setHeader(listHead);
@@ -155,7 +152,7 @@ void CUiCenter::initData()
 void CUiCenter::initTableView()
 {
     this->initHeader();
-    
+
     ui.tableView->setCreatRowCallbackListener(this);
 
     ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -181,7 +178,6 @@ void CUiCenter::initTableView()
     updateButtonState(0);
 
     // get last file
-   
 }
 
 void CUiCenter::setData(const QList<ModelData>& vModel)
@@ -229,7 +225,7 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
     QString fileName = dialog.selectedFiles()[0];
 
     QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly| QIODevice::Text)) {
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         file.close();
         return;
     }
@@ -322,7 +318,7 @@ void CUiCenter::excuteTasks(TaskType type)
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
-          
+
             //修改状态为执行中
             RequestTask task;
             task.reqeustId = (quint64)this;
@@ -428,8 +424,7 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
     QList<QStandardItem*> item;
     item.append(new QStandardItem(model["id"]));
 
-
-    item.append(new QStandardItem(QString::number(index+1)));
+    item.append(new QStandardItem(QString::number(index + 1)));
     item.append(new QStandardItem(model["qq"]));
     {
         auto itemPassword = new QStandardItem;
@@ -495,34 +490,32 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
 
         menu->addAction(tr("search role"), [=] {
             on_btn_role_clicked();
-            });
+        });
 
         menu->addAction(tr("query_credit_score"), [=] {
             on_btn_query_score_clicked();
-            });
+        });
 
         menu->addAction(tr("query_identity"), [=] {
             on_btn_query_identity_clicked();
-            });
+        });
 
         menu->addAction(tr("bind"), [=] {
             bindPlatform();
-            });
-
+        });
 
         menu->addAction(tr("bindAll"), [=] {
             bindPlatformAll();
-            });
+        });
 
         menu->addAction(tr("remove"), [=] {
             remove();
-            });
+        });
 
         menu->addAction(tr("remove all"), [=] {
             QAbstractItemModel* model = ui.tableView->model();
             model->removeRows(0, model->rowCount());
-            });
-
+        });
 
         menu->exec(QCursor::pos());
     }
@@ -542,8 +535,7 @@ void CUiCenter::onRequestCallback(const ResponData& data)
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
         if (result.errorCode == DataParseResult::NoError) {
             ui.wallet_label->setText(tr("balance : %1").arg(dataObj.value("balance").toDouble()));
-        }
-        else {
+        } else {
             onTaskDo(QString::number(data.task.index), result.message, "");
         }
         return;
@@ -568,8 +560,7 @@ void CUiCenter::onRequestCallback(const ResponData& data)
                 ++iter;
             }
             this->setData(listData);
-        }
-        else {
+        } else {
             onTaskDo(QString::number(data.task.index), result.message, "");
         }
     } else if (data.task.reqeustId == (quint64)this) {
@@ -611,12 +602,12 @@ void CUiCenter::on_btn_query_identity_clicked()
 }
 
 void CUiCenter::remove()
-{   
+{
     QAbstractItemModel* model = ui.tableView->model();
     QItemSelectionModel* selections = ui.tableView->selectionModel();
     QModelIndexList selected = selections->selectedIndexes();
     QMap<int, int> rows;
-    foreach(QModelIndex index, selected)
+    foreach (QModelIndex index, selected)
         rows.insert(index.row(), 0);
     QMapIterator<int, int> r(rows);
     r.toBack();
@@ -625,11 +616,10 @@ void CUiCenter::remove()
         model->removeRow(r.key());
     }
     // 对行号进行重新排序
-     int rowCount = model->rowCount();
-     for (int i = 0; i < rowCount; i++)
-     {
-         model->setData(model->index(i,TableAcocountList::index), i+1);
-     }
+    int rowCount = model->rowCount();
+    for (int i = 0; i < rowCount; i++) {
+        model->setData(model->index(i, TableAcocountList::index), i + 1);
+    }
 }
 
 //发送短信
@@ -670,9 +660,7 @@ void CUiCenter::on_btn_send_msg_clicked()
     task.apiIndex = API::addTask;
     TaskManager::instance()->Post(task);
     getUserWallet();
-    
 }
-
 
 void CUiCenter::on_btn_sync_phone_clicked()
 {
@@ -698,9 +686,10 @@ void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
         taskImport.moveToThread(&threadImport);
         threadImport.start();
     }
+    QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
     for (auto url : listFiles) {
         qDebug() << "url is " << url.toDisplayString();
-        mSetting.setValue(LAST_FILE_PATH, url.toDisplayString());
+        setting.setValue(LAST_FILE_PATH, url.toDisplayString());
         taskImport.AddTask(url.toLocalFile());
     }
 }
@@ -714,7 +703,6 @@ void CUiCenter::OnAddRow(ImportData data)
         data.phoneNumber = "";
     }
     model["phone"] = data.phoneNumber;
-
 
     if (data.password.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
         data.password = "";
@@ -733,21 +721,22 @@ void CUiCenter::OnAddRow(ImportData data)
     QAbstractItemModel* tableModel = ui.tableView->model();
     int rowCount = tableModel->rowCount();
     bool isReply = false;
-    for (int row = 0;row < rowCount;row++) {
+    for (int row = 0; row < rowCount; row++) {
         QString qq = tableModel->data(tableModel->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         if (qq == model["qq"]) {
             isReply = true;
             break;
         }
     }
-    if (!isReply){
+    if (!isReply) {
         listImport.append(model);
         ui.tableView->addData(model);
     }
 }
 
 // bind platform
-void CUiCenter::bindPlatform() {
+void CUiCenter::bindPlatform()
+{
 
     QAbstractItemModel* model = ui.tableView->model();
     auto selectRows = ui.tableView->selectionModel()->selectedRows();
@@ -780,14 +769,13 @@ void CUiCenter::bindPlatform() {
             WebHandler::instance()->Post(task);
         }
     }
-
-
 }
 
-void CUiCenter::bindPlatformAll() {
+void CUiCenter::bindPlatformAll()
+{
     QAbstractItemModel* model = ui.tableView->model();
     int rowCounts = model->rowCount();
-    for (int row = 0;row < rowCounts;row++) {
+    for (int row = 0; row < rowCounts; row++) {
         ModelData data;
         data["qq"] = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
         data["phone"] = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
@@ -811,7 +799,6 @@ void CUiCenter::bindPlatformAll() {
         WebHandler::instance()->Post(task);
     }
 }
-
 
 void CUiCenter::OnImportFinished()
 {
@@ -839,17 +826,15 @@ void CUiCenter::OnImportFinished()
     }
 }
 
-
-void CUiCenter::onTaskDo(const QString& index,const QString& msg,const QString& status)
+void CUiCenter::onTaskDo(const QString& index, const QString& msg, const QString& status)
 {
     qDebug() << "index :" << index;
     qDebug() << "msg :" << msg;
     qDebug() << "status :" << status;
     QAbstractItemModel* model = ui.tableView->selectionModel()->model();
     model->setData(model->index(index.toInt(), TableAcocountList::status), msg);
-    model->setData(model->index(index.toInt(), TableAcocountList::task_status),status);
+    model->setData(model->index(index.toInt(), TableAcocountList::task_status), status);
 }
-
 
 void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
 {
@@ -861,10 +846,9 @@ void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& tas
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
         if (result.errorCode == DataParseResult::NoError) {
             parseLocalTaskData(dataObj, data.task.index, taskId);
-        }
-        else {
+        } else {
             qDebug() << result.message;
-            onTaskDo(QString::number(data.task.index), result.message,"");
+            onTaskDo(QString::number(data.task.index), result.message, "");
         }
     }
 }
@@ -878,8 +862,8 @@ void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError e
     }
 }
 
-
-void CUiCenter::getUserWallet() {
+void CUiCenter::getUserWallet()
+{
     RequestTask task;
     task.reqeustId = (quint64)this;
     task.headerObj.insert("uid", UserSession::instance().userData().uid);

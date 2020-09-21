@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     CApplication a(argc, argv);
     gstrFilePath = QCoreApplication::applicationFilePath();
     a.setWindowIcon(QIcon("images/app.ico"));
-    a.setApplicationName(QObject::tr("feng he network"));
+    a.setApplicationName(QObject::tr("HelloGame"));
 
     QTranslator translator_zh_CN;
     translator_zh_CN.load(":/translation/lang_zh.qm");
@@ -63,22 +63,23 @@ int main(int argc, char* argv[])
 
     /*主界面*/
     int result = 0;
-    do {
-        /*登录界面*/
-        UiLogin login;
+    /*登录界面*/
+    UiLogin login;
 
-        if (QDialog::Accepted != login.fadeIn())
-            return 0;
+    if (QDialog::Accepted != login.fadeIn())
+        return 0;
 
+    {
         BRSystem w;
         logPrinter = &w;
         a.setMainWidget(&w);
         w.show();
         result = a.exec();
-        if (result == 2) {
+        if (RESTART_CODE == result) {
             atexit(relogin);
+            return 0;
         }
-    } while (result == RESTART_CODE);
+    }
 
     return result;
 }

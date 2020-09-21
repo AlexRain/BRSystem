@@ -153,6 +153,7 @@ void CTableview::initHeader()
     }
 
     Q_ASSERT(m_pModel);
+    m_pModel->clear();
     m_pModel->setHorizontalHeaderLabels(list);
     for (int i = 0; i < m_headList.size(); ++i) {
         const HeadStruct& head = m_headList.at(i);

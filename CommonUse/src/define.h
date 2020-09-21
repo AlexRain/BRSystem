@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QDate>
+#include <QDir>
 #include <QFile>
 #include <QLabel>
 #include <QPainter>
@@ -10,9 +11,11 @@
 #include <QSize>
 #include <QStyle>
 #include <QWidget>
+#include <QStandardPaths>
 
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
+#define USER_CONFIG_FILE "user.ini"
 #define DAIL_SETTING "yunguo/dail_setting.ini"
 
 static const char* PY_SERVER_EXE = "yunguo/hl-py.exe";
@@ -103,6 +106,15 @@ static void initAppStyle()
     qApp->setStyleSheet("");
 }
 };
+
+static QString GetAppDataLocation() {
+    QString strPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    QDir dir(strPath);
+    if (!dir.exists()) {
+        dir.mkpath(strPath);
+    }
+    return strPath;
+}
 
 namespace UiHelper {
 static QLabel* createSplitter(QWidget* parent)

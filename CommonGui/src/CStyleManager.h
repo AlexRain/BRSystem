@@ -40,7 +40,6 @@ public:
 private:
 	QMap<StyleType, StyleStruct> mapStyles;
 	StyleType mCurrentStyle;
-	QSettings mSetting;
 
 };
 

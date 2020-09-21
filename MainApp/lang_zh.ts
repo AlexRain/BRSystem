@@ -14,7 +14,7 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="src/AboutView.cpp" line="11"/>
+        <location filename="src/AboutView.cpp" line="12"/>
         <source>current version:</source>
         <translation>当前版本：</translation>
     </message>
@@ -22,8 +22,12 @@
 <context>
     <name>BRSystem</name>
     <message>
-        <location filename="src/BRSystem.cpp" line="29"/>
         <source>feng he network</source>
+        <translation type="vanished">哈喽游戏</translation>
+    </message>
+    <message>
+        <location filename="src/BRSystem.cpp" line="29"/>
+        <source>HelloGame</source>
         <translation>哈喽游戏</translation>
     </message>
     <message>
@@ -97,7 +101,7 @@
         <translation>换皮肤</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="280"/>
+        <location filename="src/BRSystem.cpp" line="279"/>
         <source>start py server failed</source>
         <translation>进程启动失败</translation>
     </message>
@@ -324,7 +328,7 @@
         <translation>你已成功导入%1条数据，是否绑定平台？</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="873"/>
+        <location filename="src/CUiCenter.cpp" line="877"/>
         <source>Network erorr, error code = %1</source>
         <translation>网络错误，错误代码=%1</translation>
     </message>
@@ -862,19 +866,23 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="src/main.cpp" line="39"/>
         <source>feng he network</source>
-        <translation>风禾网络</translation>
+        <translation type="vanished">风禾网络</translation>
     </message>
     <message>
-        <location filename="src/main.cpp" line="54"/>
-        <location filename="src/BRSystem.cpp" line="251"/>
+        <location filename="src/main.cpp" line="39"/>
+        <source>HelloGame</source>
+        <translation>哈喽游戏</translation>
+    </message>
+    <message>
+        <location filename="src/main.cpp" line="55"/>
+        <location filename="src/BRSystem.cpp" line="250"/>
         <source>question</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="src/main.cpp" line="54"/>
-        <location filename="src/BRSystem.cpp" line="251"/>
+        <location filename="src/main.cpp" line="55"/>
+        <location filename="src/BRSystem.cpp" line="250"/>
         <source>find a new version, please up to date.</source>
         <translation>发现新版本，请更新后使用。</translation>
     </message>
@@ -887,12 +895,12 @@
         <translation type="vanished">浅色</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="258"/>
+        <location filename="src/BRSystem.cpp" line="257"/>
         <source>tips</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="258"/>
+        <location filename="src/BRSystem.cpp" line="257"/>
         <source>your application is up to date</source>
         <translation>已经是最新版本</translation>
     </message>
@@ -943,41 +951,43 @@
         <translation>或</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="98"/>
-        <location filename="src/UiLogin.cpp" line="242"/>
+        <location filename="src/UiLogin.cpp" line="96"/>
+        <location filename="src/UiLogin.cpp" line="252"/>
         <source>please input user name</source>
         <translation>请输入用户名用户</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="105"/>
-        <location filename="src/UiLogin.cpp" line="249"/>
+        <location filename="src/UiLogin.cpp" line="103"/>
+        <location filename="src/UiLogin.cpp" line="259"/>
         <source>please input password</source>
         <translation>请输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="134"/>
-        <location filename="src/UiLogin.cpp" line="138"/>
-        <location filename="src/UiLogin.cpp" line="183"/>
+        <location filename="src/UiLogin.cpp" line="139"/>
+        <location filename="src/UiLogin.cpp" line="143"/>
+        <location filename="src/UiLogin.cpp" line="189"/>
+        <location filename="src/UiLogin.cpp" line="193"/>
         <source>warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="138"/>
+        <location filename="src/UiLogin.cpp" line="143"/>
         <source>regist success</source>
         <translation>注册成功</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="183"/>
+        <location filename="src/UiLogin.cpp" line="189"/>
+        <location filename="src/UiLogin.cpp" line="193"/>
         <source>network error occured</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="257"/>
+        <location filename="src/UiLogin.cpp" line="267"/>
         <source>please input password reply</source>
         <translation>请再次输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="264"/>
+        <location filename="src/UiLogin.cpp" line="274"/>
         <source>twice input password not match</source>
         <translation>两次输入的密码不一致</translation>
     </message>

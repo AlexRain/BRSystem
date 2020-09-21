@@ -1,7 +1,6 @@
 #include "CStyleManager.h"
 
 CStyleManager::CStyleManager()
-    : mSetting(CONFIG_FILE, QSettings::IniFormat)
 {
     StyleStruct styleDark = {
         Dark,
@@ -23,8 +22,8 @@ CStyleManager::CStyleManager()
         QString("qss/global_orange.css"),
         QColor("#ffaa00")
     };*/
-
-    mCurrentStyle = (StyleType)mSetting.value("CONFIG/skinType", (int)StyleType::Dark).toInt();
+    QSettings setting(GetAppDataLocation() + QDir::separator() +  CONFIG_FILE, QSettings::IniFormat);
+    mCurrentStyle = (StyleType)setting.value("CONFIG/skinType", (int)StyleType::Dark).toInt();
     mStyles << std::make_pair(styleDark.type, styleDark)
             << std::make_pair(styleWhite.type, styleWhite) /*<< std::make_pair(styleYellow.type, styleYellow)*/;
 
@@ -51,7 +50,8 @@ StyleStruct CStyleManager::getDefaultStyle()
 void CStyleManager::setCurrentStyle(const StyleType& style)
 {
     mCurrentStyle = style;
-    mSetting.setValue("CONFIG/skinType", (int)style);
+    QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
+    setting.setValue("CONFIG/skinType", (int)style);
 }
 
 const StyleType& CStyleManager::getCurrentStyleType()

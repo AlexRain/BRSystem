@@ -76,12 +76,12 @@ public:
     }
 };
 
-class CUiCenter : public BaseWidget, CTableview::SetDataCallback {
+class CUiCenter : public QWidget, CTableview::SetDataCallback {
     Q_OBJECT
 
 public:
     CUiCenter(QWidget* parent = Q_NULLPTR);
-    ~CUiCenter();
+    virtual ~CUiCenter();
 
     void PrintLog(QtMsgType type, const QString& text);
 
@@ -144,6 +144,5 @@ private:
     QThread threadImport;
     int importCount = 0;
     ModeDataList listImport;
-    QSettings mSetting;
     QSet<QString> accountSet;
 };

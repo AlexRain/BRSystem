@@ -11,6 +11,8 @@
 #include "UiChangeSkin.h"
 #include "UiFrostedLayer.h"
 #include "UpgradeHelper.h"
+#include "Windows.h"
+#include "tlhelp32.h"
 #include <QBitmap>
 #include <QDebug>
 #include <QDesktopServices>
@@ -19,6 +21,40 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
+int KillProcess(const wchar_t* processName)
+{
+    PROCESSENTRY32 pe;
+    DWORD id = 0;
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    if (!Process32First(hSnapshot, &pe)) {
+        return 0;
+    }
+
+    while (1) {
+        pe.dwSize = sizeof(PROCESSENTRY32);
+        if (Process32Next(hSnapshot, &pe) == FALSE) {
+            break;
+        }
+        //find processName
+        if (wcsicmp(pe.szExeFile, processName) == 0) {
+            id = pe.th32ProcessID;
+            break;
+        }
+    }
+    CloseHandle(hSnapshot);
+    //if(id == 0)
+    //  return ;
+
+    //Kill The Process
+    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, id);
+    if (hProcess != NULL) {
+        TerminateProcess(hProcess, 0);
+        CloseHandle(hProcess);
+    }
+    return 1;
+}
+
 BRSystem::BRSystem(QWidget* parent)
     : QWidget(parent)
     , m_pContentLayout(nullptr)
@@ -26,7 +62,7 @@ BRSystem::BRSystem(QWidget* parent)
 {
     qRegisterMetaType<ResponData>("ResponData");
     this->init();
-    this->setWindowTitle(tr("feng he network"));
+    this->setWindowTitle(tr("HelloGame"));
     pLayer = new UiFrostedLayer(this);
     pLayer->hide();
     startLocalPyServer();
@@ -34,9 +70,7 @@ BRSystem::BRSystem(QWidget* parent)
 
 BRSystem::~BRSystem()
 {
-    if (process) {
-        process->kill();
-    }
+    KillProcess(L"hl-py.exe");
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -203,7 +237,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         });
         accountMenu->addAction(tr("register"), [=]() {});
         accountMenu->addAction(tr("logout"), [=]() {
-            qApp->exit(2);
+            qApp->exit(RESTART_CODE);
         });
         accountMenu->addSeparator();
         accountMenu->addAction(tr("exit"), [=]() {
