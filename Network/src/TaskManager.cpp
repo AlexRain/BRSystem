@@ -20,7 +20,7 @@ TaskManager::~TaskManager()
 bool TaskManager::bindTaskGoing(const QObject* receiver, const char* method)
 {
     return QObject::connect(TaskManager::instance(),
-        SIGNAL(taskGoing(const QString&, const QString&, const QString&)),
+        SIGNAL(taskGoing(const int, const QString, const int,const int)),
         receiver,
         method,
         Qt::QueuedConnection);
@@ -154,7 +154,7 @@ void TaskManager::requestFinished(QNetworkReply* reply)
             qPrintable(reply->errorString()));
         //return failed signal
        QString taskIndex = QString::number(currentTask.task.index);
-       emit taskGoing(QString::number(currentTask.task.index), qPrintable(reply->errorString()), "");
+       emit taskGoing(currentTask.task.index, qPrintable(reply->errorString()),TaskStatus::Error,currentTask.task.bizType);
        qDebug() << "is failed" << reply;
         emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
@@ -213,11 +213,11 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                     }
                 }
             } else {
-                emit taskGoing(QString::number(currentTask.task.index), result.message, "");
+                //emit taskGoing(currentTask.task.index, result.message, TaskStatus::Error, currentTask.task.bizType);
                 emit requestError(dataCallback, NetworkRequestError::Status_Error, result.message);
             }
         } else {
-            emit taskGoing(QString::number(currentTask.task.index), tr("network error"), "");
+            //emit taskGoing(QString::number(currentTask.task.index), tr("network error"), "");
             emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }
     }
@@ -287,7 +287,7 @@ void TaskManager::startNextRequest()
     showLoadTimer.start();
     loop.exec();
     qInfo() << "do task";
-    emit taskGoing(QString::number(currentTask.task.index), QStringLiteral("任务执行中"),tr("done"));
+    emit taskGoing(currentTask.task.index, QStringLiteral("任务执行中"),TaskStatus::Doing,currentTask.task.bizType);
     qDebug() << "do task 2";
     if (requestTimeOut.isActive()) {
         requestTimeOut.stop();
@@ -315,14 +315,14 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
     ResponData dataCallback;
     dataCallback.task = currentTask.task;
     //return failed signal
-    QString taskIndex = QString::number(currentTask.task.index);
+    int taskIndex = currentTask.task.index;
     if (reply->error()) {
         // request failed
         qDebug() << "network error:" << reply->error();
         qDebug("http request url=%s failed, error info=%s",
             reply->url().toEncoded().constData(),
             qPrintable(reply->errorString()));
-        emit taskGoing(taskIndex, QStringLiteral("服务器连接失败，请稍后..."), "");
+        emit taskGoing(taskIndex, QStringLiteral("服务器连接失败，请稍后..."), TaskStatus::Error,currentTask.task.bizType);
         emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
     } else {
         int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
@@ -331,7 +331,7 @@ void TaskManager::localRequestFinished(QNetworkReply* reply, const QString& task
             dataCallback.dataReturned = data;
             emit requestCallback(dataCallback,taskId);
         } else {
-            emit taskGoing(taskIndex,QStringLiteral("服务器错误"), "");
+            emit taskGoing(taskIndex,QStringLiteral("服务器错误"), TaskStatus::Error, currentTask.task.bizType);
             emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
         }
     }

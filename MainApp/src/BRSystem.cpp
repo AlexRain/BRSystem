@@ -248,13 +248,16 @@ void BRSystem::createMenus(QMenuBar* menuBar)
     //import
     {
         auto accountMenu = menuBar->addMenu(tr("import export bind"));
-        accountMenu->addAction(tr("import"), [=]() {});
+        //accountMenu->addAction(tr("import"), [=]() {});
+        accountMenu->addAction(tr("import last file"), [=] 
+            {
+                emit doImportLastFile();
+            });
     }
 
     //setting
     {
         auto accountMenu = menuBar->addMenu(tr("settings"));
-        accountMenu->addAction(tr("change ip"), [=]() {});
         accountMenu->addAction(tr("pppoe"), [=]() {
             HFBroadbandDial* pppoeView = new HFBroadbandDial(this);
             PopupDialogContainer::showPopupDialogFadeIn(pppoeView, CApp->getMainWidget(), tr("pppoe"));

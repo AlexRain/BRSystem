@@ -6,6 +6,8 @@
 #include <QThread>
 #include <QtCore>
 #include <QtNetwork>
+
+
 //task type
 enum TaskType {
     change_password = 1,
@@ -16,6 +18,15 @@ enum TaskType {
     query_ban,
     query_credit_score,
     send_short_message
+};
+
+enum TaskStatus {
+    Wait = 1,
+    Doing,
+    Stop,
+    None,
+    Error,
+    Success
 };
 
 class NETWORK_EXPORT TaskManager : public QObject {
@@ -45,7 +56,7 @@ signals:
     void requestCallback(const ResponData& data, const QString &taskId);
     void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
-    void taskGoing(const QString&, const QString&, const QString&);
+    void taskGoing(const int, const QString, const int, const int);
 
 private slots:
     void startNextRequest();

@@ -98,7 +98,6 @@ private:
     void updateButtonState(int selectedCount);
     void exportList();
     void doExport(ExportDataView::ExportSetting setting);
-
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
     bool GetCurrentData(QList<ModelData>& selectedRows);
@@ -108,6 +107,8 @@ private:
     void parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId);
     void setListRowData(int rowIndex, int column, const QVariant& data);
     QString getTaskTypeString(TaskType type);
+
+    QString getTaskStatusString(TaskStatus taskStatus);
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
@@ -132,10 +133,10 @@ private slots:
     void bindPlatformAll();
     void bindPlatform();
     void OnImportFinished();
-    void onTaskDo(const QString& index, const QString& msg, const QString& status);
+    void onTaskDo(const int index, const QString msg, const int status, const int bizType);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
-
+    void importLastFile();
     void getUserWallet();
 
 private:
@@ -145,4 +146,5 @@ private:
     int importCount = 0;
     ModeDataList listImport;
     QSet<QString> accountSet;
+    QMenu* menu;
 };

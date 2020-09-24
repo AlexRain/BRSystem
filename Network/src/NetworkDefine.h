@@ -122,6 +122,7 @@ struct RequestTask {
     QJsonObject headerObj;
     QJsonObject bodyObj;
     int index;
+    int bizType;
 };
 
 Q_DECLARE_METATYPE(RequestTask)

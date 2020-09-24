@@ -34,30 +34,26 @@ static const char* LAST_FILE_PATH = "last_file_path";
 QList<HeadStruct> listHead;
 #define ENABLE_DRAG_FILE
 
+bool canRemoveAll = true;
+bool canRemove = true;
+bool btnEnabled = true;
+
 CUiCenter::CUiCenter(QWidget* parent)
     : QWidget(parent)
 {
+
     ui.setupUi(this);
     qRegisterMetaType<ImportData>("ImportData");
     qRegisterMetaType<ResponData>("ResponData");
+
+    connect(parent, SIGNAL(doImportLastFile()), this, SLOT(importLastFile()));
     WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
     TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&, const QString&)));
-    TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const QString&, const QString&, const QString&)));
+    TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const int, const QString, const int, const int)));
     TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
     this->getUserWallet();
     this->initUi();
     this->initData();
-
-    //get last export file
-    QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
-    QString lastExportFile = setting.value(LAST_FILE_PATH).toString();
-    if (lastExportFile != "") {
-        QUrl u(lastExportFile);
-        qDebug() << "readUrl is ：" << u;
-        QList<QUrl> list;
-        list.append(u);
-        this->OnDropFiles(list);
-    }
 }
 
 CUiCenter::~CUiCenter()
@@ -66,6 +62,7 @@ CUiCenter::~CUiCenter()
     threadImport.wait();
 }
 
+//初始化ui
 void CUiCenter::initUi()
 {
     this->initTableView();
@@ -92,7 +89,6 @@ void CUiCenter::initUi()
 
     ui.layout_left_button->addWidget(btn_phone_manage);
     ui.layout_left_button->addWidget(btn_sync);
-
     ui.layout_buttons->addWidget(btn_export);
 
     //消息模板
@@ -101,13 +97,12 @@ void CUiCenter::initUi()
     ui.comboBox_template->setCurrentIndex(0);
 }
 
+
 //初始化表头
 void CUiCenter::initHeader()
 {
     HeadStruct headNode = { "id", -1, true };
     listHead << headNode;
-
-    //headNode = { tr("password"), -1, true };
 
     headNode = { tr("index"), 30 };
     listHead << headNode;
@@ -124,15 +119,79 @@ void CUiCenter::initHeader()
     headNode = { tr("new phone number"), 120 };
     listHead << headNode;
 
-    headNode = { tr("status"), -1 };
+    headNode = { tr("task_status"), 60 };
     listHead << headNode;
 
-    headNode = { tr("task_status"), 60, true };
+    headNode = { tr("bizType"), 60 };
     listHead << headNode;
+    
+    headNode = { tr("status") };
+    listHead << headNode;
+
+
 
     ui.tableView->setHeader(listHead);
 }
 
+
+QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
+{
+    QList<QStandardItem*> item;
+    item.append(new QStandardItem(model["id"]));
+
+    item.append(new QStandardItem(QString::number(index + 1)));
+    item.append(new QStandardItem(model["qq"]));
+
+    {
+        auto itemPassword = new QStandardItem;
+        itemPassword->setData(model["password"], Qt::UserRole);
+        item.append(itemPassword);
+    }
+
+    item.append(new QStandardItem(model["phone"]));
+
+    item.append(new QStandardItem(model["new_phone"]));
+
+
+    auto taskStatus = (TaskStatus)model["task_status"].toInt();
+    {
+        auto itemStatus = new QStandardItem;
+        itemStatus->setData(taskStatus, Qt::DisplayRole);
+        itemStatus->setData(getTaskStatusString(taskStatus), Qt::ToolTipRole);
+        item.append(itemStatus);
+    }
+
+
+    auto bizType = (TaskType)model["bizType"].toInt();
+    {
+        auto itemStatus = new QStandardItem;
+        itemStatus->setData(bizType, Qt::DisplayRole);
+        itemStatus->setData(getTaskTypeString(bizType), Qt::ToolTipRole);
+        item.append(itemStatus);
+    }
+
+
+    {
+        auto itemStatus = new QStandardItem;
+        itemStatus->setData(model["status"], Qt::DisplayRole);
+        itemStatus->setData(model["status"], Qt::ToolTipRole);
+        item.append(itemStatus);
+    }
+
+
+    item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(6)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+    item.at(7)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+
+    return item;
+}
+
+//初始化数据
 void CUiCenter::initData()
 {
 #ifdef ENABLE_DRAG_FILE
@@ -156,21 +215,30 @@ void CUiCenter::initTableView()
     ui.tableView->setCreatRowCallbackListener(this);
 
     ui.tableView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    //右键菜单
     connect(ui.tableView, SIGNAL(customContextMenuRequested(const QPoint&)),
         this, SLOT(slotContextMenu(const QPoint&)));
+
+    //双击
     connect(ui.tableView, SIGNAL(doubleClicked(const QModelIndex&)),
         this, SLOT(slotTableViewDoubleClicked(const QModelIndex&)));
+
+    //选中事件
     connect(ui.tableView, &CTableview::selectionRowChanged, [=](int selectedCount) {
         this->updateButtonState(selectedCount);
     });
 
+    //拖拽文件
     connect(ui.tableView, &CTableview::dropFiles, this, &CUiCenter::OnDropFiles);
 
-    connect(ui.tableView, &CTableview::currentIndexChanged, [=](const QModelIndex& current, const QModelIndex& previous) {
+    //
+    connect(ui.tableView, &CTableview::currentIndexChanged, [=](const QModelIndex& current, const QModelIndex& previous) {});
 
-    });
-
+    //添加纪录
     connect(&taskImport, &ThreadImport::addRow, this, &CUiCenter::OnAddRow, Qt::QueuedConnection);
+    
+    //导入任务完成
     connect(&taskImport, &ThreadImport::taskFinished, this, &CUiCenter::OnImportFinished, Qt::QueuedConnection);
 
     ui.tableView->setItemDelegate(new ReadOnlyDelegateBRTable(this));
@@ -180,6 +248,7 @@ void CUiCenter::initTableView()
     // get last file
 }
 
+//设置表格数据
 void CUiCenter::setData(const QList<ModelData>& vModel)
 {
     uint nLen = vModel.size();
@@ -190,10 +259,18 @@ void CUiCenter::doExport(QList<ModelData>& vModel)
 {
 }
 
+//操作按钮状态
 void CUiCenter::updateButtonState(int selectedCount)
 {
-    bool enabled = (selectedCount > 0);
-    ui.groupBox_btn->setEnabled(enabled);
+    btnEnabled = (selectedCount > 0);
+    qDebug() << " btn " << btnEnabled;
+    //判断是否有进行中的任务
+    if (btnEnabled) {
+        ModeDataList dataList;
+        GetCurrentData(dataList);
+    }
+    qDebug() << "res btn " << btnEnabled;
+    ui.groupBox_btn->setEnabled(btnEnabled);
 }
 
 void CUiCenter::exportList()
@@ -237,12 +314,6 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
             auto qq = model->data(model->index(row, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
             rowString.append(qq);
         }
-        if (setting.export_phone) {
-            if (!rowString.isEmpty())
-                rowString.append(separator);
-            auto phone = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
-            rowString.append(phone);
-        }
 
         if (setting.export_password) {
             if (!rowString.isEmpty())
@@ -250,6 +321,14 @@ void CUiCenter::doExport(ExportDataView::ExportSetting setting)
             auto password = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
             rowString.append(password);
         }
+
+        if (setting.export_phone) {
+            if (!rowString.isEmpty())
+                rowString.append(separator);
+            auto phone = model->data(model->index(row, TableAcocountList::phoneNumber), Qt::DisplayRole).toString();
+            rowString.append(phone);
+        }
+
 
         if (setting.export_role) {
             if (!rowString.isEmpty())
@@ -273,11 +352,14 @@ void CUiCenter::openPhoneNumberList()
     PopupDialogContainer::showSecondPopupFadeIn(content, CApp->getMainWidget(), tr("phone number list"));
 }
 
+//日志
 void CUiCenter::PrintLog(QtMsgType type, const QString& text)
 {
     qobject_cast<BRSystem*>(CApp->getMainWidget())->printLog(type, text);
 }
 
+
+//当前选中的数据列表
 bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
 {
     auto selectRows = ui.tableView->selectionModel()->selectedRows();
@@ -296,10 +378,17 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         data["password"] = model->data(model->index(row, TableAcocountList::password), Qt::UserRole).toString();
         data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
         selectedRows.append(data);
+        int taskStatus = model->data(model->index(row, TableAcocountList::task_status), Qt::DisplayRole).toInt();
+        qDebug() << "btn status" << taskStatus << " is :" << (taskStatus < TaskStatus::None);
+        if (taskStatus < TaskStatus::None) {
+            canRemove = false;
+            btnEnabled = false;
+        }
     }
     return true;
 }
 
+//添加任务进队
 void CUiCenter::excuteTasks(TaskType type)
 {
     ModeDataList dataList;
@@ -316,16 +405,19 @@ void CUiCenter::excuteTasks(TaskType type)
         //    ShowInputPhone(phoneNumber);
         //}
 
+        //禁用按钮
+        //ui.groupBox_btn->setEnabled(false);
+
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
-
-            //修改状态为执行中
             RequestTask task;
             task.reqeustId = (quint64)this;
+            task.bizType = bizType;
             task.index = data["index"].toInt();
             task.headerObj.insert("uid", UserSession::instance().userData().uid);
             task.headerObj.insert("token", UserSession::instance().userData().token);
             task.bodyObj.insert("bizType", bizType);
+            
             QJsonObject objParam;
             objParam.insert("new_password", password);
             objParam.insert("new_phone", data["new_phone"]);
@@ -335,8 +427,9 @@ void CUiCenter::excuteTasks(TaskType type)
             task.bodyObj.insert("params", objParam);
             task.apiIndex = API::addTask;
 
-            TaskManager::instance()->Post(task);
-            this->getUserWallet();
+            //修改状态为等待执行中
+            onTaskDo(task.index, QString::fromLocal8Bit("等待执行"), TaskStatus::Wait, task.bizType);
+            TaskManager::instance()->Post(task);   
         }
     }
 }
@@ -361,6 +454,7 @@ bool CUiCenter::ShowInputPhone(QString& phone)
     return false;
 }
 
+//返回数据回显
 void CUiCenter::parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId)
 {
     if (dataObj.contains("bizType")) {
@@ -368,16 +462,20 @@ void CUiCenter::parseLocalTaskData(const QJsonObject& dataObj, int index, const 
         qInfo("task excute success, task type=%d, task id=%s", type, taskId.toUtf8().constData());
         if (dataObj.contains("show")) {
             QString strShow = dataObj.value("show").toString();
-            setListRowData(index, TableAcocountList::status, strShow);
+            //任务执行成功回显
+            onTaskDo(index, strShow, TaskStatus::Success, type);
             auto taskType = static_cast<TaskType>(type);
             QString strType = getTaskTypeString(taskType);
+            //打印日志
             PrintLog(QtInfoMsg, "task:" + QString("[%1]").arg(strType) + strShow);
         } else {
+            onTaskDo(index, tr("parse json error"), TaskStatus::Error, type);
             PrintLog(QtWarningMsg, tr("parse json error"));
         }
     }
 }
 
+//修改表格数据
 void CUiCenter::setListRowData(int rowIndex, int column, const QVariant& data)
 {
     QAbstractItemModel* model = ui.tableView->model();
@@ -388,92 +486,14 @@ void CUiCenter::setListRowData(int rowIndex, int column, const QVariant& data)
     }
 }
 
-QString CUiCenter::getTaskTypeString(TaskType taskType)
-{
-    QString taskTypeString;
-    switch (taskType) {
-    case change_password:
-        taskTypeString = tr("modify password");
-        break;
-    case unpack_safe_mode:
-        taskTypeString = tr("unpack safe mode");
-        break;
-    case bind_mobile:
-        taskTypeString = tr("bind phone");
-        break;
-    case query_role:
-        taskTypeString = tr("search role");
-        break;
-    case query_identity:
-        taskTypeString = tr("query_identity");
-        break;
-    case query_ban:
-        taskTypeString = tr("query_ban");
-        break;
-    case query_credit_score:
-        taskTypeString = tr("query_credit_score");
-        break;
-    default:
-        break;
-    }
-    return taskTypeString;
-}
-
-QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
-{
-    QList<QStandardItem*> item;
-    item.append(new QStandardItem(model["id"]));
-
-    item.append(new QStandardItem(QString::number(index + 1)));
-    item.append(new QStandardItem(model["qq"]));
-    {
-        auto itemPassword = new QStandardItem;
-        itemPassword->setData(model["password"], Qt::DisplayRole);
-        item.append(itemPassword);
-    }
-    item.append(new QStandardItem(model["phone"]));
-    item.append(new QStandardItem(model["new_phone"]));
-
-    QString strStatus;
-    auto status = (AccountStatus)model["status"].toInt();
-    switch (status) {
-    case AccountStatus::Normal:
-        strStatus = tr("normal");
-        break;
-    case AccountStatus::SafeMode:
-        strStatus = tr("safe mode");
-        break;
-    case AccountStatus::Forbidden:
-        strStatus = tr("account forbidden");
-        break;
-    default:
-        break;
-    }
-
-    {
-        auto itemPassword = new QStandardItem;
-        itemPassword->setData(strStatus, Qt::DisplayRole);
-        itemPassword->setData(strStatus, Qt::ToolTipRole);
-        item.append(itemPassword);
-    }
-
-    item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(1)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(2)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(3)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(4)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    item.at(5)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-
-    return item;
-}
 
 //右键菜单
 void CUiCenter::slotContextMenu(const QPoint& pos)
 {
+
     QModelIndex index = ui.tableView->indexAt(pos);
     if (index.isValid()) {
-        QMenu* menu = new QMenu(ui.tableView);
-
+         menu = new QMenu(ui.tableView);
         QAbstractItemModel* model = ui.tableView->model();
         QModelIndex curentIndex = ui.tableView->currentIndex();
         menu->addAction(tr("modify password"), [=] {
@@ -504,21 +524,25 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
             bindPlatform();
         });
 
+
         menu->addAction(tr("bindAll"), [=] {
             bindPlatformAll();
         });
+
 
         menu->addAction(tr("remove"), [=] {
             remove();
         });
 
-        menu->addAction(tr("remove all"), [=] {
-            QAbstractItemModel* model = ui.tableView->model();
-            model->removeRows(0, model->rowCount());
-        });
-
+        if (canRemoveAll) {
+            menu->addAction(tr("remove all"), [=] {
+                QAbstractItemModel* model = ui.tableView->model();
+                model->removeRows(0, model->rowCount());
+                });
+        }
         menu->exec(QCursor::pos());
     }
+
 }
 
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
@@ -527,6 +551,7 @@ void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
 
 void CUiCenter::onRequestCallback(const ResponData& data)
 {
+    ui.groupBox_btn->setEnabled(true);
     if (data.task.reqeustId == 0)
         return;
     if (data.task.apiIndex == API::getWalllet) {
@@ -535,18 +560,17 @@ void CUiCenter::onRequestCallback(const ResponData& data)
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
         if (result.errorCode == DataParseResult::NoError) {
             ui.wallet_label->setText(tr("balance : %1").arg(dataObj.value("balance").toDouble()));
-        } else {
-            onTaskDo(QString::number(data.task.index), result.message, "");
-        }
+        } 
         return;
     }
+
     if (data.task.reqeustId == (quint64)ui.tableView) {
         PrintLog(QtInfoMsg, tr("fetch list data success!"));
         QJsonObject dataObj;
         DataParseResult result;
         WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
         if (result.errorCode == DataParseResult::NoError) {
-            QJsonArray array = dataObj.value("list").toArray();
+   /*         QJsonArray array = dataObj.value("list").toArray();
             auto iter = array.constBegin();
             QList<ModelData> listData;
             while (iter != array.constEnd()) {
@@ -559,9 +583,9 @@ void CUiCenter::onRequestCallback(const ResponData& data)
                 listData.append(itemData);
                 ++iter;
             }
-            this->setData(listData);
+            this->setData(listData);*/
         } else {
-            onTaskDo(QString::number(data.task.index), result.message, "");
+            onTaskDo(data.task.index, result.message, TaskStatus::Error,data.task.bizType);
         }
     } else if (data.task.reqeustId == (quint64)this) {
         if (data.task.apiIndex == API::SyncPhone) {
@@ -601,6 +625,7 @@ void CUiCenter::on_btn_query_identity_clicked()
     excuteTasks(query_identity);
 }
 
+//移除
 void CUiCenter::remove()
 {
     QAbstractItemModel* model = ui.tableView->model();
@@ -678,9 +703,24 @@ void CUiCenter::on_btn_bind_phone_clicked()
     excuteTasks(bind_mobile);
 }
 
+
+//导入上次的文件
+void CUiCenter::importLastFile() {
+    QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
+    QString lastExportFile = setting.value(LAST_FILE_PATH).toString();
+    if (lastExportFile != "") {
+        QUrl u(lastExportFile);
+        qDebug() << "readUrl is ：" << u;
+        QList<QUrl> list;
+        list.append(u);
+        this->OnDropFiles(list);
+    }
+}
+
+//拖拽槽
 void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
 {
-    importCount = 0;
+
     listImport.clear();
     if (!threadImport.isRunning()) {
         taskImport.moveToThread(&threadImport);
@@ -691,9 +731,13 @@ void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
         qDebug() << "url is " << url.toDisplayString();
         setting.setValue(LAST_FILE_PATH, url.toDisplayString());
         taskImport.AddTask(url.toLocalFile());
+        canRemoveAll = false;
     }
+
+
 }
 
+//添加数据
 void CUiCenter::OnAddRow(ImportData data)
 {
     importCount++;
@@ -715,8 +759,11 @@ void CUiCenter::OnAddRow(ImportData data)
     }
     model["new_phone"] = data.newPhoneNumber;
 
-    model["status"] = QString::number((int)AccountStatus::Normal);
+    model["status"] = "";
 
+    model["task_status"] = QString::number(TaskStatus::None);
+
+    qDebug()<<"model is " << model;
     // 判重
     QAbstractItemModel* tableModel = ui.tableView->model();
     int rowCount = tableModel->rowCount();
@@ -733,6 +780,89 @@ void CUiCenter::OnAddRow(ImportData data)
         ui.tableView->addData(model);
     }
 }
+
+//导入完成
+void CUiCenter::OnImportFinished()
+{
+    canRemoveAll = true;
+    if (listImport.isEmpty())
+        return;
+    int result = DialogMsg::question(this, tr("question"), tr("you have imported %1 pieces of data, bind platform for them?").arg(listImport.size()), QMessageBox::Ok | QMessageBox::Cancel);
+    if (result == QMessageBox::Ok) {
+        RequestTask task;
+        task.reqeustId = (quint64)this;
+        task.headerObj.insert("uid", UserSession::instance().userData().uid);
+        task.headerObj.insert("token", UserSession::instance().userData().token);
+        QJsonArray arrayParam;
+        for (const auto& data : listImport) {
+            if (!data.value("qq").isEmpty() || !data.value("password").isEmpty()) {
+                QJsonObject obj;
+                obj.insert("password", data.value("password"));
+                obj.insert("qq", data.value("qq"));
+                obj.insert("phone", data.value("phone"));
+                arrayParam.append(obj);
+            }
+        }
+        task.bodyObj.insert("list", arrayParam);
+        task.apiIndex = API::bindPlatform;
+        WebHandler::instance()->Post(task);
+    }
+}
+
+//修改任务状态
+void CUiCenter::onTaskDo(const int index, const QString msg, const int status,const int  bizType=-1)
+{
+    setListRowData(index, TableAcocountList::status, msg);
+    setListRowData(index, TableAcocountList::task_status, status);
+    if (bizType == -1) {
+        return;
+    }
+    setListRowData(index, TableAcocountList::bizType, bizType);
+}
+
+//任务执行成功
+void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
+{
+    ui.groupBox_btn->setEnabled(true);
+
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)this) {
+        QJsonObject dataObj;
+        DataParseResult result;
+        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
+        if (result.errorCode == DataParseResult::NoError) {
+            parseLocalTaskData(dataObj, data.task.index, taskId);
+        } else {
+            qDebug() << result.message;
+            onTaskDo(data.task.index, result.message, TaskStatus::Error, data.task.bizType);
+        }
+    }
+}
+
+//任务执行错误
+void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString)
+{
+    ui.groupBox_btn->setEnabled(true);
+    if (data.task.reqeustId == 0)
+        return;
+    if (data.task.reqeustId == (quint64)this) {
+        PrintLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
+    }
+}
+
+//获取余额
+void CUiCenter::getUserWallet()
+{
+    RequestTask task;
+    task.reqeustId = (quint64)this;
+    task.headerObj.insert("uid", UserSession::instance().userData().uid);
+    task.headerObj.insert("token", UserSession::instance().userData().token);
+    task.apiIndex = API::getWalllet;
+    WebHandler::instance()->Get(task);
+}
+
+
 
 // bind platform
 void CUiCenter::bindPlatform()
@@ -800,74 +930,55 @@ void CUiCenter::bindPlatformAll()
     }
 }
 
-void CUiCenter::OnImportFinished()
+
+//任务类型
+QString CUiCenter::getTaskTypeString(TaskType taskType)
 {
-    if (listImport.isEmpty())
-        return;
-    int result = DialogMsg::question(this, tr("question"), tr("you have imported %1 pieces of data, bind platform for them?").arg(listImport.size()), QMessageBox::Ok | QMessageBox::Cancel);
-    if (result == QMessageBox::Ok) {
-        RequestTask task;
-        task.reqeustId = (quint64)this;
-        task.headerObj.insert("uid", UserSession::instance().userData().uid);
-        task.headerObj.insert("token", UserSession::instance().userData().token);
-        QJsonArray arrayParam;
-        for (const auto& data : listImport) {
-            if (!data.value("qq").isEmpty() || !data.value("password").isEmpty()) {
-                QJsonObject obj;
-                obj.insert("password", data.value("password"));
-                obj.insert("qq", data.value("qq"));
-                obj.insert("phone", data.value("phone"));
-                arrayParam.append(obj);
-            }
-        }
-        task.bodyObj.insert("list", arrayParam);
-        task.apiIndex = API::bindPlatform;
-        WebHandler::instance()->Post(task);
+    QString taskTypeString;
+    switch (taskType) {
+    case change_password:
+        taskTypeString = tr("modify password");
+        break;
+    case unpack_safe_mode:
+        taskTypeString = tr("unpack safe mode");
+        break;
+    case bind_mobile:
+        taskTypeString = tr("bind phone");
+        break;
+    case query_role:
+        taskTypeString = tr("search role");
+        break;
+    case query_identity:
+        taskTypeString = tr("query_identity");
+        break;
+    case query_ban:
+        taskTypeString = tr("query_ban");
+        break;
+    case query_credit_score:
+        taskTypeString = tr("query_credit_score");
+        break;
+    default:
+        break;
     }
+    return taskTypeString;
 }
 
-void CUiCenter::onTaskDo(const QString& index, const QString& msg, const QString& status)
+//任务状态
+QString CUiCenter::getTaskStatusString(TaskStatus taskStatus)
 {
-    qDebug() << "index :" << index;
-    qDebug() << "msg :" << msg;
-    qDebug() << "status :" << status;
-    QAbstractItemModel* model = ui.tableView->selectionModel()->model();
-    model->setData(model->index(index.toInt(), TableAcocountList::status), msg);
-    model->setData(model->index(index.toInt(), TableAcocountList::task_status), status);
-}
-
-void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
-{
-    if (data.task.reqeustId == 0)
-        return;
-    if (data.task.reqeustId == (quint64)this) {
-        QJsonObject dataObj;
-        DataParseResult result;
-        WebHandler::ParseJsonData(data.dataReturned, dataObj, &result);
-        if (result.errorCode == DataParseResult::NoError) {
-            parseLocalTaskData(dataObj, data.task.index, taskId);
-        } else {
-            qDebug() << result.message;
-            onTaskDo(QString::number(data.task.index), result.message, "");
-        }
+    switch (taskStatus) {
+    case Wait:
+        return tr("task Wait");
+    case Doing:
+        return tr("task Doing");
+    case Stop:
+        return tr("task Stop");
+    case Error:
+        return tr("task Error");
+    case Success:
+        return tr("task Success");
+        break;
+    default:
+        return "";
     }
-}
-
-void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString)
-{
-    if (data.task.reqeustId == 0)
-        return;
-    if (data.task.reqeustId == (quint64)this) {
-        PrintLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
-    }
-}
-
-void CUiCenter::getUserWallet()
-{
-    RequestTask task;
-    task.reqeustId = (quint64)this;
-    task.headerObj.insert("uid", UserSession::instance().userData().uid);
-    task.headerObj.insert("token", UserSession::instance().userData().token);
-    task.apiIndex = API::getWalllet;
-    WebHandler::instance()->Get(task);
 }

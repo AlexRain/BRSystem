@@ -38,6 +38,9 @@ protected:
     virtual void resizeEvent(QResizeEvent* event) override;
     //virtual void closeEvent(QCloseEvent* event) override;
 
+signals:
+    void doImportLastFile();
+
 private slots:
     void onStartPyServerError(QProcess::ProcessError error);
 

@@ -8,10 +8,10 @@ class ExportDataView : public BaseDialog {
 
 public:
     struct ExportSetting {
-        bool export_account = false;
-        bool export_phone = false;
-        bool export_password = false;
-        bool export_role = false;
+        bool export_account = true;
+        bool export_phone = true;
+        bool export_password = true;
+        bool export_role = true;
     };
 
 public:
