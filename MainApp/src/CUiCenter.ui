@@ -177,12 +177,12 @@
                </size>
               </property>
               <property name="text">
-               <string>modify password</string>
+               <string>modify_pwd</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_unsecure">
+             <widget class="QPushButton" name="btn_release_safe_model">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -196,7 +196,7 @@
                </size>
               </property>
               <property name="text">
-               <string>unsecure mode</string>
+               <string>release_safe_mode</string>
               </property>
              </widget>
             </item>
@@ -215,7 +215,7 @@
                </size>
               </property>
               <property name="text">
-               <string>search role</string>
+               <string>query_role</string>
               </property>
              </widget>
             </item>
@@ -234,14 +234,14 @@
                </size>
               </property>
               <property name="text">
-               <string>bind phone</string>
+               <string>bind_phone</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="btn_query_score">
               <property name="text">
-               <string>query_credit_score</string>
+               <string>query_score</string>
               </property>
              </widget>
             </item>
@@ -253,7 +253,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="btn_account_status">
+             <widget class="QPushButton" name="btn_query_ban">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -267,7 +267,7 @@
                </size>
               </property>
               <property name="text">
-               <string>search account status</string>
+               <string>query_ban</string>
               </property>
              </widget>
             </item>

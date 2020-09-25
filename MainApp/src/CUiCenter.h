@@ -110,6 +110,9 @@ private:
 
     QString getTaskStatusString(TaskStatus taskStatus);
 
+    void addTableMenuActionSolt(QMenu* menu, QString text, const char* method, bool disabled=false);
+
+
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
 
@@ -118,11 +121,12 @@ private slots:
     void slotTableViewDoubleClicked(const QModelIndex& index);
     void onRequestCallback(const ResponData&);
     void on_bt_modify_pwd_clicked();
-    void on_btn_unsecure_clicked();
-    void on_btn_account_status_clicked();
+    void on_btn_release_safe_model_clicked();
+    void on_btn_query_ban_clicked();
     void on_btn_role_clicked();
     void on_btn_query_score_clicked();
     void on_btn_query_identity_clicked();
+    void removeAll();
     void remove();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();

@@ -345,6 +345,16 @@ QPlainTextEdit:disabled {
     color: #9b9b9b;
 }
 
+QMenu::item:disabled {
+    color: #888888;
+}
+
+
+QMenu:disabled
+{
+    background:#888888;
+    background-color:#888888;
+}
 /**********下拉列表**********/
 QComboBox {
         min-height: 25px;

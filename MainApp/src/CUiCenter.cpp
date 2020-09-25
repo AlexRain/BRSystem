@@ -369,6 +369,8 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         return false;
     }
     QAbstractItemModel* model = ui.tableView->model();
+    canRemove = true;
+    canRemoveAll = true;
     for (const auto& rowData : selectRows) {
         ModelData data;
         int row = rowData.row();
@@ -382,6 +384,7 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         qDebug() << "btn status" << taskStatus << " is :" << (taskStatus < TaskStatus::None);
         if (taskStatus < TaskStatus::None) {
             canRemove = false;
+            canRemoveAll = false;
             btnEnabled = false;
         }
     }
@@ -406,7 +409,7 @@ void CUiCenter::excuteTasks(TaskType type)
         //}
 
         //禁用按钮
-        //ui.groupBox_btn->setEnabled(false);
+        ui.groupBox_btn->setEnabled(false);
 
         qInfo("=========start excute tasks,total count is %d, task type is %d=========", dataList.size(), bizType);
         for (const auto& data : dataList) {
@@ -493,57 +496,39 @@ void CUiCenter::slotContextMenu(const QPoint& pos)
 
     QModelIndex index = ui.tableView->indexAt(pos);
     if (index.isValid()) {
+        ModeDataList dataList;
+        GetCurrentData(dataList);
+
          menu = new QMenu(ui.tableView);
         QAbstractItemModel* model = ui.tableView->model();
         QModelIndex curentIndex = ui.tableView->currentIndex();
-        menu->addAction(tr("modify password"), [=] {
-            on_bt_modify_pwd_clicked();
-        });
 
-        menu->addAction(tr("unsecure mode"), [=] {
-            on_btn_unsecure_clicked();
-        });
-
-        menu->addAction(tr("search account status"), [=] {
-            on_btn_account_status_clicked();
-        });
-
-        menu->addAction(tr("search role"), [=] {
-            on_btn_role_clicked();
-        });
-
-        menu->addAction(tr("query_credit_score"), [=] {
-            on_btn_query_score_clicked();
-        });
-
-        menu->addAction(tr("query_identity"), [=] {
-            on_btn_query_identity_clicked();
-        });
-
-        menu->addAction(tr("bind"), [=] {
-            bindPlatform();
-        });
-
-
-        menu->addAction(tr("bindAll"), [=] {
-            bindPlatformAll();
-        });
-
-
-        menu->addAction(tr("remove"), [=] {
-            remove();
-        });
-
-        if (canRemoveAll) {
-            menu->addAction(tr("remove all"), [=] {
-                QAbstractItemModel* model = ui.tableView->model();
-                model->removeRows(0, model->rowCount());
-                });
-        }
+   
+        addTableMenuActionSolt(menu, tr("reset"), SLOT(on_btn_query_ban_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("pasue"), SLOT(on_btn_query_ban_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("modify_pwd"), SLOT(on_bt_modify_pwd_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("release_safe_mode"), SLOT(on_btn_release_safe_model_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("query_ban"), SLOT(on_btn_query_ban_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("query_role"), SLOT(on_btn_role_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("query_score"), SLOT(on_btn_query_score_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("query_identity"), SLOT(on_btn_query_identity_clicked()), !canRemove);
+        addTableMenuActionSolt(menu, tr("bind"), SLOT(bindPlatform()));
+        addTableMenuActionSolt(menu, tr("bindAll"), SLOT(bindPlatformAll()));
+        addTableMenuActionSolt(menu, tr("remove"), SLOT(remove()),!canRemove);
+        addTableMenuActionSolt(menu, tr("removeAll"), SLOT(removeAll()),!canRemoveAll);
         menu->exec(QCursor::pos());
     }
 
 }
+
+void  CUiCenter::addTableMenuActionSolt(QMenu *menu, QString text,const char* method,bool disabled) {
+    QAction* menuAction = new QAction(ui.tableView);
+    connect(menuAction, SIGNAL(triggered()), this, method);
+    menuAction->setText(text);
+    menuAction->setDisabled(disabled);
+    menu->addAction(menuAction);
+}
+
 
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
 {
@@ -600,12 +585,12 @@ void CUiCenter::on_bt_modify_pwd_clicked()
     excuteTasks(change_password);
 }
 
-void CUiCenter::on_btn_unsecure_clicked()
+void CUiCenter::on_btn_release_safe_model_clicked()
 {
     excuteTasks(unpack_safe_mode);
 }
 
-void CUiCenter::on_btn_account_status_clicked()
+void CUiCenter::on_btn_query_ban_clicked()
 {
     excuteTasks(query_ban);
 }
@@ -622,10 +607,16 @@ void CUiCenter::on_btn_query_score_clicked()
 
 void CUiCenter::on_btn_query_identity_clicked()
 {
+    qDebug() << "DO THIS";
     excuteTasks(query_identity);
 }
 
 //移除
+void CUiCenter::removeAll() {
+    QAbstractItemModel* model = ui.tableView->model();
+    model->removeRows(0, model->rowCount());
+}
+
 void CUiCenter::remove()
 {
     QAbstractItemModel* model = ui.tableView->model();
@@ -847,7 +838,9 @@ void CUiCenter::onTaskRequestError(const ResponData& data, NetworkRequestError e
     if (data.task.reqeustId == 0)
         return;
     if (data.task.reqeustId == (quint64)this) {
-        PrintLog(QtWarningMsg, errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString);
+        QString msg = errorString.isEmpty() ? tr("Network erorr, error code = %1").arg((int)errorType) : errorString;
+        onTaskDo(data.task.index, msg, TaskStatus::Error, data.task.bizType);
+        PrintLog(QtWarningMsg,msg);
     }
 }
 
