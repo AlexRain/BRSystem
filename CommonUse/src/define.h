@@ -50,8 +50,10 @@ enum TableAcocountList {
     password,
     phoneNumber,
     newPhoneNumber,
-    status,
-    task_status
+    task_status,
+    bizType,
+    status
+   
 };
 
 enum BorrowStatus {
