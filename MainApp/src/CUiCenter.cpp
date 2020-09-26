@@ -29,6 +29,7 @@
 #include <QSplitter>
 #include <QStandardItem>
 #include <QTableView>
+#include <WebSocketClientManager.h>
 
 static const char* LAST_FILE_PATH = "last_file_path";
 QList<HeadStruct> listHead;
@@ -54,7 +55,14 @@ CUiCenter::CUiCenter(QWidget* parent)
     this->getUserWallet();
     this->initUi();
     this->initData();
+
+    wsClient = new WebSocketClientManager();
+    connect(wsClient,SIGNAL(showMsg(const int, const QString, const QString)),this, SLOT(showPyMsg(const int, const QString, const QString)));
+    wsClient->startConnect();
+
 }
+
+
 
 CUiCenter::~CUiCenter()
 {
@@ -119,11 +127,11 @@ void CUiCenter::initHeader()
     headNode = { tr("new phone number"), 120 };
     listHead << headNode;
 
-    headNode = { tr("task_status"), 60 };
-    listHead << headNode;
+    //headNode = { tr("task_status"), 60 };
+    //listHead << headNode;
 
-    headNode = { tr("bizType"), 60 };
-    listHead << headNode;
+    //headNode = { tr("bizType"), 60 };
+    //listHead << headNode;
     
     headNode = { tr("status") };
     listHead << headNode;
@@ -152,6 +160,12 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
 
     item.append(new QStandardItem(model["new_phone"]));
 
+    {
+        auto itemStatus = new QStandardItem;
+        itemStatus->setData(model["status"], Qt::DisplayRole);
+        itemStatus->setData(model["status"], Qt::ToolTipRole);
+        item.append(itemStatus);
+    }
 
     auto taskStatus = (TaskStatus)model["task_status"].toInt();
     {
@@ -170,13 +184,6 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
         item.append(itemStatus);
     }
 
-
-    {
-        auto itemStatus = new QStandardItem;
-        itemStatus->setData(model["status"], Qt::DisplayRole);
-        itemStatus->setData(model["status"], Qt::ToolTipRole);
-        item.append(itemStatus);
-    }
 
 
     item.at(0)->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -263,13 +270,11 @@ void CUiCenter::doExport(QList<ModelData>& vModel)
 void CUiCenter::updateButtonState(int selectedCount)
 {
     btnEnabled = (selectedCount > 0);
-    qDebug() << " btn " << btnEnabled;
     //判断是否有进行中的任务
     if (btnEnabled) {
         ModeDataList dataList;
         GetCurrentData(dataList);
     }
-    qDebug() << "res btn " << btnEnabled;
     ui.groupBox_btn->setEnabled(btnEnabled);
 }
 
@@ -381,7 +386,6 @@ bool CUiCenter::GetCurrentData(QList<ModelData>& selectedRows)
         data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
         selectedRows.append(data);
         int taskStatus = model->data(model->index(row, TableAcocountList::task_status), Qt::DisplayRole).toInt();
-        qDebug() << "btn status" << taskStatus << " is :" << (taskStatus < TaskStatus::None);
         if (taskStatus < TaskStatus::None) {
             canRemove = false;
             canRemoveAll = false;
@@ -607,7 +611,6 @@ void CUiCenter::on_btn_query_score_clicked()
 
 void CUiCenter::on_btn_query_identity_clicked()
 {
-    qDebug() << "DO THIS";
     excuteTasks(query_identity);
 }
 
@@ -701,7 +704,6 @@ void CUiCenter::importLastFile() {
     QString lastExportFile = setting.value(LAST_FILE_PATH).toString();
     if (lastExportFile != "") {
         QUrl u(lastExportFile);
-        qDebug() << "readUrl is ：" << u;
         QList<QUrl> list;
         list.append(u);
         this->OnDropFiles(list);
@@ -719,7 +721,6 @@ void CUiCenter::OnDropFiles(const QList<QUrl>& listFiles)
     }
     QSettings setting(GetAppDataLocation() + QDir::separator() + CONFIG_FILE, QSettings::IniFormat);
     for (auto url : listFiles) {
-        qDebug() << "url is " << url.toDisplayString();
         setting.setValue(LAST_FILE_PATH, url.toDisplayString());
         taskImport.AddTask(url.toLocalFile());
         canRemoveAll = false;
@@ -754,7 +755,6 @@ void CUiCenter::OnAddRow(ImportData data)
 
     model["task_status"] = QString::number(TaskStatus::None);
 
-    qDebug()<<"model is " << model;
     // 判重
     QAbstractItemModel* tableModel = ui.tableView->model();
     int rowCount = tableModel->rowCount();
@@ -811,6 +811,19 @@ void CUiCenter::onTaskDo(const int index, const QString msg, const int status,co
     setListRowData(index, TableAcocountList::bizType, bizType);
 }
 
+//修改任务状态
+void CUiCenter::showPyMsg(const int index, const QString recQQ, const QString val)
+{
+    if (index > 0) {
+        QAbstractItemModel* tableModel = ui.tableView->model();
+        QString qq = tableModel->data(tableModel->index(index, TableAcocountList::qqNumber), Qt::DisplayRole).toString();
+        if (qq == recQQ) {
+            setListRowData(index, TableAcocountList::status, val);
+        }
+    }
+    PrintLog(QtInfoMsg, val);
+}
+
 //任务执行成功
 void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& taskId)
 {
@@ -825,7 +838,6 @@ void CUiCenter::onTaskRequestCallback(const ResponData& data, const QString& tas
         if (result.errorCode == DataParseResult::NoError) {
             parseLocalTaskData(dataObj, data.task.index, taskId);
         } else {
-            qDebug() << result.message;
             onTaskDo(data.task.index, result.message, TaskStatus::Error, data.task.bizType);
         }
     }

@@ -153,7 +153,6 @@ void TaskManager::requestFinished(QNetworkReply* reply)
             reply->url().toEncoded().constData(),
             qPrintable(reply->errorString()));
         //return failed signal
-       QString taskIndex = QString::number(currentTask.task.index);
        emit taskGoing(currentTask.task.index, qPrintable(reply->errorString()),TaskStatus::Error,currentTask.task.bizType);
        qDebug() << "is failed" << reply;
         emit requestError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
@@ -177,13 +176,10 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                     requstTask.setUrl(url);
                     requstTask.setHeader(QNetworkRequest::ContentTypeHeader,
                         "application/json");
-                    requstTask.setRawHeader(
-                        "uid",
-                        QString::number(dataCallback.task.headerObj.value("uid").toInt()).toUtf8());
-                    requstTask.setRawHeader(
-                        "token",
-                        dataCallback.task.headerObj.value("token").toString().toUtf8());
-                    requstTask.setRawHeader("task_id", task_id.toUtf8());
+                    requstTask.setRawHeader("uid",QString::number(dataCallback.task.headerObj.value("uid").toInt()).toUtf8());
+                    requstTask.setRawHeader("token",dataCallback.task.headerObj.value("token").toString().toUtf8());
+                    requstTask.setRawHeader("tid", task_id.toUtf8());
+                    requstTask.setRawHeader("position", QString::number(currentTask.task.index).toUtf8());
 
                     // create a local python http request to excute task by task id.
                     QTimer requestTimeOut;

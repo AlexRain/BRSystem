@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QStandardItemModel>
 #include <QWidget>
+#include "WebSocketClientManager.h"
 
 class CSearchLineEdit;
 class QTableView;
@@ -138,6 +139,7 @@ private slots:
     void bindPlatform();
     void OnImportFinished();
     void onTaskDo(const int index, const QString msg, const int status, const int bizType);
+    void showPyMsg(const int index, const QString qq, const QString val);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void importLastFile();
@@ -151,4 +153,5 @@ private:
     ModeDataList listImport;
     QSet<QString> accountSet;
     QMenu* menu;
+    WebSocketClientManager *wsClient;
 };
