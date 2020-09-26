@@ -127,11 +127,11 @@ void CUiCenter::initHeader()
     headNode = { tr("new phone number"), 120 };
     listHead << headNode;
 
-    //headNode = { tr("task_status"), 60 };
-    //listHead << headNode;
+    headNode = { tr("task_status"), 60,true };
+    listHead << headNode;
 
-    //headNode = { tr("bizType"), 60 };
-    //listHead << headNode;
+    headNode = { tr("bizType"), 60,true };
+    listHead << headNode;
     
     headNode = { tr("status") };
     listHead << headNode;
