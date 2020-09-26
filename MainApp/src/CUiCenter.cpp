@@ -160,12 +160,6 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
 
     item.append(new QStandardItem(model["new_phone"]));
 
-    {
-        auto itemStatus = new QStandardItem;
-        itemStatus->setData(model["status"], Qt::DisplayRole);
-        itemStatus->setData(model["status"], Qt::ToolTipRole);
-        item.append(itemStatus);
-    }
 
     auto taskStatus = (TaskStatus)model["task_status"].toInt();
     {
@@ -183,6 +177,14 @@ QList<QStandardItem*> CUiCenter::creatRow(const ModelData& model, int index)
         itemStatus->setData(getTaskTypeString(bizType), Qt::ToolTipRole);
         item.append(itemStatus);
     }
+
+    {
+        auto itemStatus = new QStandardItem;
+        itemStatus->setData(model["status"], Qt::DisplayRole);
+        itemStatus->setData(model["status"], Qt::ToolTipRole);
+        item.append(itemStatus);
+    }
+
 
 
 
