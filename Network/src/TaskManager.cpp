@@ -2,6 +2,7 @@
 
 #include "webHandler.h"
 
+bool isPause = false;
 TaskManager::TaskManager(QObject* parent)
     : QObject(parent)
 {
@@ -17,6 +18,33 @@ TaskManager::~TaskManager()
     }
 }
 
+bool TaskManager::bindQuqueSize(const QObject* receiver, const char* method)
+{
+    return QObject::connect(TaskManager::instance(),
+        SIGNAL(getQueueSize(int)),
+        receiver,
+        method,
+        Qt::QueuedConnection);
+}
+
+bool TaskManager::bindTaskPause(const QObject* receiver, const char* method)
+{
+    return QObject::connect(
+        receiver,
+        method,
+        TaskManager::instance(),
+        SLOT(pauseTask(const bool&)), Qt::QueuedConnection);
+}
+
+bool TaskManager::bindTaskReStart(const QObject* receiver, const char* method)
+{
+    return QObject::connect(
+        receiver,
+        method,
+        TaskManager::instance(),
+        SLOT(restartPauseTask()), Qt::QueuedConnection);
+}
+
 bool TaskManager::bindTaskGoing(const QObject* receiver, const char* method)
 {
     return QObject::connect(TaskManager::instance(),
@@ -26,7 +54,6 @@ bool TaskManager::bindTaskGoing(const QObject* receiver, const char* method)
         Qt::QueuedConnection);
 }
 
-
 bool TaskManager::bindDataCallback(const QObject* receiver, const char* method)
 {
     return QObject::connect(TaskManager::instance(),
@@ -35,7 +62,6 @@ bool TaskManager::bindDataCallback(const QObject* receiver, const char* method)
         method,
         Qt::QueuedConnection);
 }
-
 
 bool TaskManager::bindErrorCallback(const QObject* receiver, const char* method)
 {
@@ -133,6 +159,9 @@ void TaskManager::excuteRequest(const RequestTaskInner& requestTask)
     if (requestQueue.isEmpty())
         QTimer::singleShot(0, this, SLOT(startNextRequest()));
 
+    if (isPause) {
+        requestQueue.clear();
+    }
     RequestTaskInner innerTask;
     requestQueue.enqueue(requestTask);
 }
@@ -187,8 +216,7 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                     QEventLoop loop;
                     QNetworkReply* currentRequest = nullptr;
                     currentRequest = manager->post(requstTask, "");
-                    connect(
-                        currentRequest, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+                    connect(currentRequest, &QNetworkReply::finished, &loop, &QEventLoop::quit);
                     connect(&requestTimeOut, &QTimer::timeout, &loop, &QEventLoop::quit);
                     requestTimeOut.start(120 * 1000);
                     loop.exec();
@@ -198,11 +226,13 @@ void TaskManager::requestFinished(QNetworkReply* reply)
                         localRequestFinished(currentRequest, task_id);
                     } else {
                         // request time out.
-                        qWarning("local task time out");
+                        qDebug() << "task time out";
+                        emit taskGoing(currentTask.task.index, QString::fromLocal8Bit("服务器超时"), TaskStatus::Error, currentTask.task.bizType);
                         disconnect(currentRequest,
                             &QNetworkReply::finished,
                             &loop,
                             &QEventLoop::quit);
+                        qDebug() << "emit success";
                         currentRequest->abort();
                         currentRequest->close();
                         currentRequest->deleteLater();
@@ -211,10 +241,14 @@ void TaskManager::requestFinished(QNetworkReply* reply)
             } else {
                 //emit taskGoing(currentTask.task.index, result.message, TaskStatus::Error, currentTask.task.bizType);
                 emit requestError(dataCallback, NetworkRequestError::Status_Error, result.message);
+                emit taskGoing(currentTask.task.index, QStringLiteral("服务器错误"), TaskStatus::Error, currentTask.task.bizType);
+
             }
         } else {
             //emit taskGoing(QString::number(currentTask.task.index), tr("network error"), "");
             emit requestError(dataCallback, NetworkRequestError::Status_Error, "");
+            emit taskGoing(currentTask.task.index, QStringLiteral("连接服务器错误"), TaskStatus::Error, currentTask.task.bizType);
+
         }
     }
 
@@ -222,14 +256,35 @@ void TaskManager::requestFinished(QNetworkReply* reply)
     startNextRequest();
 }
 
+void TaskManager::pauseTask(const bool& p) {
+    isPause = p;
+}
+
+void TaskManager::restartPauseTask() {
+    isPause = false;
+    startNextRequest();
+}
+
+
 void TaskManager::startNextRequest()
 {
+
     if (requestQueue.isEmpty()) {
+        emit getQueueSize(0);
+        isPause = false;
         qDebug() << "no task in queue";
         return;
     }
 
+    emit getQueueSize(requestQueue.size());
+
+    if (isPause) {
+        qDebug() << "task is pause";
+        return;
+    }
+
     currentTask = requestQueue.dequeue();
+
 
 
     if (currentTask.task.apiIndex == API::apiNoneType) {
@@ -299,6 +354,7 @@ void TaskManager::startNextRequest()
         currentRequest->abort();
         currentRequest->close();
         currentRequest->deleteLater();
+        emit taskGoing(currentTask.task.index,  QStringLiteral("连接服务器超时"), TaskStatus::Error, currentTask.task.bizType);
         startNextRequest();
     }
 }

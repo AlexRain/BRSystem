@@ -16,9 +16,9 @@
 #define TOCH(str) QString::fromLocal8Bit(str)
 #define CONFIG_FILE "app.ini"
 #define USER_CONFIG_FILE "user.ini"
-#define DAIL_SETTING "yunguo/dail_setting.ini"
+#define DAIL_SETTING "dial.ini"
 
-static const char* PY_SERVER_EXE = "yunguo/hl-py.exe";
+static const char* PY_SERVER_EXE = "hl-py.exe";
 
 static const int RESTART_CODE = 1;
 

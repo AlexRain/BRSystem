@@ -43,6 +43,7 @@ signals:
 
 private slots:
     void onStartPyServerError(QProcess::ProcessError error);
+    void slotLogContextMenu(const QPoint& pos);
 
 private:
     UiFrostedLayer* pLayer;

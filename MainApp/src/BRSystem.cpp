@@ -71,6 +71,7 @@ BRSystem::BRSystem(QWidget* parent)
 BRSystem::~BRSystem()
 {
     KillProcess(L"hl-py.exe");
+    KillProcess(L"hl-py.exe");
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -183,7 +184,13 @@ void BRSystem::init()
     auto layoutLog = new QVBoxLayout(groupLog);
     layoutLog->setSpacing(0);
     logOutput = new QTextBrowser(groupLog);
+    logOutput->setContextMenuPolicy(Qt::CustomContextMenu);
+    //右键菜单
+    connect(logOutput, SIGNAL(customContextMenuRequested(const QPoint&)),
+        this, SLOT(slotLogContextMenu(const QPoint&)));
+
     layoutLog->addWidget(logOutput);
+
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 10, 0, 10);
@@ -220,6 +227,14 @@ void BRSystem::init()
     this->resize(958, 596);
 }
 
+void BRSystem::slotLogContextMenu(const QPoint& pos) {
+    qDebug() << "solt";
+    QMenu* menu = new QMenu(logOutput);
+    menu->addAction(QString::fromLocal8Bit("清空"), [=]() {
+        logOutput->setText("");
+       });
+    menu->exec(QCursor::pos());
+}
 void BRSystem::createMenus(QMenuBar* menuBar)
 {
     //account
@@ -249,7 +264,7 @@ void BRSystem::createMenus(QMenuBar* menuBar)
     {
         auto accountMenu = menuBar->addMenu(tr("import export bind"));
         //accountMenu->addAction(tr("import"), [=]() {});
-        accountMenu->addAction(tr("import last file"), [=] 
+        accountMenu->addAction(QString::fromLocal8Bit("导入上次文件"), [=] 
             {
                 emit doImportLastFile();
             });

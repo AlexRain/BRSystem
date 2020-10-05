@@ -45,6 +45,9 @@ public:
     void Get(const RequestTask& taskData);
     void Post(const RequestTask& taskData);
 
+    static bool bindQuqueSize(const QObject* receiver, const char* method);
+    static bool bindTaskReStart(const QObject* receiver, const char* method);
+    static bool bindTaskPause(const QObject* receiver, const char* method);
     static bool bindTaskGoing(const QObject* receiver, const char* method);
     static bool bindDataCallback(const QObject* receiver, const char* method);
     static bool bindErrorCallback(const QObject* receiver, const char* method);
@@ -57,17 +60,19 @@ signals:
     void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
     void taskGoing(const int, const QString, const int, const int);
+    void getQueueSize(const int);
 
 private slots:
     void startNextRequest();
     void excuteRequest(const RequestTaskInner& requestTask);
     void requestFinished(QNetworkReply* reply);
     void localRequestFinished(QNetworkReply* reply, const QString& taskId);
+    void pauseTask(const bool& p);
+    void restartPauseTask();
 
 private:
     void start();
     void excuteLocalTask();
-
     QThread thread;
     QNetworkAccessManager* manager = nullptr;
     QQueue<RequestTaskInner> requestQueue;

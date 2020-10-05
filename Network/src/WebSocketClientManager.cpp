@@ -159,6 +159,7 @@ WebSocketClientManager::webSocketState WebSocketClientManager::getCurrentState()
 
 void WebSocketClientManager::onConnected()
 {
+	emit showMsg(int(0), QString(""), QString::fromLocal8Bit("服务器已连接"));
 	// 如果是重连成功 停止重连的定时Timer
 	if (m_webSocketState == reconnecting)
 	{
@@ -192,15 +193,13 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 {
 	//收到网页后端发来的内容，处理内容
 	if (val.startsWith(tr("pong"))) {
-		qDebug() << "heart msg ==> " << val;
+		return;
 	}
 	else {
-		qDebug() << "recieve msg ==> " << val;
 		QJsonParseError error;
 		QJsonDocument document = QJsonDocument::fromJson(val.toUtf8(), &error);
 		if (QJsonParseError::NoError == error.error)
 		{
-			qDebug() << "parse success";
 			int index;
 			QString qq;
 			QString show;
@@ -216,7 +215,6 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 			if (map.contains("show"))
 			{
 				show = map["show"].toString();
-				qDebug() << "show is " << show;
 			}
 			emit showMsg(index, qq, show);
 		}
@@ -247,6 +245,7 @@ void WebSocketClientManager::onSendHeartbeatText()
 
 void WebSocketClientManager::onReconnect()
 {
+	emit showMsg(int(0), QString(""), QString::fromLocal8Bit("等待服务器连接"));
 	// close websocket
 	m_websocket.close();
 	//如果重连次数已到 不再重连 处于断开状态

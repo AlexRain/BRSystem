@@ -8,6 +8,7 @@ struct ImportData {
     QString password;
     QString phoneNumber;
     QString newPhoneNumber;
+    int bizType;
 };
 
 static const char* separator = "----";

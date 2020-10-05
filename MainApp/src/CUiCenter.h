@@ -84,9 +84,24 @@ public:
     CUiCenter(QWidget* parent = Q_NULLPTR);
     virtual ~CUiCenter();
 
+
     void PrintLog(QtMsgType type, const QString& text);
 
     using ModeDataList = QList<ModelData>;
+
+
+    enum TaskType2 {
+        change_password2 = 1,
+        unpack_safe_mode2,
+        bind_mobile2,
+        query_role2,
+        query_identity2,
+        query_ban2,
+        query_credit_score2,
+        send_short_message2
+    };
+
+    Q_ENUM(TaskType2);
 
 private:
     friend class CUiTop;
@@ -102,7 +117,10 @@ private:
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
     bool GetCurrentData(QList<ModelData>& selectedRows);
+    ModelData getRowData(QAbstractItemModel* model, int row);
+    void excuteSingleTasks(ModelData data);
     void excuteTasks(TaskType type);
+    void doTask(ModelData data,QString newPassword, int bizType);
     bool ShowInputPwdView(QString& password);
     bool ShowInputPhone(QString& phone);
     void parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId);
@@ -112,15 +130,26 @@ private:
     QString getTaskStatusString(TaskStatus taskStatus);
 
     void addTableMenuActionSolt(QMenu* menu, QString text, const char* method, bool disabled=false);
+    void AddSignleRow(ImportData data);
 
 
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
 
+signals:
+    void onTaskPause(const bool&);
+    void onRestartTask();
+
 private slots:
+    void pauseTask();
+    void onQueueSize(const int);
     void slotContextMenu(const QPoint&);
     void slotTableViewDoubleClicked(const QModelIndex& index);
     void onRequestCallback(const ResponData&);
+    void restartTask();
+    void resetTask();
+    void resetAllTask();
+    void on_btn_single_button_clicked();
     void on_bt_modify_pwd_clicked();
     void on_btn_release_safe_model_clicked();
     void on_btn_query_ban_clicked();

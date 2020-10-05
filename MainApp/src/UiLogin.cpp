@@ -77,7 +77,8 @@ void UiLogin::initUser()
     ui.label_logo->setMinimumWidth(115);
     ui.label_logo->setPixmap(UiHelper::justPixmapByWidth(115, pixLogo));
 
-    QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
+    QSettings setting(USER_CONFIG_FILE, QSettings::IniFormat);
+    //QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
     QString userName = setting.value(USER_NAME, "").toString();
     ui.input_user_name->setText(userName);
     if (userName.isEmpty()) {
@@ -112,7 +113,8 @@ void UiLogin::verify()
         task.bodyObj.insert("password", password);
         task.apiIndex = API::login;
         WebHandler::instance()->Post(task);
-        QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
+        QSettings setting(USER_CONFIG_FILE, QSettings::IniFormat);
+        //QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
         setting.setValue(USER_NAME, userName);
     } while (false);
 }
