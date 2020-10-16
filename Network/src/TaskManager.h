@@ -20,16 +20,7 @@ enum TaskType {
     send_short_message
 };
 
-enum TaskStatus {
-    Wait = 1,
-    Doing,
-    Stop,
-    None,
-    Error,
-    Success
-};
-
-class NETWORK_EXPORT TaskManager : public QObject {
+class NETWORK_EXPORT TaskManager : public QObject{
     Q_OBJECT
 
 public:
@@ -59,7 +50,7 @@ signals:
     void requestCallback(const ResponData& data, const QString &taskId);
     void requestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void showLoading();
-    void taskGoing(const int, const QString, const int, const int);
+    void taskGoing(const int, const QString, const int);
     void getQueueSize(const int);
 
 private slots:
@@ -77,4 +68,6 @@ private:
     QNetworkAccessManager* manager = nullptr;
     QQueue<RequestTaskInner> requestQueue;
     RequestTaskInner currentTask;
+protected:
+	void run();
 };

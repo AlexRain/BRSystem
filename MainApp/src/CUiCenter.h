@@ -7,6 +7,7 @@
 #include "ExportDataView.h"
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
+#include "CheckBoxDelegate.h"
 #include "TaskManager.h"
 #include "ThreadImport.h"
 #include "define.h"
@@ -54,6 +55,97 @@ protected:
         painter->drawText(view_option.rect, text, textOption);
         painter->restore();
     }
+};
+
+
+static QRect CheckBoxRect(const QStyleOptionViewItem &viewItemStyleOptions)/*const*/
+{
+	//绘制按钮所需要的参数
+	QStyleOptionButton checkBoxStyleOption;
+	//按照给定的风格参数 返回元素子区域
+	QRect checkBoxRect = QApplication::style()->subElementRect(QStyle::SE_CheckBoxIndicator, &checkBoxStyleOption);
+	//返回QCheckBox坐标
+	QPoint checkBoxPoint(viewItemStyleOptions.rect.x() + viewItemStyleOptions.rect.width() / 2 - checkBoxRect.width() / 2,
+		viewItemStyleOptions.rect.y() + viewItemStyleOptions.rect.height() / 2 - checkBoxRect.height() / 2);
+	//返回QCheckBox几何形状
+	return QRect(checkBoxPoint, checkBoxRect.size());
+}
+
+class CheckBoxDelegateBRTable : public CheckBoxDelegate {
+    Q_OBJECT
+
+public:
+	CheckBoxDelegateBRTable(QObject* parent)
+        : CheckBoxDelegate(parent)
+    {
+    }
+    ~CheckBoxDelegateBRTable() { }
+
+
+protected:
+    virtual 	void paint(QPainter *painter,
+		const QStyleOptionViewItem &option,
+		const QModelIndex &index) const override
+    {
+		QStyleOptionViewItem  view_option(option);
+		view_option.displayAlignment = Qt::AlignHCenter | Qt::AlignVCenter;
+		if (view_option.state & QStyle::State_Selected) {
+			view_option.state = view_option.state ^ QStyle::State_Selected;
+			QColor color = index.model()->data(index, Qt::BackgroundRole).value<QColor>();
+			painter->fillRect(view_option.rect, color);
+		}
+
+		if (index.column() == TableAcocountList::checkBox) {
+			bool data = index.model()->data(index, Qt::CheckStateRole).toBool();
+			//bool showCheckBox = index.model()->data(index, Qt::UserRole).toBool();
+			bool showCheckBox = true;
+			QString text = QString::number(index.row() + 1);
+			/*qDebug() << "is showCheckBox index" << index;
+			qDebug() << "is showCheckBox" << showCheckBox;
+			qDebug() << "is showCheckBox data " << data;*/
+			if (showCheckBox)
+			{
+				QStyleOptionButton checkBoxStyle;
+				checkBoxStyle.state = data ? QStyle::State_On : QStyle::State_Off;
+				checkBoxStyle.state |= QStyle::State_Enabled;
+				checkBoxStyle.iconSize = QSize(30, 30);
+				//QRect rectBox = QRect(option.rect.x(), option.rect.y() + option.rect.height() / 2 - 10,option.rect.width() / 2, 20);
+				QRect rectBox = CheckBoxRect(option);
+				checkBoxStyle.rect = rectBox;
+
+				QCheckBox checkBox;
+				QApplication::style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &checkBoxStyle, painter, &checkBox);
+			}
+
+			//QTextOption textOption;
+			//QRect rectText = QRect(option.rect.x() + option.rect.width() / 2, option.rect.y(),
+			//	option.rect.width() / 2, option.rect.height());
+			//textOption.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+			//painter->drawText(rectText, text, textOption);
+		}
+		else {
+			QStyledItemDelegate::paint(painter, option, index);
+		}
+    }
+
+	bool CheckBoxDelegateBRTable::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+	{
+		QRect decorationRect = option.rect;
+
+		QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+		if (event->type() == QEvent::MouseButtonPress && decorationRect.contains(mouseEvent->pos())
+			&& Qt::LeftButton == mouseEvent->button())
+		{
+			if (index.column() == TableAcocountList::checkBox)
+			{
+				bool data = model->data(index, Qt::CheckStateRole).toBool();
+				model->setData(index, !data, Qt::CheckStateRole);
+			}
+		}
+
+		return QStyledItemDelegate::editorEvent(event, model, option, index);
+	}
+
 };
 
 class CustomTableModel : public QStandardItemModel {
@@ -112,11 +204,11 @@ private:
     void setData(const QList<ModelData>& model);
     void doExport(QList<ModelData>& datas);
     void updateButtonState(int selectedCount);
-    void exportList();
     void doExport(ExportDataView::ExportSetting setting);
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
-    bool GetCurrentData(QList<ModelData>& selectedRows);
+	bool GetCurrentSelectData(QList<ModelData>& selectedRows);
+	bool GetCurrentData(QList<ModelData>& selectedRows);
     ModelData getRowData(QAbstractItemModel* model, int row);
     void excuteSingleTasks(ModelData data);
     void excuteTasks(TaskType type);
@@ -138,19 +230,27 @@ protected:
 
 signals:
     void onTaskPause(const bool&);
+    void onThreadPause(const bool&);
     void onRestartTask();
 
 private slots:
+	void exportList();
+    void loseConnection();
     void pauseTask();
     void onQueueSize(const int);
     void slotContextMenu(const QPoint&);
     void slotTableViewDoubleClicked(const QModelIndex& index);
     void onRequestCallback(const ResponData&);
+	void selectTableAll();
+	void cancelSelectTableAll();
+	void selectOrder();
     void restartTask();
     void resetTask();
-    void resetAllTask();
+	void selectDimiss();
+	void resetAllTask();
+    void on_btn_xiancheng_save_clicked();
     void on_btn_single_button_clicked();
-    void on_bt_modify_pwd_clicked();
+    void on_btn_modify_pwd_clicked();
     void on_btn_release_safe_model_clicked();
     void on_btn_query_ban_clicked();
     void on_btn_role_clicked();
@@ -167,8 +267,8 @@ private slots:
     void bindPlatformAll();
     void bindPlatform();
     void OnImportFinished();
-    void onTaskDo(const int index, const QString msg, const int status, const int bizType);
-    void showPyMsg(const int index, const QString qq, const QString val);
+    void onTaskDo(const int index, const QString msg, const int status, const int bizType=0);
+    void showPyMsg(const int index, const QString qq, const QString val,const int status = 0);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
     void importLastFile();
@@ -182,5 +282,5 @@ private:
     ModeDataList listImport;
     QSet<QString> accountSet;
     QMenu* menu;
-    WebSocketClientManager *wsClient;
+    WebSocketClientManager* wsClient;
 };

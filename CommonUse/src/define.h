@@ -45,6 +45,7 @@ enum TableHeader {
 
 enum TableAcocountList {
     uid = 0,
+    checkBox,
     index,
     qqNumber,
     password,

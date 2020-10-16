@@ -493,16 +493,16 @@ QPushButton#btn_log{
 }
 
 /*导出数据*/
-QPushButton#btn_export{
-	min-width: 25px;
+/*QPushButton#btn_export {
+    min-width: 25px;
     min-height: 25px;
     max-width: 25px;
     max-height: 25px;
-	padding:0px;
-	border-radius:0px;
-	background-color:transparent;
-	border-image:url(:/BRSystem/images/export.png);
-}
+    padding: 0px;
+    border-radius: 0px;
+    background-color: transparent;
+    border-image:url(:/BRSystem/images/export.png);
+}*/
 
 /*刷新*/
 QPushButton#btn_refresh{

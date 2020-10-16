@@ -4,6 +4,7 @@ ExportDataView::ExportDataView(QWidget* parent)
     : BaseDialog(parent)
 {
     ui.setupUi(this->getContent());
+	ui.checkBox_role->setText(QString::fromLocal8Bit("״̬"));
     this->SetTitle(tr("export setting"));
     QMetaObject::connectSlotsByName(this);
 }

@@ -177,6 +177,8 @@ void WebSocketClientManager::onDisconnected()
 	// 如果不是手动关闭 则需要重连
 	if (!m_bCloseByHand)
 	{
+		qDebug() << "lose connection";
+		emit loseConn();
 		m_timerHeartbeat.stop();
 		m_timerReconnect.start(m_nReconnectTimer);
 		m_webSocketState = reconnecting;
@@ -186,12 +188,18 @@ void WebSocketClientManager::onDisconnected()
 
 bool WebSocketClientManager::bindLogData(const QObject* receiver, const char* method)
 {
-	return QObject::connect(WebSocketClientManager::instance(), SIGNAL(showMsg(const int,const QString,const QString)), receiver, method, Qt::QueuedConnection);
+	return QObject::connect(WebSocketClientManager::instance(), SIGNAL(showMsg(const int,const QString,const QString,const int)), receiver, method, Qt::QueuedConnection);
+}
+
+bool WebSocketClientManager::bindLoseConn(const QObject* receiver, const char* method)
+{
+	return QObject::connect(WebSocketClientManager::instance(), SIGNAL(loseConn()), receiver, method, Qt::QueuedConnection);
 }
 
 void WebSocketClientManager::onTextMessageReceived(const QString& val)
 {
 	//收到网页后端发来的内容，处理内容
+	//qDebug() << "ws val is " << val;
 	if (val.startsWith(tr("pong"))) {
 		return;
 	}
@@ -203,6 +211,7 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 			int index;
 			QString qq;
 			QString show;
+			int status;
 			QVariantMap map = document.toVariant().toMap();
 			if (map.contains("id"))
 			{
@@ -216,7 +225,20 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 			{
 				show = map["show"].toString();
 			}
-			emit showMsg(index, qq, show);
+			if (map.contains("status"))
+			{
+				status = map["status"].toInt();
+				if (status == 1) {
+					status = TaskStatus::Success;
+				}
+				else if (status == 2) {
+					status = TaskStatus::Error;
+				}
+				else {
+					status = 0;
+				}
+			}
+			emit showMsg(index, qq, show,status);
 		}
 	}
 }

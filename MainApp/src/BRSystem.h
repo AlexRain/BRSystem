@@ -41,6 +41,8 @@ protected:
 signals:
     void doImportLastFile();
 
+    void doExportFile();
+
 private slots:
     void onStartPyServerError(QProcess::ProcessError error);
     void slotLogContextMenu(const QPoint& pos);

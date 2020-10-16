@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     CApplication a(argc, argv);
     gstrFilePath = QCoreApplication::applicationFilePath();
     a.setWindowIcon(QIcon("images/app.ico"));
-    a.setApplicationName(QObject::tr("HelloGame"));
+    a.setApplicationName(QObject::tr("HL"));
 
     QTranslator translator_zh_CN;
     translator_zh_CN.load(":/translation/lang_zh.qm");

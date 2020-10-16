@@ -23,7 +23,10 @@ public:
     ~WebHandler();
 
     void Get(const RequestTask& taskData);
-    void Post(const RequestTask& taskData);
+    
+	void Post(const RequestTask& taskData);
+
+	void WebHandler::ExitPy();
 
     static bool bindDataCallback(const QObject* receiver, const char* method);
     static bool bindErrorCallback(const QObject* receiver, const char* method);

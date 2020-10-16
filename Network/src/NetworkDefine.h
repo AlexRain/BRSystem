@@ -6,11 +6,12 @@
 using PointerValue = unsigned long long;
 static const int REQUEST_TIMEOUT = 15 * 1000;
 static const int SHOW_LOADING = 500;
-static const char* baseUrl = "http://39.101.209.77:31001/api/v1";
+static const char* baseUrl = "http://bill.ah-fenghe.com/api/v1";
 static const char* baseUrl2 = "http://bill.ah-fenghe.com/api/v1";
 static const char* localServer = "http://127.0.0.1:5001";
-static const char* localWsServer = "ws://localhost:5001/ws";
-static const char* app_version = "1.0.0";
+static const char* localWsServer = "ws://127.0.0.1:5002";
+//static const char* localWsServer = "ws://localhost:5001/ws";
+static const char* app_version = "1.0.3";
 
 enum class API {
     apiNoneType,
@@ -44,6 +45,10 @@ enum class API {
 
     //local python server api
     doTask,
+
+    createTask,
+
+    exitPy,
 
     //add api type above
     apiDefineEnd
@@ -103,6 +108,12 @@ static std::string getApi(API apiType)
     case API::doTask:
         api = "/doTask";
         break;
+    case API::createTask:
+        api = "/createTask";
+        break;
+    case API::exitPy:
+        api = "/exitPy";
+        break;
     default:
         break;
     }
@@ -123,10 +134,20 @@ struct RequestTask {
     QJsonObject headerObj;
     QJsonObject bodyObj;
     int index;
+    QString password;
     int bizType;
 };
 
 Q_DECLARE_METATYPE(RequestTask)
+
+struct MyTask {
+	QString taskName;
+	int taskId;
+	RequestTask task;
+	RequestType requestType = RequestType::Get;
+};
+
+Q_DECLARE_METATYPE(MyTask)
 
 struct RequestTaskInner {
     RequestTask task;
@@ -141,6 +162,17 @@ struct ResponData {
 };
 
 Q_DECLARE_METATYPE(ResponData)
+
+
+enum TaskStatus {
+	Wait = 1,
+	Doing,
+	Take,
+	Stop,
+	None,
+	Error,
+	Success
+};
 
 enum class NetworkRequestError {
     NO_ERROR,

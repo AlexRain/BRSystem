@@ -23,7 +23,7 @@ CStyleManager::CStyleManager()
         QColor("#ffaa00")
     };*/
     QSettings setting(GetAppDataLocation() + QDir::separator() +  CONFIG_FILE, QSettings::IniFormat);
-    mCurrentStyle = (StyleType)setting.value("CONFIG/skinType", (int)StyleType::Dark).toInt();
+    mCurrentStyle = (StyleType)setting.value("CONFIG/skinType", (int)StyleType::White).toInt();
     mStyles << std::make_pair(styleDark.type, styleDark)
             << std::make_pair(styleWhite.type, styleWhite) /*<< std::make_pair(styleYellow.type, styleYellow)*/;
 

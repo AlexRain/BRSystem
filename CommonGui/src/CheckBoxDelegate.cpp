@@ -31,7 +31,6 @@ void CheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 		bool data = index.model()->data(index, Qt::CheckStateRole).toBool();
 		bool showCheckBox = index.model()->data(index, Qt::UserRole).toBool();
 		QString text = QString::number(index.row() + 1);
-
 		if (showCheckBox)
 		{
 			QStyleOptionButton checkBoxStyle;

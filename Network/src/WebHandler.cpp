@@ -100,6 +100,16 @@ void WebHandler::Post(const RequestTask& taskData)
     QMetaObject::invokeMethod(this, "excuteRequest", Qt::QueuedConnection, Q_ARG(const RequestTaskInner&, taskInner));
 }
 
+void WebHandler::ExitPy()
+{
+	std::string strUrl = std::string(localServer) + getApi(API::exitPy);
+	QUrl url = QUrl::fromEncoded(QByteArray::fromStdString(strUrl));
+	QNetworkRequest request;
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+	request.setUrl(url);
+	manager->get(request);
+}
+
 void WebHandler::excuteRequest(const RequestTaskInner& requestTask)
 {
     if (nullptr == manager) {

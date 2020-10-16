@@ -76,13 +76,6 @@
          <property name="bottomMargin">
           <number>15</number>
          </property>
-         <item row="2" column="0">
-          <widget class="QLabel" name="userName_2">
-           <property name="text">
-            <string>login password</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="userName">
            <property name="text">
@@ -93,10 +86,24 @@
          <item row="1" column="0" colspan="2">
           <widget class="QLineEdit" name="input_user_name"/>
          </item>
-         <item row="3" column="0" colspan="2">
+         <item row="2" column="0">
+          <widget class="QLabel" name="userName_2">
+           <property name="text">
+            <string>login password</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
           <widget class="QLineEdit" name="input_password">
            <property name="echoMode">
             <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QCheckBox" name="pwdCheckBox">
+           <property name="text">
+            <string>CheckBox</string>
            </property>
           </widget>
          </item>

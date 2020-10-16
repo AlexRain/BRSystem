@@ -15,6 +15,8 @@
 static const char* REGISTER = "register";
 static const char* FORGET_PWD = "forget";
 static const char* USER_NAME = "USER_NAME";
+static const char* Password = "Password";
+static const char* PasswordState = "PasswordState";
 static const char* RICH_TEXT = "<p><a href=\"register\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \"> %s</span></a> %s<a href=\"forget\"><span style=\" text - decoration: underline; color:rgb(0,122,204); \"> %s</span></a></p>";
 
 UiLogin::UiLogin(QWidget* parent)
@@ -73,13 +75,19 @@ UiLogin::~UiLogin()
 
 void UiLogin::initUser()
 {
+	ui.pwdCheckBox->setText(QString::fromLocal8Bit("¼Ç×¡ÃÜÂë"));
     QPixmap pixLogo("images/logo.png");
     ui.label_logo->setMinimumWidth(115);
     ui.label_logo->setPixmap(UiHelper::justPixmapByWidth(115, pixLogo));
-
     QSettings setting(USER_CONFIG_FILE, QSettings::IniFormat);
     //QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
     QString userName = setting.value(USER_NAME, "").toString();
+    bool pwdState = setting.value(PasswordState, false).toBool();
+	if (pwdState) {
+		QString pwd = setting.value(Password, "").toString();
+		ui.pwdCheckBox->setChecked(true);
+		ui.input_password->setText(pwd);
+	}
     ui.input_user_name->setText(userName);
     if (userName.isEmpty()) {
         ui.input_user_name->setFocus();
@@ -106,6 +114,14 @@ void UiLogin::verify()
             BubbleTipWidget::showTextTipsWithShadowColor(strTip, pos, BubbleTipWidget::Top, QColor(170, 0, 0), this);
             break;
         }
+		QSettings setting(USER_CONFIG_FILE, QSettings::IniFormat);
+		if (ui.pwdCheckBox->checkState() == Qt::Checked) {
+			setting.setValue(Password, password);
+		}
+		else {
+			setting.setValue(Password, "");
+		}
+		setting.setValue(PasswordState, ui.pwdCheckBox->checkState());
 
         RequestTask task;
         task.reqeustId = (quint64)(this);
@@ -113,7 +129,6 @@ void UiLogin::verify()
         task.bodyObj.insert("password", password);
         task.apiIndex = API::login;
         WebHandler::instance()->Post(task);
-        QSettings setting(USER_CONFIG_FILE, QSettings::IniFormat);
         //QSettings setting(GetAppDataLocation() + QDir::separator() + USER_CONFIG_FILE, QSettings::IniFormat);
         setting.setValue(USER_NAME, userName);
     } while (false);

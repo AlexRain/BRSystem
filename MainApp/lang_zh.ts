@@ -26,69 +26,59 @@
         <translation type="vanished">哈喽游戏</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="64"/>
+        <location filename="src/BRSystem.cpp" line="66"/>
         <source>HelloGame</source>
         <translation>哈喽游戏</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="79"/>
-        <source>clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="src/BRSystem.cpp" line="188"/>
+        <location filename="src/BRSystem.cpp" line="185"/>
         <source>log</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="236"/>
+        <location filename="src/BRSystem.cpp" line="246"/>
         <source>account</source>
         <translation>平台账号</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="237"/>
-        <location filename="src/BRSystem.cpp" line="241"/>
+        <location filename="src/BRSystem.cpp" line="247"/>
+        <location filename="src/BRSystem.cpp" line="251"/>
         <source>charge</source>
         <translation>充值</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="243"/>
-        <location filename="src/BRSystem.cpp" line="245"/>
+        <location filename="src/BRSystem.cpp" line="253"/>
+        <location filename="src/BRSystem.cpp" line="255"/>
         <source>change phone</source>
         <translation>换绑手机</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="247"/>
+        <location filename="src/BRSystem.cpp" line="257"/>
         <source>register</source>
         <translation>注册</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="248"/>
+        <location filename="src/BRSystem.cpp" line="258"/>
         <source>logout</source>
         <oldsource>login</oldsource>
         <translation>退出登录</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="252"/>
+        <location filename="src/BRSystem.cpp" line="262"/>
         <source>exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="259"/>
+        <location filename="src/BRSystem.cpp" line="269"/>
         <source>import export bind</source>
         <translation>导入导出绑定</translation>
-    </message>
-    <message>
-        <location filename="src/BRSystem.cpp" line="261"/>
-        <source>import last file</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>import</source>
         <translation type="vanished">导入</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="269"/>
+        <location filename="src/BRSystem.cpp" line="279"/>
         <source>settings</source>
         <translation>设置</translation>
     </message>
@@ -97,19 +87,19 @@
         <translation type="vanished">换IP</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="270"/>
-        <location filename="src/BRSystem.cpp" line="272"/>
+        <location filename="src/BRSystem.cpp" line="280"/>
+        <location filename="src/BRSystem.cpp" line="282"/>
         <source>pppoe</source>
         <translation>宽带拨号</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="275"/>
-        <location filename="src/BRSystem.cpp" line="278"/>
+        <location filename="src/BRSystem.cpp" line="285"/>
+        <location filename="src/BRSystem.cpp" line="288"/>
         <source>change style</source>
         <translation>换皮肤</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="325"/>
+        <location filename="src/BRSystem.cpp" line="335"/>
         <source>start py server failed</source>
         <translation>进程启动失败</translation>
     </message>
@@ -118,13 +108,13 @@
         <translation type="vanished">详情</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="281"/>
+        <location filename="src/BRSystem.cpp" line="291"/>
         <source>up to date</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="282"/>
-        <location filename="src/BRSystem.cpp" line="284"/>
+        <location filename="src/BRSystem.cpp" line="292"/>
+        <location filename="src/BRSystem.cpp" line="294"/>
         <source>about</source>
         <translation>关于</translation>
     </message>
@@ -237,42 +227,40 @@
         <translation type="vanished">操作日志</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="90"/>
         <source>phone manage</source>
-        <translation>手机号管理</translation>
+        <translation type="vanished">手机号管理</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="96"/>
         <source>phone sync</source>
-        <translation>同步电话号码</translation>
+        <translation type="vanished">同步电话号码</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="103"/>
+        <location filename="src/CUiCenter.cpp" line="115"/>
         <source>chang phone</source>
         <translation>换绑手机</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="103"/>
+        <location filename="src/CUiCenter.cpp" line="115"/>
         <source>change phone message temp</source>
         <translation>1</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="104"/>
+        <location filename="src/CUiCenter.cpp" line="116"/>
         <source>safe mode message temp</source>
         <translation>AQ解除安全模式</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="121"/>
+        <location filename="src/CUiCenter.cpp" line="169"/>
         <source>password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="115"/>
+        <location filename="src/CUiCenter.cpp" line="163"/>
         <source>index</source>
         <translation>序号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="118"/>
+        <location filename="src/CUiCenter.cpp" line="166"/>
         <source>qq number</source>
         <translation>QQ号</translation>
     </message>
@@ -281,103 +269,104 @@
         <translation type="vanished">无数据</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="357"/>
+        <location filename="src/CUiCenter.cpp" line="414"/>
         <source>phone number list</source>
         <translation>手机号码管理</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="373"/>
+        <location filename="src/CUiCenter.cpp" line="429"/>
+        <location filename="src/CUiCenter.cpp" line="465"/>
+        <location filename="src/CUiCenter.cpp" line="876"/>
         <source>warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="373"/>
+        <location filename="src/CUiCenter.cpp" line="429"/>
+        <location filename="src/CUiCenter.cpp" line="465"/>
         <source>please select at least one row</source>
         <translation>请至少选择一项</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="479"/>
-        <location filename="src/CUiCenter.cpp" line="480"/>
+        <location filename="src/CUiCenter.cpp" line="617"/>
+        <location filename="src/CUiCenter.cpp" line="618"/>
         <source>parse json error</source>
         <translation>解析json数据失败</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="511"/>
         <source>reset</source>
-        <translation type="unfinished">重做</translation>
+        <translation type="obsolete">重做</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="512"/>
         <source>pasue</source>
-        <translation type="unfinished">停止</translation>
+        <translation type="obsolete">停止</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="522"/>
+        <location filename="src/CUiCenter.cpp" line="671"/>
         <source>removeAll</source>
         <translation type="unfinished">清空</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="948"/>
+        <location filename="src/CUiCenter.cpp" line="1356"/>
         <source>unpack safe mode</source>
         <translation>解除安全模式</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="976"/>
+        <location filename="src/CUiCenter.cpp" line="1384"/>
         <source>task Wait</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="978"/>
+        <location filename="src/CUiCenter.cpp" line="1386"/>
         <source>task Doing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="980"/>
+        <location filename="src/CUiCenter.cpp" line="1388"/>
         <source>task Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="982"/>
+        <location filename="src/CUiCenter.cpp" line="1390"/>
         <source>task Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="984"/>
+        <location filename="src/CUiCenter.cpp" line="1392"/>
         <source>task Success</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="251"/>
-        <location filename="src/CUiCenter.cpp" line="518"/>
-        <location filename="src/CUiCenter.cpp" line="957"/>
+        <location filename="src/CUiCenter.ui" line="273"/>
+        <location filename="src/CUiCenter.cpp" line="662"/>
+        <location filename="src/CUiCenter.cpp" line="1365"/>
         <source>query_identity</source>
         <translation>查询认证</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="270"/>
-        <location filename="src/CUiCenter.cpp" line="515"/>
-        <location filename="src/CUiCenter.cpp" line="960"/>
+        <location filename="src/CUiCenter.ui" line="292"/>
+        <location filename="src/CUiCenter.cpp" line="659"/>
+        <location filename="src/CUiCenter.cpp" line="1368"/>
         <source>query_ban</source>
         <translation>查询封号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="963"/>
+        <location filename="src/CUiCenter.cpp" line="1371"/>
         <source>query_credit_score</source>
         <translation>信用分查询</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="649"/>
-        <location filename="src/CUiCenter.cpp" line="658"/>
+        <location filename="src/CUiCenter.cpp" line="958"/>
+        <location filename="src/CUiCenter.cpp" line="967"/>
         <source>please enter qq account or phone number</source>
         <translation>请输入QQ号或手机号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="781"/>
+        <location filename="src/CUiCenter.cpp" line="1164"/>
         <source>you have imported %1 pieces of data, bind platform for them?</source>
         <translation>你已成功导入%1条数据，是否绑定平台？</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="853"/>
+        <location filename="src/CUiCenter.cpp" line="1267"/>
         <source>Network erorr, error code = %1</source>
         <translation>网络错误，错误代码=%1</translation>
     </message>
@@ -390,32 +379,32 @@
         <translation type="vanished">正常</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="104"/>
+        <location filename="src/CUiCenter.cpp" line="116"/>
         <source>safe mode</source>
         <translation>安全模式</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="127"/>
+        <location filename="src/CUiCenter.cpp" line="175"/>
         <source>new phone number</source>
         <translation>新手机号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="130"/>
+        <location filename="src/CUiCenter.cpp" line="178"/>
         <source>task_status</source>
         <translation>任务状态</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="133"/>
+        <location filename="src/CUiCenter.cpp" line="181"/>
         <source>bizType</source>
         <translation type="unfinished">类型</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="252"/>
+        <location filename="src/CUiCenter.cpp" line="310"/>
         <source>drop files here</source>
         <translation>拖动文件到此处</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="347"/>
+        <location filename="src/CUiCenter.cpp" line="404"/>
         <source>export success</source>
         <translation>导出成功</translation>
     </message>
@@ -424,17 +413,17 @@
         <translation type="vanished">封号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="519"/>
+        <location filename="src/CUiCenter.cpp" line="663"/>
         <source>bind</source>
         <translation>绑定</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="520"/>
+        <location filename="src/CUiCenter.cpp" line="664"/>
         <source>bindAll</source>
         <translation>全部绑定</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="521"/>
+        <location filename="src/CUiCenter.cpp" line="670"/>
         <source>remove</source>
         <translation>移除</translation>
     </message>
@@ -443,12 +432,12 @@
         <translation type="obsolete">余额</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="557"/>
+        <location filename="src/CUiCenter.cpp" line="707"/>
         <source>fetch list data success!</source>
         <translation>更新列表数据成功！</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="581"/>
+        <location filename="src/CUiCenter.cpp" line="718"/>
         <source>sync phone numbers success!</source>
         <translation>同步电话号码成功！</translation>
     </message>
@@ -458,62 +447,92 @@
         <translation>主界面</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="180"/>
-        <location filename="src/CUiCenter.cpp" line="513"/>
+        <location filename="src/CUiCenter.ui" line="202"/>
+        <location filename="src/CUiCenter.cpp" line="657"/>
         <source>modify_pwd</source>
         <translation type="unfinished">修改密码</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="218"/>
-        <location filename="src/CUiCenter.cpp" line="516"/>
+        <location filename="src/CUiCenter.ui" line="240"/>
+        <location filename="src/CUiCenter.cpp" line="660"/>
         <source>query_role</source>
         <translation type="unfinished">查询角色</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="237"/>
+        <location filename="src/CUiCenter.ui" line="259"/>
         <source>bind_phone</source>
         <translation type="unfinished">换绑手机</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="244"/>
-        <location filename="src/CUiCenter.cpp" line="517"/>
+        <location filename="src/CUiCenter.ui" line="266"/>
+        <location filename="src/CUiCenter.cpp" line="661"/>
         <source>query_score</source>
         <translation type="unfinished">查询信用分</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="302"/>
+        <location filename="src/CUiCenter.ui" line="324"/>
         <source>message</source>
         <translation>短信</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="318"/>
-        <location filename="src/CUiCenter.ui" line="339"/>
-        <location filename="src/CUiCenter.cpp" line="124"/>
+        <location filename="src/CUiCenter.ui" line="340"/>
+        <location filename="src/CUiCenter.ui" line="361"/>
+        <location filename="src/CUiCenter.cpp" line="172"/>
         <source>phone number</source>
         <translation>手机号</translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="495"/>
+        <source>single_task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="512"/>
+        <source>single_qq</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="572"/>
+        <source>single_do</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="590"/>
+        <source>GroupBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="619"/>
+        <source>TextLabel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/CUiCenter.ui" line="657"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>message content</source>
         <translation type="vanished">短信内容</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="423"/>
+        <location filename="src/CUiCenter.ui" line="445"/>
         <source>send</source>
         <translation>发送</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="137"/>
+        <location filename="src/CUiCenter.ui" line="153"/>
         <source>operation</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="945"/>
+        <location filename="src/CUiCenter.cpp" line="1353"/>
         <source>modify password</source>
         <translation>修改密码</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="199"/>
-        <location filename="src/CUiCenter.cpp" line="514"/>
+        <location filename="src/CUiCenter.ui" line="221"/>
+        <location filename="src/CUiCenter.cpp" line="658"/>
         <source>release_safe_mode</source>
         <oldsource>unsecure mode</oldsource>
         <translation type="unfinished">解除安全模式</translation>
@@ -523,27 +542,27 @@
         <translation type="vanished">查封号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="354"/>
+        <location filename="src/CUiCenter.ui" line="376"/>
         <source>to phone</source>
         <translation>发送至</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="373"/>
+        <location filename="src/CUiCenter.ui" line="395"/>
         <source>1069070069</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="451"/>
+        <location filename="src/CUiCenter.ui" line="473"/>
         <source>wallet</source>
         <translation>钱包</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="954"/>
+        <location filename="src/CUiCenter.cpp" line="1362"/>
         <source>search role</source>
         <translation>查角色</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="951"/>
+        <location filename="src/CUiCenter.cpp" line="1359"/>
         <source>bind phone</source>
         <translation>换绑手机号</translation>
     </message>
@@ -556,22 +575,22 @@
         <translation type="vanished">添加账号</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.ui" line="390"/>
+        <location filename="src/CUiCenter.ui" line="412"/>
         <source>message template</source>
         <translation>短信模板</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="136"/>
+        <location filename="src/CUiCenter.cpp" line="184"/>
         <source>status</source>
         <translation>状态</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="551"/>
+        <location filename="src/CUiCenter.cpp" line="701"/>
         <source>balance : %1</source>
         <translation>余额 ：%1</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="781"/>
+        <location filename="src/CUiCenter.cpp" line="1164"/>
         <source>question</source>
         <translation>提示</translation>
     </message>
@@ -588,7 +607,7 @@
         <translation type="vanished">记录</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="83"/>
+        <location filename="src/CUiCenter.cpp" line="95"/>
         <source>export</source>
         <translation>导出</translation>
     </message>
@@ -597,8 +616,9 @@
         <translation type="vanished">删除</translation>
     </message>
     <message>
-        <location filename="src/CUiCenter.cpp" line="649"/>
-        <location filename="src/CUiCenter.cpp" line="658"/>
+        <location filename="src/CUiCenter.cpp" line="881"/>
+        <location filename="src/CUiCenter.cpp" line="958"/>
+        <location filename="src/CUiCenter.cpp" line="967"/>
         <source>tips</source>
         <translation>提示</translation>
     </message>
@@ -656,7 +676,7 @@
         <translation>确定</translation>
     </message>
     <message>
-        <location filename="src/ExportDataView.cpp" line="7"/>
+        <location filename="src/ExportDataView.cpp" line="8"/>
         <source>export setting</source>
         <translation>导出设置</translation>
     </message>
@@ -731,30 +751,30 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="src/HFBroadbandDial.cpp" line="18"/>
-        <location filename="src/HFBroadbandDial.cpp" line="23"/>
-        <location filename="src/HFBroadbandDial.cpp" line="28"/>
-        <location filename="src/HFBroadbandDial.cpp" line="36"/>
+        <location filename="src/HFBroadbandDial.cpp" line="33"/>
+        <location filename="src/HFBroadbandDial.cpp" line="38"/>
+        <location filename="src/HFBroadbandDial.cpp" line="43"/>
+        <location filename="src/HFBroadbandDial.cpp" line="52"/>
         <source>tips</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="src/HFBroadbandDial.cpp" line="18"/>
+        <location filename="src/HFBroadbandDial.cpp" line="33"/>
         <source>please enter account</source>
         <translation>请输入账号</translation>
     </message>
     <message>
-        <location filename="src/HFBroadbandDial.cpp" line="23"/>
+        <location filename="src/HFBroadbandDial.cpp" line="38"/>
         <source>please enter password</source>
         <translation>请输入密码</translation>
     </message>
     <message>
-        <location filename="src/HFBroadbandDial.cpp" line="28"/>
+        <location filename="src/HFBroadbandDial.cpp" line="43"/>
         <source>time can not be zero</source>
         <translation>间隔时间不能为0</translation>
     </message>
     <message>
-        <location filename="src/HFBroadbandDial.cpp" line="36"/>
+        <location filename="src/HFBroadbandDial.cpp" line="52"/>
         <source>Setting will be apply after restart, restart now?</source>
         <translation>设置将在重启后生效，是否立即重启？</translation>
     </message>
@@ -939,13 +959,13 @@
     </message>
     <message>
         <location filename="src/main.cpp" line="55"/>
-        <location filename="src/BRSystem.cpp" line="296"/>
+        <location filename="src/BRSystem.cpp" line="306"/>
         <source>question</source>
         <translation>提示</translation>
     </message>
     <message>
         <location filename="src/main.cpp" line="55"/>
-        <location filename="src/BRSystem.cpp" line="296"/>
+        <location filename="src/BRSystem.cpp" line="306"/>
         <source>find a new version, please up to date.</source>
         <translation>发现新版本，请更新后使用。</translation>
     </message>
@@ -958,12 +978,12 @@
         <translation type="vanished">浅色</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="303"/>
+        <location filename="src/BRSystem.cpp" line="313"/>
         <source>tips</source>
         <translation>提示</translation>
     </message>
     <message>
-        <location filename="src/BRSystem.cpp" line="303"/>
+        <location filename="src/BRSystem.cpp" line="313"/>
         <source>your application is up to date</source>
         <translation>已经是最新版本</translation>
     </message>
@@ -1015,42 +1035,42 @@
     </message>
     <message>
         <location filename="src/UiLogin.cpp" line="96"/>
-        <location filename="src/UiLogin.cpp" line="252"/>
+        <location filename="src/UiLogin.cpp" line="253"/>
         <source>please input user name</source>
         <translation>请输入用户名用户</translation>
     </message>
     <message>
         <location filename="src/UiLogin.cpp" line="103"/>
-        <location filename="src/UiLogin.cpp" line="259"/>
+        <location filename="src/UiLogin.cpp" line="260"/>
         <source>please input password</source>
         <translation>请输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="139"/>
-        <location filename="src/UiLogin.cpp" line="143"/>
-        <location filename="src/UiLogin.cpp" line="189"/>
-        <location filename="src/UiLogin.cpp" line="193"/>
+        <location filename="src/UiLogin.cpp" line="140"/>
+        <location filename="src/UiLogin.cpp" line="144"/>
+        <location filename="src/UiLogin.cpp" line="190"/>
+        <location filename="src/UiLogin.cpp" line="194"/>
         <source>warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="143"/>
+        <location filename="src/UiLogin.cpp" line="144"/>
         <source>regist success</source>
         <translation>注册成功</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="189"/>
-        <location filename="src/UiLogin.cpp" line="193"/>
+        <location filename="src/UiLogin.cpp" line="190"/>
+        <location filename="src/UiLogin.cpp" line="194"/>
         <source>network error occured</source>
         <translation>网络错误</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="267"/>
+        <location filename="src/UiLogin.cpp" line="268"/>
         <source>please input password reply</source>
         <translation>请再次输入密码</translation>
     </message>
     <message>
-        <location filename="src/UiLogin.cpp" line="274"/>
+        <location filename="src/UiLogin.cpp" line="275"/>
         <source>twice input password not match</source>
         <translation>两次输入的密码不一致</translation>
     </message>

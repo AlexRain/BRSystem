@@ -13,7 +13,6 @@ class NETWORK_EXPORT WebSocketClientManager :public QObject
 {
 	Q_OBJECT
 
-
 public:
 
 	WebSocketClientManager(QObject* parent = nullptr);
@@ -71,9 +70,12 @@ public :
 
 	bool bindLogData(const QObject* receiver, const char* method);
 
+	bool bindLoseConn(const QObject* receiver, const char* method);
+
 
 signals:
-	void showMsg(const int, const QString,const QString);
+	void showMsg(const int, const QString,const QString, const int=0);
+	void loseConn();
 
 private slots:
 	// 连接成功

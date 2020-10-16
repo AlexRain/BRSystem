@@ -270,9 +270,6 @@
     <QtUic Include="src\UiUsageRecord.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\CUiCenter.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="src\UiLogin.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -297,6 +294,9 @@
     <QtUic Include="src\ExportDataView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="src\CUiCenter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />
@@ -316,5 +316,6 @@
     <None Include="qss\global_dark.css" />
     <None Include="qss\global_orange.css" />
     <None Include="qss\global_white.css" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

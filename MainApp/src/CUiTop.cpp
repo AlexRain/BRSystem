@@ -28,7 +28,7 @@ CUiTop::CUiTop(QWidget* parent)
 
     ui.label_logo->setMinimumHeight(33);
     QPixmap logo("images/logo.png");
-    ui.label_logo->setPixmap(UiHelper::justPixmapByHeight(33, logo));
+	ui.label_logo->setPixmap(UiHelper::justPixmapByHeight(33, logo));
 }
 
 CUiTop::~CUiTop()

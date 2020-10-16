@@ -30,6 +30,15 @@
     <ClCompile Include="src\TaskManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\WebSocketClientManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyThreadRunable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyThreadRunableProducer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Network.h">
@@ -47,6 +56,15 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\TaskManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\WebSocketClientManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MyThreadRunable.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MyThreadRunableProducer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

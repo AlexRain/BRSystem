@@ -38,6 +38,7 @@ int KillProcess(const wchar_t* processName)
         }
         //find processName
         if (wcsicmp(pe.szExeFile, processName) == 0) {
+			qDebug() << "pid is " << id;
             id = pe.th32ProcessID;
             break;
         }
@@ -62,16 +63,17 @@ BRSystem::BRSystem(QWidget* parent)
 {
     qRegisterMetaType<ResponData>("ResponData");
     this->init();
-    this->setWindowTitle(tr("HelloGame"));
+    this->setWindowTitle(tr("HL"));
     pLayer = new UiFrostedLayer(this);
     pLayer->hide();
+
     startLocalPyServer();
+
 }
 
 BRSystem::~BRSystem()
 {
-    KillProcess(L"hl-py.exe");
-    KillProcess(L"hl-py.exe");
+	WebHandler::instance()->ExitPy();
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -184,6 +186,7 @@ void BRSystem::init()
     auto layoutLog = new QVBoxLayout(groupLog);
     layoutLog->setSpacing(0);
     logOutput = new QTextBrowser(groupLog);
+	//logOutput->setFixedHeight(200);
     logOutput->setContextMenuPolicy(Qt::CustomContextMenu);
     //右键菜单
     connect(logOutput, SIGNAL(customContextMenuRequested(const QPoint&)),
@@ -262,13 +265,24 @@ void BRSystem::createMenus(QMenuBar* menuBar)
 
     //import
     {
-        auto accountMenu = menuBar->addMenu(tr("import export bind"));
+        auto accountMenu = menuBar->addMenu(QString::fromLocal8Bit("导入"));
         //accountMenu->addAction(tr("import"), [=]() {});
         accountMenu->addAction(QString::fromLocal8Bit("导入上次文件"), [=] 
             {
                 emit doImportLastFile();
             });
     }
+
+
+	//export
+	{
+		auto accountMenu = menuBar->addMenu(QString::fromLocal8Bit("导出"));
+		//accountMenu->addAction(tr("import"), [=]() {});
+		accountMenu->addAction(QString::fromLocal8Bit("导出文本"), [=]
+		{
+			emit doExportFile();
+		});
+	}
 
     //setting
     {

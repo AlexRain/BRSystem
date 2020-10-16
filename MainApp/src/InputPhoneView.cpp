@@ -5,6 +5,10 @@ InputPhoneView::InputPhoneView(QWidget* parent)
 {
     ui.setupUi(this->getContent());
     this->SetTitle(tr("modify phone"));
+	connect(ui.lineEdit_phone, &QLineEdit::textChanged, this, [=](const QString& text) {
+		ui.btn_ok->setEnabled(!text.isEmpty());
+	});
+	QMetaObject::connectSlotsByName(this);
 }
 
 InputPhoneView::~InputPhoneView()
