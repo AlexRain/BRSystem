@@ -59,6 +59,30 @@ void WebHandler::ParseJsonData(const QByteArray& rawData, QJsonObject& data, Dat
     data = root.value("data").toObject();
 }
 
+void WebHandler::ParseJsonArrayData(const QByteArray& rawData, QVariantList& data, DataParseResult* result)
+{
+    QJsonParseError error;
+    QJsonDocument document = QJsonDocument::fromJson(rawData, &error);
+    if (error.error != QJsonParseError::NoError) {
+        if (result) {
+            result->errorCode = DataParseResult::ParseError;
+            result->message = tr("parse error");
+        }
+        return;
+    }
+    QJsonObject root = document.object();
+    if (root.value("code").toInt() != 0) {
+        if (result) {
+            result->errorCode = DataParseResult::ParseError;
+            result->message = root.value("msg").toString();
+        }
+        return;
+    }
+    if (result)
+        result->message = root.value("msg").toString();
+    data = root.value("data").toVariant().toList();
+}
+
 void WebHandler::JsonToArray(const QJsonArray& array, void (*func)(const QJsonObject& obj, void* param), void* param)
 {
     Q_ASSERT(func);
@@ -100,6 +124,66 @@ void WebHandler::Post(const RequestTask& taskData)
     QMetaObject::invokeMethod(this, "excuteRequest", Qt::QueuedConnection, Q_ARG(const RequestTaskInner&, taskInner));
 }
 
+
+ResponData WebHandler::PostIm(const RequestTask& taskData)
+{
+	ResponData dataCallback;
+    RequestTaskInner taskInner;
+	taskInner.task = taskData;
+	taskInner.requestType = RequestType::Post;
+	std::string strUrl = std::string(baseUrl) + getApi(taskInner.task.apiIndex);
+	QUrl url = QUrl::fromEncoded(QByteArray::fromStdString(strUrl));
+	QNetworkRequest request;
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+	qInfo("http request url=%s, request type=%d", strUrl.c_str(), taskInner.requestType);
+	QTimer requestTimeOut;
+	QTimer showLoadTimer;
+	requestTimeOut.setSingleShot(true);
+	showLoadTimer.setSingleShot(true);
+	connect(&showLoadTimer, &QTimer::timeout, this, &WebHandler::showLoading);
+	QEventLoop loop;
+	QNetworkReply* reply = nullptr;
+	// parse param
+	parseParam(request, url, taskInner.task);
+	request.setUrl(url);
+	QByteArray bodyParam;
+	setRequestBodyByParam(bodyParam, taskInner.task.bodyObj);
+	reply = manager->post(request, bodyParam);
+	connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+	connect(&requestTimeOut, &QTimer::timeout, &loop, &QEventLoop::quit);
+	requestTimeOut.start(REQUEST_TIMEOUT);
+	showLoadTimer.start();
+	loop.exec();
+	if (requestTimeOut.isActive()) {
+		requestTimeOut.stop();
+		if (showLoadTimer.isActive())
+			showLoadTimer.stop();
+		if (reply->error()) {
+			dataCallback.errorMsg = reply->errorString();
+			dataCallback.dataReturned = nullptr;
+			return dataCallback;
+		}
+		else {
+			// check if it was actually a redirect
+			if (isHttpRedirect(reply)) {
+				reportRedirect(reply);
+			}
+			else {
+				int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+				if (statusCode == 200) {
+					qDebug("http request url=%s success", qPrintable(reply->url().toEncoded().constData()));
+					QByteArray data = reply->readAll();
+					qInfo("data respond=%s", data.constData());
+					dataCallback.dataReturned = data;
+					return dataCallback;
+				}
+			}
+		}
+		reply->deleteLater();
+	}
+	return dataCallback;
+}
+
 void WebHandler::ExitPy()
 {
 	std::string strUrl = std::string(localServer) + getApi(API::exitPy);
@@ -132,7 +216,11 @@ void WebHandler::requestFinished(QNetworkReply* reply)
         // request failed
         qDebug() << "network error:" << reply->error();
         qDebug("http request url=%s failed, error info=%s", reply->url().toEncoded().constData(), qPrintable(reply->errorString()));
-        emit requestError(dataCallback, NetworkRequestError::Status_Error);
+		if (currentTask.task.apiIndex == API::checkUpdate) {
+			emit requestCallback(dataCallback);
+		}else {
+			emit requestError(dataCallback, NetworkRequestError::Status_Error);
+		}
     } else {
         // check if it was actually a redirect
         if (isHttpRedirect(reply)) {
@@ -150,7 +238,6 @@ void WebHandler::requestFinished(QNetworkReply* reply)
             emit requestError(dataCallback, NetworkRequestError::Status_Error);
         }
     }
-
     reply->deleteLater();
     startNextRequest();
 }

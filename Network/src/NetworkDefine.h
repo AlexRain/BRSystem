@@ -7,11 +7,11 @@ using PointerValue = unsigned long long;
 static const int REQUEST_TIMEOUT = 15 * 1000;
 static const int SHOW_LOADING = 500;
 static const char* baseUrl = "http://bill.ah-fenghe.com/api/v1";
-static const char* baseUrl2 = "http://bill.ah-fenghe.com/api/v1";
+//static const char* baseUrl = "http://192.168.101.10:31001/api/v1";
 static const char* localServer = "http://127.0.0.1:5001";
 static const char* localWsServer = "ws://127.0.0.1:5002";
 //static const char* localWsServer = "ws://localhost:5001/ws";
-static const char* app_version = "1.0.3";
+static const char* app_version = "1.0.9";
 
 enum class API {
     apiNoneType,
@@ -27,6 +27,7 @@ enum class API {
     getToken,
     getProfile,
     getWalllet,
+    exportAccount,
 
     //phone phone management
     getPhoneList,
@@ -114,6 +115,9 @@ static std::string getApi(API apiType)
     case API::exitPy:
         api = "/exitPy";
         break;
+	case API::exportAccount:
+		api = "/account/export";
+		break;
     default:
         break;
     }
@@ -158,6 +162,7 @@ Q_DECLARE_METATYPE(RequestTaskInner)
 
 struct ResponData {
     RequestTask task;
+    QString errorMsg;
     QByteArray dataReturned;
 };
 

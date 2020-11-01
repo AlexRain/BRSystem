@@ -4,20 +4,20 @@
 #include "CApplication.h"
 #include "CDbHelper.h"
 #include "CTableview.h"
-#include "ExportDataView.h"
+#include "ExportSettingView.h"
+#include "SelectGoodsView.h"
 #include "NetworkDefine.h"
 #include "ReadOnlyDelegate.h"
 #include "CheckBoxDelegate.h"
 #include "TaskManager.h"
 #include "ThreadImport.h"
 #include "define.h"
-#include "ui_CUiCenter.h"
 #include <QModelIndex>
 #include <QPainter>
 #include <QStandardItemModel>
 #include <QWidget>
 #include "WebSocketClientManager.h"
-
+#include "ui_CUiCenter.h"
 class CSearchLineEdit;
 class QTableView;
 class SortFilterProxyModel;
@@ -204,7 +204,8 @@ private:
     void setData(const QList<ModelData>& model);
     void doExport(QList<ModelData>& datas);
     void updateButtonState(int selectedCount);
-    void doExport(ExportDataView::ExportSetting setting);
+    void doExport(ExportSettingView::ExportSetting setting);
+	void getExportList(QJsonArray accounts, ExportSettingView::ExportSetting exportSetting);
     void setAddvertiseLink(const QString& link);
     void openPhoneNumberList();
 	bool GetCurrentSelectData(QList<ModelData>& selectedRows);
@@ -215,6 +216,7 @@ private:
     void doTask(ModelData data,QString newPassword, int bizType);
     bool ShowInputPwdView(QString& password);
     bool ShowInputPhone(QString& phone);
+    bool ShowInputIdentityView();
     void parseLocalTaskData(const QJsonObject& dataObj, int index, const QString& taskId);
     void setListRowData(int rowIndex, int column, const QVariant& data);
     QString getTaskTypeString(TaskType type);
@@ -224,7 +226,7 @@ private:
     void addTableMenuActionSolt(QMenu* menu, QString text, const char* method, bool disabled=false);
     void AddSignleRow(ImportData data);
 
-
+	ExportSettingView::ExportSetting exportSetting;
 protected:
     virtual QList<QStandardItem*> creatRow(const ModelData& model, int index);
 
@@ -234,6 +236,7 @@ signals:
     void onRestartTask();
 
 private slots:
+	void exportFile(QVariantList& list);
 	void exportList();
     void loseConnection();
     void pauseTask();
@@ -254,9 +257,13 @@ private slots:
     void on_btn_release_safe_model_clicked();
     void on_btn_query_ban_clicked();
     void on_btn_role_clicked();
+	void on_btn_query_quick_role_clicked();
     void on_btn_query_score_clicked();
     void on_btn_query_identity_clicked();
-    void removeAll();
+	void on_btn_query_point_clicked();
+	void on_btn_update_identity_clicked();
+	void on_btn_buy_goods_clicked();
+	void removeAll();
     void remove();
     void on_btn_send_msg_clicked();
     void on_btn_sync_phone_clicked();
@@ -281,6 +288,8 @@ private:
     int importCount = 0;
     ModeDataList listImport;
     QSet<QString> accountSet;
+    QMap<QString,QString> exportModeDataStatusMap;
     QMenu* menu;
     WebSocketClientManager* wsClient;
+	QJsonObject goodsReq;
 };

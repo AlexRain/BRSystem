@@ -132,7 +132,7 @@ void MyThreadRunable::doRequest(MyTask currentTask) {
 
 	connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
 	connect(&requestTimeOut, &QTimer::timeout, &loop, &QEventLoop::quit);
-	requestTimeOut.start(120 * 1000);
+	requestTimeOut.start(300 * 1000);
 	loop.exec();
 
 	if (requestTimeOut.isActive()) {

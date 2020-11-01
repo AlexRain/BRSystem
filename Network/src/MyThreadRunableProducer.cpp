@@ -31,11 +31,12 @@ void MyThreadRunableProducer::addPauseQueue(const MyTask& task) {
 void MyThreadRunableProducer::addQueue(MyTask mytask,QObject* reciver) {
 	parentReciver = reciver;
 	MyThreadRunable::restartTask();
-	if (pauseQueue.isEmpty()) {
+	if (!pauseQueue.isEmpty()) {
 		pauseQueue.clear();
 	}
-	if (myTaskQueue.isEmpty())
+	if (myTaskQueue.isEmpty()) {
 		QTimer::singleShot(0, this, SLOT(outQueue()));
+	}
 	qDebug() << "producer add myTask" << mytask.taskName;
 	myTaskQueue.append(mytask);
 }

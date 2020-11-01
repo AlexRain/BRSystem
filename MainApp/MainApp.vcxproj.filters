@@ -194,7 +194,13 @@
     <ClCompile Include="src\InputPhoneView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ExportDataView.cpp">
+    <ClCompile Include="src\InputIdentityView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ExportSettingView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SelectGoodsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -256,7 +262,13 @@
     <QtMoc Include="src\InputPhoneView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\ExportDataView.h">
+    <QtMoc Include="src\InputIdentityView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ExportSettingView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\SelectGoodsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -291,7 +303,13 @@
     <QtUic Include="src\InputPhoneView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="src\ExportDataView.ui">
+    <QtUic Include="src\InputIdentityView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\ExportSettingView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\SelectGoodsView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\CUiCenter.ui">

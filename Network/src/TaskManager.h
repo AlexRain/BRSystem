@@ -17,7 +17,11 @@ enum TaskType {
     query_identity,
     query_ban,
     query_credit_score,
-    send_short_message
+    send_short_message,
+	query_point,
+	query_update_identity,
+	buy_goods,
+	query_quick_role,
 };
 
 class NETWORK_EXPORT TaskManager : public QObject{

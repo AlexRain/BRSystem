@@ -52,9 +52,10 @@ enum TableAcocountList {
     phoneNumber,
     newPhoneNumber,
     task_status,
+    task_status_txt,
     bizType,
-    status
-   
+    bizType_txt,
+    show
 };
 
 enum BorrowStatus {

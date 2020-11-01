@@ -20,6 +20,7 @@
 #include <QStatusBar>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QFileDialog>
 
 int KillProcess(const wchar_t* processName)
 {
@@ -269,6 +270,19 @@ void BRSystem::createMenus(QMenuBar* menuBar)
         //accountMenu->addAction(tr("import"), [=]() {});
         accountMenu->addAction(QString::fromLocal8Bit("导入上次文件"), [=] 
             {
+                emit doImportLastFile();
+            });
+        accountMenu->addAction(QString::fromLocal8Bit("导入文件"), [=] 
+            {
+
+				QString fileName = QFileDialog::getOpenFileName(
+					this, QString::fromLocal8Bit("请选择文件"),
+					"./", tr("List files(*.txt);;All files (*.*)"));
+				if (fileName.isEmpty()) {
+					return;
+				}
+				QSettings setting("app.ini", QSettings::IniFormat);
+				setting.setValue("last_file_path","file:///"+fileName);
                 emit doImportLastFile();
             });
     }

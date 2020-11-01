@@ -11,7 +11,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPropertyAnimation>
-
+#include "UpgradeHelper.h"
+#include <QDesktopServices>
 static const char* REGISTER = "register";
 static const char* FORGET_PWD = "forget";
 static const char* USER_NAME = "USER_NAME";
@@ -174,8 +175,22 @@ void UiLogin::onRequestCallback(const ResponData& data)
 
 int UiLogin::fadeIn()
 {
+
+
     this->show();
     this->raise();
+	{
+		UpgradeHelper checkHelper;
+		checkHelper.CheckUpgrade();
+		auto result = checkHelper.GetCheckResult();
+		if (result.needUpdate && result.force_update) {
+			int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
+			if (code == QMessageBox::Ok) {
+				QDesktopServices::openUrl(QUrl::fromEncoded(result.download_url.toUtf8()));
+			}
+			return 0;
+		}
+	}
 
     /*开启事件循环，同步等待动画完成再启动*/
     QEventLoop eventLoop;

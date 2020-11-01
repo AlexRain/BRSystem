@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InputIdentityView</class>
+ <widget class="QWidget" name="InputIdentityView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>401</width>
+    <height>161</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>InputIdentityView</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="leftMargin">
+      <number>15</number>
+     </property>
+     <property name="topMargin">
+      <number>15</number>
+     </property>
+     <property name="rightMargin">
+      <number>15</number>
+     </property>
+     <property name="bottomMargin">
+      <number>15</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_userName">
+       <property name="text">
+        <string>姓名</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_certId">
+       <property name="text">
+        <string>身份证</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEdit_userName"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEdit_certId"/>
+     </item>
+    </layout>
+   </item>
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QPushButton" name="btn_ok">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>ok</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>

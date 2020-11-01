@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
 #ifndef _DEBUG
     //check new version
-    {
+ /*   {
         UpgradeHelper checkHelper;
         checkHelper.CheckUpgrade();
         auto result = checkHelper.GetCheckResult();
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
             }
             return 0;
         }
-    }
+    }*/
 #endif // _DEBUG
 
     /*Ö÷½çÃæ*/

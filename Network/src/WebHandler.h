@@ -25,6 +25,7 @@ public:
     void Get(const RequestTask& taskData);
     
 	void Post(const RequestTask& taskData);
+	ResponData PostIm(const RequestTask& taskData);
 
 	void WebHandler::ExitPy();
 
@@ -34,6 +35,9 @@ public:
     static bool bindNetworkStatusChangeCallback(const QObject* receiver, const char* method);
 
     static void ParseJsonData(const QByteArray& rawData, QJsonObject& data, DataParseResult* result = nullptr);
+
+    static void ParseJsonArrayData(const QByteArray& rawData, QVariantList& data, DataParseResult* result = nullptr);
+
     static void JsonToArray(const QJsonArray& root, void (*func)(const QJsonObject& obj, void* param), void* param);
 
     static bool isHttpRedirect(QNetworkReply* reply);
