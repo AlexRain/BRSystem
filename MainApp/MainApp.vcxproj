@@ -239,7 +239,7 @@
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;..\CommonGui\src;..\CommonGui\GeneratedFiles;..\DataBase\src;..\DataBase\GeneratedFiles;..\Network\src;..\Network\GenerateFiles;..\CommonUse\src;..\CommonUse\GenerateFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\QTwork\BRSystem\quazip\quazip\include;..\quazip\quazip\GeneratedFiles;..\quazip\quazip;.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;.\src;..\CommonGui\src;..\CommonGui\GeneratedFiles;..\DataBase\src;..\DataBase\GeneratedFiles;..\Network\src;..\Network\GenerateFiles;..\CommonUse\src;..\CommonUse\GenerateFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -251,7 +251,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(outdir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGui.lib;Network.lib;DataBase.lib;CommonUse.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGui.lib;Network.lib;DataBase.lib;CommonUse.lib;quazip.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
     <QtMoc>
@@ -355,7 +355,7 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(outdir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>CommonGui.lib;Network.lib;DataBase.lib;CommonUse.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CommonGui.lib;Network.lib;DataBase.lib;CommonUse.lib;quazip.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -442,6 +442,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="src\version.h" />
+    <QtMoc Include="src\UiTaskPrice.h" />
+    <QtMoc Include="src\UiProgressBar.h" />
+    <QtMoc Include="src\WaitWindow.h" />
     <QtMoc Include="src\SelectGoodsView.h" />
     <QtMoc Include="src\UpgradeHelper.h" />
     <QtMoc Include="src\ThreadImport.h" />
@@ -459,6 +463,7 @@
     <QtMoc Include="src\InputPhoneView.h" />
     <QtMoc Include="src\InputIdentityView.h" />
     <QtMoc Include="src\ExportSettingView.h" />
+    <QtMoc Include="src\CUiRecieveSms.h" />
     <ClInclude Include="src\resource.h" />
     <QtMoc Include="src\UiLogin.h" />
     <QtMoc Include="src\UiChangeSkin.h" />
@@ -738,18 +743,23 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MsgTaskManager.cpp" />
     <ClCompile Include="src\OperationLog.cpp" />
+    <ClCompile Include="src\CUiRecieveSms.cpp" />
     <ClCompile Include="src\SelectGoodsView.cpp" />
     <ClCompile Include="src\TaskService.cpp" />
     <ClCompile Include="src\ThreadImport.cpp" />
     <ClCompile Include="src\UiChangeSkin.cpp" />
     <ClCompile Include="src\UiLogin.cpp" />
+    <ClCompile Include="src\UiProgressBar.cpp" />
+    <ClCompile Include="src\UiTaskPrice.cpp" />
     <ClCompile Include="src\UiUsageRecord.cpp" />
     <ClCompile Include="src\UpgradeHelper.cpp" />
+    <ClCompile Include="src\WaitWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\AboutView.ui" />
     <QtUic Include="src\CEditInfoDialog.ui" />
     <QtUic Include="src\CUiCenter.ui" />
+    <QtUic Include="src\CUiRecieveSms.ui" />
     <QtUic Include="src\CUiTop.ui" />
     <QtUic Include="src\ExportSettingView.ui" />
     <QtUic Include="src\HFBroadbandDial.ui" />
@@ -760,7 +770,10 @@
     <QtUic Include="src\InputPwdView.ui" />
     <QtUic Include="src\SelectGoodsView.ui" />
     <QtUic Include="src\UiLogin.ui" />
+    <QtUic Include="src\UiProgressBar.ui" />
+    <QtUic Include="src\UiTaskPrice.ui" />
     <QtUic Include="src\UiUsageRecord.ui" />
+    <QtUic Include="src\WaitWindow.ui" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MainApp.rc" />

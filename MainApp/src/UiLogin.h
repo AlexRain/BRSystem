@@ -23,12 +23,13 @@ public:
     void getUserInfo();
     void initUser();
     void verify();
-    int fadeIn();
+	int fadeIn();
 
 private slots:
     void onRequestCallback(const ResponData& data);
     void onLinkActived(const QString& link);
     void onRequestError(const ResponData& data, NetworkRequestError errorType);
+	void acceptDown();
 
 protected:
     void mouseMoveEvent(QMouseEvent* event);
@@ -37,6 +38,10 @@ protected:
     void keyPressEvent(QKeyEvent* event);
     virtual void resizeEvent(QResizeEvent* event) override;
     void on_btn_register_clicked();
+
+	void AutoUpgrade(QString url,QString fileName);
+
+	void ShowProgressBar();
 
 private:
     Ui::UiLogin ui;

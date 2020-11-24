@@ -22,39 +22,30 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 
-int KillProcess(const wchar_t* processName)
+bool DelDir(const QString &path)
 {
-    PROCESSENTRY32 pe;
-    DWORD id = 0;
-    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    pe.dwSize = sizeof(PROCESSENTRY32);
-    if (!Process32First(hSnapshot, &pe)) {
-        return 0;
-    }
-
-    while (1) {
-        pe.dwSize = sizeof(PROCESSENTRY32);
-        if (Process32Next(hSnapshot, &pe) == FALSE) {
-            break;
-        }
-        //find processName
-        if (wcsicmp(pe.szExeFile, processName) == 0) {
-			qDebug() << "pid is " << id;
-            id = pe.th32ProcessID;
-            break;
-        }
-    }
-    CloseHandle(hSnapshot);
-    //if(id == 0)
-    //  return ;
-
-    //Kill The Process
-    HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, id);
-    if (hProcess != NULL) {
-        TerminateProcess(hProcess, 0);
-        CloseHandle(hProcess);
-    }
-    return 1;
+	if (path.isEmpty())
+	{
+		return false;
+	}
+	QDir dir(path);
+	if (!dir.exists())
+	{
+		return true;
+	}
+	dir.setFilter(QDir::AllEntries | QDir::NoDotAndDotDot); //设置过滤
+	QFileInfoList fileList = dir.entryInfoList(); // 获取所有的文件信息
+	foreach(QFileInfo file, fileList)
+	{ //遍历文件信息
+		if (file.isFile()) { // 是文件，删除
+			file.dir().remove(file.fileName());
+		}
+		else
+		{ // 递归删除
+			DelDir(file.absoluteFilePath());
+		}
+	}
+	return dir.rmpath(dir.absolutePath()); // 删除文件夹
 }
 
 BRSystem::BRSystem(QWidget* parent)
@@ -68,13 +59,70 @@ BRSystem::BRSystem(QWidget* parent)
     pLayer = new UiFrostedLayer(this);
     pLayer->hide();
 
-    startLocalPyServer();
+    //startLocalPyServer();
 
+}
+int BRSystem::KillProcess(const wchar_t* processName)
+{
+	PROCESSENTRY32 pe;
+	DWORD id = 0;
+	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	pe.dwSize = sizeof(PROCESSENTRY32);
+	if (!Process32First(hSnapshot, &pe)) {
+		return 0;
+	}
+
+	while (1) {
+		pe.dwSize = sizeof(PROCESSENTRY32);
+		if (Process32Next(hSnapshot, &pe) == FALSE) {
+			break;
+		}
+		//find processName
+		if (wcsicmp(pe.szExeFile, processName) == 0) {
+			qDebug() << "pid is " << id;
+			id = pe.th32ProcessID;
+			break;
+		}
+	}
+	CloseHandle(hSnapshot);
+	//if(id == 0)
+	//  return ;
+
+	//Kill The Process
+	HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, id);
+	if (hProcess != NULL) {
+		TerminateProcess(hProcess, 0);
+		CloseHandle(hProcess);
+	}
+	return 1;
 }
 
 BRSystem::~BRSystem()
 {
 	WebHandler::instance()->ExitPy();
+
+	QStringList params;
+	QProcess process;
+	qDebug() << "close1";
+
+	params << "-f" << "-im" << "hl-py.exe";
+	process.start("taskkill", params);
+
+	QStringList params2;
+	params2 << "-f" << "-im" << "chromedriver.exe";
+	process.start("taskkill", params2);
+	qDebug() << "close2"<< params2;
+
+	QProcess process3;
+	QStringList params3;
+	params3 << "-f" << "-im" << "chrome.exe";
+	process3.start("taskkill", params3);
+	qDebug() << "close3"<< params3;
+
+	//KillProcess(L"hl-py.exe");
+	//KillProcess(L"hl-py.exe");
+	//KillProcess(L"chromedriver.exe");
+	//KillProcess(L"Chromium");
 }
 
 void BRSystem::showCoverWidget(BaseWidget* content)
@@ -298,9 +346,47 @@ void BRSystem::createMenus(QMenuBar* menuBar)
 		});
 	}
 
+
+	//export
+	{
+		auto accountMenu = menuBar->addMenu(QString::fromLocal8Bit("短信"));
+		//accountMenu->addAction(tr("import"), [=]() {});
+		accountMenu->addAction(QString::fromLocal8Bit("接收短信"), [=]
+		{
+			smsWidget = new CUiRecieveSms(centerWidget);
+			smsWidget->show();
+		});
+		//accountMenu->addAction(QString::fromLocal8Bit("卡池开关"), [=]
+		//{
+		//	QSettings* setting = new QSettings("phone.ini", QSettings::IniFormat);
+		//	setting->setIniCodec(QTextCodec::codecForName("UTF-8"));
+		//	QString key = QString::fromLocal8Bit("卡池/开关");
+		//	QString value = setting->value(key,QString::fromLocal8Bit("关")).toString();
+		//	if (value == QString::fromLocal8Bit("开")) {
+		//		setting->setValue(key, QString::fromLocal8Bit("关"));
+		//	}
+		//	else {
+		//		setting->setValue(key, QString::fromLocal8Bit("开"));
+		//	}
+		//});
+	}
+
+	{
+		auto accountMenu = menuBar->addMenu(QString::fromLocal8Bit("积分"));
+		//accountMenu->addAction(tr("import"), [=]() {});
+		accountMenu->addAction(QString::fromLocal8Bit("积分规则"), [=]
+		{
+			uiTaskPrice = new UiTaskPrice(centerWidget);
+			uiTaskPrice->show();
+		});
+	}
     //setting
     {
         auto accountMenu = menuBar->addMenu(tr("settings"));
+        accountMenu->addAction(QString::fromLocal8Bit("清除缓存"), [=]() {
+			DelDir("cache");
+			DialogMsg::question(this, tr("tips"), QString::fromLocal8Bit("清除缓存成功"), QMessageBox::Ok);
+        });
         accountMenu->addAction(tr("pppoe"), [=]() {
             HFBroadbandDial* pppoeView = new HFBroadbandDial(this);
             PopupDialogContainer::showPopupDialogFadeIn(pppoeView, CApp->getMainWidget(), tr("pppoe"));
@@ -367,3 +453,5 @@ void BRSystem::onStartPyServerError(QProcess::ProcessError error)
 //    }
 //    /*QWidget::closeEvent(event);*/
 //}
+
+

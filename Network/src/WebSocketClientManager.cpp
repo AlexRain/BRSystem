@@ -31,6 +31,7 @@ WebSocketClientManager::~WebSocketClientManager()
 
 void WebSocketClientManager::run()
 {
+	qDebug() << "223333";
 	while (true)
 	{
 		if (m_webSocketState == connected)
@@ -177,7 +178,7 @@ void WebSocketClientManager::onDisconnected()
 	// 如果不是手动关闭 则需要重连
 	if (!m_bCloseByHand)
 	{
-		qDebug() << "lose connection";
+		//qDebug() << "lose connection";
 		emit loseConn();
 		m_timerHeartbeat.stop();
 		m_timerReconnect.start(m_nReconnectTimer);
@@ -217,6 +218,7 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 			{
 				 index = map["id"].toInt();
 			}
+
 			if (map.contains("qq"))
 			{
 				qq = map["qq"].toString();
@@ -234,9 +236,7 @@ void WebSocketClientManager::onTextMessageReceived(const QString& val)
 				else if (status == 2) {
 					status = TaskStatus::Error;
 				}
-				else {
-					status = 0;
-				}
+				// 3手动发短信
 			}
 			emit showMsg(index, qq, show,status);
 		}

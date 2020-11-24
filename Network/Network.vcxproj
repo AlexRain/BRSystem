@@ -291,6 +291,7 @@
   <ItemGroup>
     <ClCompile Include="src\MyThreadRunable.cpp" />
     <ClCompile Include="src\MyThreadRunableProducer.cpp" />
+    <ClCompile Include="src\MyThreadPool.cpp" />
     <ClCompile Include="src\Network.cpp" />
     <ClCompile Include="src\TaskManager.cpp" />
     <ClCompile Include="src\WebHandler.cpp" />
@@ -299,6 +300,7 @@
   <ItemGroup>
     <QtMoc Include="src\MyThreadRunable.h" />
     <QtMoc Include="src\MyThreadRunableProducer.h" />
+    <QtMoc Include="src\MyThreadPool.h" />
     <ClInclude Include="src\Network.h" />
     <ClInclude Include="src\NetworkDefine.h" />
     <ClInclude Include="src\network_global.h" />

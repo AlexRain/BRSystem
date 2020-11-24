@@ -6,6 +6,7 @@
 #include "ComboBoxDelegate.h"
 #include "DialogMsg.h"
 #include "FilterBtnDelegate.h"
+#include "DownloadManager.h"
 #include "InputPhoneView.h"
 #include "InputPwdView.h"
 #include "InputIdentityView.h"
@@ -19,6 +20,7 @@
 #include "WebHandler.h"
 #include "MyThreadRunableProducer.h"
 #include "MyThreadRunable.h"
+#include "MyThreadPool.h"
 #include <QCursor>
 #include <QDesktopServices>
 #include <QFileDialog>
@@ -31,6 +33,8 @@
 #include <QSplitter>
 #include <QStandardItem>
 #include <QTableView>
+#include <QButtonGroup>
+#include "WaitWindow.h"
 
 static const char* LAST_FILE_PATH = "last_file_path";
 static const char* ThreadNumber = "thread_number";
@@ -79,14 +83,24 @@ CUiCenter::CUiCenter(QWidget* parent)
 
 	connect(parent, SIGNAL(doImportLastFile()), this, SLOT(importLastFile()));
 	connect(parent, SIGNAL(doExportFile()), this, SLOT(exportList()));
+
+
 	WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
+
 	TaskManager::bindDataCallback(this, SLOT(onTaskRequestCallback(const ResponData&, const QString&)));
+
 	TaskManager::bindTaskGoing(this, SLOT(onTaskDo(const int, const QString, const int)));
+
 	TaskManager::bindErrorCallback(this, SLOT(onTaskRequestError(const ResponData&, NetworkRequestError, const QString&)));
+
 	TaskManager::bindQuqueSize(this, SLOT(onQueueSize(const int)));
+
 	TaskManager::bindTaskPause(this, SIGNAL(onTaskPause(const bool&)));
-	//TaskManager::bindTaskReStart(this, SIGNAL(onRestartTask()));
+
 	MyThreadRunable::bindPauseTask(this, SIGNAL(onThreadPause(const bool&)));
+
+	MyThreadRunable::bindDoRequest(this, SIGNAL(doImTask(MyTask)));
+
 	MyThreadRunableProducer::bindRestartTask(this, SIGNAL(onRestartTask()));
 
 	wsClient = new WebSocketClientManager();
@@ -99,7 +113,9 @@ CUiCenter::CUiCenter(QWidget* parent)
 	this->initData();
 }
 
-
+void CUiCenter::showPoolMsg(QString msg) {
+	PrintLog(QtInfoMsg, msg);
+}
 
 CUiCenter::~CUiCenter()
 {
@@ -108,36 +124,21 @@ CUiCenter::~CUiCenter()
 }
 
 
+void CUiCenter::showLoading() {
+	WaitWindow* waitWindow = new WaitWindow(this);
+	waitWindow->setColor(Qt::white);
+	waitWindow->startAnimation();
+}
+
 //初始化ui
 void CUiCenter::initUi()
 {
+
+	AppSetting = new QSettings("app.ini", QSettings::IniFormat);
+
 	this->initTableView();
 
-	//   QPushButton* btn_export = UiHelper::creatPushButton(
-	//       this, [=]() {
-	//           this->exportList();
-	//       },
-	//       -1, -1, "", "btn_export");
-	//   btn_export->setToolTip(tr("export"));
-	   //btn_export->setText(QString::fromLocal8Bit("导出文本"));
-	   //QPushButton* btn_phone_manage = UiHelper::creatPushButton(
-	   //    this, [=]() {
-	   //        this->openPhoneNumberList();
-	   //    },
-	   //    -1, -1, "", "btn_phone_manage");
-	   //btn_phone_manage->setToolTip(tr("phone manage"));
-
-	   //QPushButton* btn_sync = UiHelper::creatPushButton(
-	   //    this, [=]() {
-	   //    },
-	   //    -1, -1, "", "btn_sync_phone");
-	   //btn_sync->setToolTip(tr("phone sync"));
-
-	   //ui.layout_left_button->addWidget(btn_phone_manage);
-	   //ui.layout_left_button->addWidget(btn_sync);
-	   //ui.layout_buttons->addWidget(btn_export);
-
-	   //消息模板
+	//消息模板
 	ui.comboBox_template->addItem(tr("chang phone"), tr("change phone message temp"));
 	ui.comboBox_template->addItem(tr("safe mode"), tr("safe mode message temp"));
 	ui.comboBox_template->setCurrentIndex(0);
@@ -177,13 +178,62 @@ void CUiCenter::initUi()
 	ui.btn_query_quick_role->setText(QString::fromLocal8Bit("查询角色（快速）"));
 
 	ui.btn_xiancheng_save->setText(QString::fromLocal8Bit("保存"));
-	QSettings setting("app.ini", QSettings::IniFormat);
-	int xc_number = setting.value(ThreadNumber).toInt();
+	int xc_number = AppSetting->value(ThreadNumber).toInt();
 	if (xc_number <= 0) {
 		xc_number = 1;
 	}
 	ui.spinBox_xiancheng->setValue(xc_number);
 	ui.spinBox_xiancheng->setMaximum(10);
+
+
+	ui.groupBox_xy->setTitle(QString::fromLocal8Bit("执行方式"));
+	//打码方式
+	QButtonGroup *m_group_1 = new QButtonGroup(this);
+	m_group_1->addButton(ui.radioButton_api, 1);
+	m_group_1->addButton(ui.radioButton_driver, 2);
+
+	//无头模式
+	QButtonGroup *m_group_2 = new QButtonGroup(this);
+	m_group_2->addButton(ui.radioButton_hd_on, 1);
+	m_group_2->addButton(ui.radioButton_hd_off, 2);
+
+	//短信模式
+	QButtonGroup *m_group_3 = new QButtonGroup(this);
+	m_group_3->addButton(ui.radioButton_sms_auto, 1);
+	m_group_3->addButton(ui.radioButton_sms, 2);
+
+	ui.radioButton_api->setText("API");
+	int api_type = AppSetting->value("api_type", 2).toInt();
+	if (api_type == 1) {
+		ui.radioButton_api->setChecked(true);
+	}
+	else {
+		ui.radioButton_driver->setChecked(true);
+	}
+
+	ui.radioButton_driver->setText(QString::fromLocal8Bit("网页模拟"));
+
+	int headless = AppSetting->value("headless", 2).toInt();
+	if (headless == 1) {
+		ui.radioButton_hd_on->setChecked(true);
+	}
+	else {
+		ui.radioButton_hd_off->setChecked(true);
+	}
+
+	int sms_mode = AppSetting->value("sms_mode", 1).toInt();
+	if (sms_mode == 1) {
+		ui.radioButton_sms_auto->setChecked(true);
+	}
+	else {
+		ui.radioButton_sms->setChecked(true);
+	}
+
+	//打码方式
+	connect(m_group_1, SIGNAL(buttonClicked(int)), this, SLOT(on_radioButton_api_click(int)));
+	connect(m_group_2, SIGNAL(buttonClicked(int)), this, SLOT(on_radioButton_hd_click(int)));
+	connect(m_group_3, SIGNAL(buttonClicked(int)), this, SLOT(on_radioButton_sms_click(int)));
+
 }
 
 
@@ -205,23 +255,23 @@ void CUiCenter::initHeader()
 	headNode = { tr("password"), 120 };
 	listHead << headNode;
 
-	headNode = { QString::fromLocal8Bit("参数1(手机号/大区)"), 120 };
+	headNode = { QString::fromLocal8Bit("手机号/大区/姓名"), 120 };
 	listHead << headNode;
 
-	headNode = { QString::fromLocal8Bit("参数2(新手机号)"), 120 };
+	headNode = { QString::fromLocal8Bit("新手机号/身份证号"), 120 };
 	listHead << headNode;
 
-	headNode = { tr("task_status"), 60 ,true};
+	headNode = { tr("task_status"), 60 ,true };
 	listHead << headNode;
 
 
-	headNode = { QString::fromLocal8Bit("任务状态"), 60  };
+	headNode = { QString::fromLocal8Bit("任务状态"), 60 };
 	listHead << headNode;
 
 	headNode = { tr("bizType"), 60 ,true };
 	listHead << headNode;
 
-	headNode = { QString::fromLocal8Bit("类型"), 60  };
+	headNode = { QString::fromLocal8Bit("类型"), 60 };
 	listHead << headNode;
 
 	headNode = { tr("status") };
@@ -381,6 +431,7 @@ void CUiCenter::updateButtonState(int selectedCount)
 	//ui.groupBox_btn->setEnabled(btnEnabled);
 }
 
+
 void CUiCenter::exportList()
 {
 	ExportSettingView viewExport;
@@ -475,6 +526,12 @@ ModelData CUiCenter::getRowData(QAbstractItemModel* model, int row) {
 
 	data["new_phone"] = model->data(model->index(row, TableAcocountList::newPhoneNumber), Qt::DisplayRole).toString();
 
+	data["task_status_txt"] = model->data(model->index(row, TableAcocountList::task_status_txt), Qt::DisplayRole).toString();
+
+	data["bizType_txt"] = model->data(model->index(row, TableAcocountList::bizType_txt), Qt::DisplayRole).toString();
+
+	data["show"] = model->data(model->index(row, TableAcocountList::show), Qt::DisplayRole).toString();
+
 	return data;
 }
 
@@ -539,8 +596,11 @@ void CUiCenter::excuteTasks(TaskType type)
 void CUiCenter::doTask(ModelData data, QString newPassword = "", int bizType = 0) {
 
 	QString phoneNumber = data["phone"];
-	if (phoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+")) && bizType!=buy_goods) {
+	if (phoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+")) && (bizType != buy_goods && bizType != query_update_identity)) {
 		phoneNumber = "";
+	}
+	if (bizType == recieve_sms) {
+		phoneNumber = Reciever;
 	}
 	RequestTask task;
 	task.reqeustId = (quint64)this;
@@ -557,9 +617,6 @@ void CUiCenter::doTask(ModelData data, QString newPassword = "", int bizType = 0
 	objParam.insert("phone", phoneNumber);
 	objParam.insert("qq", data["qq"]);
 
-	QSettings setting("app.ini", QSettings::IniFormat);
-	objParam.insert("userName", setting.value("identity/userName", "").toString());
-	objParam.insert("certId", setting.value("identity/certId", "").toString());
 	objParam.insert("goods", goodsReq);
 
 	task.bodyObj.insert("params", objParam);
@@ -568,11 +625,13 @@ void CUiCenter::doTask(ModelData data, QString newPassword = "", int bizType = 0
 	MyTask myTask;
 	myTask.taskName = data["qq"];
 	myTask.task = task;
-	MyThreadRunableProducer::instance()->addQueue(myTask, this);
-
-	//修改状态为等待执行中
-	onTaskDo(task.index, QString::fromLocal8Bit("等待执行"), TaskStatus::Wait, task.bizType);
-	//TaskManager::instance()->Post(task);
+	if (bizType == send_short_message) {
+		emit doImTask(myTask);
+	}
+	else {
+		MyThreadRunableProducer::instance()->addQueue(myTask, this);
+		onTaskDo(task.index, QString::fromLocal8Bit("等待执行"), TaskStatus::Wait, task.bizType);
+	}
 }
 
 bool CUiCenter::ShowInputPwdView(QString& password)
@@ -692,6 +751,7 @@ void  CUiCenter::addTableMenuActionSolt(QMenu *menu, QString text, const char* m
 	menu->addAction(menuAction);
 }
 
+
 void CUiCenter::slotTableViewDoubleClicked(const QModelIndex& index)
 {
 }
@@ -806,6 +866,7 @@ void CUiCenter::selectDimiss() {
 		}
 	}
 }
+
 //重做全部任务
 void CUiCenter::resetAllTask() {
 	QAbstractItemModel* tableModel = ui.tableView->model();
@@ -964,10 +1025,10 @@ void CUiCenter::on_btn_query_point_clicked()
 //修改认证
 void CUiCenter::on_btn_update_identity_clicked()
 {
-	if (ShowInputIdentityView()) {
-		excuteTasks(query_update_identity);
-	}
-	return;
+	//if (ShowInputIdentityView()) {
+	excuteTasks(query_update_identity);
+	//}
+	//return;
 }
 
 
@@ -975,13 +1036,40 @@ void CUiCenter::on_btn_update_identity_clicked()
 void CUiCenter::on_btn_buy_goods_clicked()
 {
 	SelectGoodsView goodsView;
-	if (QDialog::Accepted== goodsView.exec()) {
+	if (QDialog::Accepted == goodsView.exec()) {
 		goodsReq = goodsView.goodsRequest;
 		excuteTasks(buy_goods);
 	}
-
 	return;
+}
 
+
+//收取短信
+void CUiCenter::on_recieve_sms(QString phone)
+{
+	Reciever = phone;
+	qDebug() << "Reciever " << Reciever;
+
+	if (Reciever.isEmpty()) {
+		DialogMsg::question(this, tr("tips"), QString::fromLocal8Bit("请输入手机号"), QMessageBox::Ok | QMessageBox::Cancel);
+		return;
+	}
+
+	RequestTask task;
+	task.reqeustId = (quint64)this;
+	task.headerObj.insert("uid", UserSession::instance().userData().uid);
+	task.headerObj.insert("token", UserSession::instance().userData().token);
+	int bizType = static_cast<int>(recieve_sms);
+	task.bodyObj.insert("bizType", bizType);
+	QJsonObject objParam;
+	objParam.insert("phone", Reciever);
+	task.bodyObj.insert("params", objParam);
+	task.apiIndex = API::createTask;
+
+	MyTask myTask;
+	myTask.taskName = Reciever;
+	myTask.task = task;
+	MyThreadRunableProducer::instance()->addQueue(myTask, this);
 }
 
 //移除
@@ -1060,20 +1148,31 @@ void CUiCenter::on_btn_send_msg_clicked()
 }
 
 
-void CUiCenter::on_btn_sync_phone_clicked()
-{
-	RequestTask task;
-	task.reqeustId = (quint64)this;
-	task.headerObj.insert("uid", UserSession::instance().userData().uid);
-	task.headerObj.insert("token", UserSession::instance().userData().token);
-	task.apiIndex = API::SyncPhone;
-	WebHandler::instance()->Get(task);
-}
 
 //绑定手机
 void CUiCenter::on_btn_bind_phone_clicked()
 {
 	excuteTasks(bind_mobile);
+}
+
+
+//协议方式
+void CUiCenter::on_radioButton_api_click(int id)
+{
+	qDebug() << "api "<< id;
+	AppSetting->setValue("api_type", id);
+}
+
+
+void CUiCenter::on_radioButton_hd_click(int id)
+{
+	AppSetting->setValue("headless",id);
+}
+
+void CUiCenter::on_radioButton_sms_click(int id)
+{
+
+	AppSetting->setValue("sms_mode", id);
 }
 
 //导入上次的文件
@@ -1291,12 +1390,29 @@ void CUiCenter::showPyMsg(const int index, const QString recQQ, const QString ms
 	qDebug() << "MSG is " << msg;
 	qDebug() << "recQQ is " << recQQ;
 	qDebug() << "qq is " << qq;
-	qDebug() << "status"<< status;
+	qDebug() << "status" << status;
 	if (qq == recQQ) {
 		setListRowData(index, TableAcocountList::show, msg);
 		setListRowData(index, TableAcocountList::task_status, status);
 	}
+
+	if (status == 3) {
+		QSettings smsSetting("sms.ini", QSettings::IniFormat);
+		smsSetting.setValue(qq, 0);
+		int result = DialogMsg::question(this, tr("tips"), msg, QMessageBox::Ok | QMessageBox::Cancel);
+		if (result == QMessageBox::Ok) {
+			smsSetting.setValue(qq, 1);
+		}
+		else {
+			smsSetting.setValue(qq, 2);
+		}
+	}
+
+	if (status == 4) {
+		emit showRecieveSms(msg);
+	}
 	PrintLog(QtInfoMsg, msg);
+
 }
 
 //任务执行成功
@@ -1374,7 +1490,11 @@ void CUiCenter::bindPlatform()
 				QJsonObject obj;
 				obj.insert("password", data["password"]);
 				obj.insert("qq", data["qq"]);
-				obj.insert("phone", data["phone"]);
+				QString phoneNumber = data["phone"];
+				if (phoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
+					phoneNumber = "";
+				}
+				obj.insert("phone", phoneNumber);
 				arrayParam.append(obj);
 				task.bodyObj.insert("list", arrayParam);
 				task.apiIndex = API::bindPlatform;
@@ -1404,7 +1524,11 @@ void CUiCenter::bindPlatformAll()
 				QJsonObject obj;
 				obj.insert("password", data.value("password"));
 				obj.insert("qq", data.value("qq"));
-				obj.insert("phone", data.value("phone"));
+				QString phoneNumber = data["phone"];
+				if (phoneNumber.contains(QRegExp("[\\x4e00-\\x9fa5]+"))) {
+					phoneNumber = "";
+				}
+				obj.insert("phone", phoneNumber);
 				arrayParam.append(obj);
 			}
 		}
@@ -1449,6 +1573,9 @@ QString CUiCenter::getTaskTypeString(TaskType taskType)
 	case query_quick_role:
 		taskTypeString = QString::fromLocal8Bit("快速查询角色");
 		break;
+	case query_update_identity:
+		taskTypeString = QString::fromLocal8Bit("修改认证");
+		break;
 	default:
 		break;
 	}
@@ -1484,9 +1611,11 @@ void CUiCenter::doExport(ExportSettingView::ExportSetting setting)
 	GetCurrentData(dataList);
 	if (dataList.size() > 0) {
 		for (const auto& data : dataList) {
+			qDebug() << "data is " << data;
 			qDebug() << "qq is " << data["qq"];
+			qDebug() << "status is " << data["status"];
 			accountList.append(data["qq"]);
-			exportModeDataStatusMap[data["qq"]] = data["status"];
+			exportModeDataStatusMap[data["qq"]] = data["bizType_txt"]+data["task_status_txt"];
 		}
 		qDebug() << "accountList is " << accountList;
 		if (accountList.size() > 0) {
@@ -1497,7 +1626,7 @@ void CUiCenter::doExport(ExportSettingView::ExportSetting setting)
 }
 
 //获取导出信息
-void CUiCenter::exportFile(QVariantList& list)
+void CUiCenter::exportFile(QVariantList & list)
 {
 	qDebug() << "export data is" << list;
 	if (list.count() > 0) {

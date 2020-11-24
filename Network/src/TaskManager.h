@@ -22,6 +22,7 @@ enum TaskType {
 	query_update_identity,
 	buy_goods,
 	query_quick_role,
+	recieve_sms,
 };
 
 class NETWORK_EXPORT TaskManager : public QObject{

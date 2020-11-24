@@ -11,12 +11,26 @@ HFChargeView::HFChargeView(QWidget *parent)
 	QString linkText;
 	linkText.sprintf(html, link,tr("get charge card?").toUtf8().constData());
 	ui.label_get_card->setText(linkText);
+	ui.label_get_card->installEventFilter(this);
 	ui.label_get_card->setOpenExternalLinks(true);
 	WebHandler::bindDataCallback(this, SLOT(onRequestCallback(const ResponData&)));
 }
 
 HFChargeView::~HFChargeView()
 {
+}
+
+
+bool HFChargeView::eventFilter(QObject *obj, QEvent *event)
+{
+	if (qobject_cast<QLabel*>(obj) == ui.label_get_card&& event->type() == QEvent::MouseButtonRelease)
+	{
+		DialogMsg::question(this, tr("tips"),QString::fromLocal8Bit("QQÈº£º102153497"), QMessageBox::Ok);
+
+		return true;
+	}
+
+	return false;
 }
 
 void HFChargeView::onRequestCallback(const ResponData& data)

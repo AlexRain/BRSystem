@@ -15,6 +15,7 @@ public:
 
 private slots:
 	 void on_btn_charge_clicked();
+	 bool eventFilter(QObject * obj, QEvent * event);
 	 void onRequestCallback(const ResponData&);
 
 signals:

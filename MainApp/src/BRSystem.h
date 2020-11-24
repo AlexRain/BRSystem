@@ -2,6 +2,8 @@
 
 #include "BaseWidget.h"
 #include "CUiCenter.h"
+#include "CUiRecieveSms.h"
+#include "UiTaskPrice.h"
 #include <QLabel>
 #include <QMap>
 #include <QProcess>
@@ -19,7 +21,7 @@ class BRSystem : public QWidget {
 
 public:
     BRSystem(QWidget* parent = nullptr);
-    ~BRSystem();
+	~BRSystem();
 
 public:
     static void showCoverWidget(BaseWidget* content);
@@ -27,12 +29,13 @@ public:
     void showMainPage();
     void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     void printLog(QtMsgType type, const QString& msg);
+	void startLocalPyServer();
+	int KillProcess(const wchar_t * processName);
 
 private:
     void init();
     void createMenus(QMenuBar* menuBar);
     void CheckUpgrade();
-    void startLocalPyServer();
 
 protected:
     virtual void resizeEvent(QResizeEvent* event) override;
@@ -54,6 +57,8 @@ private:
     QVBoxLayout* m_pContentLayout;
     BaseWidget* m_pCurrentWidget;
     CUiCenter* centerWidget = nullptr;
+	CUiRecieveSms* smsWidget = nullptr;
+	UiTaskPrice* uiTaskPrice = nullptr;
     QTextBrowser* logOutput = nullptr;
     QLabel* labelAdds = nullptr;
     QProcess* process = nullptr;

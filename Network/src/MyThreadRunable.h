@@ -11,18 +11,22 @@
 class NETWORK_EXPORT MyThreadRunable:public QObject, public QRunnable
 {
 	Q_OBJECT
+
 public:
+	MyThreadRunable(QObject* parent = nullptr);
+
+	MyThreadRunable(MyTask task, QObject* parent = nullptr);
+
+	~MyThreadRunable();
+
 	static MyThreadRunable* instance()
 	{
 		static MyThreadRunable myThreadRunable;
 		return &myThreadRunable;
 	}
 
-	MyThreadRunable(QObject* parent = nullptr);
+public:
 
-	MyThreadRunable(MyTask task,QObject* parent = nullptr);
-	
-	~MyThreadRunable();
 	bool pause;
 
 	static bool bindDataCallback(const QObject* receiver, const char* method, const QObject* excutor);
@@ -33,8 +37,12 @@ public:
 
 	static bool bindPauseTask(const QObject* receiver, const char* method);
 
+	//static bool bindPyLog(const QObject* receiver, const char* method);
+
 	static bool bindAddPauseQueueTask(const QObject* receiver, const char* method, const QObject* excutor);
 
+	static bool bindDoRequest(const QObject* receiver, const char* method);
+	
 	static void restartTask();
 
 	static bool getPause();
@@ -50,9 +58,8 @@ signals:
 
 private slots:
 	void pasueTask(const bool&);
-
-private:
 	void doRequest(MyTask task);
+
 private:
 	QQueue<MyTask> myTaskQueue;
 	QThreadPool* pool;

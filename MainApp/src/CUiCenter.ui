@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>917</width>
-    <height>630</height>
+    <height>735</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,60 +27,6 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QFrame" name="frameOperate">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>10</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>10</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <layout class="QHBoxLayout" name="layout_left_button">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-       </layout>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>964</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="layout_buttons">
-        <property name="spacing">
-         <number>10</number>
-        </property>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="QFrame" name="frameCenter">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -94,7 +40,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4" stretch="8,0,0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_4" stretch="8,0,0,0,0,0">
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -180,22 +126,24 @@
          <property name="bottomMargin">
           <number>5</number>
          </property>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="btn_modify_pwd">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>0</height>
-            </size>
-           </property>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="btn_query_quick_role">
            <property name="text">
-            <string>modify_pwd</string>
+            <string>query_quick_role</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QPushButton" name="btn_update_identity">
+           <property name="text">
+            <string>修改实名</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="5">
+          <widget class="QPushButton" name="btn_query_score">
+           <property name="text">
+            <string>query_score</string>
            </property>
           </widget>
          </item>
@@ -203,51 +151,6 @@
           <widget class="QPushButton" name="btn_buy_goods">
            <property name="text">
             <string>buy_goods</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QPushButton" name="btn_bind_phone">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>bind_phone</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="btn_query_identity">
-           <property name="text">
-            <string>query_identity</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="7">
-          <widget class="QPushButton" name="btn_role">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>query_role</string>
            </property>
           </widget>
          </item>
@@ -270,17 +173,55 @@
            </property>
           </widget>
          </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="btn_query_identity">
+           <property name="text">
+            <string>query_identity</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="btn_bind_phone">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>bind_phone</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="7">
+          <widget class="QPushButton" name="btn_role">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>query_role</string>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="btn_query_point">
            <property name="text">
             <string>query_point</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="5">
-          <widget class="QPushButton" name="btn_query_score">
-           <property name="text">
-            <string>query_score</string>
            </property>
           </widget>
          </item>
@@ -303,19 +244,164 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="5">
-          <widget class="QPushButton" name="btn_update_identity">
+         <item row="0" column="1">
+          <widget class="QPushButton" name="btn_modify_pwd">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
-            <string>修改实名</string>
+            <string>modify_pwd</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
-          <widget class="QPushButton" name="btn_query_quick_role">
-           <property name="text">
-            <string>query_quick_role</string>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_xy">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>GroupBox</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>打码方式</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_api">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>RadioButton</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_driver">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>RadioButton</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-          </widget>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>无头模式(打码多次失败关闭该模式)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_hd_on">
+             <property name="text">
+              <string>开启</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_hd_off">
+             <property name="text">
+              <string>关闭</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>短信发送</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_sms_auto">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>自动</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="radioButton_sms">
+             <property name="text">
+              <string>手动</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -467,19 +553,6 @@
            </property>
           </spacer>
          </item>
-         <item>
-          <widget class="QLabel" name="wallet_label">
-           <property name="minimumSize">
-            <size>
-             <width>146</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>wallet</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
@@ -530,6 +603,12 @@
            </item>
            <item>
             <widget class="QLineEdit" name="lineEdit_single_qq">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>120</width>
@@ -546,6 +625,12 @@
            </item>
            <item>
             <widget class="QComboBox" name="comboBox_single">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>120</width>
@@ -576,6 +661,32 @@
              </property>
              <property name="text">
               <string>single_do</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="wallet_label">
+             <property name="minimumSize">
+              <size>
+               <width>146</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>wallet</string>
              </property>
             </widget>
            </item>

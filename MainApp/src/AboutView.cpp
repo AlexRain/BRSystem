@@ -1,6 +1,7 @@
 #include "AboutView.h"
 #include "NetworkDefine.h"
 #include "define.h"
+#include "version.h"
 
 AboutView::AboutView(QWidget* parent)
     : BaseDialog(parent)

@@ -13,6 +13,7 @@ class NETWORK_EXPORT MyThreadRunableProducer :public QObject
 {
 	Q_OBJECT
 public:
+	void start();
 	static MyThreadRunableProducer* instance()
 	{
 		static MyThreadRunableProducer myThreadRunableProducer;
@@ -29,12 +30,17 @@ public:
 	
 	static QMap<QString, QString> taskList;
 
+	static bool showPy(const QObject* receiver, const char* method);
 	static bool bindRestartTask(const QObject* receiver, const char* method);
+
+signals:
+	void printLog(QString);
 
 private slots:
 	void outQueue();
 
 	void restartQueue();
+
 
 	void addPauseQueue(const MyTask& task);
 
@@ -42,10 +48,14 @@ private:
 	QQueue<MyTask> myTaskQueue;
 
 	QThreadPool* pool;
+	QThread thread;
 	
 	QQueue<MyTask> pauseQueue;
 
 	QObject* parentReciver;
+
+protected:
+	void run();
 };
 
 

@@ -54,6 +54,9 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\app.ico" />
@@ -203,6 +206,18 @@
     <ClCompile Include="src\SelectGoodsView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\WaitWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CUiRecieveSms.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiProgressBar.cpp">
+      <Filter>Source Files\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UiTaskPrice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\BRSystem.h">
@@ -271,6 +286,18 @@
     <QtMoc Include="src\SelectGoodsView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="src\WaitWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\CUiRecieveSms.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiProgressBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UiTaskPrice.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="src\CEditInfoDialog.ui">
@@ -313,6 +340,18 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="src\CUiCenter.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\WaitWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\CUiRecieveSms.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\UiProgressBar.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="src\UiTaskPrice.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

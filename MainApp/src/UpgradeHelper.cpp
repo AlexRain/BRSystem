@@ -2,6 +2,7 @@
 #include "UserSession.h"
 #include "webHandler.h"
 #include <QEventLoop>
+#include "version.h"
 
 UpgradeHelper::UpgradeHelper(QObject* parent)
     : QObject(parent)
@@ -37,8 +38,10 @@ void UpgradeHelper::onRequestCallback(const ResponData& data)
         if (result.errorCode == DataParseResult::NoError) {
             if (dataObj.contains("current_version")) {
                 QString currentVersion = dataObj.value("current_version").toString();
+                QString nextVersion = dataObj.value("next_version").toString();
                 QString localVersion(app_version);
                 checkResult.currentVersion = currentVersion;
+                checkResult.nextVersion = nextVersion;
                 checkResult.needUpdate = (1 == dataObj.value("is_update").toInt());
                 checkResult.force_update = (1 == dataObj.value("is_force").toInt());
                 checkResult.desc = dataObj.value("desc").toString();

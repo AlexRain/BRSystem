@@ -114,16 +114,24 @@ bool SelectGoodsView::GetGoods() {
 	saveSetting.setValue(goods_mc_1_checked, mc_1_checked);
 	if (mc_1_checked && mc_1 >0) {
 		QJsonObject goods;
-		goods.insert("id", 9720);
-		goods.insert("price", 300);
-		goods.insert("number", mc_1);
-		goodsList.append(goods);
-		price += 300 * mc_1;		
-		//goods.insert("id", 9803);
-		//goods.insert("price", 80);
-		//goods.insert("number", mc_1);
-		//goodsList.append(goods);
-		//price += 80 * mc_1;
+
+		QSettings deugSetting("setting.ini", QSettings::IniFormat);
+		bool debugMode = deugSetting.value("System/debug", false).toBool();
+		if (debugMode) {
+			goods.insert("id", 9803);
+			goods.insert("price", 80);
+			goods.insert("number", mc_1);
+			goodsList.append(goods);
+			price += 80 * mc_1;
+		}
+		else {
+			goods.insert("id", 9720);
+			goods.insert("price", 300);
+			goods.insert("number", mc_1);
+			goodsList.append(goods);
+			price += 300 * mc_1;
+		}
+
 	}
 
 	//ÐÒÔËÄ§´¸5¸ö

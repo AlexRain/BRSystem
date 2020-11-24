@@ -1,0 +1,34 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1259
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "quazip", "quazip\quazip.vcxproj", "{1951EEA3-2AD1-3158-A679-8F07BFDC8256}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "qztest", "qztest\qztest.vcxproj", "{812F5764-B90A-3688-BC57-DBB95F177551}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1951EEA3-2AD1-3158-A679-8F07BFDC8256} = {1951EEA3-2AD1-3158-A679-8F07BFDC8256}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1951EEA3-2AD1-3158-A679-8F07BFDC8256}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1951EEA3-2AD1-3158-A679-8F07BFDC8256}.Debug|Win32.Build.0 = Debug|Win32
+		{1951EEA3-2AD1-3158-A679-8F07BFDC8256}.Release|Win32.ActiveCfg = Release|Win32
+		{1951EEA3-2AD1-3158-A679-8F07BFDC8256}.Release|Win32.Build.0 = Release|Win32
+		{812F5764-B90A-3688-BC57-DBB95F177551}.Debug|Win32.ActiveCfg = Debug|Win32
+		{812F5764-B90A-3688-BC57-DBB95F177551}.Debug|Win32.Build.0 = Debug|Win32
+		{812F5764-B90A-3688-BC57-DBB95F177551}.Release|Win32.ActiveCfg = Release|Win32
+		{812F5764-B90A-3688-BC57-DBB95F177551}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		Qt5Version = msvc2017_32
+		SolutionGuid = {9DDF19CA-7AEB-4D3D-B433-6DE5534E0DEA}
+	EndGlobalSection
+EndGlobal

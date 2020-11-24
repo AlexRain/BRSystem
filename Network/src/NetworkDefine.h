@@ -11,7 +11,7 @@ static const char* baseUrl = "http://bill.ah-fenghe.com/api/v1";
 static const char* localServer = "http://127.0.0.1:5001";
 static const char* localWsServer = "ws://127.0.0.1:5002";
 //static const char* localWsServer = "ws://localhost:5001/ws";
-static const char* app_version = "1.0.9";
+//static const char* app_version = "1.3.0";
 
 enum class API {
     apiNoneType,
@@ -50,6 +50,8 @@ enum class API {
     createTask,
 
     exitPy,
+
+    getTaskConfig,
 
     //add api type above
     apiDefineEnd
@@ -102,6 +104,9 @@ static std::string getApi(API apiType)
         break;
     case API::addTask:
         api = "/task/";
+        break;
+    case API::getTaskConfig:
+        api = "/task/config";
         break;
     case API::checkUpdate:
         api = "/version/";

@@ -174,7 +174,10 @@ class CUiCenter : public QWidget, CTableview::SetDataCallback {
 
 public:
     CUiCenter(QWidget* parent = Q_NULLPTR);
-    virtual ~CUiCenter();
+	virtual ~CUiCenter();
+
+
+	void showLoading();
 
 
     void PrintLog(QtMsgType type, const QString& text);
@@ -234,8 +237,11 @@ signals:
     void onTaskPause(const bool&);
     void onThreadPause(const bool&);
     void onRestartTask();
+    void doImTask(MyTask);
+    void showRecieveSms(QString);
 
 private slots:
+	void showPoolMsg(QString msg);
 	void exportFile(QVariantList& list);
 	void exportList();
     void loseConnection();
@@ -263,10 +269,10 @@ private slots:
 	void on_btn_query_point_clicked();
 	void on_btn_update_identity_clicked();
 	void on_btn_buy_goods_clicked();
+	void on_recieve_sms(QString phone);
 	void removeAll();
     void remove();
     void on_btn_send_msg_clicked();
-    void on_btn_sync_phone_clicked();
     void on_btn_bind_phone_clicked();
     //export file
     void OnDropFiles(const QList<QUrl>& listFiles);
@@ -278,7 +284,10 @@ private slots:
     void showPyMsg(const int index, const QString qq, const QString val,const int status = 0);
     void onTaskRequestCallback(const ResponData&, const QString& taskId);
     void onTaskRequestError(const ResponData& data, NetworkRequestError errorType, const QString& errorString);
-    void importLastFile();
+	void on_radioButton_api_click(int id);
+	void on_radioButton_hd_click(int id);
+	void on_radioButton_sms_click(int id);
+	void importLastFile();
     void getUserWallet();
 
 private:
@@ -292,4 +301,7 @@ private:
     QMenu* menu;
     WebSocketClientManager* wsClient;
 	QJsonObject goodsReq;
+	QSettings* AppSetting;
+	QString Reciever;
+
 };

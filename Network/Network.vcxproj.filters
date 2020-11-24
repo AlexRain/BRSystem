@@ -39,6 +39,9 @@
     <ClCompile Include="src\MyThreadRunableProducer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MyThreadPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Network.h">
@@ -65,6 +68,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\MyThreadRunableProducer.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MyThreadPool.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

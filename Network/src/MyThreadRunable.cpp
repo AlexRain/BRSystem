@@ -3,7 +3,7 @@
 #include <windows.h>
 static const char* PAUSE_TASK = "pause";
 MyThreadRunable::MyThreadRunable(QObject* parent)
-	: QObject(parent) {
+	: QObject(parent), QRunnable(){
 }
 
 MyThreadRunable::MyThreadRunable(MyTask mtask,QObject* parent)
@@ -13,6 +13,7 @@ MyThreadRunable::MyThreadRunable(MyTask mtask,QObject* parent)
 
 MyThreadRunable::~MyThreadRunable() {
 }
+
 
 
 bool MyThreadRunable::bindDataCallback(const QObject* receiver, const char* method, const QObject* excutor)
@@ -35,6 +36,7 @@ bool MyThreadRunable::bindErrorCallback(const QObject* receiver, const char* met
 }
 
 
+
 bool MyThreadRunable::bindTaskStatus(const QObject* receiver, const char* method, const QObject* excutor)
 {
 	return QObject::connect(excutor,
@@ -43,6 +45,20 @@ bool MyThreadRunable::bindTaskStatus(const QObject* receiver, const char* method
 		method,
 		Qt::QueuedConnection);
 }
+
+
+bool MyThreadRunable::bindDoRequest(const QObject* receiver, const char* method)
+{
+	return QObject::connect(
+		receiver,
+		method,
+		MyThreadRunable::instance(),
+		SLOT(doRequest(MyTask)),
+		Qt::QueuedConnection);
+}
+
+
+
 
 //失败任务信号
 bool MyThreadRunable::bindAddPauseQueueTask(const QObject* receiver, const char* method, const QObject* excutor)
@@ -54,6 +70,7 @@ bool MyThreadRunable::bindAddPauseQueueTask(const QObject* receiver, const char*
 		Qt::QueuedConnection);
 }
 
+
 //暂停任务槽
 bool MyThreadRunable::bindPauseTask(const QObject* receiver, const char* method)
 {
@@ -64,6 +81,7 @@ bool MyThreadRunable::bindPauseTask(const QObject* receiver, const char* method)
 		SLOT(pasueTask(const bool&)),
 		Qt::QueuedConnection);
 }
+
 
 //暂停任务
 void MyThreadRunable::pasueTask(const bool& p) {
@@ -87,18 +105,17 @@ bool MyThreadRunable::getPause() {
 
 //执行任务
 void MyThreadRunable::run() {
-	qDebug() << "pause status is " << pause;
+	emit showTaskStatus(task.task.index, QString::fromLocal8Bit("任务执行run"), TaskStatus::Doing, 0);
+
 	QSettings setting("app.ini", QSettings::IniFormat);
 	bool pause = setting.value(PAUSE_TASK,false).toBool();
 	if (!pause) {
-		qDebug() << "my task is " << task.taskName;
+		emit showTaskStatus(task.task.index, QString::fromLocal8Bit("任务执行"), TaskStatus::Doing, 0);
 		doRequest(task);
 	}
 	else {
-		qDebug() << "pause task is " << task.taskName;
 		emit pasueAddQueue(task);
-		qDebug() << "pause task ok " << task.taskName;
-		emit showTaskStatus(task.task.index, QStringLiteral("任务暂停"), TaskStatus::Stop,0);
+		emit showTaskStatus(task.task.index, QString::fromLocal8Bit("任务暂停"), TaskStatus::Stop,0);
 	}
 	return;
 
@@ -128,6 +145,8 @@ void MyThreadRunable::doRequest(MyTask currentTask) {
 
 	QByteArray bodyParam;
 	WebHandler::setRequestBodyByParam(bodyParam, currentTask.task.bodyObj);
+	emit showTaskStatus(task.task.index,QString::fromLocal8Bit("发送请求"), TaskStatus::Doing, 0);
+
 	reply = manager->post(requstTask, bodyParam);
 
 	connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
@@ -144,7 +163,7 @@ void MyThreadRunable::doRequest(MyTask currentTask) {
 			// request failed
 			qDebug() << "network error:" << reply->error();
 			qDebug("http request url=%s failed, error info=%s", reply->url().toEncoded().constData(), qPrintable(reply->errorString()));
-			emit showTaskStatus(taskIndex, QStringLiteral("服务器连接失败，请稍后..."), TaskStatus::Error,0);
+			emit showTaskStatus(taskIndex, QString::fromLocal8Bit("服务器连接失败，请稍后..."), TaskStatus::Error,0);
 			emit requestWithError(dataCallback, NetworkRequestError::Status_Error, reply->errorString());
 		}
 		else {
@@ -157,7 +176,7 @@ void MyThreadRunable::doRequest(MyTask currentTask) {
 			}
 			else {
 				qDebug() << "ERROR IS " << 500;
-				emit showTaskStatus(taskIndex, QStringLiteral("服务器错误"), TaskStatus::Error,0);
+				emit showTaskStatus(taskIndex, QString::fromLocal8Bit("服务器错误"), TaskStatus::Error,0);
 				emit requestWithError(dataCallback, NetworkRequestError::Status_Error, "服务器错误");
 			}
 		}

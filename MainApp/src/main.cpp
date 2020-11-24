@@ -45,21 +45,6 @@ int main(int argc, char* argv[])
     StyleStruct style = CStyleManager::getInstance().getCurrentStyleStruct();
     StyleHelper::loadAppStyle(style.cssFile);
 
-#ifndef _DEBUG
-    //check new version
- /*   {
-        UpgradeHelper checkHelper;
-        checkHelper.CheckUpgrade();
-        auto result = checkHelper.GetCheckResult();
-        if (result.needUpdate && result.force_update) {
-            int code = DialogMsg::question(nullptr, QObject::tr("question"), QObject::tr("find a new version, please up to date."), QMessageBox::Ok);
-            if (code == QMessageBox::Ok) {
-                QDesktopServices::openUrl(QUrl::fromEncoded(result.download_url.toUtf8()));
-            }
-            return 0;
-        }
-    }*/
-#endif // _DEBUG
 
     /*Ö÷½çÃæ*/
     int result = 0;
@@ -71,6 +56,11 @@ int main(int argc, char* argv[])
 
     {
         BRSystem w;
+		w.KillProcess(L"hl-py.exe");
+		w.KillProcess(L"hl-py.exe");
+		w.KillProcess(L"chromedriver.exe");
+		w.KillProcess(L"Chromium");
+		w.startLocalPyServer();
         logPrinter = &w;
         a.setMainWidget(&w);
         w.show();

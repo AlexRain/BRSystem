@@ -12,6 +12,7 @@ HFBroadbandDial::HFBroadbandDial(QWidget* parent)
     QString password = settings->value("dial/password").toString();
     int redail = settings->value("dial/redail").toInt();
     int dialSwitch = settings->value("dial/switch").toInt();
+    int dialWait = settings->value("dial/wait",5).toInt();
     qDebug() << "username is " << username;
     qDebug() << "password is " << password;
     qDebug() << "redail is " << redail;
@@ -19,6 +20,7 @@ HFBroadbandDial::HFBroadbandDial(QWidget* parent)
     ui.lineEdit_account->setText(username);
     ui.lineEdit_password->setText(password);
     ui.spinBox_tasks->setValue(redail);
+    ui.spinBox_wait->setValue(dialWait);
     ui.comboBox_switch->setCurrentIndex(dialSwitch);
     qDebug() << "heart msg ==> " << username;
 }
@@ -49,11 +51,12 @@ void HFBroadbandDial::on_btn_save_clicked()
     setting.setValue("dial/password", ui.lineEdit_password->text());
     setting.setValue("dial/redail", ui.spinBox_tasks->value());
     setting.setValue("dial/switch", ui.comboBox_switch->currentIndex());
-    int result = DialogMsg::question(this, tr("tips"), tr("Setting will be apply after restart, restart now?"), QMessageBox::Ok | QMessageBox::Cancel);
-    if (result == QMessageBox::Ok) {
-        qApp->exit(RESTART_CODE);
-    }
-    else {
-        this->close();
-    }
+    setting.setValue("dial/wait", ui.spinBox_wait->value());
+    //int result = DialogMsg::question(this, tr("tips"), tr("Setting will be apply after restart, restart now?"), QMessageBox::Ok | QMessageBox::Cancel);
+    //if (result == QMessageBox::Ok) {
+    //    qApp->exit(RESTART_CODE);
+    //}
+    //else {
+    this->close();
+    //}
 }
